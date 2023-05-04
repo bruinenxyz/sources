@@ -1,19 +1,43 @@
-# Bruinen API Sources
+## About
 
-This repository is for open-source contributions to Bruinen's growing list of profile sources.
-
-Bruinen is on a mission to change the way user's interact with the internet. This starts with user identity, giving them the richest possible profile, and putting them in the drivers seat. 
-
-To create a rich set of user profile information, Bruinen integrates with a variety of other sites where the user could have a profile.
-
-Here are some of the available sources:
-
-To learn more about us:
-
-For documentation of out API product: 
+This project was created with [express-generator-typescript](https://github.com/seanpmaxwell/express-generator-typescript).
 
 
-### Contributing a source
+## Available Scripts
 
-Ok, so there is a source that you'd like us to integrate with that we don't yet offer. You can write it!
+### `npm run dev`
 
+Run the server in development mode.
+
+### `npm test`
+
+Run all unit-tests with hot-reloading.
+
+### `npm test -- --testFile="name of test file" (i.e. --testFile=Users).`
+
+Run a single unit-test.
+
+### `npm run test:no-reloading`
+
+Run all unit-tests without hot-reloading.
+
+### `npm run lint`
+
+Check for linting errors.
+
+### `npm run build`
+
+Build the project for production.
+
+### `npm start`
+
+Run the production build (Must be built first).
+
+### `npm start -- --env="name of env file" (default is production).`
+
+Run production build with a different env file.
+
+
+## Additional Notes
+
+- If `npm run dev` gives you issues with bcrypt on MacOS you may need to run: `npm rebuild bcrypt --build-from-source`. 
