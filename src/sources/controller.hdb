@@ -1,0 +1,37 @@
+/* eslint-disable */
+// @ts-nocheck
+
+import { Controller, UseGuards, UseInterceptors } from "@nestjs/common";
+import { {{SourceName}} } from "./sources/github";
+import { AccountService } from "./account/account.service";
+
+@Controller("{{SourceName}}")
+@UseInterceptors(ClientPolicyCheck, UserPolicyCheck, TrackUsage)
+@ApiTags("sources")
+@UseGuards(AuthGuard("custom"))
+export class GithubController {
+  source: Github;
+  constructor(private accountService: AccountService) {
+    this.source = new Github();
+  }
+  {{#each resources}}
+  @Get("{{ResourceName}}")
+  @ApiQuery({{{ResourceInputSchema}}})
+  @ApiResponse({{{ResourceOutputSchema}}})
+  getRepo(@Query() query, @AuthenticatedClient() httpClient): this.source.getRepo.output {
+    return this.source.getRepo(httpClient, query);
+  }
+  {{/each}}
+
+  
+  @Get("authUrl")
+  getAuthUrl(): string {
+    return this.source.getAuthUrl();
+  }
+
+  @Get("callback")
+  getAuthCallback(@Request() request, @CurrentAccount()): Promise<void> {
+    const credentials =  this.source.getAuthCallback(request);
+    return this.accountService.create('oauth2', credentials);
+  }
+}

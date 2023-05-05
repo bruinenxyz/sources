@@ -1,4 +1,4 @@
-import { Github } from './github';
+import { Github } from './github/github';
 
 import {OAuth2Source} from './source';
 

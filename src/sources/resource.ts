@@ -4,10 +4,16 @@ export class Resource<Params, ReturnType>{
   public name: string;
   public type: string;
   public action: Action<Params, ReturnType>;
-  public constructor(name: string, type: string, action: Action<Params, ReturnType>) {
+  public JSONInputSchema: any;
+  public JSONOutputSchema: any;
+  public constructor(name: string, type: string, action: Action<Params, ReturnType>, JSONInputSchema: any, JSONOutputSchema: any) {
     this.name = name;
     this.type = type;
     this.action = action;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    this.JSONInputSchema = JSONInputSchema;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    this.JSONOutputSchema = JSONOutputSchema;
   }
 
   public getName() {

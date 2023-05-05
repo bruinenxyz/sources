@@ -15,8 +15,6 @@ export class BaseSource {
   public getType() {
     return this.type;
   }
-
-  public resources = Resource<>[];
 }
 
 export class OAuth2Source extends BaseSource {
