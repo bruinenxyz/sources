@@ -2,24 +2,29 @@
 // @ts-nocheck
 
 import { Controller, UseGuards, UseInterceptors } from "@nestjs/common";
-import { {{SourceName}} } from "./sources/github";
+import { {{SourceName}} } from "./sources/{{SourceName}}";
+import { Controller, Get, Query, UseGuards, UseInterceptors } from "@nestjs/common";
+import { AccountService } from "./account/account.service";
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccountService } from "./account/account.service";
 
 @Controller("{{SourceName}}")
 @UseInterceptors(ClientPolicyCheck, UserPolicyCheck, TrackUsage)
 @ApiTags("sources")
 @UseGuards(AuthGuard("custom"))
-export class GithubController {
-  source: Github;
+export class {{SourceName}}Controller {
+  source: {{SourceName}};
   constructor(private accountService: AccountService) {
-    this.source = new Github();
+    this.source = new {{SourceName}}();
   }
   {{#each resources}}
   @Get("{{ResourceName}}")
   @ApiQuery({{{ResourceInputSchema}}})
   @ApiResponse({{{ResourceOutputSchema}}})
-  getRepo(@Query() query, @AuthenticatedClient() httpClient): this.source.getRepo.output {
-    return this.source.getRepo(httpClient, query);
+  {{ResourceName}}(@Query() query, @AuthenticatedClient() httpClient): Promise<any> {
+    const resource = this.source.resources["{{ResourceName}}"]
+    const action = resource.getAction();
+    return action(httpClient, query);
   }
   {{/each}}
 
@@ -31,7 +36,7 @@ export class GithubController {
 
   @Get("callback")
   getAuthCallback(@Request() request, @CurrentAccount()): Promise<void> {
-    const credentials =  this.source.getAuthCallback(request);
+    const credentials = this.source.getAuthCallback(request);
     return this.accountService.create('oauth2', credentials);
   }
 }

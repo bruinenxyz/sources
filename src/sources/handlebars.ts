@@ -5,7 +5,7 @@ import fs from 'fs';
 import { Github } from './github/github';
 import path from 'path';
 
-fs.readFile(path.resolve(__dirname, "./controller.hdb"), function (err, data) {
+fs.readFile(path.resolve(__dirname, "./controller.hbs"), function (err, data) {
   if (err) {
     throw err; 
   }
@@ -15,12 +15,11 @@ fs.readFile(path.resolve(__dirname, "./controller.hdb"), function (err, data) {
   const result = template({
     SourceName: github.getName(),
     SourceType: github.getType(),
-    resources: github.resources.map((resource) => {
+    resources: Object.values(github.resources).map((resource) => {
       return {
         ResourceName: resource.getName(),
-        ResourceAction: resource.getAction().name,
-        ResourceInputSchema: JSON.stringify(resource.JSONInputSchema),
-        ResourceOutputSchema: JSON.stringify(resource.JSONOutputSchema),
+        ResourceInputSchema: JSON.stringify({ schema: resource.JSONInputSchema}),
+        ResourceOutputSchema: JSON.stringify({schema: resource.JSONOutputSchema}),
       };
     }),
   });

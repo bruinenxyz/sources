@@ -1,26 +1,29 @@
 import { Github } from './github/github';
 
-import {OAuth2Source} from './source';
+import {BaseSource, OAuth2Source} from './source';
+import axios from 'axios';
+
+import express from 'express';
 
 const sources = {
   Github
 };
 
+const app = express();
 
-const generateSDK = (source: any) => {
+const generateSDK = (source: typeof Github) => {
   const sourceObject = new source();
-  const sdk: any = {};
   for (const resource of sourceObject.resources) {
-    const action = resource.getAction();
+    app.get(`/${sourceObject.getName()}/${resource.getName()}`, (req, res) => {
+      const action = resource.getAction();
+      action(axios, req.query).then((result) => {
+        res.send(result);
+      });
+    });
   }
   return null;
-}
+};
 
-const test = () => {
-  for (const source in sources) {
+generateSDK(Github);
 
-    const sdk = generateSDK(source);
-  }
-}
-
-export default sources; 
+app.listen(3000);

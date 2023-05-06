@@ -1,24 +1,35 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Controller, UseGuards, UseInterceptors } from "@nestjs/common";
 import { github } from "./sources/github";
+import { Controller, Get, Query, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AccountService } from "./account/account.service";
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller("github")
 @UseInterceptors(ClientPolicyCheck, UserPolicyCheck, TrackUsage)
 @ApiTags("sources")
 @UseGuards(AuthGuard("custom"))
-export class GithubController {
-  source: Github;
+export class githubController {
+  source: github;
   constructor(private accountService: AccountService) {
-    this.source = new Github();
+    this.source = new github();
   }
   @Get("repos")
-  @ApiQuery({"title":"GetRepoReturn","description":"The return type of the getRepo call","type":"object","properties":{"id":{"description":"The id of the repository","type":"integer"},"description":{"description":"The description of the repository","type":"string"}},"required":["name","description"]})
-  @ApiResponse({"title":"GetRepoReturn","description":"The return type of the getRepo call","type":"object","properties":{"name":{"description":"The name of the repository","type":"integer"},"description":{"description":"The description of the repository","type":"string"}},"required":["name","description"]})
-  getRepo(@Query() query, @AuthenticatedClient() httpClient): this.source.getRepo.output {
-    return this.source.getRepo(httpClient, query);
+  @ApiQuery({"schema":{}})
+  @ApiResponse({"schema":{"title":"GithubRepo","description":"A github repo","type":"object","properties":{"id":{"type":"string","description":"The id of the repo"},"node_id":{"type":"string","description":"The node id of the repo"},"name":{"type":"string","description":"The name of the repo"},"full_name":{"type":"string","description":"The full name of the repo"},"private":{"type":"boolean","description":"Whether the repo is private"}}}})
+  repos(@Query() query, @AuthenticatedClient() httpClient): Promise<any> {
+    const resource = this.source.resources[repos]
+    const action = resource.getAction();
+    return action(httpClient, query);
+  }
+  @Get("profile")
+  @ApiQuery({"schema":{}})
+  @ApiResponse({"schema":{"title":"GithubProfile","description":"A github profile","type":"object","properties":{"login":{"type":"string","description":"The username of the user"},"id":{"type":"string","description":"The id of the user"},"node_id":{"type":"string","description":"The node id of the user"},"avatar_url":{"type":"string","description":"The avatar url of the user"},"gravatar_id":{"type":"string","description":"The gravatar id of the user"},"url":{"type":"string","description":"The url of the user"},"html_url":{"type":"string","description":"The html url of the user"},"followers_url":{"type":"string","description":"The followers url of the user"},"following_url":{"type":"string","description":"The following url of the user"},"gists_url":{"type":"string","description":"The gists url of the user"}}}})
+  profile(@Query() query, @AuthenticatedClient() httpClient): Promise<any> {
+    const resource = this.source.resources[profile]
+    const action = resource.getAction();
+    return action(httpClient, query);
   }
 
   
