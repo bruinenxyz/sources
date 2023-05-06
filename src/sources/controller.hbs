@@ -7,6 +7,7 @@ import { Controller, Get, Query, UseGuards, UseInterceptors } from "@nestjs/comm
 import { AccountService } from "./account/account.service";
 import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccountService } from "./account/account.service";
+import axios from "axios";
 
 @Controller("{{SourceName}}")
 @UseInterceptors(ClientPolicyCheck, UserPolicyCheck, TrackUsage)
@@ -30,13 +31,17 @@ export class {{SourceName}}Controller {
 
   
   @Get("authUrl")
-  getAuthUrl(): string {
-    return this.source.getAuthUrl();
+  @ApiQuery("")
+  getAuthUrl(@ClientCredentials() credentials, @Query() query): string {
+    const { connectionRequestId } = query;
+    const callbackUrl = `${process.env.API_URL}/{{SourceName}}/callback`;
+    return this.source.getAuthUrl(connectionRequestId, credentials.clientId, callbackUrl);
   }
 
   @Get("callback")
-  getAuthCallback(@Request() request, @CurrentAccount()): Promise<void> {
-    const credentials = this.source.getAuthCallback(request);
-    return this.accountService.create('oauth2', credentials);
+  async getAuthCallback(@Request() request, @CurrentAccount()): Promise<void> {
+    const {credentials, state} = this.source.getAuthCallback(axios, request, );
+    await this.accountService.create('oauth2', credentials, state); // the state is the connectionRequestId
+    return {};
   }
 }

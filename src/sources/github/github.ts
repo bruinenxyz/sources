@@ -51,6 +51,8 @@ export class Github extends OAuth2Source implements Source {
   public async handleAuthCallback(httpoClient: Axios, req: any, clientId: string, clientSecret: string, redirectUrl: string, ){
     // eslint-disable-next-line
     const code = req.body.code as string;
+    // eslint-disable-next-line
+    const state = req.body.state as string;
     const url =
       `${github_login_url}access_token?` +
       `client_id=${
@@ -73,8 +75,11 @@ export class Github extends OAuth2Source implements Source {
     });
 
     return {
-      // eslint-disable-next-line
-      accessToken: data.access_token,
+      credentials: {
+        // eslint-disable-next-line
+        accessToken: data.access_token,
+      },
+      state,
     };
   }
 

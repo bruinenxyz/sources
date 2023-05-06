@@ -11,19 +11,18 @@ const sources = {
 
 const app = express();
 
-const generateSDK = (source: typeof Github) => {
+const generateEndpoints = (source: typeof Github) => {
   const sourceObject = new source();
-  for (const resource of sourceObject.resources) {
+  Object.values(sourceObject.resources).map((resource) => {
     app.get(`/${sourceObject.getName()}/${resource.getName()}`, (req, res) => {
       const action = resource.getAction();
       action(axios, req.query).then((result) => {
         res.send(result);
       });
     });
-  }
-  return null;
+  });
 };
 
-generateSDK(Github);
+generateEndpoints(Github);
 
 app.listen(3000);
