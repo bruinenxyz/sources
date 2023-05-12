@@ -25,7 +25,7 @@
     "no-extra-boolean-cast": 0,
     "semi": 1,
     "indent": ["warn", 2],
-    "quotes": ["warn", "single"],
+    "quotes": ["warn", "double"],
     "node/no-process-env": 1,
     "node/no-unsupported-features/es-syntax": [
       "error",

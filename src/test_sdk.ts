@@ -1,7 +1,7 @@
-import sources from "./sources"
+import * as Sources from "./sources/index";
 
 const callGithub = () => {
-  for (const source of Object.keys(sources)) {
-    const source = new sources.Github();
+  for (const source of Object.keys(Sources)) {
+    const source = new Sources["github"]();
   }
-}
+};

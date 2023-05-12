@@ -1,0 +1,10 @@
+import { Module } from "@nestjs/common";
+import { {{SourceNamePascal}}Controller } from "./{{SourceName}}.controller";
+import { ConnectionRequestsModule } from "src/connection-requests/connection-requests.module";
+import { AccountsModule } from "src/accounts/accounts.module";
+
+@Module({
+  imports: [ConnectionRequestsModule, AccountsModule],
+  controllers: [{{SourceNamePascal}}Controller],
+})
+export class {{SourceNamePascal}}Module {}
