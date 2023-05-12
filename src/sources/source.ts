@@ -59,7 +59,7 @@ export interface Source {
     redirectUrl: string
   ): Promise<any>;
 
-  getExternalAccountId: (authClient: Axios) => string;
+  getExternalAccountId: (authClient: Axios) => Promise<string>;
 
   getSourceJSONSchema: () => any;
 }

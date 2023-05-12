@@ -118,8 +118,9 @@ export class Github extends OAuth2Source implements Source {
     return url;
   };
 
-  public getExternalAccountId = (authClient: Axios) => {
-    return getProfile(authClient).id;
+  public async getExternalAccountId(authClient: Axios) {
+    const profile = await getProfile(authClient)
+    return profile.id as string;
   };
 
   public getSourceJSONSchema = () => null;
