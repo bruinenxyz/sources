@@ -609,8 +609,11 @@ export const GithubRepo = {
       description: "Whether the repo requires web commit signoff",
     },
     topics: {
-      type: "string[]",
+      type: "array",
       description: "The topics of the repo",
+      items: {
+        type: "string",
+      },
     },
     visibility: {
       type: "string",
