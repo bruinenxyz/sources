@@ -1,5 +1,5 @@
-import { Axios } from 'axios';
-import { Resource } from './resource';
+import { Axios } from "axios";
+import { Resource } from "./resource";
 
 export class BaseSource {
   public name: string;
@@ -29,7 +29,11 @@ export class BaseSource {
 
 export class OAuth2Source extends BaseSource {
   public constructor(name: string) {
-    super(name, 'oauth2');
+    super(name, "oauth2");
+  }
+
+  public isTokenExpired() {
+    return false;
   }
 }
 
@@ -39,12 +43,21 @@ export interface Source {
   description: string;
   resources: {
     [x: string]: Resource<any, any>;
-  }
+  };
   getAuthUrl: (state: string, clientId: string, redirectUrl: string) => string;
-  getToken: (credential: string) => {accessToken: string};
-  getAuthHeaders: (credential: { accessToken: string }) => { headers: { Authorization: string } };
-  
-  handleAuthCallback(httpClient: Axios, req: any, clientId: string, clientSecret: string, redirectUrl: string): Promise<any>;
+  getToken: (credential: string) => { accessToken: string };
+  getBaseUrl: () => string;
+  getAuthHeaders: (credential: { accessToken: string }) => {
+    headers: { Authorization: string };
+  };
+
+  handleAuthCallback(
+    httpClient: Axios,
+    req: any,
+    clientId: string,
+    clientSecret: string,
+    redirectUrl: string
+  ): Promise<any>;
 
   getSourceJSONSchema: () => any;
 }
@@ -57,4 +70,4 @@ export interface Source {
 // }
 
 // type ResourceType = 'get' | 'mutate';
-type SourceType = 'oauth2' | 'basic' | 'apikey';
+type SourceType = "oauth2" | "basic" | "apikey";
