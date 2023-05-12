@@ -160,29 +160,6 @@ export const GithubProfile = {
   },
 } as const satisfies JSONSchema;
 
-const GithubPermissions = {
-  admin: {
-    type: "boolean",
-    description: "Whether the repo has admin permissions",
-  },
-  maintain: {
-    type: "boolean",
-    description: "Whether the repo has maintain permissions",
-  },
-  push: {
-    type: "boolean",
-    description: "Whether the repo has push permissions",
-  },
-  triage: {
-    type: "boolean",
-    description: "Whether the repo has triage permissions",
-  },
-  pull: {
-    type: "boolean",
-    description: "Whether the repo has pull permissions",
-  },
-} as const;
-
 export const GithubRepo = {
   title: "GithubRepo",
   description: "A github repo",
@@ -208,7 +185,165 @@ export const GithubRepo = {
       type: "boolean",
       description: "Whether the repo is private",
     },
-    owner: GithubProfile,
+    owner: {
+      title: "GithubProfile",
+      description: "A github profile",
+      type: "object",
+      properties: {
+        login: {
+          type: "string",
+          description: "The username of the user",
+        },
+        id: {
+          type: "string",
+          description: "The id of the user",
+        },
+        node_id: {
+          type: "string",
+          description: "The node id of the user",
+        },
+        avatar_url: {
+          type: "string",
+          description: "The avatar url of the user",
+        },
+        gravatar_id: {
+          type: "string",
+          description: "The gravatar id of the user",
+        },
+        url: {
+          type: "string",
+          description: "The url of the user",
+        },
+        html_url: {
+          type: "string",
+          description: "The html url of the user",
+        },
+        followers_url: {
+          type: "string",
+          description: "The followers url of the user",
+        },
+        following_url: {
+          type: "string",
+          description: "The following url of the user",
+        },
+        gists_url: {
+          type: "string",
+          description: "The gists url of the user",
+        },
+        starred_url: {
+          type: "string",
+          description: "The starred url of the user",
+        },
+        subscriptions_url: {
+          type: "string",
+          description: "The starred url of the user",
+        },
+        organizations_url: {
+          type: "string",
+          description: "The organizations url of the user",
+        },
+        repos_url: {
+          type: "string",
+          description: "The repos url of the user",
+        },
+        events_url: {
+          type: "string",
+          description: "The events url of the user",
+        },
+        received_events_url: {
+          type: "string",
+          description: "The received events url of the user",
+        },
+        type: {
+          type: "string",
+          description: "The type of the user",
+        },
+        site_admin: {
+          type: "boolean",
+          description: "Indicates if the user is a site admin",
+        },
+        name: {
+          type: "string",
+          description: "The name of the user",
+        },
+        company: {
+          type: "string",
+          description: "The company of the user",
+        },
+        blog: {
+          type: "string",
+          description: "The blog of the user",
+        },
+        location: {
+          type: "string",
+          description: "The location of the user",
+        },
+        email: {
+          type: "string",
+          description: "The email of the user",
+        },
+        hireable: {
+          type: "string",
+          description: "Indicates whether the user is hireable",
+        },
+        bio: {
+          type: "string",
+          description: "The bio of the user",
+        },
+        twitter_username: {
+          type: "string",
+          description: "The twitter username of the user",
+        },
+        public_repos: {
+          type: "number",
+          description: "The number of public repos for the user",
+        },
+        public_gists: {
+          type: "number",
+          description: "The number of public gists for the user",
+        },
+        followers: {
+          type: "number",
+          description: "The number of followers for the user",
+        },
+        following: {
+          type: "number",
+          description: "The number of following for the user",
+        },
+        created_at: {
+          type: "string",
+          description: "Account creation date",
+        },
+        updated_at: {
+          type: "string",
+          description: "Account update date",
+        },
+        private_gists: {
+          type: "number",
+          description: "The number of private gists for the user",
+        },
+        total_private_repos: {
+          type: "number",
+          description: "The number of total repos for the user",
+        },
+        owned_private_repos: {
+          type: "number",
+          description: "The number of owned private repos for the user",
+        },
+        disk_usage: {
+          type: "number",
+          description: "The user's disk usage",
+        },
+        collaborators: {
+          type: "number",
+          description: "The number of collaborators for the user",
+        },
+        two_factor_authentication: {
+          type: "boolean",
+          description: "Indicates whether 2FA is required",
+        },
+      },
+    },
     html_url: {
       type: "string",
       description: "The html url of the repo",
@@ -485,6 +620,32 @@ export const GithubRepo = {
       type: "string",
       description: "The default branch of the repo",
     },
-    permissions: GithubPermissions,
+    permissions: {
+      title: "GithubProfile",
+      description: "A github profile",
+      type: "object",
+      properties: {
+        admin: {
+          type: "boolean",
+          description: "Whether the repo has admin permissions",
+        },
+        maintain: {
+          type: "boolean",
+          description: "Whether the repo has maintain permissions",
+        },
+        push: {
+          type: "boolean",
+          description: "Whether the repo has push permissions",
+        },
+        triage: {
+          type: "boolean",
+          description: "Whether the repo has triage permissions",
+        },
+        pull: {
+          type: "boolean",
+          description: "Whether the repo has pull permissions",
+        },
+      },
+    },
   },
-} as const;
+} as const satisfies JSONSchema;
