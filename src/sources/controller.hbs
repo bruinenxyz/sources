@@ -40,8 +40,8 @@ export class {{SourceName}}Controller {
 
   @Get("callback")
   async getAuthCallback(@Request() request, @CurrentAccount()): Promise<void> {
-    const {credentials, state} = this.source.getAuthCallback(axios, request, );
-    await this.accountService.create('oauth2', credentials, state); // the state is the connectionRequestId
+    const {credentials, state} = await this.source.handleAuthCallback(axios, request);
+    await this.accountService.create("{{SourceName}}", state, 'APIKey', credentials); // the state is the connectionRequestId
     return {};
   }
 }

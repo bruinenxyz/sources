@@ -13,12 +13,15 @@ const github_login_url = "https://github.com/login/oauth/";
 
 const githubScopes = ["user", "repo", "gist"];
 
-function getRepos(authClient: Axios, params: {}): Promise<GithubRepoType> {
-  return authClient.get("https://api.github.com/user/repos");
+async function getRepos(
+  authClient: Axios,
+  params: {}
+): Promise<GithubRepoType> {
+  return authClient.get("/user/repos");
 }
 
-function getProfile(authClient: Axios): Promise<GithubProfileType> {
-  return authClient.get("https://api.github.com/user/profile");
+async function getProfile(authClient: Axios): Promise<GithubProfileType> {
+  return authClient.get("/user/profile");
 }
 
 export class Github extends OAuth2Source implements Source {
@@ -111,8 +114,12 @@ export class Github extends OAuth2Source implements Source {
       `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
       `&state=${state}` +
       `&scope=${encodeURIComponent(scopes)}` +
-      `&response_type=code`;
+      "&response_type=code";
     return url;
+  };
+
+  public getExternalAccountId = (authClient: Axios) => {
+    return getProfile(authClient).id;
   };
 
   public getSourceJSONSchema = () => null;
