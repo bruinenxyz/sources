@@ -1,4 +1,6 @@
 import { Github } from "./sources/github/github";
-export declare const sources: {
-    Github: typeof Github;
+declare const Sources: {
+    [x: string]: any;
 };
+export default Sources;
+export { Github, };

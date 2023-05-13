@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sources = void 0;
+exports.Github = void 0;
 const github_1 = require("./sources/github/github");
-exports.sources = {
-    Github: github_1.Github,
-};
+Object.defineProperty(exports, "Github", { enumerable: true, get: function () { return github_1.Github; } });
+const Sources = {};
+Sources[new github_1.Github().getName()] = github_1.Github;
+exports.default = Sources;
