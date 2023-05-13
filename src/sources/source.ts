@@ -8,12 +8,14 @@ export class BaseSource {
   public resources: {
     [x: string]: Resource<any, any>;
   };
+  public metadata: Metadata;
 
   public constructor(name: string, type: SourceType, accessType: AccessType) {
     this.name = name;
     this.type = type;
     this.accessType = accessType;
     this.resources = {};
+    this.metadata = {};
   }
 
   public getName() {
@@ -31,11 +33,15 @@ export class BaseSource {
   public getResources() {
     return this.resources;
   }
+
+  public getMetadata() {
+    return this.metadata;
+  }
 }
 
 export class OAuth2Source extends BaseSource {
   public constructor(name: string) {
-    super(name, "oauth2", "APIKey");
+    super(name, "OAuth2", "APIKey");
   }
 
   public isTokenExpired() {
@@ -51,6 +57,7 @@ export interface Source {
   resources: {
     [x: string]: Resource<any, any>;
   };
+  metadata: Metadata;
   getAuthUrl: (state: string, clientId: string, redirectUrl: string) => string;
   getToken: (credential: string) => { accessToken: string };
   getBaseUrl: () => string;
@@ -79,5 +86,28 @@ export interface Source {
 // }
 
 // type ResourceType = 'get' | 'mutate';
-type SourceType = "oauth2" | "basic" | "apikey";
+type SourceType = "OAuth2" | "basic" | "APIKey";
 type AccessType = "APIKey" | "PuppeteerCookies";
+type Metadata =
+  | {
+      friendlyName: string;
+      description: string;
+      name: string;
+      icon: string;
+      color: string[];
+      auth: { authType: string; authStart: string };
+      policyConfig: {
+        type: SourceType;
+        credentials: {
+          allowed: boolean;
+          fields: CredentialField[];
+        };
+      };
+    }
+  | {};
+type CredentialField = {
+  name: string;
+  friendlyName: string;
+  type: CredentialUse;
+};
+type CredentialUse = "auth" | "access";

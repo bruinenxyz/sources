@@ -1,29 +1,38 @@
-/* eslint-disable */
-// @ts-nocheck
-
-import { Controller, UseGuards, UseInterceptors } from "@nestjs/common";
-import { {{SourceNamePascal}} } from "./sources/{{SourceName}}";
-import { Controller, Get, Query, UseGuards, UseInterceptors } from "@nestjs/common";
+import { {{SourceNamePascal}} } from "src/source-generators/src/sources/{{SourceName}}/{{SourceName}}";
+import { Controller, Get, Query, Req, UseGuards, UseInterceptors } from "@nestjs/common";
 import { SourceType, AccountCredentialType } from "@prisma/client";
-import { AccountService } from "./account/account.service";
+import { ConnectionRequestsService } from "src/connection-requests/connection-requests.service";
+import { AccountsService } from "src/accounts/accounts.service";
 import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AccountService } from "./account/account.service";
-import axios from "axios";
+import { AuthGuard } from "@nestjs/passport";
+import { RolesGuard } from "src/auth/permissions/roles.guard";
+import { Roles } from "src/auth/permissions/roles.decorator";
+import { PolicyGuard } from "src/auth/permissions/policy.guard"
+import { CheckToken } from "src/interceptors/checkTokenExpiration.interceptor";
+import { AuthenticatedClient } from "src/interceptors/authenticatedClient.interceptor"
+import { UsageInterceptor } from "src/interceptors/usage.interceptor";
+import { AuthedClient } from "src/decorators/authenticatedClient.decorator"
 
-@Controller("{{SourceName}}")
-@UseInterceptors(ClientPolicyCheck, UserPolicyCheck, TrackUsage)
+@Controller("sources/{{SourceName}}")
 @ApiTags("sources")
 @UseGuards(AuthGuard("custom"))
 export class {{SourceNamePascal}}Controller {
   source: {{SourceNamePascal}};
-  constructor(private accountService: AccountService) {
+  constructor(
+    private accountsService: AccountsService,
+    private connectionRequestsService: ConnectionRequestsService
+  ) {
     this.source = new {{SourceNamePascal}}();
   }
   {{#each resources}}
+  
   @Get("{{ResourceName}}")
+  @UseGuards(RolesGuard, PolicyGuard)
+  @Roles("bruinen", "client")
+  @UseInterceptors(CheckToken, AuthenticatedClient, UsageInterceptor)
   @ApiQuery({{{ResourceInputSchema}}})
   @ApiResponse({{{ResourceOutputSchema}}})
-  {{ResourceName}}(@Query() query, @AuthenticatedClient() httpClient): Promise<any> {
+  {{ResourceName}}(@Query() query, @AuthedClient() httpClient): Promise<any> {
     const resource = this.source.resources["{{ResourceName}}"]
     const action = resource.getAction();
     return action(httpClient, query);
@@ -32,17 +41,19 @@ export class {{SourceNamePascal}}Controller {
 
   
   @Get("authUrl")
-  @ApiQuery("")
-  getAuthUrl(@ClientCredentials() credentials, @Query() query): string {
+  async getAuthUrl(@Query() query): Promise<string> {
     const { connectionRequestId } = query;
+    const credentials = await this.connectionRequestsService.getAuthCredentials(connectionRequestId)
     const callbackUrl = `${process.env.API_URL}/{{SourceName}}/callback`;
-    return this.source.getAuthUrl(connectionRequestId, credentials.clientId, callbackUrl);
+    return this.source.getAuthUrl(connectionRequestId, credentials, callbackUrl);
   }
 
   @Get("callback")
-  async getAuthCallback(@Request() request, @CurrentAccount()): Promise<void> {
-    const {credentials, state} = await this.source.handleAuthCallback(axios, request);
-    await this.accountService.create(SourceType.{{SourceName}}, state, AccountCredentialType.{{AccessType}}, credentials); // the state is the connectionRequestId
-    return {};
+  async getAuthCallback(@Req() request): Promise<void> {
+    const credentials = await this.connectionRequestsService.getAuthCredentials(request.body.state)
+    const { redirect } = await this.connectionRequestsService.findOne(request.body.state)
+    const { accessCredentials, state } = await this.source.handleAuthCallback(request, credentials, redirect);
+    await this.accountsService.createAccount(SourceType.{{SourceName}}, state, AccountCredentialType.{{AccessType}}, accessCredentials); // the state is the connectionRequestId
+    return;
   }
 }

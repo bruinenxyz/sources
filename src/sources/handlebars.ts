@@ -30,11 +30,17 @@ fs.readFile(path.resolve(__dirname, "./controller.hbs"), function (err, data) {
     }),
   });
 
-  fs.writeFile("./controller.ts", result, function (err) {
-    if (err) {
-      throw err;
+  fs.mkdirSync(`../sources/${github.getName()}`, { recursive: true });
+
+  fs.writeFile(
+    `../sources/${github.getName()}/${github.getName()}.controller.ts`,
+    result,
+    function (err) {
+      if (err) {
+        throw err;
+      }
     }
-  });
+  );
 });
 
 fs.readFile(path.resolve(__dirname, "./module.hbs"), function (err, data) {
@@ -50,9 +56,15 @@ fs.readFile(path.resolve(__dirname, "./module.hbs"), function (err, data) {
       github.getName().charAt(0).toUpperCase() + github.getName().slice(1),
   });
 
-  fs.writeFile("./module.ts", result, function (err) {
-    if (err) {
-      throw err;
+  fs.mkdirSync(`../sources/${github.getName()}`, { recursive: true });
+
+  fs.writeFile(
+    `../sources/${github.getName()}/${github.getName()}.module.ts`,
+    result,
+    function (err) {
+      if (err) {
+        throw err;
+      }
     }
-  });
+  );
 });
