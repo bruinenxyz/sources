@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OAuth2Source = exports.BaseSource = void 0;
 class BaseSource {
-    constructor(name, type) {
+    constructor(name, type, accessType) {
         this.name = name;
         this.type = type;
+        this.accessType = accessType;
         this.resources = {};
+        this.metadata = {};
     }
     getName() {
         return this.name;
@@ -13,14 +15,20 @@ class BaseSource {
     getType() {
         return this.type;
     }
+    getAccessType() {
+        return this.accessType;
+    }
     getResources() {
         return this.resources;
+    }
+    getMetadata() {
+        return this.metadata;
     }
 }
 exports.BaseSource = BaseSource;
 class OAuth2Source extends BaseSource {
     constructor(name) {
-        super(name, "oauth2");
+        super(name, "OAuth2", "APIKey");
     }
     isTokenExpired() {
         return false;
