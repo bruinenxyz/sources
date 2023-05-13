@@ -1,5 +1,7 @@
 import { Resource } from "../resource";
 import { OAuth2Source, Source } from "../source";
+import { Resource } from "../resource";
+import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
 import { GithubProfile, GithubRepo } from "./github.types";
 import { Axios, AxiosResponse } from "axios";
@@ -19,11 +21,16 @@ async function getRepos(
   params: {}
 ): Promise<GithubRepoType> {
   return authClient.get("/user/repos");
+async function getRepos(
+  authClient: Axios,
+  params: {}
+): Promise<GithubRepoType> {
+  return authClient.get("/user/repos");
 }
 
 async function getProfile(authClient: Axios): Promise<GithubProfileType> {
   return authClient.get("/user/profile");
-}
+
 
 export class Github extends OAuth2Source implements Source {
   resources: {
@@ -80,6 +87,12 @@ export class Github extends OAuth2Source implements Source {
 
   public getBaseUrl = () => {
     return "https://api.github.com";
+  public getToken = (credential: string): { accessToken: string } => {
+    return JSON.parse(credential) as { accessToken: string };
+  };
+
+  public getBaseUrl = () => {
+    return "https://api.github.com";
   };
 
   public getAuthHeaders = (credential: { accessToken: string }) => {
@@ -106,6 +119,7 @@ export class Github extends OAuth2Source implements Source {
       `&client_secret=${credentials.secret}` +
       `&code=${code}` +
       "&grant_type=authorization_code";
+      "&grant_type=authorization_code";
 
     // eslint-disable-next-line
     const { data }: any = await axios.get(url, {
@@ -131,8 +145,11 @@ export class Github extends OAuth2Source implements Source {
     const scopes = _.join(githubScopes, " ");
     const url =
       `${github_login_url}authorize?` +
-      `client_id=${credentials.id}` +
-      `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
+      `client_id=${clientId
+      }` +
+      `&redirect_uri=${encodeURIComponent(
+        redirectUrl
+      )}` +
       `&state=${state}` +
       `&scope=${encodeURIComponent(scopes)}` +
       "&response_type=code";
