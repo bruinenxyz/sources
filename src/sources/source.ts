@@ -4,13 +4,15 @@ import { Resource } from "./resource";
 export class BaseSource {
   public name: string;
   public type: SourceType;
+  public accessType: AccessType;
   public resources: {
     [x: string]: Resource<any, any>;
   };
 
-  public constructor(name: string, type: SourceType) {
+  public constructor(name: string, type: SourceType, accessType: AccessType) {
     this.name = name;
     this.type = type;
+    this.accessType = accessType;
     this.resources = {};
   }
 
@@ -22,6 +24,10 @@ export class BaseSource {
     return this.type;
   }
 
+  public getAccessType() {
+    return this.accessType;
+  }
+
   public getResources() {
     return this.resources;
   }
@@ -29,7 +35,7 @@ export class BaseSource {
 
 export class OAuth2Source extends BaseSource {
   public constructor(name: string) {
-    super(name, "oauth2");
+    super(name, "oauth2", "APIKey");
   }
 
   public isTokenExpired() {
@@ -40,6 +46,7 @@ export class OAuth2Source extends BaseSource {
 export interface Source {
   name: string;
   type: SourceType;
+  accessType: AccessType;
   description: string;
   resources: {
     [x: string]: Resource<any, any>;
@@ -73,3 +80,4 @@ export interface Source {
 
 // type ResourceType = 'get' | 'mutate';
 type SourceType = "oauth2" | "basic" | "apikey";
+type AccessType = "APIKey" | "PuppeteerCookies";

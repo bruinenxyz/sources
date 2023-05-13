@@ -1,0 +1,13 @@
+/* eslint-disable */
+// @ts-nocheck
+
+import { Module, forwardRef } from "@nestjs/common";
+import { {{SourceNamePascal}}Controller } from "./{{SourceName}}.controller";
+import { AccountsModule } from "src/accounts/accounts.module";
+import { UsageService } from "src/usage/usage.service";
+
+@Module({
+  imports: [HttpModule, AccountsModule],
+  controllers: [{{SourceNamePascal}}Controller],
+})
+export class {{SourceNamePascal}}Module {}
