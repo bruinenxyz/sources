@@ -1,5 +1,10 @@
 import { Github } from "./sources/github/github";
 
-export const sources = {
+const Sources: {[x: string]: any} = {};
+Sources[new Github().getName()] = Github;
+
+export default Sources;
+
+export {
   Github,
 };
