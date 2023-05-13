@@ -18,13 +18,11 @@ export declare class Github extends OAuth2Source implements Source {
             Authorization: string;
         };
     };
-    handleAuthCallback(httpoClient: Axios, req: any, clientId: string, clientSecret: string, redirectUrl: string): Promise<{
-        credentials: {
-            accessToken: any;
-        };
+    handleAuthCallback(req: any, credentials: any, redirectUrl: string): Promise<{
+        accessCredentials: string;
         state: string;
     }>;
-    getAuthUrl: (state: string, clientId: string, redirectUrl: string) => string;
+    getAuthUrl: (state: string, credentials: any, redirectUrl: string) => string;
     getExternalAccountId(authClient: Axios): Promise<string>;
     getSourceJSONSchema: () => null;
 }
