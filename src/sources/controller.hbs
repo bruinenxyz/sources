@@ -2,8 +2,9 @@
 // @ts-nocheck
 
 import { Controller, UseGuards, UseInterceptors } from "@nestjs/common";
-import { {{SourceName}} } from "./sources/{{SourceName}}";
+import { {{SourceNamePascal}} } from "./sources/{{SourceName}}";
 import { Controller, Get, Query, UseGuards, UseInterceptors } from "@nestjs/common";
+import { SourceType, AccountCredentialType } from "@prisma/client";
 import { AccountService } from "./account/account.service";
 import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccountService } from "./account/account.service";
@@ -13,10 +14,10 @@ import axios from "axios";
 @UseInterceptors(ClientPolicyCheck, UserPolicyCheck, TrackUsage)
 @ApiTags("sources")
 @UseGuards(AuthGuard("custom"))
-export class {{SourceName}}Controller {
-  source: {{SourceName}};
+export class {{SourceNamePascal}}Controller {
+  source: {{SourceNamePascal}};
   constructor(private accountService: AccountService) {
-    this.source = new {{SourceName}}();
+    this.source = new {{SourceNamePascal}}();
   }
   {{#each resources}}
   @Get("{{ResourceName}}")
@@ -40,8 +41,8 @@ export class {{SourceName}}Controller {
 
   @Get("callback")
   async getAuthCallback(@Request() request, @CurrentAccount()): Promise<void> {
-    const {credentials, state} = this.source.getAuthCallback(axios, request, );
-    await this.accountService.create('oauth2', credentials, state); // the state is the connectionRequestId
+    const {credentials, state} = await this.source.handleAuthCallback(axios, request);
+    await this.accountService.create(SourceType.{{SourceName}}, state, AccountCredentialType.{{AccessType}}, credentials); // the state is the connectionRequestId
     return {};
   }
 }
