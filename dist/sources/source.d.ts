@@ -38,11 +38,9 @@ export interface Source {
     getAuthHeaders: (credential: {
         accessToken: string;
     }) => {
-        headers: {
-            Authorization: string;
-        };
+        Authorization: string;
     };
-    handleAuthCallback(httpClient: Axios, req: any, clientId: string, clientSecret: string, redirectUrl: string): Promise<any>;
+    handleAuthCallback(code: string, state: string, credentials: any, redirectUrl: string): Promise<any>;
     getExternalAccountId: (authClient: Axios) => Promise<string>;
     getSourceJSONSchema: () => any;
 }

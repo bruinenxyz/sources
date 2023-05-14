@@ -5,7 +5,6 @@ import { GithubProfile, GithubRepo } from "./github.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
 import * as _ from "lodash";
-import { Logger } from "@nestjs/common";
 
 type GithubProfileType = FromSchema<typeof GithubProfile>;
 type GithubRepoType = FromSchema<typeof GithubRepo>;
@@ -127,7 +126,6 @@ export class Github extends OAuth2Source implements Source {
         accessToken: data.access_token,
       };
     } catch (error) {
-      Logger.log(error);
       return "";
     }
   }

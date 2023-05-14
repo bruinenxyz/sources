@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -17,18 +40,20 @@ const resource_1 = require("../resource");
 const source_1 = require("../source");
 const github_types_1 = require("./github.types");
 const axios_1 = __importDefault(require("axios"));
-const lodash_1 = __importDefault(require("lodash"));
+const _ = __importStar(require("lodash"));
 const github_api_url = "https://api.github.com";
 const github_login_url = "https://github.com/login/oauth/";
 const githubScopes = ["user", "repo", "gist"];
 function getRepos(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        return authClient.get("/user/repos");
+        const { data } = yield authClient.get("/user/repos");
+        return data;
     });
 }
-function getProfile(authClient) {
+function getProfile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        return authClient.get("/user/profile");
+        const { data } = yield authClient.get("/user");
+        return data;
     });
 }
 class Github extends source_1.OAuth2Source {
@@ -42,16 +67,15 @@ class Github extends source_1.OAuth2Source {
         };
         this.getAuthHeaders = (credential) => {
             return {
-                headers: {
-                    Authorization: `Bearer ${credential.accessToken}`,
-                },
+                Authorization: `Bearer ${credential.accessToken}`,
             };
         };
         this.getAuthUrl = (state, credentials, redirectUrl) => {
-            const scopes = lodash_1.default.join(githubScopes, " ");
+            const scopes = _.join(githubScopes, " ");
             const url = `${github_login_url}authorize?` +
                 `client_id=${credentials.id}` +
-                `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
+                `&redirect_uri=${encodeURIComponent("https://api-staging.bruinen.co/sources/github/callback" //redirectUrl
+                )}` +
                 `&state=${state}` +
                 `&scope=${encodeURIComponent(scopes)}` +
                 "&response_type=code";
@@ -86,37 +110,39 @@ class Github extends source_1.OAuth2Source {
             },
         };
     }
-    handleAuthCallback(req, credentials, redirectUrl) {
+    handleAuthCallback(code, state, credentials, redirectUrl) {
         return __awaiter(this, void 0, void 0, function* () {
-            // eslint-disable-next-line
-            const code = req.body.code;
-            // eslint-disable-next-line
-            const state = req.body.state;
             const url = `${github_login_url}access_token?` +
                 `client_id=${credentials.id}` +
-                `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
+                `&redirect_uri=${encodeURIComponent("https://api-staging.bruinen.co/sources/github/callback" //redirectUrl
+                )}` +
                 `&client_secret=${credentials.secret}` +
                 `&code=${code}` +
                 "&grant_type=authorization_code";
-            // eslint-disable-next-line
-            const { data } = yield axios_1.default.get(url, {
-                headers: {
-                    Accept: "application/json",
-                },
-            });
-            return {
-                accessCredentials: JSON.stringify({
+            try {
+                // eslint-disable-next-line
+                const { data } = yield axios_1.default.post(url, {}, {
+                    headers: {
+                        Accept: "application/json",
+                    },
+                });
+                return {
                     // eslint-disable-next-line
                     accessToken: data.access_token,
-                }),
-                state,
-            };
+                };
+            }
+            catch (error) {
+                return "";
+            }
         });
     }
     getExternalAccountId(authClient) {
         return __awaiter(this, void 0, void 0, function* () {
-            const profile = yield getProfile(authClient);
-            return profile.id;
+            const { id } = yield getProfile(authClient);
+            if (id) {
+                return id.toString();
+            }
+            return "";
         });
     }
 }

@@ -14,13 +14,10 @@ export declare class Github extends OAuth2Source implements Source {
     getAuthHeaders: (credential: {
         accessToken: string;
     }) => {
-        headers: {
-            Authorization: string;
-        };
+        Authorization: string;
     };
-    handleAuthCallback(req: any, credentials: any, redirectUrl: string): Promise<{
-        accessCredentials: string;
-        state: string;
+    handleAuthCallback(code: string, state: string, credentials: any, redirectUrl: string): Promise<"" | {
+        accessToken: any;
     }>;
     getAuthUrl: (state: string, credentials: any, redirectUrl: string) => string;
     getExternalAccountId(authClient: Axios): Promise<string>;
