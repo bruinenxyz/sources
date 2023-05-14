@@ -4,7 +4,8 @@ import { FromSchema } from "json-schema-to-ts";
 import { GithubProfile, GithubRepo } from "./github.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
-import _ from "lodash";
+import * as _ from "lodash";
+import { Logger } from "@nestjs/common";
 
 type GithubProfileType = FromSchema<typeof GithubProfile>;
 type GithubRepoType = FromSchema<typeof GithubRepo>;
@@ -16,13 +17,18 @@ const githubScopes = ["user", "repo", "gist"];
 
 async function getRepos(
   authClient: Axios,
-  params: {}
+  params?: {}
 ): Promise<GithubRepoType> {
-  return authClient.get("/user/repos");
+  const { data } = await authClient.get("/user/repos");
+  return data;
 }
 
-async function getProfile(authClient: Axios): Promise<GithubProfileType> {
-  return authClient.get("/user/profile");
+async function getProfile(
+  authClient: Axios,
+  params?: {}
+): Promise<GithubProfileType> {
+  const { data } = await authClient.get("/user");
+  return data;
 }
 
 export class Github extends OAuth2Source implements Source {
@@ -84,55 +90,60 @@ export class Github extends OAuth2Source implements Source {
 
   public getAuthHeaders = (credential: { accessToken: string }) => {
     return {
-      headers: {
-        Authorization: `Bearer ${credential.accessToken}`,
-      },
+      Authorization: `Bearer ${credential.accessToken}`,
     };
   };
 
   public async handleAuthCallback(
-    req: any,
+    code: string,
+    state: string,
     credentials: any,
     redirectUrl: string
   ) {
-    // eslint-disable-next-line
-    const code = req.body.code as string;
-    // eslint-disable-next-line
-    const state = req.body.state as string;
     const url =
       `${github_login_url}access_token?` +
       `client_id=${credentials.id}` +
-      `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
+      `&redirect_uri=${encodeURIComponent(
+        "https://api-staging.bruinen.co/sources/github/callback" //redirectUrl
+      )}` +
       `&client_secret=${credentials.secret}` +
       `&code=${code}` +
       "&grant_type=authorization_code";
 
-    // eslint-disable-next-line
-    const { data }: any = await axios.get(url, {
-      headers: {
-        Accept: "application/json",
-      },
-    });
+    try {
+      // eslint-disable-next-line
+      const { data }: any = await axios.post(
+        url,
+        {},
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
 
-    return {
-      accessCredentials: JSON.stringify({
+      return {
         // eslint-disable-next-line
         accessToken: data.access_token,
-      }),
-      state,
-    };
+      };
+    } catch (error) {
+      Logger.log(error);
+      return "";
+    }
   }
 
   public getAuthUrl = (
     state: string,
     credentials: any,
-    redirectUrl: string,
+    redirectUrl: string
   ) => {
     const scopes = _.join(githubScopes, " ");
     const url =
       `${github_login_url}authorize?` +
       `client_id=${credentials.id}` +
-      `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
+      `&redirect_uri=${encodeURIComponent(
+        "https://api-staging.bruinen.co/sources/github/callback" //redirectUrl
+      )}` +
       `&state=${state}` +
       `&scope=${encodeURIComponent(scopes)}` +
       "&response_type=code";
@@ -140,8 +151,11 @@ export class Github extends OAuth2Source implements Source {
   };
 
   public async getExternalAccountId(authClient: Axios) {
-    const profile = await getProfile(authClient);
-    return profile.id as string;
+    const { id } = await getProfile(authClient);
+    if (id) {
+      return id.toString();
+    }
+    return "";
   }
 
   public getSourceJSONSchema = () => null;

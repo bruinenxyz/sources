@@ -1,6 +1,6 @@
-import { Github } from './github/github';
+import { Github } from './sources/github/github';
 
-import {BaseSource, OAuth2Source} from './source';
+import {BaseSource, OAuth2Source} from './sources/source';
 import axios from 'axios';
 
 import express from 'express';

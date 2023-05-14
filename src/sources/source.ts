@@ -62,14 +62,13 @@ export interface Source {
   getToken: (credential: string) => { accessToken: string };
   getBaseUrl: () => string;
   getAuthHeaders: (credential: { accessToken: string }) => {
-    headers: { Authorization: string };
+    Authorization: string;
   };
 
   handleAuthCallback(
-    httpClient: Axios,
-    req: any,
-    clientId: string,
-    clientSecret: string,
+    code: string,
+    state: string,
+    credentials: any,
     redirectUrl: string
   ): Promise<any>;
 
