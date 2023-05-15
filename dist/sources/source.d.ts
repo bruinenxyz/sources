@@ -31,7 +31,7 @@ export interface Source {
         [x: string]: Resource<any, any>;
     };
     metadata: Metadata;
-    getAuthUrl: (state: string, crednetials: string, redirectUrl: string) => string;
+    getAuthUrl: (state: string, credentials: string, redirectUrl: string) => string;
     getToken: (credential: string) => {
         accessToken: string;
     };

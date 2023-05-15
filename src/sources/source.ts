@@ -61,7 +61,7 @@ export interface Source {
   metadata: Metadata;
   getAuthUrl: (
     state: string,
-    crednetials: string,
+    credentials: string,
     redirectUrl: string
   ) => string;
   getToken: (credential: string) => { accessToken: string };
