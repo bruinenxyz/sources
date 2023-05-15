@@ -44,7 +44,7 @@ export class Github extends OAuth2Source implements Source {
         "repos",
         "GitHub Repos",
         "get",
-        "Your basic github profile",
+        "Your github repos",
         getRepos,
         {},
         GithubRepo
@@ -53,7 +53,7 @@ export class Github extends OAuth2Source implements Source {
         "profile",
         "GitHub Profile",
         "get",
-        "Your github repos",
+        "Your basic github profile",
         getProfile,
         {},
         GithubProfile
