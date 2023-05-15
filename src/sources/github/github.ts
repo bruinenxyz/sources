@@ -42,23 +42,27 @@ export class Github extends OAuth2Source implements Source {
     this.resources = {
       repos: new Resource<{}, GithubRepoType>(
         "repos",
+        "GitHub Repos",
         "get",
+        "Your basic github profile",
         getRepos,
         {},
         GithubRepo
       ),
       profile: new Resource<{}, GithubProfileType>(
         "profile",
+        "GitHub Profile",
         "get",
+        "Your github repos",
         getProfile,
         {},
         GithubProfile
       ),
     };
     this.metadata = {
-      friendlyName: "Github",
-      description: "Developer focused social network, show us your best repos",
       name: this.getName(),
+      friendlyName: "GitHub",
+      description: "Developer focused social network, show us your best repos",
       icon: "https://www.vectorlogo.zone/logos/github/github-icon.svg",
       color: ["#333"],
       auth: { authType: "oAuth2", authStart: "" },
@@ -76,6 +80,9 @@ export class Github extends OAuth2Source implements Source {
           ],
         },
       },
+      resources: Object.values(this.resources).map((resource) =>
+        resource.getJSON();
+      ),
     };
   }
 
