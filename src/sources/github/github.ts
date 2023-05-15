@@ -102,16 +102,13 @@ export class Github extends OAuth2Source implements Source {
 
   public async handleAuthCallback(
     code: string,
-    state: string,
     credentials: any,
     redirectUrl: string
   ) {
     const url =
       `${github_login_url}access_token?` +
       `client_id=${credentials.id}` +
-      `&redirect_uri=${encodeURIComponent(
-        "https://api-staging.bruinen.co/sources/github/callback" //redirectUrl
-      )}` +
+      `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
       `&client_secret=${credentials.secret}` +
       `&code=${code}` +
       "&grant_type=authorization_code";
@@ -146,9 +143,7 @@ export class Github extends OAuth2Source implements Source {
     const url =
       `${github_login_url}authorize?` +
       `client_id=${credentials.id}` +
-      `&redirect_uri=${encodeURIComponent(
-        "https://api-staging.bruinen.co/sources/github/callback" //redirectUrl
-      )}` +
+      `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
       `&state=${state}` +
       `&scope=${encodeURIComponent(scopes)}` +
       "&response_type=code";

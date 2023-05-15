@@ -59,7 +59,11 @@ export interface Source {
     [x: string]: Resource<any, any>;
   };
   metadata: Metadata;
-  getAuthUrl: (state: string, clientId: string, redirectUrl: string) => string;
+  getAuthUrl: (
+    state: string,
+    crednetials: string,
+    redirectUrl: string
+  ) => string;
   getToken: (credential: string) => { accessToken: string };
   getBaseUrl: () => string;
   getAuthHeaders: (credential: { accessToken: string }) => {
@@ -68,7 +72,6 @@ export interface Source {
 
   handleAuthCallback(
     code: string,
-    state: string,
     credentials: any,
     redirectUrl: string
   ): Promise<any>;
