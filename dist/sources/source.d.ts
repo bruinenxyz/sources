@@ -1,5 +1,6 @@
 import { Axios } from "axios";
 import { Resource } from "./resource";
+import { ResourceMetadata } from "./resource";
 export declare class BaseSource {
     name: string;
     type: SourceType;
@@ -47,9 +48,9 @@ export interface Source {
 type SourceType = "OAuth2" | "basic" | "APIKey";
 type AccessType = "APIKey" | "PuppeteerCookies";
 type Metadata = {
+    name: string;
     friendlyName: string;
     description: string;
-    name: string;
     icon: string;
     color: string[];
     auth: {
@@ -63,6 +64,7 @@ type Metadata = {
             fields: CredentialField[];
         };
     };
+    resources: ResourceMetadata[];
 } | {};
 type CredentialField = {
     name: string;

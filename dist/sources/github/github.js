@@ -84,13 +84,13 @@ class Github extends source_1.OAuth2Source {
         this.getSourceJSONSchema = () => null;
         this.description = "A source for github";
         this.resources = {
-            repos: new resource_1.Resource("repos", "get", getRepos, {}, github_types_1.GithubRepo),
-            profile: new resource_1.Resource("profile", "get", getProfile, {}, github_types_1.GithubProfile),
+            repos: new resource_1.Resource("repos", "GitHub Repos", "get", "Your basic github profile", getRepos, {}, github_types_1.GithubRepo),
+            profile: new resource_1.Resource("profile", "GitHub Profile", "get", "Your github repos", getProfile, {}, github_types_1.GithubProfile),
         };
         this.metadata = {
-            friendlyName: "Github",
-            description: "Developer focused social network, show us your best repos",
             name: this.getName(),
+            friendlyName: "GitHub",
+            description: "Developer focused social network, show us your best repos",
             icon: "https://www.vectorlogo.zone/logos/github/github-icon.svg",
             color: ["#333"],
             auth: { authType: "oAuth2", authStart: "" },
@@ -108,6 +108,7 @@ class Github extends source_1.OAuth2Source {
                     ],
                 },
             },
+            resources: Object.values(this.resources).map((resource) => resource.getJSON()),
         };
     }
     handleAuthCallback(code, state, credentials, redirectUrl) {
