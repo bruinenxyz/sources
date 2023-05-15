@@ -81,7 +81,7 @@ export class Github extends OAuth2Source implements Source {
         },
       },
       resources: Object.values(this.resources).map((resource) =>
-        resource.getJSON();
+        resource.getJSON()
       ),
     };
   }
