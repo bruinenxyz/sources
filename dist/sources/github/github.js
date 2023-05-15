@@ -74,8 +74,7 @@ class Github extends source_1.OAuth2Source {
             const scopes = _.join(githubScopes, " ");
             const url = `${github_login_url}authorize?` +
                 `client_id=${credentials.id}` +
-                `&redirect_uri=${encodeURIComponent("https://api-staging.bruinen.co/sources/github/callback" //redirectUrl
-                )}` +
+                `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
                 `&state=${state}` +
                 `&scope=${encodeURIComponent(scopes)}` +
                 "&response_type=code";
@@ -111,12 +110,11 @@ class Github extends source_1.OAuth2Source {
             resources: Object.values(this.resources).map((resource) => resource.getJSON()),
         };
     }
-    handleAuthCallback(code, state, credentials, redirectUrl) {
+    handleAuthCallback(code, credentials, redirectUrl) {
         return __awaiter(this, void 0, void 0, function* () {
             const url = `${github_login_url}access_token?` +
                 `client_id=${credentials.id}` +
-                `&redirect_uri=${encodeURIComponent("https://api-staging.bruinen.co/sources/github/callback" //redirectUrl
-                )}` +
+                `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
                 `&client_secret=${credentials.secret}` +
                 `&code=${code}` +
                 "&grant_type=authorization_code";

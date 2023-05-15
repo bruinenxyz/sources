@@ -16,7 +16,7 @@ export declare class Github extends OAuth2Source implements Source {
     }) => {
         Authorization: string;
     };
-    handleAuthCallback(code: string, state: string, credentials: any, redirectUrl: string): Promise<"" | {
+    handleAuthCallback(code: string, credentials: any, redirectUrl: string): Promise<"" | {
         accessToken: any;
     }>;
     getAuthUrl: (state: string, credentials: any, redirectUrl: string) => string;
