@@ -9,8 +9,8 @@ export class Resource<Params, ReturnType> {
   public type: string;
   public description: string;
   public action: Action<Params, ReturnType>;
-  public JSONInputSchema: any;
-  public JSONOutputSchema: any;
+  public JSONInputSchema: unknown;
+  public JSONOutputSchema: unknown;
   public constructor(
     name: string,
     friendlyName: string,
@@ -18,7 +18,7 @@ export class Resource<Params, ReturnType> {
     description: string,
     action: Action<Params, ReturnType>,
     JSONInputSchema: unknown,
-    JSONOutputSchema: unknown,
+    JSONOutputSchema: unknown
   ) {
     this.name = name;
     this.friendlyName = friendlyName;
