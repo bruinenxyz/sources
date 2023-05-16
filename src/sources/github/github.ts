@@ -48,7 +48,7 @@ export class Github extends OAuth2Source implements Source {
         "get",
         "Your github repos",
         getRepos,
-        {},
+        null,
         GithubRepo
       ),
       profile: new Resource<null, GithubProfileType>(
@@ -57,7 +57,7 @@ export class Github extends OAuth2Source implements Source {
         "get",
         "Your basic github profile",
         getProfile,
-        {},
+        null,
         GithubProfile
       ),
     };
