@@ -63,7 +63,7 @@ class Github extends source_1.OAuth2Source {
             return JSON.parse(credential);
         };
         this.getBaseUrl = () => {
-            return "https://api.github.com";
+            return github_api_url;
         };
         this.getAuthHeaders = (credential) => {
             return {
@@ -83,8 +83,8 @@ class Github extends source_1.OAuth2Source {
         this.getSourceJSONSchema = () => null;
         this.description = "A source for github";
         this.resources = {
-            repos: new resource_1.Resource("repos", "GitHub Repos", "get", "Your github repos", getRepos, {}, github_types_1.GithubRepo),
-            profile: new resource_1.Resource("profile", "GitHub Profile", "get", "Your basic github profile", getProfile, {}, github_types_1.GithubProfile),
+            repos: new resource_1.Resource("repos", "GitHub Repos", "get", "Your github repos", getRepos, null, github_types_1.GithubRepo),
+            profile: new resource_1.Resource("profile", "GitHub Profile", "get", "Your basic github profile", getProfile, null, github_types_1.GithubProfile),
         };
         this.metadata = {
             name: this.getName(),

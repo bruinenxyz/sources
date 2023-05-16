@@ -9,16 +9,16 @@ export class Resource<Params, ReturnType> {
   public type: string;
   public description: string;
   public action: Action<Params, ReturnType>;
-  public JSONInputSchema: any;
-  public JSONOutputSchema: any;
+  public JSONInputSchema: unknown;
+  public JSONOutputSchema: unknown;
   public constructor(
     name: string,
     friendlyName: string,
     type: string,
     description: string,
     action: Action<Params, ReturnType>,
-    JSONInputSchema: any,
-    JSONOutputSchema: any
+    JSONInputSchema: unknown,
+    JSONOutputSchema: unknown
   ) {
     this.name = name;
     this.friendlyName = friendlyName;

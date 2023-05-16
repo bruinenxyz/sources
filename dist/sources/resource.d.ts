@@ -5,9 +5,9 @@ export declare class Resource<Params, ReturnType> {
     type: string;
     description: string;
     action: Action<Params, ReturnType>;
-    JSONInputSchema: any;
-    JSONOutputSchema: any;
-    constructor(name: string, friendlyName: string, type: string, description: string, action: Action<Params, ReturnType>, JSONInputSchema: any, JSONOutputSchema: any);
+    JSONInputSchema: unknown;
+    JSONOutputSchema: unknown;
+    constructor(name: string, friendlyName: string, type: string, description: string, action: Action<Params, ReturnType>, JSONInputSchema: unknown, JSONOutputSchema: unknown);
     getName(): string;
     getType(): string;
     getAction(): Action<Params, ReturnType>;
@@ -16,8 +16,8 @@ export declare class Resource<Params, ReturnType> {
         friendlyName: string;
         type: string;
         description: string;
-        JSONInputSchema: any;
-        JSONOutputSchema: any;
+        JSONInputSchema: unknown;
+        JSONOutputSchema: unknown;
     };
 }
 export type ResourceMetadata = {
