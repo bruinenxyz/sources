@@ -16,17 +16,17 @@ const githubScopes = ["user", "repo", "gist"];
 
 async function getRepos(
   authClient: Axios,
-  params?: {}
+  params?: null,
 ): Promise<GithubRepoType> {
-  const { data } = await authClient.get("/user/repos");
+  const { data }: { data: GithubRepoType } = await authClient.get("/user/repos");
   return data;
 }
 
 async function getProfile(
   authClient: Axios,
-  params?: {}
+  params?: null
 ): Promise<GithubProfileType> {
-  const { data } = await authClient.get("/user");
+  const { data }: { data: GithubProfileType } = await authClient.get("/user");
   return data;
 }
 
@@ -40,23 +40,23 @@ export class Github extends OAuth2Source implements Source {
     super("github");
     this.description = "A source for github";
     this.resources = {
-      repos: new Resource<{}, GithubRepoType>(
+      repos: new Resource<null, GithubRepoType>(
         "repos",
         "GitHub Repos",
         "get",
         "Your github repos",
         getRepos,
         {},
-        GithubRepo
+        GithubRepo,
       ),
-      profile: new Resource<{}, GithubProfileType>(
+      profile: new Resource<null, GithubProfileType>(
         "profile",
         "GitHub Profile",
         "get",
         "Your basic github profile",
         getProfile,
         {},
-        GithubProfile
+        GithubProfile,
       ),
     };
     this.metadata = {
@@ -81,7 +81,7 @@ export class Github extends OAuth2Source implements Source {
         },
       },
       resources: Object.values(this.resources).map((resource) =>
-        resource.getJSON()
+        resource.getJSON(),
       ),
     };
   }
@@ -91,7 +91,7 @@ export class Github extends OAuth2Source implements Source {
   };
 
   public getBaseUrl = () => {
-    return "https://api.github.com";
+    return github_api_url;
   };
 
   public getAuthHeaders = (credential: { accessToken: string }) => {
@@ -103,7 +103,7 @@ export class Github extends OAuth2Source implements Source {
   public async handleAuthCallback(
     code: string,
     credentials: any,
-    redirectUrl: string
+    redirectUrl: string,
   ) {
     const url =
       `${github_login_url}access_token?` +
@@ -122,7 +122,7 @@ export class Github extends OAuth2Source implements Source {
           headers: {
             Accept: "application/json",
           },
-        }
+        },
       );
 
       return {
@@ -137,7 +137,7 @@ export class Github extends OAuth2Source implements Source {
   public getAuthUrl = (
     state: string,
     credentials: any,
-    redirectUrl: string
+    redirectUrl: string,
   ) => {
     const scopes = _.join(githubScopes, " ");
     const url =

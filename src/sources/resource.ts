@@ -17,8 +17,8 @@ export class Resource<Params, ReturnType> {
     type: string,
     description: string,
     action: Action<Params, ReturnType>,
-    JSONInputSchema: any,
-    JSONOutputSchema: any
+    JSONInputSchema: unknown,
+    JSONOutputSchema: unknown,
   ) {
     this.name = name;
     this.friendlyName = friendlyName;
