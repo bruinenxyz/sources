@@ -186,8 +186,8 @@ export const GithubRepo = {
       description: "Whether the repo is private",
     },
     owner: {
-      title: "GithubProfile",
-      description: "A github profile",
+      title: "GithubRepoOwner",
+      description: "The owner of this github repo",
       type: "object",
       properties: {
         login: {
@@ -624,8 +624,8 @@ export const GithubRepo = {
       description: "The default branch of the repo",
     },
     permissions: {
-      title: "GithubProfile",
-      description: "A github profile",
+      title: "Github Repo Permissions",
+      description: "The permissions object for the repo",
       type: "object",
       properties: {
         admin: {
