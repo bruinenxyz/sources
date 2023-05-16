@@ -16,9 +16,11 @@ const githubScopes = ["user", "repo", "gist"];
 
 async function getRepos(
   authClient: Axios,
-  params?: null,
+  params?: null
 ): Promise<GithubRepoType> {
-  const { data }: { data: GithubRepoType } = await authClient.get("/user/repos");
+  const { data }: { data: GithubRepoType } = await authClient.get(
+    "/user/repos"
+  );
   return data;
 }
 
@@ -47,7 +49,7 @@ export class Github extends OAuth2Source implements Source {
         "Your github repos",
         getRepos,
         {},
-        GithubRepo,
+        GithubRepo
       ),
       profile: new Resource<null, GithubProfileType>(
         "profile",
@@ -56,7 +58,7 @@ export class Github extends OAuth2Source implements Source {
         "Your basic github profile",
         getProfile,
         {},
-        GithubProfile,
+        GithubProfile
       ),
     };
     this.metadata = {
@@ -81,7 +83,7 @@ export class Github extends OAuth2Source implements Source {
         },
       },
       resources: Object.values(this.resources).map((resource) =>
-        resource.getJSON(),
+        resource.getJSON()
       ),
     };
   }
@@ -103,7 +105,7 @@ export class Github extends OAuth2Source implements Source {
   public async handleAuthCallback(
     code: string,
     credentials: any,
-    redirectUrl: string,
+    redirectUrl: string
   ) {
     const url =
       `${github_login_url}access_token?` +
@@ -122,7 +124,7 @@ export class Github extends OAuth2Source implements Source {
           headers: {
             Accept: "application/json",
           },
-        },
+        }
       );
 
       return {
@@ -137,7 +139,7 @@ export class Github extends OAuth2Source implements Source {
   public getAuthUrl = (
     state: string,
     credentials: any,
-    redirectUrl: string,
+    redirectUrl: string
   ) => {
     const scopes = _.join(githubScopes, " ");
     const url =
