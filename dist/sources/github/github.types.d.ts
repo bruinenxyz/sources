@@ -183,8 +183,8 @@ export declare const GithubRepo: {
             readonly description: "Whether the repo is private";
         };
         readonly owner: {
-            readonly title: "GithubProfile";
-            readonly description: "A github profile";
+            readonly title: "GithubRepoOwner";
+            readonly description: "The owner of this github repo";
             readonly type: "object";
             readonly properties: {
                 readonly login: {
@@ -621,8 +621,8 @@ export declare const GithubRepo: {
             readonly description: "The default branch of the repo";
         };
         readonly permissions: {
-            readonly title: "GithubProfile";
-            readonly description: "A github profile";
+            readonly title: "Github Repo Permissions";
+            readonly description: "The permissions object for the repo";
             readonly type: "object";
             readonly properties: {
                 readonly admin: {
