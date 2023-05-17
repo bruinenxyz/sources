@@ -39,6 +39,6 @@ jobs:
 
       - name: Push changes
         run: |
-          git push origin HEAD:${{ github.ref }} --force-with-lease=refs/heads/${{ github.ref }}
+          git push origin HEAD:${{ github.base_ref }} --force-with-lease=refs/heads/${{ github.base_ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
