@@ -36,10 +36,10 @@ jobs:
           VERSION=$(npm version patch -m "[RELEASE] %s")
           echo "New version: $VERSION"
 
-      - name: Commit version number
+      - name: Push changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git push
-        with:
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          git push origin HEAD:${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
