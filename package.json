@@ -4,6 +4,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "dev": "tsc --watch",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "nodemonConfig": {
@@ -50,7 +52,7 @@
     "fs-extra": "^11.1.1",
     "jasmine": "^4.6.0",
     "nodemon": "^2.0.22",
-    "prettier": "2.8.8",
+    "prettier": "^2.8.8",
     "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
