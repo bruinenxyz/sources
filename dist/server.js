@@ -7,7 +7,7 @@ const github_1 = require("./sources/github/github");
 const axios_1 = __importDefault(require("axios"));
 const express_1 = __importDefault(require("express"));
 const sources = {
-    Github: github_1.Github
+    Github: github_1.Github,
 };
 const app = (0, express_1.default)();
 const generateEndpoints = (source) => {
