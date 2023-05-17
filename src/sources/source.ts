@@ -76,6 +76,8 @@ export interface Source {
     redirectUrl: string
   ): Promise<any>;
 
+  deactivate: () => Promise<void> | void;
+
   getExternalAccountId: (authClient: Axios) => Promise<string>;
 
   getSourceJSONSchema: () => any;

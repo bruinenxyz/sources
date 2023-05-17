@@ -136,6 +136,10 @@ export class Github extends OAuth2Source implements Source {
     }
   }
 
+  public deactivate = () => {
+    return;
+  };
+
   public getAuthUrl = (
     state: string,
     credentials: any,
