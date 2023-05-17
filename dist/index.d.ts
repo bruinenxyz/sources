@@ -3,4 +3,4 @@ declare const Sources: {
     [x: string]: any;
 };
 export default Sources;
-export { Github, };
+export { Github };
