@@ -35,4 +35,4 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -a -m "Auto-increment version number" -m "New version: $VERSION"
-          git push
+          git push https://${{ github.token }}@github.com/${{ github.repository }}.git HEAD:main
