@@ -9,35 +9,38 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        
+          - name: Checkout code
+            uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: "16.x"
-          registry-url: "https://registry.npmjs.org"
+          - name: Setup Node.js
+            uses: actions/setup-node@v1
+            with:
+              node-version: "16.x"
+              registry-url: "https://registry.npmjs.org"
 
-      - name: Install dependencies
-        run: yarn install
+          - name: Install dependencies
+            run: yarn install
 
-      - name: Build project
-        run: yarn build
+          - name: Build project
+            run: yarn build
 
-      - name: Configure Git
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          - name: Configure Git
+            run: |
+              git config --local user.email "action@github.com"
+              git config --local user.name "GitHub Action"
 
-      - name: Auto-increment version number
-        run: |
-          VERSION=$(npm version patch)
-          echo "New version: $VERSION"
+          - name: Auto-increment version number
+            run: |
+              VERSION=$(npm version patch -m "[RELEASE] %s")
+              echo "New version: $VERSION"
 
-      - name: Commit version number
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git push https://${{ github.token }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
+          - name: Commit version number
+            run: |
+              git config --local user.email "action@github.com"
+              git config --local user.name "GitHub Action"
+              git push https://${{ github.token }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
