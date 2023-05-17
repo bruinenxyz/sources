@@ -26,7 +26,7 @@ jobs:
       - name: Build project
         run: yarn build
 
-      - name: Configure Git
+      - name: Configure git
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
