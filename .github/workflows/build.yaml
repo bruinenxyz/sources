@@ -26,6 +26,11 @@ jobs:
       - name: Build project
         run: yarn build
 
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
       - name: Auto-increment version number
         run: |
           VERSION=$(npm version patch)
@@ -35,5 +40,4 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -a -m "Auto-increment version number" -m "New version: $VERSION"
-          git push https://${{ github.token }}@github.com/${{ github.repository }}.git HEAD:main
+          git push https://${{ github.token }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
