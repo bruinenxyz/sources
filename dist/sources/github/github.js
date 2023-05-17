@@ -70,6 +70,9 @@ class Github extends source_1.OAuth2Source {
                 Authorization: `Bearer ${credential.accessToken}`,
             };
         };
+        this.deactivate = () => {
+            return;
+        };
         this.getAuthUrl = (state, credentials, redirectUrl) => {
             const scopes = _.join(githubScopes, " ");
             const url = `${github_login_url}authorize?` +
