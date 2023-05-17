@@ -1,12 +1,12 @@
-import { Github } from './sources/github/github';
+import { Github } from "./sources/github/github";
 
-import {BaseSource, OAuth2Source} from './sources/source';
-import axios from 'axios';
+import { BaseSource, OAuth2Source } from "./sources/source";
+import axios from "axios";
 
-import express from 'express';
+import express from "express";
 
 const sources = {
-  Github
+  Github,
 };
 
 const app = express();
