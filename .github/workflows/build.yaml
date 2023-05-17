@@ -38,8 +38,6 @@ jobs:
 
       - name: Push changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git push origin HEAD:${{ github.ref }}
+          git push origin HEAD:${{ github.ref }} --force-with-lease=refs/heads/${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
