@@ -85,7 +85,7 @@ export interface Source {
     redirectUrl: string
   ): Promise<any>;
 
-  deactivate: (accessCredentials?: string) => Promise<void> | void;
+  deactivate: (accessCredentials?: any) => Promise<void> | void;
 
   getExternalAccountId: (authClient: Axios) => Promise<string>;
 

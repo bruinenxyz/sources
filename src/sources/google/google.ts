@@ -142,7 +142,7 @@ export class Google extends OAuth2Source implements Source {
     }
   }
 
-  public async deactivate(accessCredentials?: string) {
+  public async deactivate(accessCredentials?: any) {
     const access = await JSON.parse(accessCredentials as string);
     try {
       const { data } = await axios.post(
