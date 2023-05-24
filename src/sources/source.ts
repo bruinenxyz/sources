@@ -45,8 +45,15 @@ export class OAuth2Source extends BaseSource {
     super(name, "OAuth2", "APIKey");
   }
 
-  public isTokenExpired() {
+  public isTokenExpired(accessCredentials: any) {
     return false;
+  }
+
+  public async refreshToken(
+    authCredential: any,
+    refreshToken: string
+  ): Promise<any> {
+    return {};
   }
 }
 
@@ -64,11 +71,13 @@ export interface Source {
     credentials: string,
     redirectUrl: string
   ) => string;
-  getToken: (credential: string) => { accessToken: string };
-  getBaseUrl: () => string;
-  getAuthHeaders: (credential: { accessToken: string }) => {
-    Authorization: string;
-  };
+  getToken(credential: string): Promise<{ accessToken: string }>;
+  getBaseUrl: (resourceName?: string) => string;
+  getAuthHeaders: (credential: any) =>
+    | {
+        Authorization: string;
+      }
+    | {};
 
   handleAuthCallback(
     code: string,
@@ -76,7 +85,7 @@ export interface Source {
     redirectUrl: string
   ): Promise<any>;
 
-  deactivate: () => Promise<void> | void;
+  deactivate: (accessCredentials?: string) => Promise<void> | void;
 
   getExternalAccountId: (authClient: Axios) => Promise<string>;
 
