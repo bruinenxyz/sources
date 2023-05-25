@@ -72,8 +72,8 @@ export class Google extends OAuth2Source implements Source {
         null,
         GoogleProfile
       ),
-      googleDrafts: new Resource<GoogleDraftsInputType, GoogleDraftsType>(
-        "googleDrafts",
+      drafts: new Resource<GoogleDraftsInputType, GoogleDraftsType>(
+        "drafts",
         "Google Drafts",
         "get",
         "Your gmail drafts",

@@ -113,7 +113,7 @@ class Google extends source_1.OAuth2Source {
         this.description = "A source for Google";
         this.resources = {
             profile: new resource_1.Resource("profile", "Google Profile", "get", "Your basic google profile", getProfile, null, google_types_1.GoogleProfile),
-            googleDrafts: new resource_1.Resource("googleDrafts", "Google Drafts", "get", "Your gmail drafts", getDrafts, google_types_1.GoogleDraftsInput, google_types_1.GoogleDrafts),
+            drafts: new resource_1.Resource("drafts", "Google Drafts", "get", "Your gmail drafts", getDrafts, google_types_1.GoogleDraftsInput, google_types_1.GoogleDrafts),
         };
         this.metadata = {
             name: this.getName(),
