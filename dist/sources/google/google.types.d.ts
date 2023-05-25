@@ -241,3 +241,43 @@ export declare const GoogleDraft: {
         };
     };
 };
+export declare const GoogleLabels: {
+    readonly title: "GoogleLabels";
+    readonly description: "Your google labels";
+    readonly type: "object";
+    readonly properties: {
+        readonly resultSizeEstimate: {
+            readonly type: "number";
+            readonly description: "The result size estimate for your labels";
+        };
+        readonly labels: {
+            readonly type: "array";
+            readonly description: "A list of your google labels";
+            readonly items: {
+                readonly type: "object";
+                readonly properties: {
+                    readonly id: {
+                        readonly type: "string";
+                        readonly description: "The id of the label";
+                    };
+                    readonly name: {
+                        readonly type: "string";
+                        readonly description: "The name of the label";
+                    };
+                    readonly messageListVisibility: {
+                        readonly type: "string";
+                        readonly description: "The messageListVisibility of the label";
+                    };
+                    readonly labelListVisibility: {
+                        readonly type: "string";
+                        readonly description: "The labelListVisibility of the label";
+                    };
+                    readonly type: {
+                        readonly type: "string";
+                        readonly description: "The type of the label";
+                    };
+                };
+            };
+        };
+    };
+};

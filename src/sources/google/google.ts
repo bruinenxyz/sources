@@ -7,6 +7,7 @@ import {
   GoogleDrafts,
   GoogleDraftInput,
   GoogleDraft,
+  GoogleLabels,
 } from "./google.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
@@ -17,6 +18,7 @@ type GoogleDraftsInputType = FromSchema<typeof GoogleDraftsInput>;
 type GoogleDraftsType = FromSchema<typeof GoogleDrafts>;
 type GoogleDraftInputType = FromSchema<typeof GoogleDraftInput>;
 type GoogleDraftType = FromSchema<typeof GoogleDraft>;
+type GoogleLabelsType = FromSchema<typeof GoogleLabels>;
 
 const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
 const google_token_url = "https://oauth2.googleapis.com";
@@ -71,6 +73,14 @@ async function getDraft(
   return data;
 }
 
+async function getLabels(
+  authClient: Axios,
+  params?: null
+): Promise<GoogleLabelsType> {
+  const { data } = await authClient.get(`/labels`);
+  return { resultSizeEstimate: data.labels.length, labels: data.labels };
+}
+
 export class Google extends OAuth2Source implements Source {
   resources: {
     [x: string]: Resource<any, any>;
@@ -107,6 +117,15 @@ export class Google extends OAuth2Source implements Source {
         getDraft,
         GoogleDraftInput,
         GoogleDraft
+      ),
+      labels: new Resource<null, GoogleLabelsType>(
+        "labels",
+        "Google Labels",
+        "get",
+        "Your gmail labels",
+        getLabels,
+        null,
+        GoogleLabels
       ),
     };
     this.metadata = {

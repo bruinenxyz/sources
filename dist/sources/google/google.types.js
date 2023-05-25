@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
+exports.GoogleLabels = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
 exports.GoogleProfile = {
     title: "GoogleProfile",
     description: "A google profile",
@@ -205,6 +205,37 @@ exports.GoogleDraft = {
                 raw: {
                     type: "string",
                     description: "The raw message",
+                },
+            },
+        },
+    },
+};
+exports.GoogleLabels = {
+    title: "GoogleLabels",
+    description: "Your google labels",
+    type: "object",
+    properties: {
+        resultSizeEstimate: {
+            type: "number",
+            description: "The result size estimate for your labels",
+        },
+        labels: {
+            type: "array",
+            description: "A list of your google labels",
+            items: {
+                type: "object",
+                properties: {
+                    id: { type: "string", description: "The id of the label" },
+                    name: { type: "string", description: "The name of the label" },
+                    messageListVisibility: {
+                        type: "string",
+                        description: "The messageListVisibility of the label",
+                    },
+                    labelListVisibility: {
+                        type: "string",
+                        description: "The labelListVisibility of the label",
+                    },
+                    type: { type: "string", description: "The type of the label" },
                 },
             },
         },

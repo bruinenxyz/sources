@@ -213,3 +213,35 @@ export const GoogleDraft = {
     },
   },
 } as const satisfies JSONSchema;
+
+export const GoogleLabels = {
+  title: "GoogleLabels",
+  description: "Your google labels",
+  type: "object",
+  properties: {
+    resultSizeEstimate: {
+      type: "number",
+      description: "The result size estimate for your labels",
+    },
+    labels: {
+      type: "array",
+      description: "A list of your google labels",
+      items: {
+        type: "object",
+        properties: {
+          id: { type: "string", description: "The id of the label" },
+          name: { type: "string", description: "The name of the label" },
+          messageListVisibility: {
+            type: "string",
+            description: "The messageListVisibility of the label",
+          },
+          labelListVisibility: {
+            type: "string",
+            description: "The labelListVisibility of the label",
+          },
+          type: { type: "string", description: "The type of the label" },
+        },
+      },
+    },
+  },
+} as const satisfies JSONSchema;
