@@ -80,7 +80,7 @@ class Google extends source_1.OAuth2Source {
         this.deactivate = (accessCredentials) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { data } = yield axios_1.default.post(`${google_token_url}/revoke?token=${accessCredentials.accessToken}`);
-                return "Yes!";
+                return "success";
             }
             catch (error) {
                 return `Google deactivation error: ${error}`;

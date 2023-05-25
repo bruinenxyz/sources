@@ -68,7 +68,7 @@ class Github extends source_1.OAuth2Source {
             };
         };
         this.deactivate = (accessCredentials) => {
-            return;
+            return "success";
         };
         this.getAuthUrl = (state, credentials, redirectUrl) => {
             const scopes = _.join(githubScopes, " ");
