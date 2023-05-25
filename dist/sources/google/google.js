@@ -156,11 +156,10 @@ class Google extends source_1.OAuth2Source {
             const access = yield JSON.parse(accessCredentials);
             try {
                 const { data } = yield axios_1.default.post(`${google_token_url}/revoke?token=${access.accessToken}`);
-                return;
+                return "Yes!";
             }
             catch (error) {
-                console.log(`Google deactivation error: ${error}`);
-                return;
+                return `Google deactivation error: ${error}`;
             }
         });
     }
