@@ -143,10 +143,9 @@ export class Google extends OAuth2Source implements Source {
   }
 
   public deactivate = async (accessCredentials?: any) => {
-    const access = await JSON.parse(accessCredentials as string);
     try {
       const { data } = await axios.post(
-        `${google_token_url}/revoke?token=${access.accessToken}`
+        `${google_token_url}/revoke?token=${accessCredentials.accessToken}`
       );
       return "Yes!";
     } catch (error) {
