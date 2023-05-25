@@ -77,6 +77,16 @@ class Google extends source_1.OAuth2Source {
                 Authorization: `Bearer ${credential.accessToken}`,
             };
         };
+        this.deactivate = (accessCredentials) => __awaiter(this, void 0, void 0, function* () {
+            const access = yield JSON.parse(accessCredentials);
+            try {
+                const { data } = yield axios_1.default.post(`${google_token_url}/revoke?token=${access.accessToken}`);
+                return "Yes!";
+            }
+            catch (error) {
+                return `Google deactivation error: ${error}`;
+            }
+        });
         this.getAuthUrl = (state, credentials, redirectUrl) => {
             const scopes = _.join(googleScopes, " ");
             const url = `${google_auth_url}?` +
@@ -148,18 +158,6 @@ class Google extends source_1.OAuth2Source {
             }
             catch (error) {
                 return "";
-            }
-        });
-    }
-    deactivate(accessCredentials) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const access = yield JSON.parse(accessCredentials);
-            try {
-                const { data } = yield axios_1.default.post(`${google_token_url}/revoke?token=${access.accessToken}`);
-                return "Yes!";
-            }
-            catch (error) {
-                return `Google deactivation error: ${error}`;
             }
         });
     }

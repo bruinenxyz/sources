@@ -23,7 +23,7 @@ export declare class Google extends OAuth2Source implements Source {
         refreshToken: any;
         expires: Date;
     }>;
-    deactivate(accessCredentials?: any): Promise<string>;
+    deactivate: (accessCredentials?: any) => Promise<string>;
     getAuthUrl: (state: string, credentials: any, redirectUrl: string) => string;
     isTokenExpired(accessCredentials: any): boolean;
     refreshToken(authCredential: any, refreshToken: string): Promise<{

@@ -142,7 +142,7 @@ export class Google extends OAuth2Source implements Source {
     }
   }
 
-  public async deactivate(accessCredentials?: any) {
+  public deactivate = async (accessCredentials?: any) => {
     const access = await JSON.parse(accessCredentials as string);
     try {
       const { data } = await axios.post(
@@ -152,7 +152,7 @@ export class Google extends OAuth2Source implements Source {
     } catch (error) {
       return `Google deactivation error: ${error}`;
     }
-  }
+  };
 
   public getAuthUrl = (
     state: string,
