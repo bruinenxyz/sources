@@ -30,7 +30,7 @@ export declare const GoogleDraftsInput: {
             readonly type: "string";
             readonly description: "The page token for your drafts";
         };
-        readonly query: {
+        readonly q: {
             readonly type: "string";
             readonly description: "The query for your drafts";
         };

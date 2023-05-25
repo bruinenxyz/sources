@@ -27,7 +27,7 @@ export const GoogleDraftsInput = {
       type: "string",
       description: "The page token for your drafts",
     },
-    query: {
+    q: {
       type: "string",
       description: "The query for your drafts",
     },
