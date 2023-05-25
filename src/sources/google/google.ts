@@ -148,10 +148,9 @@ export class Google extends OAuth2Source implements Source {
       const { data } = await axios.post(
         `${google_token_url}/revoke?token=${access.accessToken}`
       );
-      return;
+      return "Yes!";
     } catch (error) {
-      console.log(`Google deactivation error: ${error}`);
-      return;
+      return `Google deactivation error: ${error}`;
     }
   }
 
