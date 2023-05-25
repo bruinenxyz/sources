@@ -84,6 +84,12 @@ function getLabels(authClient, params) {
         return { resultSizeEstimate: data.labels.length, labels: data.labels };
     });
 }
+function getLabel(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield authClient.get(`/labels/${params.labelId}`);
+        return data;
+    });
+}
 class Google extends source_1.OAuth2Source {
     constructor() {
         super("google");
@@ -128,6 +134,7 @@ class Google extends source_1.OAuth2Source {
             drafts: new resource_1.Resource("drafts", "Google Drafts", "get", "Your gmail drafts", getDrafts, google_types_1.GoogleDraftsInput, google_types_1.GoogleDrafts),
             draft: new resource_1.Resource("draft", "Google Draft", "get", "Your gmail draft", getDraft, google_types_1.GoogleDraftInput, google_types_1.GoogleDraft),
             labels: new resource_1.Resource("labels", "Google Labels", "get", "Your gmail labels", getLabels, null, google_types_1.GoogleLabels),
+            label: new resource_1.Resource("label", "Google Label", "get", "Your gmail label", getLabel, google_types_1.GoogleLabelInput, google_types_1.GoogleLabel),
         };
         this.metadata = {
             name: this.getName(),

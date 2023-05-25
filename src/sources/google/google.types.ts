@@ -245,3 +245,59 @@ export const GoogleLabels = {
     },
   },
 } as const satisfies JSONSchema;
+
+export const GoogleLabelInput = {
+  title: "GoogleLabelInput",
+  description: "The input for your google label",
+  type: "object",
+  properties: {
+    labelId: {
+      type: "string",
+      description: "The id of the label",
+    },
+  },
+  required: ["labelId"],
+} as const satisfies JSONSchema;
+
+export const GoogleLabel = {
+  title: "GoogleLabel",
+  description: "Your google label",
+  type: "object",
+  properties: {
+    id: { type: "string", description: "The id of the label" },
+    name: { type: "string", description: "The name of the label" },
+    messageListVisibility: {
+      type: "string",
+      description: "The messageListVisibility of the label",
+    },
+    labelListVisibility: {
+      type: "string",
+      description: "The labelListVisibility of the label",
+    },
+    type: { type: "string", description: "The type of the label" },
+    messagesTotal: {
+      type: "number",
+      description: "The total messages for the label",
+    },
+    messagesUnread: {
+      type: "number",
+      description: "The total unread messages for the label",
+    },
+    threadsTotal: {
+      type: "number",
+      description: "The total threads for the label",
+    },
+    threadsUnread: {
+      type: "number",
+      description: "The total unread threads for the label",
+    },
+    color: {
+      type: "object",
+      description: "The color of the label",
+      properties: {
+        textColor: { type: "string" },
+        backgroundColor: { type: "string" },
+      },
+    },
+  },
+} as const satisfies JSONSchema;

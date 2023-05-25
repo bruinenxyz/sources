@@ -281,3 +281,70 @@ export declare const GoogleLabels: {
         };
     };
 };
+export declare const GoogleLabelInput: {
+    readonly title: "GoogleLabelInput";
+    readonly description: "The input for your google label";
+    readonly type: "object";
+    readonly properties: {
+        readonly labelId: {
+            readonly type: "string";
+            readonly description: "The id of the label";
+        };
+    };
+    readonly required: readonly ["labelId"];
+};
+export declare const GoogleLabel: {
+    readonly title: "GoogleLabel";
+    readonly description: "Your google label";
+    readonly type: "object";
+    readonly properties: {
+        readonly id: {
+            readonly type: "string";
+            readonly description: "The id of the label";
+        };
+        readonly name: {
+            readonly type: "string";
+            readonly description: "The name of the label";
+        };
+        readonly messageListVisibility: {
+            readonly type: "string";
+            readonly description: "The messageListVisibility of the label";
+        };
+        readonly labelListVisibility: {
+            readonly type: "string";
+            readonly description: "The labelListVisibility of the label";
+        };
+        readonly type: {
+            readonly type: "string";
+            readonly description: "The type of the label";
+        };
+        readonly messagesTotal: {
+            readonly type: "number";
+            readonly description: "The total messages for the label";
+        };
+        readonly messagesUnread: {
+            readonly type: "number";
+            readonly description: "The total unread messages for the label";
+        };
+        readonly threadsTotal: {
+            readonly type: "number";
+            readonly description: "The total threads for the label";
+        };
+        readonly threadsUnread: {
+            readonly type: "number";
+            readonly description: "The total unread threads for the label";
+        };
+        readonly color: {
+            readonly type: "object";
+            readonly description: "The color of the label";
+            readonly properties: {
+                readonly textColor: {
+                    readonly type: "string";
+                };
+                readonly backgroundColor: {
+                    readonly type: "string";
+                };
+            };
+        };
+    };
+};
