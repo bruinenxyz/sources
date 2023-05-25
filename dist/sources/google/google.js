@@ -72,6 +72,12 @@ function getDrafts(authClient, params) {
         return Object.assign({}, _.pick(data, ["resultSizeEstimate", "drafts", "nextPageToken"]));
     });
 }
+function getDraft(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield authClient.get(`/drafts/${params.draftId}?format=full`);
+        return data;
+    });
+}
 class Google extends source_1.OAuth2Source {
     constructor() {
         super("google");
@@ -114,6 +120,7 @@ class Google extends source_1.OAuth2Source {
         this.resources = {
             profile: new resource_1.Resource("profile", "Google Profile", "get", "Your basic google profile", getProfile, null, google_types_1.GoogleProfile),
             drafts: new resource_1.Resource("drafts", "Google Drafts", "get", "Your gmail drafts", getDrafts, google_types_1.GoogleDraftsInput, google_types_1.GoogleDrafts),
+            draft: new resource_1.Resource("draft", "Google Draft", "get", "Your gmail draft", getDraft, google_types_1.GoogleDraftInput, google_types_1.GoogleDraft),
         };
         this.metadata = {
             name: this.getName(),

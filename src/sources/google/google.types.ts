@@ -49,14 +49,14 @@ export const GoogleDrafts = {
           message: {
             type: "object",
             description: "The message of the draft",
-            items: {
-              type: "object",
-              properties: {
-                id: { type: "string", description: "The id of the message" },
-                threadId: {
-                  type: "string",
-                  description: "The threadId of the message",
-                },
+            properties: {
+              id: {
+                type: "string",
+                description: "The id of the message",
+              },
+              threadId: {
+                type: "string",
+                description: "The threadId of the message",
               },
             },
           },
@@ -70,6 +70,146 @@ export const GoogleDrafts = {
     resultSizeEstimate: {
       type: "number",
       description: "The result size estimate for your drafts",
+    },
+  },
+} as const satisfies JSONSchema;
+
+export const GoogleDraftInput = {
+  title: "GoogleDraftInput",
+  description: "The input for your google draft",
+  type: "object",
+  properties: {
+    draftId: {
+      type: "string",
+      description: "The id of the draft",
+    },
+  },
+  required: ["draftId"],
+} as const satisfies JSONSchema;
+
+export const GoogleDraft = {
+  title: "GoogleDraft",
+  description: "Your google draft",
+  type: "object",
+  properties: {
+    id: { type: "string", description: "The id of the draft" },
+    message: {
+      type: "object",
+      description: "The message of the draft",
+      properties: {
+        id: {
+          type: "string",
+          description: "The id of the message",
+        },
+        threadId: {
+          type: "string",
+          description: "The threadId of the message",
+        },
+        labelIds: {
+          type: "array",
+          description: "The labelIds of the message",
+          items: { type: "string" },
+        },
+        snippet: {
+          type: "string",
+          description: "The snippet of the message",
+        },
+        historyId: {
+          type: "string",
+          description: "The historyId of the message",
+        },
+        internalDate: {
+          type: "string",
+          description: "The internalDate of the message",
+        },
+        payload: {
+          type: "object",
+          description: "The payload of the message",
+          properties: {
+            partId: {
+              type: "string",
+              description: "The partId of the payload",
+            },
+            mimeType: {
+              type: "string",
+              description: "The mimeType of the payload",
+            },
+            filename: {
+              type: "string",
+              description: "The filename of the payload",
+            },
+            headers: {
+              type: "array",
+              description: "The headers of the payload",
+              items: {
+                type: "object",
+                properties: {
+                  name: { type: "string" },
+                  value: { type: "string" },
+                },
+              },
+            },
+            body: {
+              type: "object",
+              description: "The body of the payload",
+              properties: {
+                size: { type: "number" },
+                data: { type: "string" },
+                attachmentId: { type: "string" },
+              },
+            },
+            parts: {
+              type: "array",
+              description: "The parts of the payload",
+              items: {
+                type: "object",
+                properties: {
+                  partId: {
+                    type: "string",
+                    description: "The partId of the part",
+                  },
+                  mimeType: {
+                    type: "string",
+                    description: "The mimeType of the part",
+                  },
+                  filename: {
+                    type: "string",
+                    description: "The filename of the part",
+                  },
+                  headers: {
+                    type: "array",
+                    description: "The headers of the part",
+                    items: {
+                      type: "object",
+                      properties: {
+                        name: { type: "string" },
+                        value: { type: "string" },
+                      },
+                    },
+                  },
+                  body: {
+                    type: "object",
+                    description: "The body of the part",
+                    properties: {
+                      size: { type: "number" },
+                      data: { type: "string" },
+                      attachmentId: { type: "string" },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        sizeEstimate: {
+          type: "number",
+          description: "The sizeEstimate of the message",
+        },
+        raw: {
+          type: "string",
+          description: "The raw message",
+        },
+      },
     },
   },
 } as const satisfies JSONSchema;
