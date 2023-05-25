@@ -21,3 +21,63 @@ export declare const GoogleProfile: {
         };
     };
 };
+export declare const GoogleDraftsInput: {
+    readonly title: "GoogleDraftsInput";
+    readonly description: "The input for your google drafts";
+    readonly type: "object";
+    readonly properties: {
+        readonly pageToken: {
+            readonly type: "string";
+            readonly description: "The page token for your drafts";
+        };
+        readonly query: {
+            readonly type: "string";
+            readonly description: "The query for your drafts";
+        };
+    };
+};
+export declare const GoogleDrafts: {
+    readonly title: "GoogleDrafts";
+    readonly description: "Your google drafts";
+    readonly type: "object";
+    readonly properties: {
+        readonly drafts: {
+            readonly type: "array";
+            readonly description: "A list of your google drafts";
+            readonly items: {
+                readonly type: "object";
+                readonly properties: {
+                    readonly id: {
+                        readonly type: "string";
+                        readonly description: "The id of the draft";
+                    };
+                    readonly message: {
+                        readonly type: "object";
+                        readonly description: "The message of the draft";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly properties: {
+                                readonly id: {
+                                    readonly type: "string";
+                                    readonly description: "The id of the message";
+                                };
+                                readonly threadId: {
+                                    readonly type: "string";
+                                    readonly description: "The threadId of the message";
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        readonly nextPageToken: {
+            readonly type: "string";
+            readonly description: "The next page token for your drafts";
+        };
+        readonly resultSizeEstimate: {
+            readonly type: "number";
+            readonly description: "The result size estimate for your drafts";
+        };
+    };
+};

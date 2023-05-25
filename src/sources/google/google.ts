@@ -1,12 +1,14 @@
 import { Resource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
-import { GoogleProfile } from "./google.types";
+import { GoogleProfile, GoogleDraftsInput, GoogleDrafts } from "./google.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
 import * as _ from "lodash";
 
 type GoogleProfileType = FromSchema<typeof GoogleProfile>;
+type GoogleDraftsInputType = FromSchema<typeof GoogleDraftsInput>;
+type GoogleDraftsType = FromSchema<typeof GoogleDrafts>;
 
 const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
 const google_token_url = "https://oauth2.googleapis.com";
@@ -33,6 +35,24 @@ async function getProfile(
   return data;
 }
 
+async function getDrafts(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleDraftsType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+  }
+  const { data } = await authClient.get(
+    `/drafts?maxResults=500${paramsString}`
+  );
+  return {
+    ..._.pick(data, ["resultSizeEstimate", "drafts", "nextPageToken"]),
+  };
+}
+
 export class Google extends OAuth2Source implements Source {
   resources: {
     [x: string]: Resource<any, any>;
@@ -51,6 +71,15 @@ export class Google extends OAuth2Source implements Source {
         getProfile,
         null,
         GoogleProfile
+      ),
+      googleDrafts: new Resource<GoogleDraftsInputType, GoogleDraftsType>(
+        "googleDrafts",
+        "Google Drafts",
+        "get",
+        "Your gmail drafts",
+        getDrafts,
+        GoogleDraftsInput,
+        GoogleDrafts
       ),
     };
     this.metadata = {
