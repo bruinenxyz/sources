@@ -20,7 +20,8 @@ export declare class BaseSource {
 }
 export declare class OAuth2Source extends BaseSource {
     constructor(name: string);
-    isTokenExpired(): boolean;
+    isTokenExpired(accessCredentials: any): boolean;
+    refreshToken(authCredential: any, refreshToken: string): Promise<any>;
 }
 export interface Source {
     name: string;
@@ -32,17 +33,15 @@ export interface Source {
     };
     metadata: Metadata;
     getAuthUrl: (state: string, credentials: string, redirectUrl: string) => string;
-    getToken: (credential: string) => {
+    getToken(credential: string): Promise<{
         accessToken: string;
-    };
-    getBaseUrl: () => string;
-    getAuthHeaders: (credential: {
-        accessToken: string;
-    }) => {
+    }>;
+    getBaseUrl: (resourceName?: string) => string;
+    getAuthHeaders: (credential: any) => {
         Authorization: string;
-    };
+    } | {};
     handleAuthCallback(code: string, credentials: any, redirectUrl: string): Promise<any>;
-    deactivate: () => Promise<void> | void;
+    deactivate: (accessCredentials?: any) => Promise<void> | void;
     getExternalAccountId: (authClient: Axios) => Promise<string>;
     getSourceJSONSchema: () => any;
 }

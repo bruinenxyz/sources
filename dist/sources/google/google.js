@@ -35,63 +35,70 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Github = void 0;
+exports.Google = void 0;
 const resource_1 = require("../resource");
 const source_1 = require("../source");
-const github_types_1 = require("./github.types");
+const google_types_1 = require("./google.types");
 const axios_1 = __importDefault(require("axios"));
 const _ = __importStar(require("lodash"));
-const github_api_url = "https://api.github.com";
-const github_login_url = "https://github.com/login/oauth/";
-const githubScopes = ["user", "repo", "gist"];
-function getRepos(authClient, params) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const { data } = yield authClient.get("/user/repos");
-        return data;
-    });
-}
+const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
+const google_token_url = "https://oauth2.googleapis.com";
+const google_gmail_url = "https://gmail.googleapis.com/gmail/v1/users/me";
+const google_calendar_url = "https://www.googleapis.com/calendar/v3";
+// To view Google API Scopes go to https://developers.google.com/identity/protocols/oauth2/scopes
+const googleScopes = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/gmail.readonly",
+    "https://www.googleapis.com/auth/calendar.settings.readonly",
+    "https://www.googleapis.com/auth/calendar.readonly",
+    "https://www.googleapis.com/auth/calendar.events.readonly",
+];
 function getProfile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { data } = yield authClient.get("/user");
+        const { data } = yield authClient.get("/profile");
         return data;
     });
 }
-class Github extends source_1.OAuth2Source {
+class Google extends source_1.OAuth2Source {
     constructor() {
-        super("github");
-        this.getBaseUrl = () => {
-            return github_api_url;
+        super("google");
+        this.getBaseUrl = (resourceName) => {
+            const calendarArray = [""]; //TODO: complete array
+            if (calendarArray.includes(resourceName)) {
+                return google_calendar_url;
+            }
+            else {
+                return google_gmail_url;
+            }
         };
         this.getAuthHeaders = (credential) => {
             return {
                 Authorization: `Bearer ${credential.accessToken}`,
             };
         };
-        this.deactivate = (accessCredentials) => {
-            return;
-        };
         this.getAuthUrl = (state, credentials, redirectUrl) => {
-            const scopes = _.join(githubScopes, " ");
-            const url = `${github_login_url}authorize?` +
-                `client_id=${credentials.id}` +
-                `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
+            const scopes = _.join(googleScopes, " ");
+            const url = `${google_auth_url}?` +
+                `scope=${encodeURIComponent(scopes)}` +
+                `&access_type=offline` +
+                `&response_type=code` +
                 `&state=${state}` +
-                `&scope=${encodeURIComponent(scopes)}` +
-                "&response_type=code";
+                `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
+                `&client_id=${credentials.id}`;
             return url;
         };
         this.getSourceJSONSchema = () => null;
-        this.description = "A source for github";
+        this.description = "A source for Google";
         this.resources = {
-            repos: new resource_1.Resource("repos", "GitHub Repos", "get", "Your github repos", getRepos, null, github_types_1.GithubRepo),
-            profile: new resource_1.Resource("profile", "GitHub Profile", "get", "Your basic github profile", getProfile, null, github_types_1.GithubProfile),
+            profile: new resource_1.Resource("profile", "Google Profile", "get", "Your basic google profile", getProfile, null, google_types_1.GoogleProfile),
         };
         this.metadata = {
             name: this.getName(),
-            friendlyName: "GitHub",
-            description: "Developer focused social network, show us your best repos",
-            icon: "https://www.vectorlogo.zone/logos/github/github-icon.svg",
-            color: ["#333"],
+            friendlyName: "Google",
+            description: "Provider of online services including search, email, storage, productivity tools, advertising, and mobile OS.",
+            icon: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+            color: ["#eb4132", "#fbbd01", "#31a952", "#4086f4"],
             auth: { authType: "oAuth2", authStart: "" },
             policyConfig: {
                 type: this.getType(),
@@ -112,17 +119,18 @@ class Github extends source_1.OAuth2Source {
     }
     getToken(credential) {
         return __awaiter(this, void 0, void 0, function* () {
-            return (yield JSON.parse(credential));
+            const parsedCreds = yield JSON.parse(credential);
+            return { accessToken: parsedCreds.accessToken };
         });
     }
     handleAuthCallback(code, credentials, redirectUrl) {
         return __awaiter(this, void 0, void 0, function* () {
-            const url = `${github_login_url}access_token?` +
+            const url = `${google_token_url}/token?` +
                 `client_id=${credentials.id}` +
-                `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
                 `&client_secret=${credentials.secret}` +
                 `&code=${code}` +
-                "&grant_type=authorization_code";
+                "&grant_type=authorization_code" +
+                `&redirect_uri=${encodeURIComponent(redirectUrl)}`;
             try {
                 // eslint-disable-next-line
                 const { data } = yield axios_1.default.post(url, {}, {
@@ -130,9 +138,12 @@ class Github extends source_1.OAuth2Source {
                         Accept: "application/json",
                     },
                 });
+                let expires = new Date();
+                expires.setSeconds(expires.getSeconds() + data.expires_in);
                 return {
-                    // eslint-disable-next-line
                     accessToken: data.access_token,
+                    refreshToken: data.refresh_token,
+                    expires,
                 };
             }
             catch (error) {
@@ -140,14 +151,54 @@ class Github extends source_1.OAuth2Source {
             }
         });
     }
+    deactivate(accessCredentials) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const access = yield JSON.parse(accessCredentials);
+            try {
+                const { data } = yield axios_1.default.post(`${google_token_url}/revoke?token=${access.accessToken}`);
+                return;
+            }
+            catch (error) {
+                console.log(`Google deactivation error: ${error}`);
+                return;
+            }
+        });
+    }
+    isTokenExpired(accessCredentials) {
+        if (new Date() > new Date(accessCredentials.expires)) {
+            return true;
+        }
+        return false;
+    }
+    refreshToken(authCredential, refreshToken) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const url = `${google_token_url}/token?` +
+                `client_id=${authCredential.id}` +
+                `&client_secret=${authCredential.secret}` +
+                `&grant_type=refresh_token` +
+                `&refresh_token=${refreshToken}`;
+            const { data } = yield axios_1.default.post(url, {}, {
+                headers: {
+                    Accept: "application/json",
+                },
+            });
+            let expires = new Date();
+            expires.setSeconds(expires.getSeconds() + data.expires_in);
+            return {
+                accessToken: data.access_token,
+                refreshToken: refreshToken,
+                expires,
+            };
+        });
+    }
     getExternalAccountId(authClient) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = yield getProfile(authClient);
-            if (id) {
-                return id.toString();
+            const { emailAddress } = yield getProfile(authClient);
+            if (emailAddress) {
+                return emailAddress.toString();
             }
             return "";
         });
     }
 }
-exports.Github = Github;
+exports.Google = Google;

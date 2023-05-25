@@ -1,7 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const github_1 = require("./github/github");
+const google_1 = require("./google/google");
 const githubName = new github_1.Github().getName();
+const googleName = new google_1.Google().getName();
 const sources = {};
 sources[githubName] = github_1.Github;
+sources[googleName] = google_1.Google;
 exports.default = sources;
