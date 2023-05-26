@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
+exports.GoogleMessage = exports.GoogleMessageInput = exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
 exports.GoogleProfile = {
     title: "GoogleProfile",
     description: "A google profile",
@@ -334,6 +334,112 @@ exports.GoogleMessages = {
                     },
                 },
             },
+        },
+    },
+};
+exports.GoogleMessageInput = {
+    title: "GoogleMessageInput",
+    description: "The input for your google message",
+    type: "object",
+    properties: {
+        messageId: {
+            type: "string",
+            description: "The id of the message",
+        },
+    },
+    required: ["messageId"],
+};
+exports.GoogleMessage = {
+    title: "GoogleMessage",
+    description: "Your google message",
+    type: "object",
+    properties: {
+        id: { type: "string", description: "The id of the message" },
+        threadId: { type: "string", description: "The threadId of the message" },
+        labelIds: {
+            type: "array",
+            description: "The labelIds of the message",
+            items: { type: "string" },
+        },
+        snippet: { type: "string", description: "The snippet of the message" },
+        historyId: { type: "string", description: "The historyId of the message" },
+        internalDate: {
+            type: "string",
+            description: "The internalDate of the message",
+        },
+        payload: {
+            type: "object",
+            description: "The payload of the message",
+            properties: {
+                partId: { type: "string", description: "The partId of the payload" },
+                mimeType: {
+                    type: "string",
+                    description: "The mimeType of the payload",
+                },
+                filename: {
+                    type: "string",
+                    description: "The filename of the payload",
+                },
+                headers: {
+                    type: "array",
+                    description: "The headers of the payload",
+                    items: {
+                        type: "object",
+                        properties: { name: { type: "string" }, value: { type: "string" } },
+                    },
+                },
+                body: {
+                    type: "object",
+                    description: "The body of the payload",
+                    properties: {
+                        size: { type: "number" },
+                        data: { type: "string" },
+                        attachmentId: { type: "string" },
+                    },
+                },
+                parts: {
+                    type: "array",
+                    description: "The parts of the payload",
+                    items: {
+                        type: "object",
+                        properties: {
+                            partId: { type: "string", description: "The partId of the part" },
+                            mimeType: {
+                                type: "string",
+                                description: "The mimeType of the part",
+                            },
+                            filename: {
+                                type: "string",
+                                description: "The filename of the part",
+                            },
+                            headers: {
+                                type: "array",
+                                description: "The headers of the part",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        name: { type: "string" },
+                                        value: { type: "string" },
+                                    },
+                                },
+                            },
+                            body: {
+                                type: "object",
+                                description: "The body of the part",
+                                properties: {
+                                    size: { type: "number" },
+                                    data: { type: "string" },
+                                    attachmentId: { type: "string" },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        sizeEstimate: {
+            type: "number",
+            description: "The sizeEstimate of the message",
         },
     },
 };
