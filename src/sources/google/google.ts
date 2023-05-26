@@ -515,25 +515,29 @@ export class Google extends OAuth2Source implements Source {
       `&client_secret=${authCredential.secret}` +
       `&grant_type=refresh_token` +
       `&refresh_token=${accessCredential.refreshToken}`;
-    const { data } = await axios.post(
-      url,
-      {},
-      {
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    );
+    try {
+      const { data } = await axios.post(
+        url,
+        {},
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
 
-    let expires = new Date();
-    expires.setSeconds(expires.getSeconds() + data.expires_in);
+      let expires = new Date();
+      expires.setSeconds(expires.getSeconds() + data.expires_in);
 
-    return {
-      data: data,
-      // accessToken: data.access_token,
-      // refreshToken: accessCredential.refreshToken,
-      expires,
-    };
+      return {
+        data: data,
+        // accessToken: data.access_token,
+        // refreshToken: accessCredential.refreshToken,
+        expires,
+      };
+    } catch (error) {
+      return { error: error };
+    }
   }
 
   public async getExternalAccountId(authClient: Axios) {

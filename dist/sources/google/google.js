@@ -300,19 +300,24 @@ class Google extends source_1.OAuth2Source {
                 `&client_secret=${authCredential.secret}` +
                 `&grant_type=refresh_token` +
                 `&refresh_token=${accessCredential.refreshToken}`;
-            const { data } = yield axios_1.default.post(url, {}, {
-                headers: {
-                    Accept: "application/json",
-                },
-            });
-            let expires = new Date();
-            expires.setSeconds(expires.getSeconds() + data.expires_in);
-            return {
-                data: data,
-                // accessToken: data.access_token,
-                // refreshToken: accessCredential.refreshToken,
-                expires,
-            };
+            try {
+                const { data } = yield axios_1.default.post(url, {}, {
+                    headers: {
+                        Accept: "application/json",
+                    },
+                });
+                let expires = new Date();
+                expires.setSeconds(expires.getSeconds() + data.expires_in);
+                return {
+                    data: data,
+                    // accessToken: data.access_token,
+                    // refreshToken: accessCredential.refreshToken,
+                    expires,
+                };
+            }
+            catch (error) {
+                return { error: error };
+            }
         });
     }
     getExternalAccountId(authClient) {

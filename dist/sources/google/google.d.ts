@@ -29,6 +29,11 @@ export declare class Google extends OAuth2Source implements Source {
     refreshToken(authCredential: any, accessCredential: any): Promise<{
         data: any;
         expires: Date;
+        error?: undefined;
+    } | {
+        error: any;
+        data?: undefined;
+        expires?: undefined;
     }>;
     getExternalAccountId(authClient: Axios): Promise<string>;
     getSourceJSONSchema: () => null;
