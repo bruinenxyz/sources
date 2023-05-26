@@ -59,7 +59,7 @@ function getProfile(authClient, params) {
 class Github extends source_1.OAuth2Source {
     constructor() {
         super("github");
-        this.getBaseUrl = () => {
+        this.getBaseUrl = (resourceName) => {
             return github_api_url;
         };
         this.getAuthHeaders = (credential) => {

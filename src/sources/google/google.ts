@@ -18,6 +18,14 @@ import {
   GoogleThreads,
   GoogleThreadInput,
   GoogleThread,
+  GoogleCalendarsInput,
+  GoogleCalendars,
+  GoogleCalendarInput,
+  GoogleCalendar,
+  GoogleEventsInput,
+  GoogleEvents,
+  GoogleEventInput,
+  GoogleEvent,
 } from "./google.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
@@ -39,6 +47,14 @@ type GoogleThreadsInputType = FromSchema<typeof GoogleThreadsInput>;
 type GoogleThreadsType = FromSchema<typeof GoogleThreads>;
 type GoogleThreadInputType = FromSchema<typeof GoogleThreadInput>;
 type GoogleThreadType = FromSchema<typeof GoogleThread>;
+type GoogleCalendarsInputType = FromSchema<typeof GoogleCalendarsInput>;
+type GoogleCalendarsType = FromSchema<typeof GoogleCalendars>;
+type GoogleCalendarInputType = FromSchema<typeof GoogleCalendarInput>;
+type GoogleCalendarType = FromSchema<typeof GoogleCalendar>;
+type GoogleEventsInputType = FromSchema<typeof GoogleEventsInput>;
+type GoogleEventsType = FromSchema<typeof GoogleEvents>;
+type GoogleEventInputType = FromSchema<typeof GoogleEventInput>;
+type GoogleEventType = FromSchema<typeof GoogleEvent>;
 
 const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
 const google_token_url = "https://oauth2.googleapis.com";
@@ -165,6 +181,81 @@ async function getThread(
   return data;
 }
 
+async function getCalendars(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleCalendarsType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+  }
+  const { data } = await authClient.get(
+    `/users/me/calendarList?maxResults=250${paramsString}`
+  );
+  return {
+    ..._.pick(data, ["kind", "etag", "nextPageToken", "nextSyncToken"]),
+    resultSizeEstimate: data.items.length,
+    calendars: data.items,
+  };
+}
+
+async function getCalendar(
+  authClient: Axios,
+  params: any
+): Promise<GoogleCalendarType> {
+  const { data } = await authClient.get(`/calendars/${params.calendarId}`);
+  return data;
+}
+
+async function getEvents(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleEventsType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      if (key !== "calendarId") {
+        paramsString += `&${key}=${params[key] as string}`;
+      }
+    });
+  }
+  const { data } = await authClient.get(
+    `/calendars/${
+      params.calendarId ? params.calendarId : "primary"
+    }/events?maxResults=2000${paramsString}`
+  );
+  return {
+    ..._.pick(data, [
+      "kind",
+      "etag",
+      "summary",
+      "description",
+      "updated",
+      "timeZone",
+      "accessRole",
+      "defaultReminders",
+      "nextPageToken",
+      "nextSyncToken",
+    ]),
+    resultSizeEstimate: data.items.length,
+    events: data.items,
+  };
+}
+
+async function getEvent(
+  authClient: Axios,
+  params: any
+): Promise<GoogleEventType> {
+  const { data } = await authClient.get(
+    `/calendars/${params.calendarId}/events/${params.eventId}${
+      params.timeZone ? `?timeZone=${params.timeZone}` : ""
+    }`
+  );
+  return data;
+}
+
 export class Google extends OAuth2Source implements Source {
   resources: {
     [x: string]: Resource<any, any>;
@@ -256,6 +347,42 @@ export class Google extends OAuth2Source implements Source {
         GoogleThreadInput,
         GoogleThread
       ),
+      calendars: new Resource<GoogleCalendarsInputType, GoogleCalendarsType>(
+        "calendars",
+        "Google Calendars",
+        "get",
+        "Your google calendars",
+        getCalendars,
+        GoogleCalendarsInput,
+        GoogleCalendars
+      ),
+      calendar: new Resource<GoogleCalendarInputType, GoogleCalendarType>(
+        "calendar",
+        "Google Calendar",
+        "get",
+        "Your google calendar",
+        getCalendar,
+        GoogleCalendarInput,
+        GoogleCalendar
+      ),
+      events: new Resource<GoogleEventsInputType, GoogleEventsType>(
+        "events",
+        "Google Events",
+        "get",
+        "Your google events",
+        getEvents,
+        GoogleEventsInput,
+        GoogleEvents
+      ),
+      event: new Resource<GoogleEventInputType, GoogleEventType>(
+        "event",
+        "Google Event",
+        "get",
+        "Your google event",
+        getEvent,
+        GoogleEventInput,
+        GoogleEvent
+      ),
     };
     this.metadata = {
       name: this.getName(),
@@ -290,9 +417,9 @@ export class Google extends OAuth2Source implements Source {
     return { accessToken: parsedCreds.accessToken };
   }
 
-  public getBaseUrl = (resourceName?: string) => {
-    const calendarArray = [""]; //TODO: complete array
-    if (calendarArray.includes(resourceName as string)) {
+  public getBaseUrl = (resourceName: string) => {
+    const calendarArray = ["calendars", "calendar", "events", "event"];
+    if (resourceName && calendarArray.includes(resourceName)) {
       return google_calendar_url;
     } else {
       return google_gmail_url;

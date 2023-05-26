@@ -72,7 +72,7 @@ export interface Source {
     redirectUrl: string
   ) => string;
   getToken(credential: string): Promise<{ accessToken: string }>;
-  getBaseUrl: (resourceName?: string) => string;
+  getBaseUrl: (resourceName: string) => string;
   getAuthHeaders: (credential: any) =>
     | {
         Authorization: string;

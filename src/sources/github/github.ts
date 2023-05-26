@@ -92,7 +92,7 @@ export class Github extends OAuth2Source implements Source {
     return (await JSON.parse(credential)) as { accessToken: string };
   }
 
-  public getBaseUrl = () => {
+  public getBaseUrl = (resourceName: string) => {
     return github_api_url;
   };
 

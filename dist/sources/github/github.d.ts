@@ -10,7 +10,7 @@ export declare class Github extends OAuth2Source implements Source {
     getToken(credential: string): Promise<{
         accessToken: string;
     }>;
-    getBaseUrl: () => string;
+    getBaseUrl: (resourceName: string) => string;
     getAuthHeaders: (credential: {
         accessToken: string;
     }) => {

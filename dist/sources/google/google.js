@@ -126,12 +126,61 @@ function getThread(authClient, params) {
         return data;
     });
 }
+function getCalendars(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let paramsString = "";
+        if (params) {
+            Object.keys(params).forEach((key) => {
+                paramsString += `&${key}=${params[key]}`;
+            });
+        }
+        const { data } = yield authClient.get(`/users/me/calendarList?maxResults=250${paramsString}`);
+        return Object.assign(Object.assign({}, _.pick(data, ["kind", "etag", "nextPageToken", "nextSyncToken"])), { resultSizeEstimate: data.items.length, calendars: data.items });
+    });
+}
+function getCalendar(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield authClient.get(`/calendars/${params.calendarId}`);
+        return data;
+    });
+}
+function getEvents(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let paramsString = "";
+        if (params) {
+            Object.keys(params).forEach((key) => {
+                if (key !== "calendarId") {
+                    paramsString += `&${key}=${params[key]}`;
+                }
+            });
+        }
+        const { data } = yield authClient.get(`/calendars/${params.calendarId ? params.calendarId : "primary"}/events?maxResults=2000${paramsString}`);
+        return Object.assign(Object.assign({}, _.pick(data, [
+            "kind",
+            "etag",
+            "summary",
+            "description",
+            "updated",
+            "timeZone",
+            "accessRole",
+            "defaultReminders",
+            "nextPageToken",
+            "nextSyncToken",
+        ])), { resultSizeEstimate: data.items.length, events: data.items });
+    });
+}
+function getEvent(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield authClient.get(`/calendars/${params.calendarId}/events/${params.eventId}${params.timeZone ? `?timeZone=${params.timeZone}` : ""}`);
+        return data;
+    });
+}
 class Google extends source_1.OAuth2Source {
     constructor() {
         super("google");
         this.getBaseUrl = (resourceName) => {
-            const calendarArray = [""]; //TODO: complete array
-            if (calendarArray.includes(resourceName)) {
+            const calendarArray = ["calendars", "calendar", "events", "event"];
+            if (resourceName && calendarArray.includes(resourceName)) {
                 return google_calendar_url;
             }
             else {
@@ -175,6 +224,10 @@ class Google extends source_1.OAuth2Source {
             message: new resource_1.Resource("message", "Google Message", "get", "Your gmail message", getMessage, google_types_1.GoogleMessageInput, google_types_1.GoogleMessage),
             threads: new resource_1.Resource("threads", "Google Threads", "get", "Your gmail threads", getThreads, google_types_1.GoogleThreadsInput, google_types_1.GoogleThreads),
             thread: new resource_1.Resource("thread", "Google Thread", "get", "Your gmail thread", getThread, google_types_1.GoogleThreadInput, google_types_1.GoogleThread),
+            calendars: new resource_1.Resource("calendars", "Google Calendars", "get", "Your google calendars", getCalendars, google_types_1.GoogleCalendarsInput, google_types_1.GoogleCalendars),
+            calendar: new resource_1.Resource("calendar", "Google Calendar", "get", "Your google calendar", getCalendar, google_types_1.GoogleCalendarInput, google_types_1.GoogleCalendar),
+            events: new resource_1.Resource("events", "Google Events", "get", "Your google events", getEvents, google_types_1.GoogleEventsInput, google_types_1.GoogleEvents),
+            event: new resource_1.Resource("event", "Google Event", "get", "Your google event", getEvent, google_types_1.GoogleEventInput, google_types_1.GoogleEvent),
         };
         this.metadata = {
             name: this.getName(),
