@@ -348,3 +348,54 @@ export declare const GoogleLabel: {
         };
     };
 };
+export declare const GoogleMessagesInput: {
+    readonly title: "GoogleMessagesInput";
+    readonly description: "The input for your google messages";
+    readonly type: "object";
+    readonly properties: {
+        readonly labelIds: {
+            readonly type: "string";
+            readonly description: "The labelIds of the messages";
+        };
+        readonly pageToken: {
+            readonly type: "string";
+            readonly description: "The pageToken of the messages";
+        };
+        readonly q: {
+            readonly type: "string";
+            readonly description: "The query of the messages";
+        };
+    };
+};
+export declare const GoogleMessages: {
+    readonly title: "GoogleMessages";
+    readonly description: "Your google messages";
+    readonly type: "object";
+    readonly properties: {
+        readonly resultSizeEstimate: {
+            readonly type: "number";
+            readonly description: "The result size estimate for your messages";
+        };
+        readonly nextPageToken: {
+            readonly type: "string";
+            readonly description: "The next page token";
+        };
+        readonly messages: {
+            readonly type: "array";
+            readonly description: "A list of your google messages";
+            readonly items: {
+                readonly type: "object";
+                readonly properties: {
+                    readonly id: {
+                        readonly type: "string";
+                        readonly description: "The id of the message";
+                    };
+                    readonly threadId: {
+                        readonly type: "string";
+                        readonly description: "The threadId of the message";
+                    };
+                };
+            };
+        };
+    };
+};

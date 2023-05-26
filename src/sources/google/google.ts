@@ -10,6 +10,8 @@ import {
   GoogleLabels,
   GoogleLabelInput,
   GoogleLabel,
+  GoogleMessagesInput,
+  GoogleMessages,
 } from "./google.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
@@ -23,6 +25,8 @@ type GoogleDraftType = FromSchema<typeof GoogleDraft>;
 type GoogleLabelsType = FromSchema<typeof GoogleLabels>;
 type GoogleLabelInputType = FromSchema<typeof GoogleLabelInput>;
 type GoogleLabelType = FromSchema<typeof GoogleLabel>;
+type GoogleMessagesInputType = FromSchema<typeof GoogleMessagesInput>;
+type GoogleMessagesType = FromSchema<typeof GoogleMessages>;
 
 const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
 const google_token_url = "https://oauth2.googleapis.com";
@@ -93,6 +97,24 @@ async function getLabel(
   return data;
 }
 
+async function getMessages(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleMessagesType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+  }
+  const { data } = await authClient.get(
+    `/messages?maxResults=500${paramsString}`
+  );
+  return {
+    ..._.pick(data, ["resultSizeEstimate", "messages", "nextPageToken"]),
+  };
+}
+
 export class Google extends OAuth2Source implements Source {
   resources: {
     [x: string]: Resource<any, any>;
@@ -147,6 +169,15 @@ export class Google extends OAuth2Source implements Source {
         getLabel,
         GoogleLabelInput,
         GoogleLabel
+      ),
+      messages: new Resource<GoogleMessagesInputType, GoogleMessagesType>(
+        "messages",
+        "Google Messages",
+        "get",
+        "Your gmail messages",
+        getMessages,
+        GoogleMessagesInput,
+        GoogleMessages
       ),
     };
     this.metadata = {

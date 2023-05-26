@@ -301,3 +301,47 @@ export const GoogleLabel = {
     },
   },
 } as const satisfies JSONSchema;
+
+export const GoogleMessagesInput = {
+  title: "GoogleMessagesInput",
+  description: "The input for your google messages",
+  type: "object",
+  properties: {
+    labelIds: {
+      type: "string",
+      description: "The labelIds of the messages",
+    },
+    pageToken: {
+      type: "string",
+      description: "The pageToken of the messages",
+    },
+    q: { type: "string", description: "The query of the messages" },
+  },
+} as const satisfies JSONSchema;
+
+export const GoogleMessages = {
+  title: "GoogleMessages",
+  description: "Your google messages",
+  type: "object",
+  properties: {
+    resultSizeEstimate: {
+      type: "number",
+      description: "The result size estimate for your messages",
+    },
+    nextPageToken: { type: "string", description: "The next page token" },
+    messages: {
+      type: "array",
+      description: "A list of your google messages",
+      items: {
+        type: "object",
+        properties: {
+          id: { type: "string", description: "The id of the message" },
+          threadId: {
+            type: "string",
+            description: "The threadId of the message",
+          },
+        },
+      },
+    },
+  },
+} as const satisfies JSONSchema;

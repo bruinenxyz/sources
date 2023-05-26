@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
+exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
 exports.GoogleProfile = {
     title: "GoogleProfile",
     description: "A google profile",
@@ -291,6 +291,48 @@ exports.GoogleLabel = {
             properties: {
                 textColor: { type: "string" },
                 backgroundColor: { type: "string" },
+            },
+        },
+    },
+};
+exports.GoogleMessagesInput = {
+    title: "GoogleMessagesInput",
+    description: "The input for your google messages",
+    type: "object",
+    properties: {
+        labelIds: {
+            type: "string",
+            description: "The labelIds of the messages",
+        },
+        pageToken: {
+            type: "string",
+            description: "The pageToken of the messages",
+        },
+        q: { type: "string", description: "The query of the messages" },
+    },
+};
+exports.GoogleMessages = {
+    title: "GoogleMessages",
+    description: "Your google messages",
+    type: "object",
+    properties: {
+        resultSizeEstimate: {
+            type: "number",
+            description: "The result size estimate for your messages",
+        },
+        nextPageToken: { type: "string", description: "The next page token" },
+        messages: {
+            type: "array",
+            description: "A list of your google messages",
+            items: {
+                type: "object",
+                properties: {
+                    id: { type: "string", description: "The id of the message" },
+                    threadId: {
+                        type: "string",
+                        description: "The threadId of the message",
+                    },
+                },
             },
         },
     },
