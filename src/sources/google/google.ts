@@ -508,13 +508,13 @@ export class Google extends OAuth2Source implements Source {
     return false;
   }
 
-  public async refreshToken(authCredential: any, refreshToken: string) {
+  public async refreshToken(authCredential: any, accessCredential: any) {
     const url =
       `${google_token_url}/token?` +
       `client_id=${authCredential.id}` +
       `&client_secret=${authCredential.secret}` +
       `&grant_type=refresh_token` +
-      `&refresh_token=${refreshToken}`;
+      `&refresh_token=${accessCredential.refreshToken}`;
     const { data } = await axios.post(
       url,
       {},
@@ -529,8 +529,9 @@ export class Google extends OAuth2Source implements Source {
     expires.setSeconds(expires.getSeconds() + data.expires_in);
 
     return {
-      accessToken: data.access_token,
-      refreshToken: refreshToken,
+      data: data,
+      // accessToken: data.access_token,
+      // refreshToken: accessCredential.refreshToken,
       expires,
     };
   }

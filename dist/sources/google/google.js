@@ -293,13 +293,13 @@ class Google extends source_1.OAuth2Source {
         }
         return false;
     }
-    refreshToken(authCredential, refreshToken) {
+    refreshToken(authCredential, accessCredential) {
         return __awaiter(this, void 0, void 0, function* () {
             const url = `${google_token_url}/token?` +
                 `client_id=${authCredential.id}` +
                 `&client_secret=${authCredential.secret}` +
                 `&grant_type=refresh_token` +
-                `&refresh_token=${refreshToken}`;
+                `&refresh_token=${accessCredential.refreshToken}`;
             const { data } = yield axios_1.default.post(url, {}, {
                 headers: {
                     Accept: "application/json",
@@ -308,8 +308,9 @@ class Google extends source_1.OAuth2Source {
             let expires = new Date();
             expires.setSeconds(expires.getSeconds() + data.expires_in);
             return {
-                accessToken: data.access_token,
-                refreshToken: refreshToken,
+                data: data,
+                // accessToken: data.access_token,
+                // refreshToken: accessCredential.refreshToken,
                 expires,
             };
         });

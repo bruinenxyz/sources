@@ -42,7 +42,7 @@ class OAuth2Source extends BaseSource {
     isTokenExpired(accessCredentials) {
         return false;
     }
-    refreshToken(authCredential, refreshToken) {
+    refreshToken(authCredential, accessCredential) {
         return __awaiter(this, void 0, void 0, function* () {
             return {};
         });

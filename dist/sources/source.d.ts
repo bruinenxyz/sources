@@ -21,7 +21,7 @@ export declare class BaseSource {
 export declare class OAuth2Source extends BaseSource {
     constructor(name: string);
     isTokenExpired(accessCredentials: any): boolean;
-    refreshToken(authCredential: any, refreshToken: string): Promise<any>;
+    refreshToken(authCredential: any, accessCredential: any): Promise<any>;
 }
 export interface Source {
     name: string;

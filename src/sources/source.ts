@@ -51,7 +51,7 @@ export class OAuth2Source extends BaseSource {
 
   public async refreshToken(
     authCredential: any,
-    refreshToken: string
+    accessCredential: any
   ): Promise<any> {
     return {};
   }

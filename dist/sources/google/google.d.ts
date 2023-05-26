@@ -26,9 +26,8 @@ export declare class Google extends OAuth2Source implements Source {
     deactivate: (accessCredentials?: any) => Promise<string>;
     getAuthUrl: (state: string, credentials: any, redirectUrl: string) => string;
     isTokenExpired(accessCredentials: any): boolean;
-    refreshToken(authCredential: any, refreshToken: string): Promise<{
-        accessToken: any;
-        refreshToken: string;
+    refreshToken(authCredential: any, accessCredential: any): Promise<{
+        data: any;
         expires: Date;
     }>;
     getExternalAccountId(authClient: Axios): Promise<string>;
