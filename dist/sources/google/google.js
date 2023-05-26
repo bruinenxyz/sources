@@ -108,6 +108,24 @@ function getMessage(authClient, params) {
         return data;
     });
 }
+function getThreads(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let paramsString = "";
+        if (params) {
+            Object.keys(params).forEach((key) => {
+                paramsString += `&${key}=${params[key]}`;
+            });
+        }
+        const { data } = yield authClient.get(`/threads?maxResults=500${paramsString}`);
+        return Object.assign({}, _.pick(data, ["resultSizeEstimate", "threads", "nextPageToken"]));
+    });
+}
+function getThread(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield authClient.get(`/threads/${params.threadId}?format=full`);
+        return data;
+    });
+}
 class Google extends source_1.OAuth2Source {
     constructor() {
         super("google");
@@ -155,6 +173,8 @@ class Google extends source_1.OAuth2Source {
             label: new resource_1.Resource("label", "Google Label", "get", "Your gmail label", getLabel, google_types_1.GoogleLabelInput, google_types_1.GoogleLabel),
             messages: new resource_1.Resource("messages", "Google Messages", "get", "Your gmail messages", getMessages, google_types_1.GoogleMessagesInput, google_types_1.GoogleMessages),
             message: new resource_1.Resource("message", "Google Message", "get", "Your gmail message", getMessage, google_types_1.GoogleMessageInput, google_types_1.GoogleMessage),
+            threads: new resource_1.Resource("threads", "Google Threads", "get", "Your gmail threads", getThreads, google_types_1.GoogleThreadsInput, google_types_1.GoogleThreads),
+            thread: new resource_1.Resource("thread", "Google Thread", "get", "Your gmail thread", getThread, google_types_1.GoogleThreadInput, google_types_1.GoogleThread),
         };
         this.metadata = {
             name: this.getName(),

@@ -14,6 +14,10 @@ import {
   GoogleMessages,
   GoogleMessageInput,
   GoogleMessage,
+  GoogleThreadsInput,
+  GoogleThreads,
+  GoogleThreadInput,
+  GoogleThread,
 } from "./google.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
@@ -31,6 +35,10 @@ type GoogleMessagesInputType = FromSchema<typeof GoogleMessagesInput>;
 type GoogleMessagesType = FromSchema<typeof GoogleMessages>;
 type GoogleMessageInputType = FromSchema<typeof GoogleMessageInput>;
 type GoogleMessageType = FromSchema<typeof GoogleMessage>;
+type GoogleThreadsInputType = FromSchema<typeof GoogleThreadsInput>;
+type GoogleThreadsType = FromSchema<typeof GoogleThreads>;
+type GoogleThreadInputType = FromSchema<typeof GoogleThreadInput>;
+type GoogleThreadType = FromSchema<typeof GoogleThread>;
 
 const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
 const google_token_url = "https://oauth2.googleapis.com";
@@ -129,6 +137,34 @@ async function getMessage(
   return data;
 }
 
+async function getThreads(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleThreadsType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+  }
+  const { data } = await authClient.get(
+    `/threads?maxResults=500${paramsString}`
+  );
+  return {
+    ..._.pick(data, ["resultSizeEstimate", "threads", "nextPageToken"]),
+  };
+}
+
+async function getThread(
+  authClient: Axios,
+  params: any
+): Promise<GoogleThreadType> {
+  const { data } = await authClient.get(
+    `/threads/${params.threadId}?format=full`
+  );
+  return data;
+}
+
 export class Google extends OAuth2Source implements Source {
   resources: {
     [x: string]: Resource<any, any>;
@@ -201,6 +237,24 @@ export class Google extends OAuth2Source implements Source {
         getMessage,
         GoogleMessageInput,
         GoogleMessage
+      ),
+      threads: new Resource<GoogleThreadsInputType, GoogleThreadsType>(
+        "threads",
+        "Google Threads",
+        "get",
+        "Your gmail threads",
+        getThreads,
+        GoogleThreadsInput,
+        GoogleThreads
+      ),
+      thread: new Resource<GoogleThreadInputType, GoogleThreadType>(
+        "thread",
+        "Google Thread",
+        "get",
+        "Your gmail thread",
+        getThread,
+        GoogleThreadInput,
+        GoogleThread
       ),
     };
     this.metadata = {
