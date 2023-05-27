@@ -41,7 +41,7 @@ export interface Source {
         Authorization: string;
     } | {};
     handleAuthCallback(code: string, credentials: any, redirectUrl: string): Promise<any>;
-    deactivate: (accessCredentials?: any) => Promise<string> | string;
+    deactivate(accessCredentials?: any): Promise<string> | string;
     getExternalAccountId: (authClient: Axios) => Promise<string>;
     getSourceJSONSchema: () => any;
 }

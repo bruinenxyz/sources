@@ -467,14 +467,13 @@ export class Google extends OAuth2Source implements Source {
         accessToken: data.access_token,
         refreshToken: data.refresh_token,
         expires,
-        data, //TODO: remove this
       };
     } catch (error) {
       return "";
     }
   }
 
-  public deactivate = async (accessCredentials?: any) => {
+  public async deactivate(accessCredentials: any) {
     try {
       const { data } = await axios.post(
         `${google_token_url}/revoke?token=${accessCredentials.accessToken}`
@@ -483,7 +482,7 @@ export class Google extends OAuth2Source implements Source {
     } catch (error) {
       return `Google deactivation error: ${error}`;
     }
-  };
+  }
 
   public getAuthUrl = (
     state: string,

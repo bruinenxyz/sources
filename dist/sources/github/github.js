@@ -67,9 +67,6 @@ class Github extends source_1.OAuth2Source {
                 Authorization: `Bearer ${credential.accessToken}`,
             };
         };
-        this.deactivate = (accessCredentials) => {
-            return "success";
-        };
         this.getAuthUrl = (state, credentials, redirectUrl) => {
             const scopes = _.join(githubScopes, " ");
             const url = `${github_login_url}authorize?` +
@@ -139,6 +136,9 @@ class Github extends source_1.OAuth2Source {
                 return "";
             }
         });
+    }
+    deactivate(accessCredentials) {
+        return "success";
     }
     getExternalAccountId(authClient) {
         return __awaiter(this, void 0, void 0, function* () {
