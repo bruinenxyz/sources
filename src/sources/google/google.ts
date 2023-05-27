@@ -496,6 +496,7 @@ export class Google extends OAuth2Source implements Source {
       `scope=${encodeURIComponent(scopes)}` +
       `&access_type=offline` +
       `&response_type=code` +
+      `&prompt=select_account` +
       `&state=${state}` +
       `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
       `&client_id=${credentials.id}`;

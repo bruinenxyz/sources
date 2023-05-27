@@ -207,6 +207,7 @@ class Google extends source_1.OAuth2Source {
                 `scope=${encodeURIComponent(scopes)}` +
                 `&access_type=offline` +
                 `&response_type=code` +
+                `&prompt=select_account` +
                 `&state=${state}` +
                 `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
                 `&client_id=${credentials.id}`;

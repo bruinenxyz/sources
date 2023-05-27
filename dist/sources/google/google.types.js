@@ -1790,3 +1790,15 @@ exports.GoogleEvent = {
         },
     },
 };
+const accessType = {
+    accessToken: "ya29.a0AWY7CkkNTFLn2BBhieaDF_289wJr0-DxLanstuexIQHZpSex7trTOFMwrR5xvCzDIgYZD2_jWl1F_R0CbRw2bjd2YE4gClmxbqYHGvJyXqIsL2PAfYeTfRjHRAIWl4LB1UzgK_fRyE9izbZNMVOkDscJShb35QaCgYKARMSARASFQG1tDrp4O-70qb_Ml6l8Q1iwUElyw0165",
+    refreshToken: undefined,
+    expires: "2023-05-27T02:38:50.181Z",
+    data: {
+        access_token: "ya29.a0AWY7CkkNTFLn2BBhieaDF_289wJr0-DxLanstuexIQHZpSex7trTOFMwrR5xvCzDIgYZD2_jWl1F_R0CbRw2bjd2YE4gClmxbqYHGvJyXqIsL2PAfYeTfRjHRAIWl4LB1UzgK_fRyE9izbZNMVOkDscJShb35QaCgYKARMSARASFQG1tDrp4O-70qb_Ml6l8Q1iwUElyw0165",
+        expires_in: 3598,
+        scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/gmail.readonly openid https://www.googleapis.com/auth/calendar.settings.readonly https://www.googleapis.com/auth/calendar.events.readonly",
+        token_type: "Bearer",
+        id_token: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkOWE1ZWY1YjEyNjIzYzkxNjcxYTcwOTNjYjMyMzMzM2NkMDdkMDkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI4MzE1NDcyNTMxMjktNm43YWxuZGIwY3E5bG51MGRkYjFydjJyMDM5ZjRzbW4uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI4MzE1NDcyNTMxMjktNm43YWxuZGIwY3E5bG51MGRkYjFydjJyMDM5ZjRzbW4uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDQ4MjM4Mjg2OTk5ODM3MDEzNTQiLCJoZCI6ImJydWluZW4uY28iLCJlbWFpbCI6ImdyYW50QGJydWluZW4uY28iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlF3dm01ZzhOTWpEMklaMU44X0hjX2ciLCJuYW1lIjoiR3JhbnQgUGllcmNlIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FBY0hUdGRxNFhPcTJmQTVIRzlhZDVrczdneEppelJNdG9pMTZuTWlVUGVRPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkdyYW50IiwiZmFtaWx5X25hbWUiOiJQaWVyY2UiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTY4NTE1MTUzMiwiZXhwIjoxNjg1MTU1MTMyfQ.FVl3IdMITsNjGkEyVsw9CqIVtW6yQf1cqNMfXTQToCD4DaUTY_3IAJkk6eHisV6MQjYzeHWJ2LNaJ9J1RYgLeQifoQ1ipq0-caxHwg-Al8AydK8uC_hilWAcbYTXAM92I_UrG3P2Sr4LPYCnYVf69PwM-HCAcGw3udXk-hXZ5gmrFAniy-uPNkSQCm2sOSYXGICk3XHXsVP7g4Z2A522fncoWNcBgvSh6DoVPyjMyMKdDcZ1gGNcMQb7L9yalhbzE6tQbHpJzfirzn6WTnW6Nvhc9DLrSmbDFCX3dDYiy53qZt_Gy7Pw1byhU50zIepEExG43UoWXOgNJPtJ3HWgpA",
+    },
+};
