@@ -280,6 +280,7 @@ class Google extends source_1.OAuth2Source {
                     accessToken: data.access_token,
                     refreshToken: data.refresh_token,
                     expires,
+                    data, //TODO: remove this
                 };
             }
             catch (error) {
