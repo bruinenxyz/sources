@@ -312,9 +312,8 @@ class Google extends source_1.OAuth2Source {
                 let expires = new Date();
                 expires.setSeconds(expires.getSeconds() + data.expires_in);
                 return {
-                    data: data,
-                    // accessToken: data.access_token,
-                    // refreshToken: accessCredential.refreshToken,
+                    accessToken: data.access_token,
+                    refreshToken: accessCredential.refreshToken,
                     expires,
                 };
             }

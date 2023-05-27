@@ -531,9 +531,8 @@ export class Google extends OAuth2Source implements Source {
       expires.setSeconds(expires.getSeconds() + data.expires_in);
 
       return {
-        data: data,
-        // accessToken: data.access_token,
-        // refreshToken: accessCredential.refreshToken,
+        accessToken: data.access_token,
+        refreshToken: accessCredential.refreshToken,
         expires,
       };
     } catch (error) {
