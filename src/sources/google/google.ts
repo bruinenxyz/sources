@@ -186,7 +186,7 @@ async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
         cc: cc ? cc.value?.split(",") : [],
         bcc: bcc ? bcc.value?.split(",") : [],
       },
-      body: body ? Buffer.from(body, "base64").toString("utf-8") : "",
+      body: body ? body : "",
       attachments: attachments,
     };
   } catch (error) {

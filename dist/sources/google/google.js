@@ -146,7 +146,7 @@ function getParsedDraft(authClient, params) {
                     cc: cc ? (_b = cc.value) === null || _b === void 0 ? void 0 : _b.split(",") : [],
                     bcc: bcc ? (_c = bcc.value) === null || _c === void 0 ? void 0 : _c.split(",") : [],
                 },
-                body: body ? Buffer.from(body, "base64").toString("utf-8") : "",
+                body: body ? body : "",
                 attachments: attachments,
             };
         }
