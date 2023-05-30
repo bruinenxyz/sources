@@ -196,6 +196,46 @@ export const GoogleDraft = {
                       attachmentId: { type: "string" },
                     },
                   },
+                  parts: {
+                    type: "array",
+                    description: "The parts of the part",
+                    items: {
+                      type: "object",
+                      properties: {
+                        partId: {
+                          type: "string",
+                          description: "The partId of the part",
+                        },
+                        mimeType: {
+                          type: "string",
+                          description: "The mimeType of the part",
+                        },
+                        filename: {
+                          type: "string",
+                          description: "The filename of the part",
+                        },
+                        headers: {
+                          type: "array",
+                          description: "The headers of the part",
+                          items: {
+                            type: "object",
+                            properties: {
+                              name: { type: "string" },
+                              value: { type: "string" },
+                            },
+                          },
+                        },
+                        body: {
+                          type: "object",
+                          description: "The body of the part",
+                          properties: {
+                            size: { type: "number" },
+                            data: { type: "string" },
+                          },
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },
@@ -208,6 +248,78 @@ export const GoogleDraft = {
         raw: {
           type: "string",
           description: "The raw message",
+        },
+      },
+    },
+  },
+} as const satisfies JSONSchema;
+
+export const GoogleParsedDraft = {
+  title: "GoogleParsedDraft",
+  description: "Your google parsed draft",
+  type: "object",
+  properties: {
+    id: { type: "string", description: "The id of the draft" },
+    messageId: { type: "string", description: "The id of the draft" },
+    threadId: { type: "string", description: "The threadId of the draft" },
+    labelIds: { type: "array", description: "The labelIds of the draft" },
+    headers: {
+      type: "object",
+      description: "The headers of the draft",
+      properties: {
+        date: { type: "string", description: "The date of the draft" },
+        subject: { type: "string", description: "The subject of the draft" },
+        from: { type: "string", description: "The writer of the draft" },
+        to: {
+          type: "array",
+          description: "The receivers of the draft",
+          items: { type: "string" },
+        },
+        cc: {
+          type: "array",
+          description: "The ccs of the draft",
+          items: { type: "string" },
+        },
+        bcc: {
+          type: "array",
+          description: "The bccs of the draft",
+          items: { type: "string" },
+        },
+      },
+    },
+    body: { type: "string", description: "The body of the draft" },
+    attachments: {
+      type: "array",
+      description: "The attachments of the draft",
+      items: {
+        type: "object",
+        description: "An attachment of the draft",
+        properties: {
+          attachmentId: {
+            type: "string",
+            description: "The attachmentId of the attachment",
+          },
+          mimeType: {
+            type: "string",
+            description: "The mimeType of the attachment",
+          },
+          filename: {
+            type: "string",
+            description: "The filename of the attachment",
+          },
+          contentType: {
+            type: "string",
+            description: "The contentType of the attachment",
+          },
+          contentDisposition: {
+            type: "string",
+            description: "The contentDisposition of the attachment",
+          },
+          contentTransferEncoding: {
+            type: "string",
+            description: "The contentTransferEncoding of the attachment",
+          },
+          size: { type: "number", description: "The size of the attachment" },
         },
       },
     },

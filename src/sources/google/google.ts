@@ -7,6 +7,7 @@ import {
   GoogleDrafts,
   GoogleDraftInput,
   GoogleDraft,
+  GoogleParsedDraft,
   GoogleLabels,
   GoogleLabelInput,
   GoogleLabel,
@@ -36,6 +37,7 @@ type GoogleDraftsInputType = FromSchema<typeof GoogleDraftsInput>;
 type GoogleDraftsType = FromSchema<typeof GoogleDrafts>;
 type GoogleDraftInputType = FromSchema<typeof GoogleDraftInput>;
 type GoogleDraftType = FromSchema<typeof GoogleDraft>;
+type GoogleParsedDraftType = FromSchema<typeof GoogleParsedDraft>;
 type GoogleLabelsType = FromSchema<typeof GoogleLabels>;
 type GoogleLabelInputType = FromSchema<typeof GoogleLabelInput>;
 type GoogleLabelType = FromSchema<typeof GoogleLabel>;
@@ -107,6 +109,57 @@ async function getDraft(
     `/drafts/${params.draftId}?format=full`
   );
   return data;
+}
+
+async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
+  const { data } = await authClient.get(`/drafts/${params.draftId}?format=raw`);
+  return data;
+  // try {
+  //   const rawDraft: GoogleDraftType = await getDraft(authClient, params);
+  //   if (!rawDraft.message) {
+  //     throw new Error("No message found in draft");
+  //   }
+  //   if (!rawDraft.message.payload) {
+  //     throw new Error("No payload found in draft");
+  //   }
+  //   if (!rawDraft.message.payload.headers) {
+  //     throw new Error("No headers found in draft");
+  //   }
+  //   if (!rawDraft.message.payload.parts) {
+  //     throw new Error("No parts found in draft");
+  //   }
+  //   const headers = rawDraft.message.payload.headers
+  //   const date = headers.find((header) => header.name === "Date");
+  //   const subject = headers.find((header) => header.name === "Subject");
+  //   const from = headers.find((header) => header.name === "From");
+  //   const to = headers.find((header) => header.name === "To");
+  //   const cc = headers.find((header) => header.name === "Cc");
+  //   const bcc = headers.find((header) => header.name === "Bcc");
+  //   const parts = rawDraft.message.payload.parts
+  //   const bodyRaw = parts.find((part: any) => part.partId === "0")?.parts;
+  //   if (!bodyRaw) {
+  //     throw new Error("No body found in draft");
+  //   }
+  //   const body = bodyRaw.find((part: any) => part.partId === "0.0").body.data;
+  //   return {
+  //     id: rawDraft.id,
+  //     messageId: rawDraft.message.id,
+  //     threadId: rawDraft.message.threadId,
+  //     labelIds: rawDraft.message.labelIds,
+  //     headers: {
+  //       date: date ? date.value : "",
+  //       subject: subject ? subject.value : "",
+  //       from: from ? from.value : "",
+  //       to: to ? to.value?.split(",") : [],
+  //       cc: cc ? cc.value?.split(",") : [],
+  //       bcc: bcc ? bcc.value?.split(",") : [],
+  //     },
+  //     body:
+  //     attachments:
+  //   };
+  // } catch (error) {
+  //   throw new Error(error);
+  // }
 }
 
 async function getLabels(
@@ -292,6 +345,15 @@ export class Google extends OAuth2Source implements Source {
         getDraft,
         GoogleDraftInput,
         GoogleDraft
+      ),
+      parsedDraft: new Resource<GoogleDraftInputType, any>(
+        "parsedDraft",
+        "Google Parsed Draft",
+        "get",
+        "Your gmail parsed draft",
+        getParsedDraft,
+        GoogleDraftInput,
+        GoogleParsedDraft
       ),
       labels: new Resource<null, GoogleLabelsType>(
         "labels",

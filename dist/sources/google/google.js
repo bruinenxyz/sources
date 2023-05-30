@@ -78,6 +78,58 @@ function getDraft(authClient, params) {
         return data;
     });
 }
+function getParsedDraft(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield authClient.get(`/drafts/${params.draftId}?format=raw`);
+        return data;
+        // try {
+        //   const rawDraft: GoogleDraftType = await getDraft(authClient, params);
+        //   if (!rawDraft.message) {
+        //     throw new Error("No message found in draft");
+        //   }
+        //   if (!rawDraft.message.payload) {
+        //     throw new Error("No payload found in draft");
+        //   }
+        //   if (!rawDraft.message.payload.headers) {
+        //     throw new Error("No headers found in draft");
+        //   }
+        //   if (!rawDraft.message.payload.parts) {
+        //     throw new Error("No parts found in draft");
+        //   }
+        //   const headers = rawDraft.message.payload.headers
+        //   const date = headers.find((header) => header.name === "Date");
+        //   const subject = headers.find((header) => header.name === "Subject");
+        //   const from = headers.find((header) => header.name === "From");
+        //   const to = headers.find((header) => header.name === "To");
+        //   const cc = headers.find((header) => header.name === "Cc");
+        //   const bcc = headers.find((header) => header.name === "Bcc");
+        //   const parts = rawDraft.message.payload.parts
+        //   const bodyRaw = parts.find((part: any) => part.partId === "0")?.parts;
+        //   if (!bodyRaw) {
+        //     throw new Error("No body found in draft");
+        //   }
+        //   const body = bodyRaw.find((part: any) => part.partId === "0.0").body.data;
+        //   return {
+        //     id: rawDraft.id,
+        //     messageId: rawDraft.message.id,
+        //     threadId: rawDraft.message.threadId,
+        //     labelIds: rawDraft.message.labelIds,
+        //     headers: {
+        //       date: date ? date.value : "",
+        //       subject: subject ? subject.value : "",
+        //       from: from ? from.value : "",
+        //       to: to ? to.value?.split(",") : [],
+        //       cc: cc ? cc.value?.split(",") : [],
+        //       bcc: bcc ? bcc.value?.split(",") : [],
+        //     },
+        //     body:
+        //     attachments:
+        //   };
+        // } catch (error) {
+        //   throw new Error(error);
+        // }
+    });
+}
 function getLabels(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const { data } = yield authClient.get(`/labels`);
@@ -210,6 +262,7 @@ class Google extends source_1.OAuth2Source {
             profile: new resource_1.Resource("profile", "Google Profile", "get", "Your basic google profile", getProfile, null, google_types_1.GoogleProfile),
             drafts: new resource_1.Resource("drafts", "Google Drafts", "get", "Your gmail drafts", getDrafts, google_types_1.GoogleDraftsInput, google_types_1.GoogleDrafts),
             draft: new resource_1.Resource("draft", "Google Draft", "get", "Your gmail draft", getDraft, google_types_1.GoogleDraftInput, google_types_1.GoogleDraft),
+            parsedDraft: new resource_1.Resource("parsedDraft", "Google Parsed Draft", "get", "Your gmail parsed draft", getParsedDraft, google_types_1.GoogleDraftInput, google_types_1.GoogleParsedDraft),
             labels: new resource_1.Resource("labels", "Google Labels", "get", "Your gmail labels", getLabels, null, google_types_1.GoogleLabels),
             label: new resource_1.Resource("label", "Google Label", "get", "Your gmail label", getLabel, google_types_1.GoogleLabelInput, google_types_1.GoogleLabel),
             messages: new resource_1.Resource("messages", "Google Messages", "get", "Your gmail messages", getMessages, google_types_1.GoogleMessagesInput, google_types_1.GoogleMessages),
