@@ -95,7 +95,7 @@ function findBody(partsArray) {
     return "";
 }
 function extractRecipients(value) {
-    const regex = /(([\w,\"\s]+)\s)?<?([^@<\s]+@[^@\s>]+)>?,/g;
+    const regex = /((([\w,\"\s]+)\s)|(\"([^@<\s]+@[^@\s>]+)\"))?<?([^@<\s]+@[^@\s>]+)>?,/g;
     let m;
     let recipientsArray = [];
     while ((m = regex.exec(value)) !== null) {
@@ -106,9 +106,6 @@ function extractRecipients(value) {
         let email = null;
         if (m[2]) {
             name = m[2].replace(/,$/, "").replace(/"/g, "").trim(); // strip whitespaces and commas, and remove quotation marks
-            if (/\.\w+/g.test(name)) {
-                name = null;
-            }
         }
         if (m[3]) {
             email = m[3].replace(/,$/, "").trim(); // strip whitespaces and commas from end of string
