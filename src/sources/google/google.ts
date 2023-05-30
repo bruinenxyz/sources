@@ -111,16 +111,20 @@ async function getDraft(
   return data;
 }
 
-function findBody(partsArray: any[]) {
+function findBody(partsArray: any[]): string {
   for (let i = 0; i < partsArray.length; i++) {
     const mimeType = partsArray[i].mimeType;
     if (mimeType === "text/plain") {
       const body = partsArray[i].body.data;
       return Buffer.from(body, "base64").toString("utf-8");
     } else if (partsArray[i].parts) {
-      findBody(partsArray[i].parts);
+      const body = findBody(partsArray[i].parts);
+      if (!!body) {
+        return body;
+      }
     }
   }
+  return "";
 }
 
 async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
@@ -148,9 +152,8 @@ async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
     const cc = headers.find((header) => header.name === "Cc");
     const bcc = headers.find((header) => header.name === "Bcc");
 
-    //Body
+    //Parts
     const parts = rawDraft.message.payload.parts;
-    const body = findBody(parts);
 
     //Attachments
     const attachments = parts
@@ -186,7 +189,7 @@ async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
         cc: cc ? cc.value?.split(",") : [],
         bcc: bcc ? bcc.value?.split(",") : [],
       },
-      body: body ? body : "",
+      body: findBody(parts),
       attachments: attachments,
     };
   } catch (error) {

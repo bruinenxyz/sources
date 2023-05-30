@@ -86,9 +86,13 @@ function findBody(partsArray) {
             return Buffer.from(body, "base64").toString("utf-8");
         }
         else if (partsArray[i].parts) {
-            findBody(partsArray[i].parts);
+            const body = findBody(partsArray[i].parts);
+            if (!!body) {
+                return body;
+            }
         }
     }
+    return "";
 }
 function getParsedDraft(authClient, params) {
     var _a, _b, _c;
@@ -115,9 +119,8 @@ function getParsedDraft(authClient, params) {
             const to = headers.find((header) => header.name === "To");
             const cc = headers.find((header) => header.name === "Cc");
             const bcc = headers.find((header) => header.name === "Bcc");
-            //Body
+            //Parts
             const parts = rawDraft.message.payload.parts;
-            const body = findBody(parts);
             //Attachments
             const attachments = parts
                 .filter((part) => Number(part.partId) > 0)
@@ -146,7 +149,7 @@ function getParsedDraft(authClient, params) {
                     cc: cc ? (_b = cc.value) === null || _b === void 0 ? void 0 : _b.split(",") : [],
                     bcc: bcc ? (_c = bcc.value) === null || _c === void 0 ? void 0 : _c.split(",") : [],
                 },
-                body: body ? body : "",
+                body: findBody(parts),
                 attachments: attachments,
             };
         }
