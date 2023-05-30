@@ -95,7 +95,7 @@ function findBody(partsArray) {
     return "";
 }
 function extractRecipients(value) {
-    const regex = /((([\w,\"\s]+)\s)|([^@<\s]+@[^@\s>]+\"))?<?([^@<\s]+@[^@\s>]+)>?,/g;
+    const regex = /(([\w,\"\s]+)\s)?<?([^@<\s]+@[^@\s>]+)>?,/g;
     let m;
     let recipientsArray = [];
     while ((m = regex.exec(value)) !== null) {
@@ -167,7 +167,7 @@ function getParsedDraft(authClient, params) {
                 headers: {
                     date: date ? date.value : "",
                     subject: subject ? subject.value : "",
-                    from: from ? from.value : "",
+                    from: (from === null || from === void 0 ? void 0 : from.value) ? extractRecipients(from.value + ",") : "",
                     to: (to === null || to === void 0 ? void 0 : to.value) ? extractRecipients(to.value + ",") : [],
                     cc: (cc === null || cc === void 0 ? void 0 : cc.value) ? extractRecipients(cc.value + ",") : [],
                     bcc: (bcc === null || bcc === void 0 ? void 0 : bcc.value) ? extractRecipients(bcc.value + ",") : [],
