@@ -15,6 +15,7 @@ import {
   GoogleMessages,
   GoogleMessageInput,
   GoogleMessage,
+  GoogleParsedMessage,
   GoogleThreadsInput,
   GoogleThreads,
   GoogleThreadInput,
@@ -45,6 +46,7 @@ type GoogleMessagesInputType = FromSchema<typeof GoogleMessagesInput>;
 type GoogleMessagesType = FromSchema<typeof GoogleMessages>;
 type GoogleMessageInputType = FromSchema<typeof GoogleMessageInput>;
 type GoogleMessageType = FromSchema<typeof GoogleMessage>;
+type GoogleParsedMessageType = FromSchema<typeof GoogleParsedMessage>;
 type GoogleThreadsInputType = FromSchema<typeof GoogleThreadsInput>;
 type GoogleThreadsType = FromSchema<typeof GoogleThreads>;
 type GoogleThreadInputType = FromSchema<typeof GoogleThreadInput>;
@@ -72,6 +74,50 @@ const googleScopes = [
   "https://www.googleapis.com/auth/calendar.readonly",
   "https://www.googleapis.com/auth/calendar.events.readonly",
 ];
+
+function findBody(partsArray: any[]): string {
+  for (let i = 0; i < partsArray.length; i++) {
+    const mimeType = partsArray[i].mimeType;
+    if (mimeType === "text/plain") {
+      const body = partsArray[i].body.data;
+      return Buffer.from(body, "base64").toString("utf-8");
+    } else if (partsArray[i].parts) {
+      const body = findBody(partsArray[i].parts);
+      if (!!body) {
+        return body;
+      }
+    }
+  }
+  return "";
+}
+
+function extractRecipients(value: string) {
+  const regex = /(([\w,\"\s]+)\s)?<?([^@<\s]+@[^@\s>]+)>?,/g;
+  let m;
+  let recipientsArray = [];
+  while ((m = regex.exec(value)) !== null) {
+    if (m.index === regex.lastIndex) {
+      regex.lastIndex++;
+    }
+    let name = "";
+    let email = "";
+
+    if (m[2]) {
+      name = m[2].replace(/,$/, "").replace(/"/g, "").trim(); // strip whitespaces and commas, and remove quotation marks
+    }
+
+    if (m[3]) {
+      email = m[3].replace(/,$/, "").trim(); // strip whitespaces and commas from end of string
+    }
+
+    let item = {
+      name: name,
+      email: email,
+    };
+    recipientsArray.push(item);
+  }
+  return recipientsArray;
+}
 
 async function getProfile(
   authClient: Axios,
@@ -111,51 +157,10 @@ async function getDraft(
   return data;
 }
 
-function findBody(partsArray: any[]): string {
-  for (let i = 0; i < partsArray.length; i++) {
-    const mimeType = partsArray[i].mimeType;
-    if (mimeType === "text/plain") {
-      const body = partsArray[i].body.data;
-      return Buffer.from(body, "base64").toString("utf-8");
-    } else if (partsArray[i].parts) {
-      const body = findBody(partsArray[i].parts);
-      if (!!body) {
-        return body;
-      }
-    }
-  }
-  return "";
-}
-
-function extractRecipients(value: string) {
-  const regex = /(([\w,\"\s]+)\s)?<?([^@<\s]+@[^@\s>]+)>?,/g;
-  let m;
-  let recipientsArray = [];
-  while ((m = regex.exec(value)) !== null) {
-    if (m.index === regex.lastIndex) {
-      regex.lastIndex++;
-    }
-    let name = null;
-    let email = null;
-
-    if (m[2]) {
-      name = m[2].replace(/,$/, "").replace(/"/g, "").trim(); // strip whitespaces and commas, and remove quotation marks
-    }
-
-    if (m[3]) {
-      email = m[3].replace(/,$/, "").trim(); // strip whitespaces and commas from end of string
-    }
-
-    let item = {
-      name: name,
-      email: email,
-    };
-    recipientsArray.push(item);
-  }
-  return recipientsArray;
-}
-
-async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
+async function getParsedDraft(
+  authClient: Axios,
+  params: any
+): Promise<GoogleParsedDraftType> {
   try {
     const rawDraft: GoogleDraftType = await getDraft(authClient, params);
     if (!rawDraft.message) {
@@ -212,7 +217,9 @@ async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
       headers: {
         date: date ? date.value : "",
         subject: subject ? subject.value : "",
-        from: from?.value ? extractRecipients(from.value + ",")[0] : "",
+        from: from?.value
+          ? extractRecipients(from.value + ",")[0]
+          : { name: "", email: "" },
         to: to?.value ? extractRecipients(to.value + ",") : [],
         cc: cc?.value ? extractRecipients(cc.value + ",") : [],
         bcc: bcc?.value ? extractRecipients(bcc.value + ",") : [],
@@ -267,6 +274,80 @@ async function getMessage(
     `/messages/${params.messageId}?format=full`
   );
   return data;
+}
+
+async function getParsedMessage(
+  authClient: Axios,
+  params: any
+): Promise<GoogleParsedMessageType> {
+  try {
+    const rawMessage: GoogleMessageType = await getMessage(authClient, params);
+    if (!rawMessage) {
+      throw new Error("No message found");
+    }
+    if (!rawMessage.payload) {
+      throw new Error("No payload found in message");
+    }
+    if (!rawMessage.payload.headers) {
+      throw new Error("No headers found in message");
+    }
+    if (!rawMessage.payload.parts) {
+      throw new Error("No parts found in message");
+    }
+
+    //Headers
+    const headers = rawMessage.payload.headers;
+    const date = headers.find((header) => header.name === "Date");
+    const subject = headers.find((header) => header.name === "Subject");
+    const from = headers.find((header) => header.name === "From");
+    const to = headers.find((header) => header.name === "To");
+    const cc = headers.find((header) => header.name === "Cc");
+    const bcc = headers.find((header) => header.name === "Bcc");
+
+    //Parts
+    const parts = rawMessage.payload.parts;
+
+    //Attachments
+    const attachments = parts
+      .filter((part) => Number(part.partId) > 0)
+      .map((part) => {
+        return {
+          attachmentId: part.body?.attachmentId,
+          mimeType: part.mimeType,
+          filename: part.filename,
+          contentType: part.headers?.find(
+            (header) => header.name === "Content-Type"
+          )?.value,
+          contentDisposition: part.headers?.find(
+            (header) => header.name === "Content-Disposition"
+          )?.value,
+          contentTransferEncoding: part.headers?.find(
+            (header) => header.name === "Content-Transfer-Encoding"
+          )?.value,
+          size: part.body?.size,
+        };
+      });
+
+    return {
+      id: rawMessage.id,
+      threadId: rawMessage.threadId,
+      labelIds: rawMessage.labelIds,
+      headers: {
+        date: date ? date.value : "",
+        subject: subject ? subject.value : "",
+        from: from?.value
+          ? extractRecipients(from.value + ",")[0]
+          : { name: "", email: "" },
+        to: to?.value ? extractRecipients(to.value + ",") : [],
+        cc: cc?.value ? extractRecipients(cc.value + ",") : [],
+        bcc: bcc?.value ? extractRecipients(bcc.value + ",") : [],
+      },
+      body: findBody(parts),
+      attachments: attachments,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 async function getThreads(
@@ -453,6 +534,18 @@ export class Google extends OAuth2Source implements Source {
         getMessage,
         GoogleMessageInput,
         GoogleMessage
+      ),
+      parsedMessage: new Resource<
+        GoogleMessageInputType,
+        GoogleParsedMessageType
+      >(
+        "parsedMessage",
+        "Google Parsed Message",
+        "get",
+        "Your gmail parsed message",
+        getParsedMessage,
+        GoogleMessageInput,
+        GoogleParsedMessage
       ),
       threads: new Resource<GoogleThreadsInputType, GoogleThreadsType>(
         "threads",
