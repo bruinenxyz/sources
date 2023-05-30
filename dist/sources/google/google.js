@@ -78,56 +78,81 @@ function getDraft(authClient, params) {
         return data;
     });
 }
+function findBody(partsArray) {
+    for (let i = 0; i < partsArray.length; i++) {
+        const mimeType = partsArray[i].mimeType;
+        if (mimeType === "text/plain") {
+            const body = partsArray[i].body.data;
+            return Buffer.from(body, "base64").toString("utf-8");
+        }
+        else if (partsArray[i].parts) {
+            findBody(partsArray[i].parts);
+        }
+    }
+}
 function getParsedDraft(authClient, params) {
+    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
-        const { data } = yield authClient.get(`/drafts/${params.draftId}?format=raw`);
-        return data;
-        // try {
-        //   const rawDraft: GoogleDraftType = await getDraft(authClient, params);
-        //   if (!rawDraft.message) {
-        //     throw new Error("No message found in draft");
-        //   }
-        //   if (!rawDraft.message.payload) {
-        //     throw new Error("No payload found in draft");
-        //   }
-        //   if (!rawDraft.message.payload.headers) {
-        //     throw new Error("No headers found in draft");
-        //   }
-        //   if (!rawDraft.message.payload.parts) {
-        //     throw new Error("No parts found in draft");
-        //   }
-        //   const headers = rawDraft.message.payload.headers
-        //   const date = headers.find((header) => header.name === "Date");
-        //   const subject = headers.find((header) => header.name === "Subject");
-        //   const from = headers.find((header) => header.name === "From");
-        //   const to = headers.find((header) => header.name === "To");
-        //   const cc = headers.find((header) => header.name === "Cc");
-        //   const bcc = headers.find((header) => header.name === "Bcc");
-        //   const parts = rawDraft.message.payload.parts
-        //   const bodyRaw = parts.find((part: any) => part.partId === "0")?.parts;
-        //   if (!bodyRaw) {
-        //     throw new Error("No body found in draft");
-        //   }
-        //   const body = bodyRaw.find((part: any) => part.partId === "0.0").body.data;
-        //   return {
-        //     id: rawDraft.id,
-        //     messageId: rawDraft.message.id,
-        //     threadId: rawDraft.message.threadId,
-        //     labelIds: rawDraft.message.labelIds,
-        //     headers: {
-        //       date: date ? date.value : "",
-        //       subject: subject ? subject.value : "",
-        //       from: from ? from.value : "",
-        //       to: to ? to.value?.split(",") : [],
-        //       cc: cc ? cc.value?.split(",") : [],
-        //       bcc: bcc ? bcc.value?.split(",") : [],
-        //     },
-        //     body:
-        //     attachments:
-        //   };
-        // } catch (error) {
-        //   throw new Error(error);
-        // }
+        try {
+            const rawDraft = yield getDraft(authClient, params);
+            if (!rawDraft.message) {
+                throw new Error("No message found in draft");
+            }
+            if (!rawDraft.message.payload) {
+                throw new Error("No payload found in draft");
+            }
+            if (!rawDraft.message.payload.headers) {
+                throw new Error("No headers found in draft");
+            }
+            if (!rawDraft.message.payload.parts) {
+                throw new Error("No parts found in draft");
+            }
+            //Headers
+            const headers = rawDraft.message.payload.headers;
+            const date = headers.find((header) => header.name === "Date");
+            const subject = headers.find((header) => header.name === "Subject");
+            const from = headers.find((header) => header.name === "From");
+            const to = headers.find((header) => header.name === "To");
+            const cc = headers.find((header) => header.name === "Cc");
+            const bcc = headers.find((header) => header.name === "Bcc");
+            //Body
+            const parts = rawDraft.message.payload.parts;
+            const body = findBody(parts);
+            //Attachments
+            const attachments = parts
+                .filter((part) => Number(part.partId) > 0)
+                .map((part) => {
+                var _a, _b, _c, _d, _e, _f, _g, _h;
+                return {
+                    attachmentId: (_a = part.body) === null || _a === void 0 ? void 0 : _a.attachmentId,
+                    mimeType: part.mimeType,
+                    filename: part.filename,
+                    contentType: (_c = (_b = part.headers) === null || _b === void 0 ? void 0 : _b.find((header) => header.name === "Content-Type")) === null || _c === void 0 ? void 0 : _c.value,
+                    contentDisposition: (_e = (_d = part.headers) === null || _d === void 0 ? void 0 : _d.find((header) => header.name === "Content-Disposition")) === null || _e === void 0 ? void 0 : _e.value,
+                    contentTransferEncoding: (_g = (_f = part.headers) === null || _f === void 0 ? void 0 : _f.find((header) => header.name === "Content-Transfer-Encoding")) === null || _g === void 0 ? void 0 : _g.value,
+                    size: (_h = part.body) === null || _h === void 0 ? void 0 : _h.size,
+                };
+            });
+            return {
+                id: rawDraft.id,
+                messageId: rawDraft.message.id,
+                threadId: rawDraft.message.threadId,
+                labelIds: rawDraft.message.labelIds,
+                headers: {
+                    date: date ? date.value : "",
+                    subject: subject ? subject.value : "",
+                    from: from ? from.value : "",
+                    to: to ? (_a = to.value) === null || _a === void 0 ? void 0 : _a.split(",") : [],
+                    cc: cc ? (_b = cc.value) === null || _b === void 0 ? void 0 : _b.split(",") : [],
+                    bcc: bcc ? (_c = bcc.value) === null || _c === void 0 ? void 0 : _c.split(",") : [],
+                },
+                body: body ? Buffer.from(body, "base64").toString("utf-8") : "",
+                attachments: attachments,
+            };
+        }
+        catch (error) {
+            throw new Error(error);
+        }
     });
 }
 function getLabels(authClient, params) {
