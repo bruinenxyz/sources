@@ -128,8 +128,7 @@ function findBody(partsArray: any[]): string {
 }
 
 function extractRecipients(value: string) {
-  const regex =
-    /((([\w,\"\s]+)\s)|([^@<\s]+@[^@\s>]+\"))?<?([^@<\s]+@[^@\s>]+)>?,/g;
+  const regex = /(([\w,\"\s]+)\s)?<?([^@<\s]+@[^@\s>]+)>?,/g;
   let m;
   let recipientsArray = [];
   while ((m = regex.exec(value)) !== null) {
@@ -213,7 +212,7 @@ async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
       headers: {
         date: date ? date.value : "",
         subject: subject ? subject.value : "",
-        from: from ? from.value : "",
+        from: from?.value ? extractRecipients(from.value + ",") : "",
         to: to?.value ? extractRecipients(to.value + ",") : [],
         cc: cc?.value ? extractRecipients(cc.value + ",") : [],
         bcc: bcc?.value ? extractRecipients(bcc.value + ",") : [],
