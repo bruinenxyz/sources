@@ -140,6 +140,9 @@ function extractRecipients(value: string) {
 
     if (m[2]) {
       name = m[2].replace(/,$/, "").replace(/"/g, "").trim(); // strip whitespaces and commas, and remove quotation marks
+      if (/\.\w+/g.test(name)) {
+        name = null;
+      }
     }
 
     if (m[3]) {
