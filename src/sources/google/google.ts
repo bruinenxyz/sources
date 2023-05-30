@@ -212,7 +212,7 @@ async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
       headers: {
         date: date ? date.value : "",
         subject: subject ? subject.value : "",
-        from: from?.value ? extractRecipients(from.value + ",") : "",
+        from: from?.value ? extractRecipients(from.value + ",")[0] : "",
         to: to?.value ? extractRecipients(to.value + ",") : [],
         cc: cc?.value ? extractRecipients(cc.value + ",") : [],
         bcc: bcc?.value ? extractRecipients(bcc.value + ",") : [],

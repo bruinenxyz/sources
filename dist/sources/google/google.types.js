@@ -265,21 +265,67 @@ exports.GoogleParsedDraft = {
             properties: {
                 date: { type: "string", description: "The date of the draft" },
                 subject: { type: "string", description: "The subject of the draft" },
-                from: { type: "string", description: "The writer of the draft" },
+                from: {
+                    type: "object",
+                    description: "The writer of the draft",
+                    properties: {
+                        name: { type: "string", description: "The name of the writer" },
+                        email: { type: "string", description: "The email of the writer" },
+                    },
+                },
                 to: {
                     type: "array",
                     description: "The receivers of the draft",
-                    items: { type: "string" },
+                    items: {
+                        type: "object",
+                        description: "A recipients of the draft",
+                        properties: {
+                            name: {
+                                type: "string",
+                                description: "The name of the recipient",
+                            },
+                            email: {
+                                type: "string",
+                                description: "The email of the recipient",
+                            },
+                        },
+                    },
                 },
                 cc: {
                     type: "array",
                     description: "The ccs of the draft",
-                    items: { type: "string" },
+                    items: {
+                        type: "object",
+                        description: "A cc of the draft",
+                        properties: {
+                            name: {
+                                type: "string",
+                                description: "The name of the cc",
+                            },
+                            email: {
+                                type: "string",
+                                description: "The email of the cc",
+                            },
+                        },
+                    },
                 },
                 bcc: {
                     type: "array",
                     description: "The bccs of the draft",
-                    items: { type: "string" },
+                    items: {
+                        type: "object",
+                        description: "A bcc of the draft",
+                        properties: {
+                            name: {
+                                type: "string",
+                                description: "The name of the bcc",
+                            },
+                            email: {
+                                type: "string",
+                                description: "The email of the bcc",
+                            },
+                        },
+                    },
                 },
             },
         },

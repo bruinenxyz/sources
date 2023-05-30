@@ -323,28 +323,71 @@ export declare const GoogleParsedDraft: {
                     readonly description: "The subject of the draft";
                 };
                 readonly from: {
-                    readonly type: "string";
+                    readonly type: "object";
                     readonly description: "The writer of the draft";
+                    readonly properties: {
+                        readonly name: {
+                            readonly type: "string";
+                            readonly description: "The name of the writer";
+                        };
+                        readonly email: {
+                            readonly type: "string";
+                            readonly description: "The email of the writer";
+                        };
+                    };
                 };
                 readonly to: {
                     readonly type: "array";
                     readonly description: "The receivers of the draft";
                     readonly items: {
-                        readonly type: "string";
+                        readonly type: "object";
+                        readonly description: "A recipients of the draft";
+                        readonly properties: {
+                            readonly name: {
+                                readonly type: "string";
+                                readonly description: "The name of the recipient";
+                            };
+                            readonly email: {
+                                readonly type: "string";
+                                readonly description: "The email of the recipient";
+                            };
+                        };
                     };
                 };
                 readonly cc: {
                     readonly type: "array";
                     readonly description: "The ccs of the draft";
                     readonly items: {
-                        readonly type: "string";
+                        readonly type: "object";
+                        readonly description: "A cc of the draft";
+                        readonly properties: {
+                            readonly name: {
+                                readonly type: "string";
+                                readonly description: "The name of the cc";
+                            };
+                            readonly email: {
+                                readonly type: "string";
+                                readonly description: "The email of the cc";
+                            };
+                        };
                     };
                 };
                 readonly bcc: {
                     readonly type: "array";
                     readonly description: "The bccs of the draft";
                     readonly items: {
-                        readonly type: "string";
+                        readonly type: "object";
+                        readonly description: "A bcc of the draft";
+                        readonly properties: {
+                            readonly name: {
+                                readonly type: "string";
+                                readonly description: "The name of the bcc";
+                            };
+                            readonly email: {
+                                readonly type: "string";
+                                readonly description: "The email of the bcc";
+                            };
+                        };
                     };
                 };
             };

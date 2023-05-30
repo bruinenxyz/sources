@@ -167,7 +167,7 @@ function getParsedDraft(authClient, params) {
                 headers: {
                     date: date ? date.value : "",
                     subject: subject ? subject.value : "",
-                    from: (from === null || from === void 0 ? void 0 : from.value) ? extractRecipients(from.value + ",") : "",
+                    from: (from === null || from === void 0 ? void 0 : from.value) ? extractRecipients(from.value + ",")[0] : "",
                     to: (to === null || to === void 0 ? void 0 : to.value) ? extractRecipients(to.value + ",") : [],
                     cc: (cc === null || cc === void 0 ? void 0 : cc.value) ? extractRecipients(cc.value + ",") : [],
                     bcc: (bcc === null || bcc === void 0 ? void 0 : bcc.value) ? extractRecipients(bcc.value + ",") : [],
