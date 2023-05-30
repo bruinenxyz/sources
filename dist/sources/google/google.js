@@ -94,8 +94,31 @@ function findBody(partsArray) {
     }
     return "";
 }
+function extractRecipients(value) {
+    const regex = /(([\w,\"\s]+)\s)?<?([^@<\s]+@[^@\s>]+)>?,/g;
+    let m;
+    let recipientsArray = [];
+    while ((m = regex.exec(value)) !== null) {
+        if (m.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+        let name = null;
+        let email = null;
+        if (m[2]) {
+            name = m[2].replace(/,$/, "").replace(/"/g, "").trim(); // strip whitespaces and commas, and remove quotation marks
+        }
+        if (m[3]) {
+            email = m[3].replace(/,$/, "").trim(); // strip whitespaces and commas from end of string
+        }
+        let item = {
+            name: name,
+            email: email,
+        };
+        recipientsArray.push(item);
+    }
+    return recipientsArray;
+}
 function getParsedDraft(authClient, params) {
-    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const rawDraft = yield getDraft(authClient, params);
@@ -145,9 +168,9 @@ function getParsedDraft(authClient, params) {
                     date: date ? date.value : "",
                     subject: subject ? subject.value : "",
                     from: from ? from.value : "",
-                    to: to ? (_a = to.value) === null || _a === void 0 ? void 0 : _a.split(",") : [],
-                    cc: cc ? (_b = cc.value) === null || _b === void 0 ? void 0 : _b.split(",") : [],
-                    bcc: bcc ? (_c = bcc.value) === null || _c === void 0 ? void 0 : _c.split(",") : [],
+                    to: (to === null || to === void 0 ? void 0 : to.value) ? extractRecipients(to.value) : [],
+                    cc: (cc === null || cc === void 0 ? void 0 : cc.value) ? extractRecipients(cc.value) : [],
+                    bcc: (bcc === null || bcc === void 0 ? void 0 : bcc.value) ? extractRecipients(bcc.value) : [],
                 },
                 body: findBody(parts),
                 attachments: attachments,

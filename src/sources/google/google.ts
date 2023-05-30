@@ -127,6 +127,34 @@ function findBody(partsArray: any[]): string {
   return "";
 }
 
+function extractRecipients(value: string) {
+  const regex = /(([\w,\"\s]+)\s)?<?([^@<\s]+@[^@\s>]+)>?,/g;
+  let m;
+  let recipientsArray = [];
+  while ((m = regex.exec(value)) !== null) {
+    if (m.index === regex.lastIndex) {
+      regex.lastIndex++;
+    }
+    let name = null;
+    let email = null;
+
+    if (m[2]) {
+      name = m[2].replace(/,$/, "").replace(/"/g, "").trim(); // strip whitespaces and commas, and remove quotation marks
+    }
+
+    if (m[3]) {
+      email = m[3].replace(/,$/, "").trim(); // strip whitespaces and commas from end of string
+    }
+
+    let item = {
+      name: name,
+      email: email,
+    };
+    recipientsArray.push(item);
+  }
+  return recipientsArray;
+}
+
 async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
   try {
     const rawDraft: GoogleDraftType = await getDraft(authClient, params);
@@ -185,9 +213,9 @@ async function getParsedDraft(authClient: Axios, params: any): Promise<any> {
         date: date ? date.value : "",
         subject: subject ? subject.value : "",
         from: from ? from.value : "",
-        to: to ? to.value?.split(",") : [],
-        cc: cc ? cc.value?.split(",") : [],
-        bcc: bcc ? bcc.value?.split(",") : [],
+        to: to?.value ? extractRecipients(to.value) : [],
+        cc: cc?.value ? extractRecipients(cc.value) : [],
+        bcc: bcc?.value ? extractRecipients(bcc.value) : [],
       },
       body: findBody(parts),
       attachments: attachments,
