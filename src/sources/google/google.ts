@@ -128,8 +128,7 @@ function findBody(partsArray: any[]): string {
 }
 
 function extractRecipients(value: string) {
-  const regex =
-    /((([\w,\"\s]+)\s)|(\"([^@<\s]+@[^@\s>]+)\"))?<?([^@<\s]+@[^@\s>]+)>?,/g;
+  const regex = /(([\w,[^@]\w,\"\s]+)\s)?<?([^@<\s]+@[^@\s>]+)>?,/g;
   let m;
   let recipientsArray = [];
   while ((m = regex.exec(value)) !== null) {
