@@ -20,6 +20,7 @@ import {
   GoogleThreads,
   GoogleThreadInput,
   GoogleThread,
+  GoogleParsedThread,
   GoogleCalendarsInput,
   GoogleCalendars,
   GoogleCalendarInput,
@@ -32,6 +33,7 @@ import {
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
 import * as _ from "lodash";
+import { raw } from "express";
 
 type GoogleProfileType = FromSchema<typeof GoogleProfile>;
 type GoogleDraftsInputType = FromSchema<typeof GoogleDraftsInput>;
@@ -51,6 +53,7 @@ type GoogleThreadsInputType = FromSchema<typeof GoogleThreadsInput>;
 type GoogleThreadsType = FromSchema<typeof GoogleThreads>;
 type GoogleThreadInputType = FromSchema<typeof GoogleThreadInput>;
 type GoogleThreadType = FromSchema<typeof GoogleThread>;
+type GoogleParsedThreadType = FromSchema<typeof GoogleParsedThread>;
 type GoogleCalendarsInputType = FromSchema<typeof GoogleCalendarsInput>;
 type GoogleCalendarsType = FromSchema<typeof GoogleCalendars>;
 type GoogleCalendarInputType = FromSchema<typeof GoogleCalendarInput>;
@@ -378,6 +381,90 @@ async function getThread(
   return data;
 }
 
+async function getParsedThread(
+  authClient: Axios,
+  params: any
+): Promise<GoogleParsedThreadType> {
+  try {
+    const rawThread: GoogleThreadType = await getThread(authClient, params);
+    const rawMessages = rawThread.messages;
+    if (!rawMessages) {
+      throw new Error("No messages found");
+    }
+    const messages = rawMessages.map((rawMessage: any) => {
+      if (!rawMessage) {
+        throw new Error("No message found");
+      }
+      if (!rawMessage.payload) {
+        throw new Error("No payload found in message");
+      }
+      if (!rawMessage.payload.headers) {
+        throw new Error("No headers found in message");
+      }
+      if (!rawMessage.payload.parts) {
+        throw new Error("No parts found in message");
+      }
+
+      //Headers
+      const headers = rawMessage.payload.headers;
+      const date = headers.find((header: any) => header.name === "Date");
+      const subject = headers.find((header: any) => header.name === "Subject");
+      const from = headers.find((header: any) => header.name === "From");
+      const to = headers.find((header: any) => header.name === "To");
+      const cc = headers.find((header: any) => header.name === "Cc");
+      const bcc = headers.find((header: any) => header.name === "Bcc");
+
+      //Parts
+      const parts = rawMessage.payload.parts;
+
+      //Attachments
+      const attachments = parts
+        .filter((part: any) => Number(part.partId) > 0)
+        .map((part: any) => {
+          return {
+            attachmentId: part.body?.attachmentId,
+            mimeType: part.mimeType,
+            filename: part.filename,
+            contentType: part.headers?.find(
+              (header: any) => header.name === "Content-Type"
+            )?.value,
+            contentDisposition: part.headers?.find(
+              (header: any) => header.name === "Content-Disposition"
+            )?.value,
+            contentTransferEncoding: part.headers?.find(
+              (header: any) => header.name === "Content-Transfer-Encoding"
+            )?.value,
+            size: part.body?.size,
+          };
+        });
+
+      return {
+        id: rawMessage.id,
+        threadId: rawMessage.threadId,
+        labelIds: rawMessage.labelIds,
+        headers: {
+          date: date ? date.value : "",
+          subject: subject ? subject.value : "",
+          from: from?.value
+            ? extractRecipients(from.value + ",")[0]
+            : { name: "", email: "" },
+          to: to?.value ? extractRecipients(to.value + ",") : [],
+          cc: cc?.value ? extractRecipients(cc.value + ",") : [],
+          bcc: bcc?.value ? extractRecipients(bcc.value + ",") : [],
+        },
+        body: findBody(parts),
+        attachments: attachments,
+      };
+    });
+    return {
+      id: rawThread.id,
+      messages: messages,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 async function getCalendars(
   authClient: Axios,
   params?: any
@@ -564,6 +651,15 @@ export class Google extends OAuth2Source implements Source {
         getThread,
         GoogleThreadInput,
         GoogleThread
+      ),
+      parsedThread: new Resource<GoogleThreadInputType, GoogleParsedThreadType>(
+        "parsedThread",
+        "Google Parsed Thread",
+        "get",
+        "Your gmail parsed thread",
+        getParsedThread,
+        GoogleThreadInput,
+        GoogleParsedThread
       ),
       calendars: new Resource<GoogleCalendarsInputType, GoogleCalendarsType>(
         "calendars",

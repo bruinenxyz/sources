@@ -295,6 +295,80 @@ function getThread(authClient, params) {
         return data;
     });
 }
+function getParsedThread(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const rawThread = yield getThread(authClient, params);
+            const rawMessages = rawThread.messages;
+            if (!rawMessages) {
+                throw new Error("No messages found");
+            }
+            const messages = rawMessages.map((rawMessage) => {
+                if (!rawMessage) {
+                    throw new Error("No message found");
+                }
+                if (!rawMessage.payload) {
+                    throw new Error("No payload found in message");
+                }
+                if (!rawMessage.payload.headers) {
+                    throw new Error("No headers found in message");
+                }
+                if (!rawMessage.payload.parts) {
+                    throw new Error("No parts found in message");
+                }
+                //Headers
+                const headers = rawMessage.payload.headers;
+                const date = headers.find((header) => header.name === "Date");
+                const subject = headers.find((header) => header.name === "Subject");
+                const from = headers.find((header) => header.name === "From");
+                const to = headers.find((header) => header.name === "To");
+                const cc = headers.find((header) => header.name === "Cc");
+                const bcc = headers.find((header) => header.name === "Bcc");
+                //Parts
+                const parts = rawMessage.payload.parts;
+                //Attachments
+                const attachments = parts
+                    .filter((part) => Number(part.partId) > 0)
+                    .map((part) => {
+                    var _a, _b, _c, _d, _e, _f, _g, _h;
+                    return {
+                        attachmentId: (_a = part.body) === null || _a === void 0 ? void 0 : _a.attachmentId,
+                        mimeType: part.mimeType,
+                        filename: part.filename,
+                        contentType: (_c = (_b = part.headers) === null || _b === void 0 ? void 0 : _b.find((header) => header.name === "Content-Type")) === null || _c === void 0 ? void 0 : _c.value,
+                        contentDisposition: (_e = (_d = part.headers) === null || _d === void 0 ? void 0 : _d.find((header) => header.name === "Content-Disposition")) === null || _e === void 0 ? void 0 : _e.value,
+                        contentTransferEncoding: (_g = (_f = part.headers) === null || _f === void 0 ? void 0 : _f.find((header) => header.name === "Content-Transfer-Encoding")) === null || _g === void 0 ? void 0 : _g.value,
+                        size: (_h = part.body) === null || _h === void 0 ? void 0 : _h.size,
+                    };
+                });
+                return {
+                    id: rawMessage.id,
+                    threadId: rawMessage.threadId,
+                    labelIds: rawMessage.labelIds,
+                    headers: {
+                        date: date ? date.value : "",
+                        subject: subject ? subject.value : "",
+                        from: (from === null || from === void 0 ? void 0 : from.value)
+                            ? extractRecipients(from.value + ",")[0]
+                            : { name: "", email: "" },
+                        to: (to === null || to === void 0 ? void 0 : to.value) ? extractRecipients(to.value + ",") : [],
+                        cc: (cc === null || cc === void 0 ? void 0 : cc.value) ? extractRecipients(cc.value + ",") : [],
+                        bcc: (bcc === null || bcc === void 0 ? void 0 : bcc.value) ? extractRecipients(bcc.value + ",") : [],
+                    },
+                    body: findBody(parts),
+                    attachments: attachments,
+                };
+            });
+            return {
+                id: rawThread.id,
+                messages: messages,
+            };
+        }
+        catch (error) {
+            throw new Error(error);
+        }
+    });
+}
 function getCalendars(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         let paramsString = "";
@@ -387,6 +461,7 @@ class Google extends source_1.OAuth2Source {
             parsedMessage: new resource_1.Resource("parsedMessage", "Google Parsed Message", "get", "Your gmail parsed message", getParsedMessage, google_types_1.GoogleMessageInput, google_types_1.GoogleParsedMessage),
             threads: new resource_1.Resource("threads", "Google Threads", "get", "Your gmail threads", getThreads, google_types_1.GoogleThreadsInput, google_types_1.GoogleThreads),
             thread: new resource_1.Resource("thread", "Google Thread", "get", "Your gmail thread", getThread, google_types_1.GoogleThreadInput, google_types_1.GoogleThread),
+            parsedThread: new resource_1.Resource("parsedThread", "Google Parsed Thread", "get", "Your gmail parsed thread", getParsedThread, google_types_1.GoogleThreadInput, google_types_1.GoogleParsedThread),
             calendars: new resource_1.Resource("calendars", "Google Calendars", "get", "Your google calendars", getCalendars, google_types_1.GoogleCalendarsInput, google_types_1.GoogleCalendars),
             calendar: new resource_1.Resource("calendar", "Google Calendar", "get", "Your google calendar", getCalendar, google_types_1.GoogleCalendarInput, google_types_1.GoogleCalendar),
             events: new resource_1.Resource("events", "Google Events", "get", "Your google events", getEvents, google_types_1.GoogleEventsInput, google_types_1.GoogleEvents),

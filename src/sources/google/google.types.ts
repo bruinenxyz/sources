@@ -915,6 +915,152 @@ export const GoogleThread = {
   },
 } as const satisfies JSONSchema;
 
+export const GoogleParsedThread = {
+  title: "GoogleParsedThread",
+  description: "Your google thread",
+  type: "object",
+  properties: {
+    id: { type: "string", description: "The id of the thread" },
+    messages: {
+      type: "array",
+      description: "A list of the messages in the thread",
+      items: {
+        type: "object",
+        description: "A message in the thread",
+        properties: {
+          id: { type: "string", description: "The id of the message" },
+          threadId: {
+            type: "string",
+            description: "The threadId of the message",
+          },
+          labelIds: {
+            type: "array",
+            description: "The labelIds of the message",
+          },
+          headers: {
+            type: "object",
+            description: "The headers of the message",
+            properties: {
+              date: { type: "string", description: "The date of the message" },
+              subject: {
+                type: "string",
+                description: "The subject of the message",
+              },
+              from: {
+                type: "object",
+                description: "The writer of the message",
+                properties: {
+                  name: {
+                    type: "string",
+                    description: "The name of the writer",
+                  },
+                  email: {
+                    type: "string",
+                    description: "The email of the writer",
+                  },
+                },
+              },
+              to: {
+                type: "array",
+                description: "The receivers of the message",
+                items: {
+                  type: "object",
+                  description: "A recipients of the message",
+                  properties: {
+                    name: {
+                      type: "string",
+                      description: "The name of the recipient",
+                    },
+                    email: {
+                      type: "string",
+                      description: "The email of the recipient",
+                    },
+                  },
+                },
+              },
+              cc: {
+                type: "array",
+                description: "The ccs of the message",
+                items: {
+                  type: "object",
+                  description: "A cc of the message",
+                  properties: {
+                    name: {
+                      type: "string",
+                      description: "The name of the cc",
+                    },
+                    email: {
+                      type: "string",
+                      description: "The email of the cc",
+                    },
+                  },
+                },
+              },
+              bcc: {
+                type: "array",
+                description: "The bccs of the message",
+                items: {
+                  type: "object",
+                  description: "A bcc of the message",
+                  properties: {
+                    name: {
+                      type: "string",
+                      description: "The name of the bcc",
+                    },
+                    email: {
+                      type: "string",
+                      description: "The email of the bcc",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          body: { type: "string", description: "The body of the message" },
+          attachments: {
+            type: "array",
+            description: "The attachments of the message",
+            items: {
+              type: "object",
+              description: "An attachment of the message",
+              properties: {
+                attachmentId: {
+                  type: "string",
+                  description: "The attachmentId of the attachment",
+                },
+                mimeType: {
+                  type: "string",
+                  description: "The mimeType of the attachment",
+                },
+                filename: {
+                  type: "string",
+                  description: "The filename of the attachment",
+                },
+                contentType: {
+                  type: "string",
+                  description: "The contentType of the attachment",
+                },
+                contentDisposition: {
+                  type: "string",
+                  description: "The contentDisposition of the attachment",
+                },
+                contentTransferEncoding: {
+                  type: "string",
+                  description: "The contentTransferEncoding of the attachment",
+                },
+                size: {
+                  type: "number",
+                  description: "The size of the attachment",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+} as const satisfies JSONSchema;
+
 export const GoogleCalendarsInput = {
   title: "GoogleCalendarsInput",
   description: "The input for your google calendars",
