@@ -193,7 +193,7 @@ async function getParsedDraft(
 
     //Attachments
     const attachments = parts
-      .filter((part) => Number(part.partId) > 0)
+      .filter((part) => part.body?.attachmentId)
       .map((part) => {
         return {
           attachmentId: part.body?.attachmentId,
@@ -312,7 +312,7 @@ async function getParsedMessage(
 
     //Attachments
     const attachments = parts
-      .filter((part) => Number(part.partId) > 0)
+      .filter((part) => part.body?.attachmentId)
       .map((part) => {
         return {
           attachmentId: part.body?.attachmentId,
