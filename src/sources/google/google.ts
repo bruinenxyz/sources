@@ -419,9 +419,7 @@ async function getParsedThread(
 
       //Attachments
       const attachments = parts
-        .filter(
-          (part: any) => Number(part.partId) > 0 && part.body?.attachmentId
-        )
+        .filter((part: any) => part.body?.attachmentId)
         .map((part: any) => {
           return {
             attachmentId: part.body?.attachmentId,
