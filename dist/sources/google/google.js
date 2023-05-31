@@ -328,7 +328,7 @@ function getParsedThread(authClient, params) {
                 const parts = rawMessage.payload.parts;
                 //Attachments
                 const attachments = parts
-                    .filter((part) => Number(part.partId) > 0)
+                    .filter((part) => { var _a; return Number(part.partId) > 0 && ((_a = part.body) === null || _a === void 0 ? void 0 : _a.attachmentId); })
                     .map((part) => {
                     var _a, _b, _c, _d, _e, _f, _g, _h;
                     return {
