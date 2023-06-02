@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Google = exports.Github = void 0;
+const github_1 = require("./sources/github/github");
+Object.defineProperty(exports, "Github", { enumerable: true, get: function () { return github_1.Github; } });
+const google_1 = require("./sources/google/google");
+Object.defineProperty(exports, "Google", { enumerable: true, get: function () { return google_1.Google; } });
+const Sources = {};
+Sources[new github_1.Github().getName()] = github_1.Github;
+Sources[new google_1.Google().getName()] = google_1.Google;
+exports.default = Sources;

@@ -1,13 +1,13 @@
 import { Resource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
-import { GithubProfile, GithubRepo } from "./github.types";
+import { GithubProfile, GithubRepos } from "./github.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
 import * as _ from "lodash";
 
 type GithubProfileType = FromSchema<typeof GithubProfile>;
-type GithubRepoType = FromSchema<typeof GithubRepo>;
+type GithubReposType = FromSchema<typeof GithubRepos>;
 
 const github_api_url = "https://api.github.com";
 const github_login_url = "https://github.com/login/oauth/";
@@ -17,8 +17,8 @@ const githubScopes = ["user", "repo", "gist"];
 async function getRepos(
   authClient: Axios,
   params?: null
-): Promise<GithubRepoType> {
-  const { data }: { data: GithubRepoType } = await authClient.get(
+): Promise<GithubReposType> {
+  const { data }: { data: GithubReposType } = await authClient.get(
     "/user/repos"
   );
   return data;
@@ -42,14 +42,14 @@ export class Github extends OAuth2Source implements Source {
     super("github");
     this.description = "A source for github";
     this.resources = {
-      repos: new Resource<null, GithubRepoType>(
+      repos: new Resource<null, GithubReposType>(
         "repos",
         "GitHub Repos",
         "get",
         "Your github repos",
         getRepos,
         null,
-        GithubRepo
+        GithubRepos
       ),
       profile: new Resource<null, GithubProfileType>(
         "profile",
@@ -88,11 +88,11 @@ export class Github extends OAuth2Source implements Source {
     };
   }
 
-  public getToken = (credential: string): { accessToken: string } => {
-    return JSON.parse(credential) as { accessToken: string };
-  };
+  public async getToken(credential: string) {
+    return (await JSON.parse(credential)) as { accessToken: string };
+  }
 
-  public getBaseUrl = () => {
+  public getBaseUrl = (resourceName: string) => {
     return github_api_url;
   };
 
@@ -136,9 +136,9 @@ export class Github extends OAuth2Source implements Source {
     }
   }
 
-  public deactivate = () => {
-    return;
-  };
+  public deactivate(accessCredentials?: any) {
+    return "success";
+  }
 
   public getAuthUrl = (
     state: string,

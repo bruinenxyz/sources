@@ -1,12 +1,13 @@
 {
   "name": "bruinen-sources",
-  "version": "0.0.7",
+  "version": "0.0.21",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "format": "prettier --write \"src/**/*.ts\" ",
-    "format:check": "prettier --check \"src/**/*.ts\""
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "bf": "yarn build && yarn format"
   },
   "nodemonConfig": {
     "watch": [
