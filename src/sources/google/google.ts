@@ -7,6 +7,7 @@ import {
   GoogleDrafts,
   GoogleDraftInput,
   GoogleDraft,
+  GoogleParsedDraft,
   GoogleLabels,
   GoogleLabelInput,
   GoogleLabel,
@@ -14,10 +15,12 @@ import {
   GoogleMessages,
   GoogleMessageInput,
   GoogleMessage,
+  GoogleParsedMessage,
   GoogleThreadsInput,
   GoogleThreads,
   GoogleThreadInput,
   GoogleThread,
+  GoogleParsedThread,
   GoogleCalendarsInput,
   GoogleCalendars,
   GoogleCalendarInput,
@@ -30,12 +33,14 @@ import {
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
 import * as _ from "lodash";
+import { raw } from "express";
 
 type GoogleProfileType = FromSchema<typeof GoogleProfile>;
 type GoogleDraftsInputType = FromSchema<typeof GoogleDraftsInput>;
 type GoogleDraftsType = FromSchema<typeof GoogleDrafts>;
 type GoogleDraftInputType = FromSchema<typeof GoogleDraftInput>;
 type GoogleDraftType = FromSchema<typeof GoogleDraft>;
+type GoogleParsedDraftType = FromSchema<typeof GoogleParsedDraft>;
 type GoogleLabelsType = FromSchema<typeof GoogleLabels>;
 type GoogleLabelInputType = FromSchema<typeof GoogleLabelInput>;
 type GoogleLabelType = FromSchema<typeof GoogleLabel>;
@@ -43,10 +48,12 @@ type GoogleMessagesInputType = FromSchema<typeof GoogleMessagesInput>;
 type GoogleMessagesType = FromSchema<typeof GoogleMessages>;
 type GoogleMessageInputType = FromSchema<typeof GoogleMessageInput>;
 type GoogleMessageType = FromSchema<typeof GoogleMessage>;
+type GoogleParsedMessageType = FromSchema<typeof GoogleParsedMessage>;
 type GoogleThreadsInputType = FromSchema<typeof GoogleThreadsInput>;
 type GoogleThreadsType = FromSchema<typeof GoogleThreads>;
 type GoogleThreadInputType = FromSchema<typeof GoogleThreadInput>;
 type GoogleThreadType = FromSchema<typeof GoogleThread>;
+type GoogleParsedThreadType = FromSchema<typeof GoogleParsedThread>;
 type GoogleCalendarsInputType = FromSchema<typeof GoogleCalendarsInput>;
 type GoogleCalendarsType = FromSchema<typeof GoogleCalendars>;
 type GoogleCalendarInputType = FromSchema<typeof GoogleCalendarInput>;
@@ -70,6 +77,50 @@ const googleScopes = [
   "https://www.googleapis.com/auth/calendar.readonly",
   "https://www.googleapis.com/auth/calendar.events.readonly",
 ];
+
+function findBody(partsArray: any[]): string {
+  for (let i = 0; i < partsArray.length; i++) {
+    const mimeType = partsArray[i].mimeType;
+    if (mimeType === "text/plain") {
+      const body = partsArray[i].body.data;
+      return Buffer.from(body, "base64").toString("utf-8");
+    } else if (partsArray[i].parts) {
+      const body = findBody(partsArray[i].parts);
+      if (!!body) {
+        return body;
+      }
+    }
+  }
+  return "";
+}
+
+function extractRecipients(value: string) {
+  const regex = /(([\w,\"\s]+)\s)?<?([^@<\s]+@[^@\s>]+)>?,/g;
+  let m;
+  let recipientsArray = [];
+  while ((m = regex.exec(value)) !== null) {
+    if (m.index === regex.lastIndex) {
+      regex.lastIndex++;
+    }
+    let name = "";
+    let email = "";
+
+    if (m[2]) {
+      name = m[2].replace(/,$/, "").replace(/"/g, "").trim(); // strip whitespaces and commas, and remove quotation marks
+    }
+
+    if (m[3]) {
+      email = m[3].replace(/,$/, "").trim(); // strip whitespaces and commas from end of string
+    }
+
+    let item = {
+      name: name,
+      email: email,
+    };
+    recipientsArray.push(item);
+  }
+  return recipientsArray;
+}
 
 async function getProfile(
   authClient: Axios,
@@ -107,6 +158,81 @@ async function getDraft(
     `/drafts/${params.draftId}?format=full`
   );
   return data;
+}
+
+async function getParsedDraft(
+  authClient: Axios,
+  params: any
+): Promise<GoogleParsedDraftType> {
+  try {
+    const rawDraft: GoogleDraftType = await getDraft(authClient, params);
+    if (!rawDraft.message) {
+      throw new Error("No message found in draft");
+    }
+    if (!rawDraft.message.payload) {
+      throw new Error("No payload found in draft");
+    }
+    if (!rawDraft.message.payload.headers) {
+      throw new Error("No headers found in draft");
+    }
+    if (!rawDraft.message.payload.parts) {
+      throw new Error("No parts found in draft");
+    }
+
+    //Headers
+    const headers = rawDraft.message.payload.headers;
+    const date = headers.find((header) => header.name === "Date");
+    const subject = headers.find((header) => header.name === "Subject");
+    const from = headers.find((header) => header.name === "From");
+    const to = headers.find((header) => header.name === "To");
+    const cc = headers.find((header) => header.name === "Cc");
+    const bcc = headers.find((header) => header.name === "Bcc");
+
+    //Parts
+    const parts = rawDraft.message.payload.parts;
+
+    //Attachments
+    const attachments = parts
+      .filter((part) => part.body?.attachmentId)
+      .map((part) => {
+        return {
+          attachmentId: part.body?.attachmentId,
+          mimeType: part.mimeType,
+          filename: part.filename,
+          contentType: part.headers?.find(
+            (header) => header.name === "Content-Type"
+          )?.value,
+          contentDisposition: part.headers?.find(
+            (header) => header.name === "Content-Disposition"
+          )?.value,
+          contentTransferEncoding: part.headers?.find(
+            (header) => header.name === "Content-Transfer-Encoding"
+          )?.value,
+          size: part.body?.size,
+        };
+      });
+
+    return {
+      id: rawDraft.id,
+      messageId: rawDraft.message.id,
+      threadId: rawDraft.message.threadId,
+      labelIds: rawDraft.message.labelIds,
+      headers: {
+        date: date ? date.value : "",
+        subject: subject ? subject.value : "",
+        from: from?.value
+          ? extractRecipients(from.value + ",")[0]
+          : { name: "", email: "" },
+        to: to?.value ? extractRecipients(to.value + ",") : [],
+        cc: cc?.value ? extractRecipients(cc.value + ",") : [],
+        bcc: bcc?.value ? extractRecipients(bcc.value + ",") : [],
+      },
+      body: findBody(parts),
+      attachments: attachments,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 async function getLabels(
@@ -153,6 +279,80 @@ async function getMessage(
   return data;
 }
 
+async function getParsedMessage(
+  authClient: Axios,
+  params: any
+): Promise<GoogleParsedMessageType> {
+  try {
+    const rawMessage: GoogleMessageType = await getMessage(authClient, params);
+    if (!rawMessage) {
+      throw new Error("No message found");
+    }
+    if (!rawMessage.payload) {
+      throw new Error("No payload found in message");
+    }
+    if (!rawMessage.payload.headers) {
+      throw new Error("No headers found in message");
+    }
+    if (!rawMessage.payload.parts) {
+      throw new Error("No parts found in message");
+    }
+
+    //Headers
+    const headers = rawMessage.payload.headers;
+    const date = headers.find((header) => header.name === "Date");
+    const subject = headers.find((header) => header.name === "Subject");
+    const from = headers.find((header) => header.name === "From");
+    const to = headers.find((header) => header.name === "To");
+    const cc = headers.find((header) => header.name === "Cc");
+    const bcc = headers.find((header) => header.name === "Bcc");
+
+    //Parts
+    const parts = rawMessage.payload.parts;
+
+    //Attachments
+    const attachments = parts
+      .filter((part) => part.body?.attachmentId)
+      .map((part) => {
+        return {
+          attachmentId: part.body?.attachmentId,
+          mimeType: part.mimeType,
+          filename: part.filename,
+          contentType: part.headers?.find(
+            (header) => header.name === "Content-Type"
+          )?.value,
+          contentDisposition: part.headers?.find(
+            (header) => header.name === "Content-Disposition"
+          )?.value,
+          contentTransferEncoding: part.headers?.find(
+            (header) => header.name === "Content-Transfer-Encoding"
+          )?.value,
+          size: part.body?.size,
+        };
+      });
+
+    return {
+      id: rawMessage.id,
+      threadId: rawMessage.threadId,
+      labelIds: rawMessage.labelIds,
+      headers: {
+        date: date ? date.value : "",
+        subject: subject ? subject.value : "",
+        from: from?.value
+          ? extractRecipients(from.value + ",")[0]
+          : { name: "", email: "" },
+        to: to?.value ? extractRecipients(to.value + ",") : [],
+        cc: cc?.value ? extractRecipients(cc.value + ",") : [],
+        bcc: bcc?.value ? extractRecipients(bcc.value + ",") : [],
+      },
+      body: findBody(parts),
+      attachments: attachments,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 async function getThreads(
   authClient: Axios,
   params?: any
@@ -179,6 +379,90 @@ async function getThread(
     `/threads/${params.threadId}?format=full`
   );
   return data;
+}
+
+async function getParsedThread(
+  authClient: Axios,
+  params: any
+): Promise<GoogleParsedThreadType> {
+  try {
+    const rawThread: GoogleThreadType = await getThread(authClient, params);
+    const rawMessages = rawThread.messages;
+    if (!rawMessages) {
+      throw new Error("No messages found");
+    }
+    const messages = rawMessages.map((rawMessage: any) => {
+      if (!rawMessage) {
+        throw new Error("No message found");
+      }
+      if (!rawMessage.payload) {
+        throw new Error("No payload found in message");
+      }
+      if (!rawMessage.payload.headers) {
+        throw new Error("No headers found in message");
+      }
+      if (!rawMessage.payload.parts) {
+        throw new Error("No parts found in message");
+      }
+
+      //Headers
+      const headers = rawMessage.payload.headers;
+      const date = headers.find((header: any) => header.name === "Date");
+      const subject = headers.find((header: any) => header.name === "Subject");
+      const from = headers.find((header: any) => header.name === "From");
+      const to = headers.find((header: any) => header.name === "To");
+      const cc = headers.find((header: any) => header.name === "Cc");
+      const bcc = headers.find((header: any) => header.name === "Bcc");
+
+      //Parts
+      const parts = rawMessage.payload.parts;
+
+      //Attachments
+      const attachments = parts
+        .filter((part: any) => part.body?.attachmentId)
+        .map((part: any) => {
+          return {
+            attachmentId: part.body?.attachmentId,
+            mimeType: part.mimeType,
+            filename: part.filename,
+            contentType: part.headers?.find(
+              (header: any) => header.name === "Content-Type"
+            )?.value,
+            contentDisposition: part.headers?.find(
+              (header: any) => header.name === "Content-Disposition"
+            )?.value,
+            contentTransferEncoding: part.headers?.find(
+              (header: any) => header.name === "Content-Transfer-Encoding"
+            )?.value,
+            size: part.body?.size,
+          };
+        });
+
+      return {
+        id: rawMessage.id,
+        threadId: rawMessage.threadId,
+        labelIds: rawMessage.labelIds,
+        headers: {
+          date: date ? date.value : "",
+          subject: subject ? subject.value : "",
+          from: from?.value
+            ? extractRecipients(from.value + ",")[0]
+            : { name: "", email: "" },
+          to: to?.value ? extractRecipients(to.value + ",") : [],
+          cc: cc?.value ? extractRecipients(cc.value + ",") : [],
+          bcc: bcc?.value ? extractRecipients(bcc.value + ",") : [],
+        },
+        body: findBody(parts),
+        attachments: attachments,
+      };
+    });
+    return {
+      id: rawThread.id,
+      messages: messages,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 async function getCalendars(
@@ -293,6 +577,15 @@ export class Google extends OAuth2Source implements Source {
         GoogleDraftInput,
         GoogleDraft
       ),
+      parsedDraft: new Resource<GoogleDraftInputType, GoogleParsedDraftType>(
+        "parsedDraft",
+        "Google Parsed Draft",
+        "get",
+        "Your gmail parsed draft",
+        getParsedDraft,
+        GoogleDraftInput,
+        GoogleParsedDraft
+      ),
       labels: new Resource<null, GoogleLabelsType>(
         "labels",
         "Google Labels",
@@ -329,6 +622,18 @@ export class Google extends OAuth2Source implements Source {
         GoogleMessageInput,
         GoogleMessage
       ),
+      parsedMessage: new Resource<
+        GoogleMessageInputType,
+        GoogleParsedMessageType
+      >(
+        "parsedMessage",
+        "Google Parsed Message",
+        "get",
+        "Your gmail parsed message",
+        getParsedMessage,
+        GoogleMessageInput,
+        GoogleParsedMessage
+      ),
       threads: new Resource<GoogleThreadsInputType, GoogleThreadsType>(
         "threads",
         "Google Threads",
@@ -346,6 +651,15 @@ export class Google extends OAuth2Source implements Source {
         getThread,
         GoogleThreadInput,
         GoogleThread
+      ),
+      parsedThread: new Resource<GoogleThreadInputType, GoogleParsedThreadType>(
+        "parsedThread",
+        "Google Parsed Thread",
+        "get",
+        "Your gmail parsed thread",
+        getParsedThread,
+        GoogleThreadInput,
+        GoogleParsedThread
       ),
       calendars: new Resource<GoogleCalendarsInputType, GoogleCalendarsType>(
         "calendars",

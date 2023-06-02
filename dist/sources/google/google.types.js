@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GoogleEvent = exports.GoogleEventInput = exports.GoogleEvents = exports.GoogleEventsInput = exports.GoogleCalendar = exports.GoogleCalendarInput = exports.GoogleCalendars = exports.GoogleCalendarsInput = exports.GoogleThread = exports.GoogleThreadInput = exports.GoogleThreads = exports.GoogleThreadsInput = exports.GoogleMessage = exports.GoogleMessageInput = exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
+exports.GoogleEvent = exports.GoogleEventInput = exports.GoogleEvents = exports.GoogleEventsInput = exports.GoogleCalendar = exports.GoogleCalendarInput = exports.GoogleCalendars = exports.GoogleCalendarsInput = exports.GoogleParsedThread = exports.GoogleThread = exports.GoogleThreadInput = exports.GoogleThreads = exports.GoogleThreadsInput = exports.GoogleParsedMessage = exports.GoogleMessage = exports.GoogleMessageInput = exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleParsedDraft = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
 exports.GoogleProfile = {
     title: "GoogleProfile",
     description: "A google profile",
@@ -193,6 +193,46 @@ exports.GoogleDraft = {
                                             attachmentId: { type: "string" },
                                         },
                                     },
+                                    parts: {
+                                        type: "array",
+                                        description: "The parts of the part",
+                                        items: {
+                                            type: "object",
+                                            properties: {
+                                                partId: {
+                                                    type: "string",
+                                                    description: "The partId of the part",
+                                                },
+                                                mimeType: {
+                                                    type: "string",
+                                                    description: "The mimeType of the part",
+                                                },
+                                                filename: {
+                                                    type: "string",
+                                                    description: "The filename of the part",
+                                                },
+                                                headers: {
+                                                    type: "array",
+                                                    description: "The headers of the part",
+                                                    items: {
+                                                        type: "object",
+                                                        properties: {
+                                                            name: { type: "string" },
+                                                            value: { type: "string" },
+                                                        },
+                                                    },
+                                                },
+                                                body: {
+                                                    type: "object",
+                                                    description: "The body of the part",
+                                                    properties: {
+                                                        size: { type: "number" },
+                                                        data: { type: "string" },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
                                 },
                             },
                         },
@@ -205,6 +245,123 @@ exports.GoogleDraft = {
                 raw: {
                     type: "string",
                     description: "The raw message",
+                },
+            },
+        },
+    },
+};
+exports.GoogleParsedDraft = {
+    title: "GoogleParsedDraft",
+    description: "Your google parsed draft",
+    type: "object",
+    properties: {
+        id: { type: "string", description: "The id of the draft" },
+        messageId: { type: "string", description: "The id of the draft" },
+        threadId: { type: "string", description: "The threadId of the draft" },
+        labelIds: { type: "array", description: "The labelIds of the draft" },
+        headers: {
+            type: "object",
+            description: "The headers of the draft",
+            properties: {
+                date: { type: "string", description: "The date of the draft" },
+                subject: { type: "string", description: "The subject of the draft" },
+                from: {
+                    type: "object",
+                    description: "The writer of the draft",
+                    properties: {
+                        name: { type: "string", description: "The name of the writer" },
+                        email: { type: "string", description: "The email of the writer" },
+                    },
+                },
+                to: {
+                    type: "array",
+                    description: "The receivers of the draft",
+                    items: {
+                        type: "object",
+                        description: "A recipients of the draft",
+                        properties: {
+                            name: {
+                                type: "string",
+                                description: "The name of the recipient",
+                            },
+                            email: {
+                                type: "string",
+                                description: "The email of the recipient",
+                            },
+                        },
+                    },
+                },
+                cc: {
+                    type: "array",
+                    description: "The ccs of the draft",
+                    items: {
+                        type: "object",
+                        description: "A cc of the draft",
+                        properties: {
+                            name: {
+                                type: "string",
+                                description: "The name of the cc",
+                            },
+                            email: {
+                                type: "string",
+                                description: "The email of the cc",
+                            },
+                        },
+                    },
+                },
+                bcc: {
+                    type: "array",
+                    description: "The bccs of the draft",
+                    items: {
+                        type: "object",
+                        description: "A bcc of the draft",
+                        properties: {
+                            name: {
+                                type: "string",
+                                description: "The name of the bcc",
+                            },
+                            email: {
+                                type: "string",
+                                description: "The email of the bcc",
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        body: { type: "string", description: "The body of the draft" },
+        attachments: {
+            type: "array",
+            description: "The attachments of the draft",
+            items: {
+                type: "object",
+                description: "An attachment of the draft",
+                properties: {
+                    attachmentId: {
+                        type: "string",
+                        description: "The attachmentId of the attachment",
+                    },
+                    mimeType: {
+                        type: "string",
+                        description: "The mimeType of the attachment",
+                    },
+                    filename: {
+                        type: "string",
+                        description: "The filename of the attachment",
+                    },
+                    contentType: {
+                        type: "string",
+                        description: "The contentType of the attachment",
+                    },
+                    contentDisposition: {
+                        type: "string",
+                        description: "The contentDisposition of the attachment",
+                    },
+                    contentTransferEncoding: {
+                        type: "string",
+                        description: "The contentTransferEncoding of the attachment",
+                    },
+                    size: { type: "number", description: "The size of the attachment" },
                 },
             },
         },
@@ -443,6 +600,125 @@ exports.GoogleMessage = {
         },
     },
 };
+exports.GoogleParsedMessage = {
+    title: "GoogleParsedMessage",
+    description: "Your google parsed message",
+    type: "object",
+    properties: {
+        id: { type: "string", description: "The id of the message" },
+        threadId: { type: "string", description: "The threadId of the message" },
+        labelIds: { type: "array", description: "The labelIds of the message" },
+        headers: {
+            type: "object",
+            description: "The headers of the message",
+            properties: {
+                date: { type: "string", description: "The date of the message" },
+                subject: { type: "string", description: "The subject of the message" },
+                from: {
+                    type: "object",
+                    description: "The writer of the message",
+                    properties: {
+                        name: {
+                            type: "string",
+                            description: "The name of the writer",
+                        },
+                        email: { type: "string", description: "The email of the writer" },
+                    },
+                },
+                to: {
+                    type: "array",
+                    description: "The receivers of the message",
+                    items: {
+                        type: "object",
+                        description: "A recipients of the message",
+                        properties: {
+                            name: {
+                                type: "string",
+                                description: "The name of the recipient",
+                            },
+                            email: {
+                                type: "string",
+                                description: "The email of the recipient",
+                            },
+                        },
+                    },
+                },
+                cc: {
+                    type: "array",
+                    description: "The ccs of the message",
+                    items: {
+                        type: "object",
+                        description: "A cc of the message",
+                        properties: {
+                            name: {
+                                type: "string",
+                                description: "The name of the cc",
+                            },
+                            email: {
+                                type: "string",
+                                description: "The email of the cc",
+                            },
+                        },
+                    },
+                },
+                bcc: {
+                    type: "array",
+                    description: "The bccs of the message",
+                    items: {
+                        type: "object",
+                        description: "A bcc of the message",
+                        properties: {
+                            name: {
+                                type: "string",
+                                description: "The name of the bcc",
+                            },
+                            email: {
+                                type: "string",
+                                description: "The email of the bcc",
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        body: { type: "string", description: "The body of the message" },
+        attachments: {
+            type: "array",
+            description: "The attachments of the message",
+            items: {
+                type: "object",
+                description: "An attachment of the message",
+                properties: {
+                    attachmentId: {
+                        type: "string",
+                        description: "The attachmentId of the attachment",
+                    },
+                    mimeType: {
+                        type: "string",
+                        description: "The mimeType of the attachment",
+                    },
+                    filename: {
+                        type: "string",
+                        description: "The filename of the attachment",
+                    },
+                    contentType: {
+                        type: "string",
+                        description: "The contentType of the attachment",
+                    },
+                    contentDisposition: {
+                        type: "string",
+                        description: "The contentDisposition of the attachment",
+                    },
+                    contentTransferEncoding: {
+                        type: "string",
+                        description: "The contentTransferEncoding of the attachment",
+                    },
+                    size: { type: "number", description: "The size of the attachment" },
+                },
+            },
+        },
+    },
+};
 exports.GoogleThreadsInput = {
     title: "GoogleThreadsInput",
     description: "The input for your google threads",
@@ -616,6 +892,151 @@ exports.GoogleThread = {
                     sizeEstimate: {
                         type: "number",
                         description: "The sizeEstimate of the message",
+                    },
+                },
+            },
+        },
+    },
+};
+exports.GoogleParsedThread = {
+    title: "GoogleParsedThread",
+    description: "Your google thread",
+    type: "object",
+    properties: {
+        id: { type: "string", description: "The id of the thread" },
+        messages: {
+            type: "array",
+            description: "A list of the messages in the thread",
+            items: {
+                type: "object",
+                description: "A message in the thread",
+                properties: {
+                    id: { type: "string", description: "The id of the message" },
+                    threadId: {
+                        type: "string",
+                        description: "The threadId of the message",
+                    },
+                    labelIds: {
+                        type: "array",
+                        description: "The labelIds of the message",
+                    },
+                    headers: {
+                        type: "object",
+                        description: "The headers of the message",
+                        properties: {
+                            date: { type: "string", description: "The date of the message" },
+                            subject: {
+                                type: "string",
+                                description: "The subject of the message",
+                            },
+                            from: {
+                                type: "object",
+                                description: "The writer of the message",
+                                properties: {
+                                    name: {
+                                        type: "string",
+                                        description: "The name of the writer",
+                                    },
+                                    email: {
+                                        type: "string",
+                                        description: "The email of the writer",
+                                    },
+                                },
+                            },
+                            to: {
+                                type: "array",
+                                description: "The receivers of the message",
+                                items: {
+                                    type: "object",
+                                    description: "A recipients of the message",
+                                    properties: {
+                                        name: {
+                                            type: "string",
+                                            description: "The name of the recipient",
+                                        },
+                                        email: {
+                                            type: "string",
+                                            description: "The email of the recipient",
+                                        },
+                                    },
+                                },
+                            },
+                            cc: {
+                                type: "array",
+                                description: "The ccs of the message",
+                                items: {
+                                    type: "object",
+                                    description: "A cc of the message",
+                                    properties: {
+                                        name: {
+                                            type: "string",
+                                            description: "The name of the cc",
+                                        },
+                                        email: {
+                                            type: "string",
+                                            description: "The email of the cc",
+                                        },
+                                    },
+                                },
+                            },
+                            bcc: {
+                                type: "array",
+                                description: "The bccs of the message",
+                                items: {
+                                    type: "object",
+                                    description: "A bcc of the message",
+                                    properties: {
+                                        name: {
+                                            type: "string",
+                                            description: "The name of the bcc",
+                                        },
+                                        email: {
+                                            type: "string",
+                                            description: "The email of the bcc",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    body: { type: "string", description: "The body of the message" },
+                    attachments: {
+                        type: "array",
+                        description: "The attachments of the message",
+                        items: {
+                            type: "object",
+                            description: "An attachment of the message",
+                            properties: {
+                                attachmentId: {
+                                    type: "string",
+                                    description: "The attachmentId of the attachment",
+                                },
+                                mimeType: {
+                                    type: "string",
+                                    description: "The mimeType of the attachment",
+                                },
+                                filename: {
+                                    type: "string",
+                                    description: "The filename of the attachment",
+                                },
+                                contentType: {
+                                    type: "string",
+                                    description: "The contentType of the attachment",
+                                },
+                                contentDisposition: {
+                                    type: "string",
+                                    description: "The contentDisposition of the attachment",
+                                },
+                                contentTransferEncoding: {
+                                    type: "string",
+                                    description: "The contentTransferEncoding of the attachment",
+                                },
+                                size: {
+                                    type: "number",
+                                    description: "The size of the attachment",
+                                },
+                            },
+                        },
                     },
                 },
             },
