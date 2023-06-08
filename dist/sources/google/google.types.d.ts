@@ -309,6 +309,9 @@ export declare const GoogleParsedDraft: {
         readonly labelIds: {
             readonly type: "array";
             readonly description: "The labelIds of the draft";
+            readonly items: {
+                readonly type: "string";
+            };
         };
         readonly headers: {
             readonly type: "object";
@@ -759,6 +762,9 @@ export declare const GoogleParsedMessage: {
         readonly labelIds: {
             readonly type: "array";
             readonly description: "The labelIds of the message";
+            readonly items: {
+                readonly type: "string";
+            };
         };
         readonly headers: {
             readonly type: "object";
@@ -1138,6 +1144,9 @@ export declare const GoogleParsedThread: {
                     readonly labelIds: {
                         readonly type: "array";
                         readonly description: "The labelIds of the message";
+                        readonly items: {
+                            readonly type: "string";
+                        };
                     };
                     readonly headers: {
                         readonly type: "object";
