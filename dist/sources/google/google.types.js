@@ -258,7 +258,11 @@ exports.GoogleParsedDraft = {
         id: { type: "string", description: "The id of the draft" },
         messageId: { type: "string", description: "The id of the draft" },
         threadId: { type: "string", description: "The threadId of the draft" },
-        labelIds: { type: "array", description: "The labelIds of the draft" },
+        labelIds: {
+            type: "array",
+            description: "The labelIds of the draft",
+            items: { type: "string" },
+        },
         headers: {
             type: "object",
             description: "The headers of the draft",
@@ -607,7 +611,11 @@ exports.GoogleParsedMessage = {
     properties: {
         id: { type: "string", description: "The id of the message" },
         threadId: { type: "string", description: "The threadId of the message" },
-        labelIds: { type: "array", description: "The labelIds of the message" },
+        labelIds: {
+            type: "array",
+            description: "The labelIds of the message",
+            items: { type: "string" },
+        },
         headers: {
             type: "object",
             description: "The headers of the message",
@@ -919,6 +927,7 @@ exports.GoogleParsedThread = {
                     labelIds: {
                         type: "array",
                         description: "The labelIds of the message",
+                        items: { type: "string" },
                     },
                     headers: {
                         type: "object",
