@@ -136,7 +136,7 @@ export class Slack extends OAuth2Source implements Source {
     credentials: any,
     redirectUrl: string
   ) => {
-    const scopes = _.join(slackScopes, " ");
+    const scopes = _.join(slackScopes, ",");
     const url =
       `https://slack.com/oauth/v2/authorize?` +
       `scope=${encodeURIComponent(scopes)}` +
