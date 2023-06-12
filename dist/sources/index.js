@@ -2,9 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const github_1 = require("./github/github");
 const google_1 = require("./google/google");
+const slack_1 = require("./slack/slack");
 const githubName = new github_1.Github().getName();
 const googleName = new google_1.Google().getName();
+const slackName = new slack_1.Slack().getName();
 const sources = {};
 sources[githubName] = github_1.Github;
 sources[googleName] = google_1.Google;
+sources[slackName] = slack_1.Slack;
 exports.default = sources;
