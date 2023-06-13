@@ -51,7 +51,7 @@ export class Slack extends OAuth2Source implements Source {
       friendlyName: "Slack",
       description:
         "A messaging app for business that connects people to the information they need.",
-      icon: "https://www.vectorlogo.zone/util/preview.html?image=/logos/slack/slack-icon.svg",
+      icon: "https://www.svgrepo.com/show/303320/slack-new-logo-logo.svg",
       color: ["#36c5f1", "#2fb67c", "#e01e5a", "#ecb22d"],
       auth: { authType: "oAuth2", authStart: "" },
       policyConfig: {
