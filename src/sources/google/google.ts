@@ -5,6 +5,7 @@ import {
   GoogleProfile,
   GoogleDraftsInput,
   GoogleDrafts,
+  GoogleParsedDrafts,
   GoogleDraftInput,
   GoogleDraft,
   GoogleParsedDraft,
@@ -13,11 +14,13 @@ import {
   GoogleLabel,
   GoogleMessagesInput,
   GoogleMessages,
+  GoogleParsedMessages,
   GoogleMessageInput,
   GoogleMessage,
   GoogleParsedMessage,
   GoogleThreadsInput,
   GoogleThreads,
+  GoogleParsedThreads,
   GoogleThreadInput,
   GoogleThread,
   GoogleParsedThread,
@@ -38,6 +41,7 @@ import { raw } from "express";
 type GoogleProfileType = FromSchema<typeof GoogleProfile>;
 type GoogleDraftsInputType = FromSchema<typeof GoogleDraftsInput>;
 type GoogleDraftsType = FromSchema<typeof GoogleDrafts>;
+type GoogleParsedDraftsType = FromSchema<typeof GoogleParsedDrafts>;
 type GoogleDraftInputType = FromSchema<typeof GoogleDraftInput>;
 type GoogleDraftType = FromSchema<typeof GoogleDraft>;
 type GoogleParsedDraftType = FromSchema<typeof GoogleParsedDraft>;
@@ -46,11 +50,13 @@ type GoogleLabelInputType = FromSchema<typeof GoogleLabelInput>;
 type GoogleLabelType = FromSchema<typeof GoogleLabel>;
 type GoogleMessagesInputType = FromSchema<typeof GoogleMessagesInput>;
 type GoogleMessagesType = FromSchema<typeof GoogleMessages>;
+type GoogleParsedMessagesType = FromSchema<typeof GoogleParsedMessages>;
 type GoogleMessageInputType = FromSchema<typeof GoogleMessageInput>;
 type GoogleMessageType = FromSchema<typeof GoogleMessage>;
 type GoogleParsedMessageType = FromSchema<typeof GoogleParsedMessage>;
 type GoogleThreadsInputType = FromSchema<typeof GoogleThreadsInput>;
 type GoogleThreadsType = FromSchema<typeof GoogleThreads>;
+type GoogleParsedThreadsType = FromSchema<typeof GoogleParsedThreads>;
 type GoogleThreadInputType = FromSchema<typeof GoogleThreadInput>;
 type GoogleThreadType = FromSchema<typeof GoogleThread>;
 type GoogleParsedThreadType = FromSchema<typeof GoogleParsedThread>;
@@ -148,6 +154,28 @@ async function getDrafts(
   return {
     ..._.pick(data, ["resultSizeEstimate", "drafts", "nextPageToken"]),
   };
+}
+
+async function getParsedDrafts(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleParsedDraftsType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+  }
+  const { data } = await authClient.get(`/drafts?maxResults=50${paramsString}`);
+  const rawDrafts = {
+    ..._.pick(data, ["resultSizeEstimate", "drafts", "nextPageToken"]),
+  };
+  const parsedDrafts = await Promise.all(
+    rawDrafts.drafts.map((rawDraft: any) => {
+      return getParsedDraft(authClient, { draftId: rawDraft.id });
+    })
+  );
+  return { ...rawDrafts, drafts: parsedDrafts };
 }
 
 async function getDraft(
@@ -269,6 +297,30 @@ async function getMessages(
   };
 }
 
+async function getParsedMessages(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleParsedMessagesType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+  }
+  const { data } = await authClient.get(
+    `/messages?maxResults=50${paramsString}`
+  );
+  const rawMessages = {
+    ..._.pick(data, ["resultSizeEstimate", "messages", "nextPageToken"]),
+  };
+  const parsedMessages = await Promise.all(
+    rawMessages.messages.map((rawMessage: any) => {
+      return getParsedMessage(authClient, { messageId: rawMessage.id });
+    })
+  );
+  return { ...rawMessages, messages: parsedMessages };
+}
+
 async function getMessage(
   authClient: Axios,
   params: any
@@ -369,6 +421,30 @@ async function getThreads(
   return {
     ..._.pick(data, ["resultSizeEstimate", "threads", "nextPageToken"]),
   };
+}
+
+async function getParsedThreads(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleParsedThreadsType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+  }
+  const { data } = await authClient.get(
+    `/threads?maxResults=50${paramsString}`
+  );
+  const rawThreads = {
+    ..._.pick(data, ["resultSizeEstimate", "threads", "nextPageToken"]),
+  };
+  const parsedThreads = await Promise.all(
+    rawThreads.threads.map((rawThread: any) => {
+      return getParsedThread(authClient, { threadId: rawThread.id });
+    })
+  );
+  return { ...rawThreads, threads: parsedThreads };
 }
 
 async function getThread(
@@ -568,6 +644,15 @@ export class Google extends OAuth2Source implements Source {
         GoogleDraftsInput,
         GoogleDrafts
       ),
+      parsedDrafts: new Resource<GoogleDraftsInputType, GoogleParsedDraftsType>(
+        "parsedDrafts",
+        "Google Parsed Drafts",
+        "get",
+        "Your gmail parsed drafts",
+        getParsedDrafts,
+        GoogleDraftsInput,
+        GoogleParsedDrafts
+      ),
       draft: new Resource<GoogleDraftInputType, GoogleDraftType>(
         "draft",
         "Google Draft",
@@ -613,6 +698,18 @@ export class Google extends OAuth2Source implements Source {
         GoogleMessagesInput,
         GoogleMessages
       ),
+      parsedMessages: new Resource<
+        GoogleMessagesInputType,
+        GoogleParsedMessagesType
+      >(
+        "parsedMessages",
+        "Google Parsed Messages",
+        "get",
+        "Your gmail parsed messages",
+        getParsedMessages,
+        GoogleMessagesInput,
+        GoogleParsedMessages
+      ),
       message: new Resource<GoogleMessageInputType, GoogleMessageType>(
         "message",
         "Google Message",
@@ -642,6 +739,18 @@ export class Google extends OAuth2Source implements Source {
         getThreads,
         GoogleThreadsInput,
         GoogleThreads
+      ),
+      parsedThreads: new Resource<
+        GoogleThreadsInputType,
+        GoogleParsedThreadsType
+      >(
+        "parsedThreads",
+        "Google Parsed Threads",
+        "get",
+        "Your gmail parsed threads",
+        getParsedThreads,
+        GoogleThreadsInput,
+        GoogleParsedThreads
       ),
       thread: new Resource<GoogleThreadInputType, GoogleThreadType>(
         "thread",

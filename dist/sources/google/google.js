@@ -112,6 +112,22 @@ function getDrafts(authClient, params) {
         return Object.assign({}, _.pick(data, ["resultSizeEstimate", "drafts", "nextPageToken"]));
     });
 }
+function getParsedDrafts(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let paramsString = "";
+        if (params) {
+            Object.keys(params).forEach((key) => {
+                paramsString += `&${key}=${params[key]}`;
+            });
+        }
+        const { data } = yield authClient.get(`/drafts?maxResults=50${paramsString}`);
+        const rawDrafts = Object.assign({}, _.pick(data, ["resultSizeEstimate", "drafts", "nextPageToken"]));
+        const parsedDrafts = yield Promise.all(rawDrafts.drafts.map((rawDraft) => {
+            return getParsedDraft(authClient, { draftId: rawDraft.id });
+        }));
+        return Object.assign(Object.assign({}, rawDrafts), { drafts: parsedDrafts });
+    });
+}
 function getDraft(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const { data } = yield authClient.get(`/drafts/${params.draftId}?format=full`);
@@ -207,6 +223,22 @@ function getMessages(authClient, params) {
         return Object.assign({}, _.pick(data, ["resultSizeEstimate", "messages", "nextPageToken"]));
     });
 }
+function getParsedMessages(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let paramsString = "";
+        if (params) {
+            Object.keys(params).forEach((key) => {
+                paramsString += `&${key}=${params[key]}`;
+            });
+        }
+        const { data } = yield authClient.get(`/messages?maxResults=50${paramsString}`);
+        const rawMessages = Object.assign({}, _.pick(data, ["resultSizeEstimate", "messages", "nextPageToken"]));
+        const parsedMessages = yield Promise.all(rawMessages.messages.map((rawMessage) => {
+            return getParsedMessage(authClient, { messageId: rawMessage.id });
+        }));
+        return Object.assign(Object.assign({}, rawMessages), { messages: parsedMessages });
+    });
+}
 function getMessage(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const { data } = yield authClient.get(`/messages/${params.messageId}?format=full`);
@@ -287,6 +319,22 @@ function getThreads(authClient, params) {
         }
         const { data } = yield authClient.get(`/threads?maxResults=500${paramsString}`);
         return Object.assign({}, _.pick(data, ["resultSizeEstimate", "threads", "nextPageToken"]));
+    });
+}
+function getParsedThreads(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let paramsString = "";
+        if (params) {
+            Object.keys(params).forEach((key) => {
+                paramsString += `&${key}=${params[key]}`;
+            });
+        }
+        const { data } = yield authClient.get(`/threads?maxResults=50${paramsString}`);
+        const rawThreads = Object.assign({}, _.pick(data, ["resultSizeEstimate", "threads", "nextPageToken"]));
+        const parsedThreads = yield Promise.all(rawThreads.threads.map((rawThread) => {
+            return getParsedThread(authClient, { threadId: rawThread.id });
+        }));
+        return Object.assign(Object.assign({}, rawThreads), { threads: parsedThreads });
     });
 }
 function getThread(authClient, params) {
@@ -452,14 +500,17 @@ class Google extends source_1.OAuth2Source {
         this.resources = {
             profile: new resource_1.Resource("profile", "Google Profile", "get", "Your basic google profile", getProfile, null, google_types_1.GoogleProfile),
             drafts: new resource_1.Resource("drafts", "Google Drafts", "get", "Your gmail drafts", getDrafts, google_types_1.GoogleDraftsInput, google_types_1.GoogleDrafts),
+            parsedDrafts: new resource_1.Resource("parsedDrafts", "Google Parsed Drafts", "get", "Your gmail parsed drafts", getParsedDrafts, google_types_1.GoogleDraftsInput, google_types_1.GoogleParsedDrafts),
             draft: new resource_1.Resource("draft", "Google Draft", "get", "Your gmail draft", getDraft, google_types_1.GoogleDraftInput, google_types_1.GoogleDraft),
             parsedDraft: new resource_1.Resource("parsedDraft", "Google Parsed Draft", "get", "Your gmail parsed draft", getParsedDraft, google_types_1.GoogleDraftInput, google_types_1.GoogleParsedDraft),
             labels: new resource_1.Resource("labels", "Google Labels", "get", "Your gmail labels", getLabels, null, google_types_1.GoogleLabels),
             label: new resource_1.Resource("label", "Google Label", "get", "Your gmail label", getLabel, google_types_1.GoogleLabelInput, google_types_1.GoogleLabel),
             messages: new resource_1.Resource("messages", "Google Messages", "get", "Your gmail messages", getMessages, google_types_1.GoogleMessagesInput, google_types_1.GoogleMessages),
+            parsedMessages: new resource_1.Resource("parsedMessages", "Google Parsed Messages", "get", "Your gmail parsed messages", getParsedMessages, google_types_1.GoogleMessagesInput, google_types_1.GoogleParsedMessages),
             message: new resource_1.Resource("message", "Google Message", "get", "Your gmail message", getMessage, google_types_1.GoogleMessageInput, google_types_1.GoogleMessage),
             parsedMessage: new resource_1.Resource("parsedMessage", "Google Parsed Message", "get", "Your gmail parsed message", getParsedMessage, google_types_1.GoogleMessageInput, google_types_1.GoogleParsedMessage),
             threads: new resource_1.Resource("threads", "Google Threads", "get", "Your gmail threads", getThreads, google_types_1.GoogleThreadsInput, google_types_1.GoogleThreads),
+            parsedThreads: new resource_1.Resource("parsedThreads", "Google Parsed Threads", "get", "Your gmail parsed threads", getParsedThreads, google_types_1.GoogleThreadsInput, google_types_1.GoogleParsedThreads),
             thread: new resource_1.Resource("thread", "Google Thread", "get", "Your gmail thread", getThread, google_types_1.GoogleThreadInput, google_types_1.GoogleThread),
             parsedThread: new resource_1.Resource("parsedThread", "Google Parsed Thread", "get", "Your gmail parsed thread", getParsedThread, google_types_1.GoogleThreadInput, google_types_1.GoogleParsedThread),
             calendars: new resource_1.Resource("calendars", "Google Calendars", "get", "Your google calendars", getCalendars, google_types_1.GoogleCalendarsInput, google_types_1.GoogleCalendars),
