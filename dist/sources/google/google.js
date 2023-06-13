@@ -360,8 +360,9 @@ function getParsedThread(authClient, params) {
                 if (!rawMessage.payload.headers) {
                     throw new Error("No headers found in message");
                 }
-                if (!rawMessage.payload.parts) {
-                    throw new Error("No parts found in message");
+                let parts = [];
+                if (rawMessage.payload.parts) {
+                    parts = rawMessage.payload.parts;
                 }
                 //Headers
                 const headers = rawMessage.payload.headers;
@@ -371,8 +372,6 @@ function getParsedThread(authClient, params) {
                 const to = headers.find((header) => header.name === "To");
                 const cc = headers.find((header) => header.name === "Cc");
                 const bcc = headers.find((header) => header.name === "Bcc");
-                //Parts
-                const parts = rawMessage.payload.parts;
                 //Attachments
                 const attachments = parts
                     .filter((part) => { var _a; return (_a = part.body) === null || _a === void 0 ? void 0 : _a.attachmentId; })

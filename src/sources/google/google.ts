@@ -475,8 +475,9 @@ async function getParsedThread(
       if (!rawMessage.payload.headers) {
         throw new Error("No headers found in message");
       }
-      if (!rawMessage.payload.parts) {
-        throw new Error("No parts found in message");
+      let parts: any[] = [];
+      if (rawMessage.payload.parts) {
+        parts = rawMessage.payload.parts;
       }
 
       //Headers
@@ -487,9 +488,6 @@ async function getParsedThread(
       const to = headers.find((header: any) => header.name === "To");
       const cc = headers.find((header: any) => header.name === "Cc");
       const bcc = headers.find((header: any) => header.name === "Bcc");
-
-      //Parts
-      const parts = rawMessage.payload.parts;
 
       //Attachments
       const attachments = parts
