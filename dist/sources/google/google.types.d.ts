@@ -78,6 +78,173 @@ export declare const GoogleDrafts: {
         };
     };
 };
+export declare const GoogleParsedDrafts: {
+    readonly title: "GoogleParsedDrafts";
+    readonly description: "Your google parsed drafts";
+    readonly type: "object";
+    readonly properties: {
+        readonly drafts: {
+            readonly type: "array";
+            readonly description: "A list of your google drafts";
+            readonly items: {
+                readonly type: "object";
+                readonly properties: {
+                    readonly id: {
+                        readonly type: "string";
+                        readonly description: "The id of the draft";
+                    };
+                    readonly messageId: {
+                        readonly type: "string";
+                        readonly description: "The id of the draft";
+                    };
+                    readonly threadId: {
+                        readonly type: "string";
+                        readonly description: "The threadId of the draft";
+                    };
+                    readonly labelIds: {
+                        readonly type: "array";
+                        readonly description: "The labelIds of the draft";
+                        readonly items: {
+                            readonly type: "string";
+                        };
+                    };
+                    readonly headers: {
+                        readonly type: "object";
+                        readonly description: "The headers of the draft";
+                        readonly properties: {
+                            readonly date: {
+                                readonly type: "string";
+                                readonly description: "The date of the draft";
+                            };
+                            readonly subject: {
+                                readonly type: "string";
+                                readonly description: "The subject of the draft";
+                            };
+                            readonly from: {
+                                readonly type: "object";
+                                readonly description: "The writer of the draft";
+                                readonly properties: {
+                                    readonly name: {
+                                        readonly type: "string";
+                                        readonly description: "The name of the writer";
+                                    };
+                                    readonly email: {
+                                        readonly type: "string";
+                                        readonly description: "The email of the writer";
+                                    };
+                                };
+                            };
+                            readonly to: {
+                                readonly type: "array";
+                                readonly description: "The receivers of the draft";
+                                readonly items: {
+                                    readonly type: "object";
+                                    readonly description: "A recipients of the draft";
+                                    readonly properties: {
+                                        readonly name: {
+                                            readonly type: "string";
+                                            readonly description: "The name of the recipient";
+                                        };
+                                        readonly email: {
+                                            readonly type: "string";
+                                            readonly description: "The email of the recipient";
+                                        };
+                                    };
+                                };
+                            };
+                            readonly cc: {
+                                readonly type: "array";
+                                readonly description: "The ccs of the draft";
+                                readonly items: {
+                                    readonly type: "object";
+                                    readonly description: "A cc of the draft";
+                                    readonly properties: {
+                                        readonly name: {
+                                            readonly type: "string";
+                                            readonly description: "The name of the cc";
+                                        };
+                                        readonly email: {
+                                            readonly type: "string";
+                                            readonly description: "The email of the cc";
+                                        };
+                                    };
+                                };
+                            };
+                            readonly bcc: {
+                                readonly type: "array";
+                                readonly description: "The bccs of the draft";
+                                readonly items: {
+                                    readonly type: "object";
+                                    readonly description: "A bcc of the draft";
+                                    readonly properties: {
+                                        readonly name: {
+                                            readonly type: "string";
+                                            readonly description: "The name of the bcc";
+                                        };
+                                        readonly email: {
+                                            readonly type: "string";
+                                            readonly description: "The email of the bcc";
+                                        };
+                                    };
+                                };
+                            };
+                        };
+                    };
+                    readonly body: {
+                        readonly type: "string";
+                        readonly description: "The body of the draft";
+                    };
+                    readonly attachments: {
+                        readonly type: "array";
+                        readonly description: "The attachments of the draft";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "An attachment of the draft";
+                            readonly properties: {
+                                readonly attachmentId: {
+                                    readonly type: "string";
+                                    readonly description: "The attachmentId of the attachment";
+                                };
+                                readonly mimeType: {
+                                    readonly type: "string";
+                                    readonly description: "The mimeType of the attachment";
+                                };
+                                readonly filename: {
+                                    readonly type: "string";
+                                    readonly description: "The filename of the attachment";
+                                };
+                                readonly contentType: {
+                                    readonly type: "string";
+                                    readonly description: "The contentType of the attachment";
+                                };
+                                readonly contentDisposition: {
+                                    readonly type: "string";
+                                    readonly description: "The contentDisposition of the attachment";
+                                };
+                                readonly contentTransferEncoding: {
+                                    readonly type: "string";
+                                    readonly description: "The contentTransferEncoding of the attachment";
+                                };
+                                readonly size: {
+                                    readonly type: "number";
+                                    readonly description: "The size of the attachment";
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        readonly nextPageToken: {
+            readonly type: "string";
+            readonly description: "The next page token for your drafts";
+        };
+        readonly resultSizeEstimate: {
+            readonly type: "number";
+            readonly description: "The result size estimate for your drafts";
+        };
+    };
+};
 export declare const GoogleDraftInput: {
     readonly title: "GoogleDraftInput";
     readonly description: "The input for your google draft";
@@ -309,6 +476,9 @@ export declare const GoogleParsedDraft: {
         readonly labelIds: {
             readonly type: "array";
             readonly description: "The labelIds of the draft";
+            readonly items: {
+                readonly type: "string";
+            };
         };
         readonly headers: {
             readonly type: "object";
@@ -594,6 +764,169 @@ export declare const GoogleMessages: {
         };
     };
 };
+export declare const GoogleParsedMessages: {
+    readonly title: "GoogleParsedMessages";
+    readonly description: "Your google parsed messages";
+    readonly type: "object";
+    readonly properties: {
+        readonly resultSizeEstimate: {
+            readonly type: "number";
+            readonly description: "The result size estimate for your messages";
+        };
+        readonly nextPageToken: {
+            readonly type: "string";
+            readonly description: "The next page token";
+        };
+        readonly messages: {
+            readonly type: "array";
+            readonly description: "A list of your google messages";
+            readonly items: {
+                readonly type: "object";
+                readonly properties: {
+                    readonly id: {
+                        readonly type: "string";
+                        readonly description: "The id of the message";
+                    };
+                    readonly threadId: {
+                        readonly type: "string";
+                        readonly description: "The threadId of the message";
+                    };
+                    readonly labelIds: {
+                        readonly type: "array";
+                        readonly description: "The labelIds of the message";
+                        readonly items: {
+                            readonly type: "string";
+                        };
+                    };
+                    readonly headers: {
+                        readonly type: "object";
+                        readonly description: "The headers of the message";
+                        readonly properties: {
+                            readonly date: {
+                                readonly type: "string";
+                                readonly description: "The date of the message";
+                            };
+                            readonly subject: {
+                                readonly type: "string";
+                                readonly description: "The subject of the message";
+                            };
+                            readonly from: {
+                                readonly type: "object";
+                                readonly description: "The writer of the message";
+                                readonly properties: {
+                                    readonly name: {
+                                        readonly type: "string";
+                                        readonly description: "The name of the writer";
+                                    };
+                                    readonly email: {
+                                        readonly type: "string";
+                                        readonly description: "The email of the writer";
+                                    };
+                                };
+                            };
+                            readonly to: {
+                                readonly type: "array";
+                                readonly description: "The receivers of the message";
+                                readonly items: {
+                                    readonly type: "object";
+                                    readonly description: "A recipients of the message";
+                                    readonly properties: {
+                                        readonly name: {
+                                            readonly type: "string";
+                                            readonly description: "The name of the recipient";
+                                        };
+                                        readonly email: {
+                                            readonly type: "string";
+                                            readonly description: "The email of the recipient";
+                                        };
+                                    };
+                                };
+                            };
+                            readonly cc: {
+                                readonly type: "array";
+                                readonly description: "The ccs of the message";
+                                readonly items: {
+                                    readonly type: "object";
+                                    readonly description: "A cc of the message";
+                                    readonly properties: {
+                                        readonly name: {
+                                            readonly type: "string";
+                                            readonly description: "The name of the cc";
+                                        };
+                                        readonly email: {
+                                            readonly type: "string";
+                                            readonly description: "The email of the cc";
+                                        };
+                                    };
+                                };
+                            };
+                            readonly bcc: {
+                                readonly type: "array";
+                                readonly description: "The bccs of the message";
+                                readonly items: {
+                                    readonly type: "object";
+                                    readonly description: "A bcc of the message";
+                                    readonly properties: {
+                                        readonly name: {
+                                            readonly type: "string";
+                                            readonly description: "The name of the bcc";
+                                        };
+                                        readonly email: {
+                                            readonly type: "string";
+                                            readonly description: "The email of the bcc";
+                                        };
+                                    };
+                                };
+                            };
+                        };
+                    };
+                    readonly body: {
+                        readonly type: "string";
+                        readonly description: "The body of the message";
+                    };
+                    readonly attachments: {
+                        readonly type: "array";
+                        readonly description: "The attachments of the message";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "An attachment of the message";
+                            readonly properties: {
+                                readonly attachmentId: {
+                                    readonly type: "string";
+                                    readonly description: "The attachmentId of the attachment";
+                                };
+                                readonly mimeType: {
+                                    readonly type: "string";
+                                    readonly description: "The mimeType of the attachment";
+                                };
+                                readonly filename: {
+                                    readonly type: "string";
+                                    readonly description: "The filename of the attachment";
+                                };
+                                readonly contentType: {
+                                    readonly type: "string";
+                                    readonly description: "The contentType of the attachment";
+                                };
+                                readonly contentDisposition: {
+                                    readonly type: "string";
+                                    readonly description: "The contentDisposition of the attachment";
+                                };
+                                readonly contentTransferEncoding: {
+                                    readonly type: "string";
+                                    readonly description: "The contentTransferEncoding of the attachment";
+                                };
+                                readonly size: {
+                                    readonly type: "number";
+                                    readonly description: "The size of the attachment";
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+};
 export declare const GoogleMessageInput: {
     readonly title: "GoogleMessageInput";
     readonly description: "The input for your google message";
@@ -759,6 +1092,9 @@ export declare const GoogleParsedMessage: {
         readonly labelIds: {
             readonly type: "array";
             readonly description: "The labelIds of the message";
+            readonly items: {
+                readonly type: "string";
+            };
         };
         readonly headers: {
             readonly type: "object";
@@ -935,6 +1271,183 @@ export declare const GoogleThreads: {
                     readonly historyId: {
                         readonly type: "string";
                         readonly description: "The historyId of the thread";
+                    };
+                };
+            };
+        };
+    };
+};
+export declare const GoogleParsedThreads: {
+    readonly title: "GoogleParsedThreads";
+    readonly description: "Your google parsed threads";
+    readonly type: "object";
+    readonly properties: {
+        readonly resultSizeEstimate: {
+            readonly type: "number";
+            readonly description: "The result size estimate for your threads";
+        };
+        readonly nextPageToken: {
+            readonly type: "string";
+            readonly description: "The next page token";
+        };
+        readonly threads: {
+            readonly type: "array";
+            readonly description: "A list of your google threads";
+            readonly items: {
+                readonly type: "object";
+                readonly properties: {
+                    readonly id: {
+                        readonly type: "string";
+                        readonly description: "The id of the thread";
+                    };
+                    readonly messages: {
+                        readonly type: "array";
+                        readonly description: "A list of the messages in the thread";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "A message in the thread";
+                            readonly properties: {
+                                readonly id: {
+                                    readonly type: "string";
+                                    readonly description: "The id of the message";
+                                };
+                                readonly threadId: {
+                                    readonly type: "string";
+                                    readonly description: "The threadId of the message";
+                                };
+                                readonly labelIds: {
+                                    readonly type: "array";
+                                    readonly description: "The labelIds of the message";
+                                    readonly items: {
+                                        readonly type: "string";
+                                    };
+                                };
+                                readonly headers: {
+                                    readonly type: "object";
+                                    readonly description: "The headers of the message";
+                                    readonly properties: {
+                                        readonly date: {
+                                            readonly type: "string";
+                                            readonly description: "The date of the message";
+                                        };
+                                        readonly subject: {
+                                            readonly type: "string";
+                                            readonly description: "The subject of the message";
+                                        };
+                                        readonly from: {
+                                            readonly type: "object";
+                                            readonly description: "The writer of the message";
+                                            readonly properties: {
+                                                readonly name: {
+                                                    readonly type: "string";
+                                                    readonly description: "The name of the writer";
+                                                };
+                                                readonly email: {
+                                                    readonly type: "string";
+                                                    readonly description: "The email of the writer";
+                                                };
+                                            };
+                                        };
+                                        readonly to: {
+                                            readonly type: "array";
+                                            readonly description: "The receivers of the message";
+                                            readonly items: {
+                                                readonly type: "object";
+                                                readonly description: "A recipients of the message";
+                                                readonly properties: {
+                                                    readonly name: {
+                                                        readonly type: "string";
+                                                        readonly description: "The name of the recipient";
+                                                    };
+                                                    readonly email: {
+                                                        readonly type: "string";
+                                                        readonly description: "The email of the recipient";
+                                                    };
+                                                };
+                                            };
+                                        };
+                                        readonly cc: {
+                                            readonly type: "array";
+                                            readonly description: "The ccs of the message";
+                                            readonly items: {
+                                                readonly type: "object";
+                                                readonly description: "A cc of the message";
+                                                readonly properties: {
+                                                    readonly name: {
+                                                        readonly type: "string";
+                                                        readonly description: "The name of the cc";
+                                                    };
+                                                    readonly email: {
+                                                        readonly type: "string";
+                                                        readonly description: "The email of the cc";
+                                                    };
+                                                };
+                                            };
+                                        };
+                                        readonly bcc: {
+                                            readonly type: "array";
+                                            readonly description: "The bccs of the message";
+                                            readonly items: {
+                                                readonly type: "object";
+                                                readonly description: "A bcc of the message";
+                                                readonly properties: {
+                                                    readonly name: {
+                                                        readonly type: "string";
+                                                        readonly description: "The name of the bcc";
+                                                    };
+                                                    readonly email: {
+                                                        readonly type: "string";
+                                                        readonly description: "The email of the bcc";
+                                                    };
+                                                };
+                                            };
+                                        };
+                                    };
+                                };
+                                readonly body: {
+                                    readonly type: "string";
+                                    readonly description: "The body of the message";
+                                };
+                                readonly attachments: {
+                                    readonly type: "array";
+                                    readonly description: "The attachments of the message";
+                                    readonly items: {
+                                        readonly type: "object";
+                                        readonly description: "An attachment of the message";
+                                        readonly properties: {
+                                            readonly attachmentId: {
+                                                readonly type: "string";
+                                                readonly description: "The attachmentId of the attachment";
+                                            };
+                                            readonly mimeType: {
+                                                readonly type: "string";
+                                                readonly description: "The mimeType of the attachment";
+                                            };
+                                            readonly filename: {
+                                                readonly type: "string";
+                                                readonly description: "The filename of the attachment";
+                                            };
+                                            readonly contentType: {
+                                                readonly type: "string";
+                                                readonly description: "The contentType of the attachment";
+                                            };
+                                            readonly contentDisposition: {
+                                                readonly type: "string";
+                                                readonly description: "The contentDisposition of the attachment";
+                                            };
+                                            readonly contentTransferEncoding: {
+                                                readonly type: "string";
+                                                readonly description: "The contentTransferEncoding of the attachment";
+                                            };
+                                            readonly size: {
+                                                readonly type: "number";
+                                                readonly description: "The size of the attachment";
+                                            };
+                                        };
+                                    };
+                                };
+                            };
+                        };
                     };
                 };
             };
@@ -1138,6 +1651,9 @@ export declare const GoogleParsedThread: {
                     readonly labelIds: {
                         readonly type: "array";
                         readonly description: "The labelIds of the message";
+                        readonly items: {
+                            readonly type: "string";
+                        };
                     };
                     readonly headers: {
                         readonly type: "object";

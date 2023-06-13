@@ -1,6 +1,6 @@
 {
-  "name": "bruinen-sources",
-  "version": "0.0.22",
+  "name": "@bruinenco/sources",
+  "version": "0.0.25",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -58,5 +58,17 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.4"
-  }
+  },
+  "types": "./dist/index.d.ts",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bruinenxyz/sources.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bruinenxyz/sources/issues"
+  },
+  "homepage": "https://github.com/bruinenxyz/sources#readme"
 }
