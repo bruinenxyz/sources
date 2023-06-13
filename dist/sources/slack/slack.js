@@ -68,7 +68,7 @@ class Slack extends source_1.OAuth2Source {
         this.getAuthUrl = (state, credentials, redirectUrl) => {
             const scopes = _.join(slackScopes, ",");
             const url = `https://slack.com/oauth/v2/authorize?` +
-                `scope=${encodeURIComponent(scopes)}` +
+                `scope=${scopes}` +
                 `&state=${state}` +
                 `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
                 `&client_id=${credentials.id}`;
