@@ -346,8 +346,9 @@ async function getParsedMessage(
     if (!rawMessage.payload.headers) {
       throw new Error("No headers found in message");
     }
-    if (!rawMessage.payload.parts) {
-      throw new Error("No parts found in message");
+    let parts: any[] = [];
+    if (rawMessage.payload.parts) {
+      parts = rawMessage.payload.parts;
     }
 
     //Headers
@@ -359,9 +360,6 @@ async function getParsedMessage(
     const cc = headers.find((header) => header.name === "Cc");
     const bcc = headers.find((header) => header.name === "Bcc");
 
-    //Parts
-    const parts = rawMessage.payload.parts;
-
     //Attachments
     const attachments = parts
       .filter((part) => part.body?.attachmentId)
@@ -371,13 +369,13 @@ async function getParsedMessage(
           mimeType: part.mimeType,
           filename: part.filename,
           contentType: part.headers?.find(
-            (header) => header.name === "Content-Type"
+            (header: any) => header.name === "Content-Type"
           )?.value,
           contentDisposition: part.headers?.find(
-            (header) => header.name === "Content-Disposition"
+            (header: any) => header.name === "Content-Disposition"
           )?.value,
           contentTransferEncoding: part.headers?.find(
-            (header) => header.name === "Content-Transfer-Encoding"
+            (header: any) => header.name === "Content-Transfer-Encoding"
           )?.value,
           size: part.body?.size,
         };
