@@ -95,7 +95,7 @@ export class Slack extends OAuth2Source implements Source {
     redirectUrl: string
   ) {
     const url =
-      `${slack_api_url}/oauth.access?` +
+      `${slack_api_url}/oauth.v2.access?` +
       `client_id=${credentials.id}` +
       `&client_secret=${credentials.secret}` +
       `&code=${code}` +
@@ -113,7 +113,7 @@ export class Slack extends OAuth2Source implements Source {
       );
 
       return {
-        accessToken: data.access_token,
+        accessToken: data.authed_user.access_token,
       };
     } catch (error) {
       return "";
@@ -136,10 +136,10 @@ export class Slack extends OAuth2Source implements Source {
     credentials: any,
     redirectUrl: string
   ) => {
-    const scopes = _.join(slackScopes, " ");
+    const scopes = _.join(slackScopes, ",");
     const url =
-      `https://slack.com/oauth/authorize?` +
-      `scope=${encodeURIComponent(scopes)}` +
+      `https://slack.com/oauth/v2/authorize?` +
+      `user_scope=${scopes}` +
       `&state=${state}` +
       `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
       `&client_id=${credentials.id}`;
