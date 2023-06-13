@@ -10,9 +10,9 @@ type SlackProfileType = FromSchema<typeof SlackProfile>;
 
 const slack_api_url = "https://slack.com/api";
 const slackScopes = [
-  "chat:write",
-  "channels:read",
-  "channels:history",
+  //   "chat:write",
+  //   "channels:read",
+  //   "channels:history",
   "profile",
 ];
 

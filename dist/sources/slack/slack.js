@@ -43,9 +43,9 @@ const axios_1 = __importDefault(require("axios"));
 const _ = __importStar(require("lodash"));
 const slack_api_url = "https://slack.com/api";
 const slackScopes = [
-    "chat:write",
-    "channels:read",
-    "channels:history",
+    //   "chat:write",
+    //   "channels:read",
+    //   "channels:history",
     "profile",
 ];
 function getProfile(authClient, params) {
