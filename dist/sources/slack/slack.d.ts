@@ -22,6 +22,6 @@ export declare class Slack extends OAuth2Source implements Source {
     deactivate(accessCredentials: any): Promise<string>;
     getAuthUrl: (state: string, credentials: any, redirectUrl: string) => string;
     isTokenExpired(accessCredentials: any): boolean;
-    getExternalAccountId(authClient: Axios): Promise<string>;
+    getExternalAccountId(authClient: Axios): Promise<any>;
     getSourceJSONSchema: () => null;
 }

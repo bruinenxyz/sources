@@ -43,15 +43,16 @@ const axios_1 = __importDefault(require("axios"));
 const _ = __importStar(require("lodash"));
 const slack_api_url = "https://slack.com/api";
 const slackScopes = [
-    //   "chat:write",
-    //   "channels:read",
-    //   "channels:history",
-    "profile",
+    "chat:write",
+    "channels:read",
+    "channels:history",
+    "identity.basic",
+    "users.profile:read",
 ];
 function getProfile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { data } = yield authClient.get("/openid.connect.userInfo");
-        return data;
+        const { data } = yield authClient.get("/users.profile.get");
+        return data.profile;
     });
 }
 class Slack extends source_1.OAuth2Source {
@@ -153,9 +154,9 @@ class Slack extends source_1.OAuth2Source {
     }
     getExternalAccountId(authClient) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { sub } = yield getProfile(authClient);
-            if (sub) {
-                return sub.toString();
+            const { data } = yield authClient.get("/users.identity");
+            if (data.ok) {
+                return data.user.id.toString();
             }
             return "";
         });

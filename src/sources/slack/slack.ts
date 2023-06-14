@@ -10,20 +10,19 @@ type SlackProfileType = FromSchema<typeof SlackProfile>;
 
 const slack_api_url = "https://slack.com/api";
 const slackScopes = [
-  //   "chat:write",
-  //   "channels:read",
-  //   "channels:history",
-  "profile",
+  "chat:write",
+  "channels:read",
+  "channels:history",
+  "identity.basic",
+  "users.profile:read",
 ];
 
 async function getProfile(
   authClient: Axios,
   params?: null
 ): Promise<SlackProfileType> {
-  const { data }: { data: SlackProfileType } = await authClient.get(
-    "/openid.connect.userInfo"
-  );
-  return data;
+  const { data }: any = await authClient.get("/users.profile.get");
+  return data.profile;
 }
 
 export class Slack extends OAuth2Source implements Source {
@@ -154,9 +153,9 @@ export class Slack extends OAuth2Source implements Source {
   }
 
   public async getExternalAccountId(authClient: Axios) {
-    const { sub } = await getProfile(authClient);
-    if (sub) {
-      return sub.toString();
+    const { data } = await authClient.get("/users.identity");
+    if (data.ok) {
+      return data.user.id.toString();
     }
     return "";
   }
