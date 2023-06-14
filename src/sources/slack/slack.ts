@@ -13,7 +13,7 @@ const slackScopes = [
   "chat:write",
   "channels:read",
   "channels:history",
-  // "identity.basic",
+  "identity.basic",
   // "users.profile:read",
 ];
 
