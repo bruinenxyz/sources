@@ -46,8 +46,8 @@ const slackScopes = [
     "chat:write",
     "channels:read",
     "channels:history",
-    "identity.basic",
-    "users.profile:read",
+    // "identity.basic",
+    // "users.profile:read",
 ];
 function getProfile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {

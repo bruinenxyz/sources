@@ -13,8 +13,8 @@ const slackScopes = [
   "chat:write",
   "channels:read",
   "channels:history",
-  "identity.basic",
-  "users.profile:read",
+  // "identity.basic",
+  // "users.profile:read",
 ];
 
 async function getProfile(
