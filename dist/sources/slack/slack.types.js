@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SlackProfile = void 0;
+exports.SlackPostMessage = exports.SlackPostMessageInput = exports.SlackProfile = void 0;
 exports.SlackProfile = {
     title: "SlackProfile",
     description: "A slack profile",
@@ -80,3 +80,5 @@ exports.SlackProfile = {
         },
     },
 };
+exports.SlackPostMessageInput = {};
+exports.SlackPostMessage = {};

@@ -79,3 +79,7 @@ export const SlackProfile = {
     },
   },
 } as const satisfies JSONSchema;
+
+export const SlackPostMessageInput = {} as const satisfies JSONSchema;
+
+export const SlackPostMessage = {} as const satisfies JSONSchema;

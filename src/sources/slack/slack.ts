@@ -1,19 +1,24 @@
 import { Resource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
-import { SlackProfile } from "./slack.types";
+import {
+  SlackProfile,
+  SlackPostMessageInput,
+  SlackPostMessage,
+} from "./slack.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
 import * as _ from "lodash";
 
 type SlackProfileType = FromSchema<typeof SlackProfile>;
+type SlackPostMessageInputType = FromSchema<typeof SlackPostMessageInput>;
+type SlackPostMessageType = FromSchema<typeof SlackPostMessage>;
 
 const slack_api_url = "https://slack.com/api";
 const slackScopes = [
   "chat:write",
   "channels:read",
   "channels:history",
-  // "identity.basic",
   "users.profile:read",
 ];
 
@@ -23,6 +28,14 @@ async function getProfile(
 ): Promise<SlackProfileType> {
   const { data }: any = await authClient.get("/users.profile.get");
   return data.profile;
+}
+
+async function postMessage(
+  authClient: Axios,
+  params: any
+): Promise<SlackPostMessageType> {
+  const { data }: any = await authClient.post("/chat.postMessage", params);
+  return data;
 }
 
 export class Slack extends OAuth2Source implements Source {
@@ -43,6 +56,18 @@ export class Slack extends OAuth2Source implements Source {
         getProfile,
         null,
         SlackProfile
+      ),
+      postMessage: new Resource<
+        SlackPostMessageInputType,
+        SlackPostMessageType
+      >(
+        "postMessage",
+        "Slack Post Message",
+        "post",
+        "Post a message to a Slack channel",
+        postMessage,
+        SlackPostMessageInput,
+        SlackPostMessage
       ),
     };
     this.metadata = {

@@ -77,3 +77,5 @@ export declare const SlackProfile: {
         };
     };
 };
+export declare const SlackPostMessageInput: {};
+export declare const SlackPostMessage: {};
