@@ -1,6 +1,6 @@
 {
   "name": "@bruinenco/sources",
-  "version": "0.0.25",
+  "version": "0.0.27",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
