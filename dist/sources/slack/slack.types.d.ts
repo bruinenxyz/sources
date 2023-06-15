@@ -77,5 +77,8 @@ export declare const SlackProfile: {
         };
     };
 };
-export declare const SlackPostMessageInput: {};
-export declare const SlackPostMessage: {};
+export declare const SlackPostMessage: {
+    readonly title: "Slack Post Message";
+    readonly description: "A slack post message response";
+    readonly type: "object";
+};

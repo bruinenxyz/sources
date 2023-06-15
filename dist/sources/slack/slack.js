@@ -84,7 +84,7 @@ class Slack extends source_1.OAuth2Source {
         this.description = "A source for Slack";
         this.resources = {
             profile: new resource_1.Resource("profile", "Slack Profile", "get", "Your basic Slack profile", getProfile, null, slack_types_1.SlackProfile),
-            postMessage: new resource_1.Resource("postMessage", "Slack Post Message", "post", "Post a message to a Slack channel", postMessage, slack_types_1.SlackPostMessageInput, slack_types_1.SlackPostMessage),
+            postMessage: new resource_1.Resource("postMessage", "Slack Post Message", "post", "Post a message to a Slack channel", postMessage, null, slack_types_1.SlackPostMessage),
         };
         this.metadata = {
             name: this.getName(),

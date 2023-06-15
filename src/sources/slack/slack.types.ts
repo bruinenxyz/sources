@@ -80,6 +80,8 @@ export const SlackProfile = {
   },
 } as const satisfies JSONSchema;
 
-export const SlackPostMessageInput = {} as const satisfies JSONSchema;
-
-export const SlackPostMessage = {} as const satisfies JSONSchema;
+export const SlackPostMessage = {
+  title: "Slack Post Message",
+  description: "A slack post message response",
+  type: "object",
+} as const satisfies JSONSchema;
