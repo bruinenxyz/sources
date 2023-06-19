@@ -81,4 +81,64 @@ export declare const SlackPostMessage: {
     readonly title: "Slack Post Message";
     readonly description: "A slack post message response";
     readonly type: "object";
+    readonly properties: {
+        readonly ok: {
+            readonly type: "boolean";
+            readonly description: "Whether the message was posted successfully";
+        };
+        readonly channel: {
+            readonly type: "string";
+            readonly description: "The channel of the message post";
+        };
+        readonly ts: {
+            readonly type: "string";
+            readonly description: "The timestamp of the message post";
+        };
+        readonly message: {
+            readonly type: "object";
+            readonly description: "The message of the message post";
+            readonly properties: {
+                readonly text: {
+                    readonly type: "string";
+                    readonly description: "The text of the message post";
+                };
+                readonly username: {
+                    readonly type: "string";
+                    readonly description: "The username of the message post";
+                };
+                readonly type: {
+                    readonly type: "string";
+                    readonly description: "The type of the message post";
+                };
+                readonly subtype: {
+                    readonly type: "string";
+                    readonly description: "The subtype of the message post";
+                };
+                readonly ts: {
+                    readonly type: "string";
+                    readonly description: "The timestamp of the message post";
+                };
+            };
+        };
+    };
+};
+export declare const SlackPostMessageBody: {
+    readonly title: "Slack Post Message Body";
+    readonly description: "A slack post message body";
+    readonly type: "object";
+    readonly properties: {
+        readonly channel: {
+            readonly type: "string";
+            readonly description: "The channel to post to";
+        };
+        readonly thread_ts: {
+            readonly type: "string";
+            readonly description: "The thread to post to";
+        };
+        readonly text: {
+            readonly type: "string";
+            readonly description: "The text to post";
+        };
+    };
+    readonly required: readonly ["channel", "text"];
 };

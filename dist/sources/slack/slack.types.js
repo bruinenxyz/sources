@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SlackPostMessage = exports.SlackProfile = void 0;
+exports.SlackPostMessageBody = exports.SlackPostMessage = exports.SlackProfile = void 0;
 exports.SlackProfile = {
     title: "SlackProfile",
     description: "A slack profile",
@@ -84,4 +84,64 @@ exports.SlackPostMessage = {
     title: "Slack Post Message",
     description: "A slack post message response",
     type: "object",
+    properties: {
+        ok: {
+            type: "boolean",
+            description: "Whether the message was posted successfully",
+        },
+        channel: {
+            type: "string",
+            description: "The channel of the message post",
+        },
+        ts: {
+            type: "string",
+            description: "The timestamp of the message post",
+        },
+        message: {
+            type: "object",
+            description: "The message of the message post",
+            properties: {
+                text: {
+                    type: "string",
+                    description: "The text of the message post",
+                },
+                username: {
+                    type: "string",
+                    description: "The username of the message post",
+                },
+                type: {
+                    type: "string",
+                    description: "The type of the message post",
+                },
+                subtype: {
+                    type: "string",
+                    description: "The subtype of the message post",
+                },
+                ts: {
+                    type: "string",
+                    description: "The timestamp of the message post",
+                },
+            },
+        },
+    },
+};
+exports.SlackPostMessageBody = {
+    title: "Slack Post Message Body",
+    description: "A slack post message body",
+    type: "object",
+    properties: {
+        channel: {
+            type: "string",
+            description: "The channel to post to",
+        },
+        thread_ts: {
+            type: "string",
+            description: "The thread to post to",
+        },
+        text: {
+            type: "string",
+            description: "The text to post",
+        },
+    },
+    required: ["channel", "text"],
 };

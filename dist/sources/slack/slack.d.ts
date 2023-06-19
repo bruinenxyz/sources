@@ -1,9 +1,9 @@
-import { Resource } from "../resource";
+import { Resource, PostResource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { Axios } from "axios";
 export declare class Slack extends OAuth2Source implements Source {
     resources: {
-        [x: string]: Resource<any, any>;
+        [x: string]: Resource<any, any> | PostResource<any, any, any>;
     };
     description: string;
     constructor();
