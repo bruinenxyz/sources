@@ -46,12 +46,52 @@ const slackScopes = [
     "chat:write",
     "channels:read",
     "channels:history",
+    "im:read",
+    "im:history",
+    "mpim:read",
+    "mpim:history",
     "users.profile:read",
 ];
 function getProfile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const { data } = yield authClient.get("/users.profile.get");
         return data.profile;
+    });
+}
+function getConversations(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let paramsString = "";
+        if (params) {
+            Object.keys(params).forEach((key) => {
+                paramsString += `&${key}=${params[key]}`;
+            });
+            if (paramsString.charAt(0) === "&") {
+                paramsString = "?" + paramsString.slice(1);
+            }
+        }
+        const { data } = yield authClient.get(`/conversations.list${paramsString}`);
+        return data;
+    });
+}
+function getConversationHistory(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield authClient.post("/conversations.history", params);
+        return data;
+    });
+}
+function getConversationReplies(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let paramsString = "";
+        if (params) {
+            Object.keys(params).forEach((key) => {
+                paramsString += `&${key}=${params[key]}`;
+            });
+            if (paramsString.charAt(0) === "&") {
+                paramsString = "?" + paramsString.slice(1);
+            }
+        }
+        const { data } = yield authClient.get(`/conversations.replies${paramsString}`);
+        return data;
     });
 }
 function postMessage(authClient, body, params) {
@@ -84,6 +124,9 @@ class Slack extends source_1.OAuth2Source {
         this.description = "A source for Slack";
         this.resources = {
             profile: new resource_1.Resource("profile", "Slack Profile", "get", "Your basic Slack profile", getProfile, null, slack_types_1.SlackProfile),
+            conversations: new resource_1.Resource("conversations", "Slack Conversations", "get", "Get a list of Slack conversations", getConversations, slack_types_1.SlackConversationsInput, slack_types_1.SlackConversations),
+            conversationHistory: new resource_1.Resource("conversationHistory", "Slack Conversation History", "get", "Get the history of a Slack conversation", getConversationHistory, slack_types_1.SlackConversationHistoryInput, slack_types_1.SlackConversationHistory),
+            conversationReplies: new resource_1.Resource("conversationReplies", "Slack Conversation Replies", "get", "Get the replies of a Slack conversation message", getConversationReplies, slack_types_1.SlackConversationRepliesInput, slack_types_1.SlackConversationReplies),
             postMessage: new resource_1.PostResource("postMessage", "Slack Post Message", "post", "Post a message to a Slack channel", postMessage, slack_types_1.SlackPostMessageBody, null, slack_types_1.SlackPostMessage),
         };
         this.metadata = {

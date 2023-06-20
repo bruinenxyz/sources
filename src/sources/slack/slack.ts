@@ -5,20 +5,40 @@ import {
   SlackProfile,
   SlackPostMessage,
   SlackPostMessageBody,
+  SlackConversationsInput,
+  SlackConversations,
+  SlackConversationHistoryInput,
+  SlackConversationHistory,
+  SlackConversationRepliesInput,
+  SlackConversationReplies,
 } from "./slack.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
 import * as _ from "lodash";
 
 type SlackProfileType = FromSchema<typeof SlackProfile>;
-type SlackPostMessageType = FromSchema<typeof SlackPostMessage>;
 type SlackPostMessageBodyType = FromSchema<typeof SlackPostMessageBody>;
+type SlackPostMessageType = FromSchema<typeof SlackPostMessage>;
+type SlackConversationsInputType = FromSchema<typeof SlackConversationsInput>;
+type SlackConversationsType = FromSchema<typeof SlackConversations>;
+type SlackConversationHistoryInputType = FromSchema<
+  typeof SlackConversationHistoryInput
+>;
+type SlackConversationHistoryType = FromSchema<typeof SlackConversationHistory>;
+type SlackConversationRepliesInputType = FromSchema<
+  typeof SlackConversationRepliesInput
+>;
+type SlackConversationRepliesType = FromSchema<typeof SlackConversationReplies>;
 
 const slack_api_url = "https://slack.com/api";
 const slackScopes = [
   "chat:write",
   "channels:read",
   "channels:history",
+  "im:read",
+  "im:history",
+  "mpim:read",
+  "mpim:history",
   "users.profile:read",
 ];
 
@@ -28,6 +48,52 @@ async function getProfile(
 ): Promise<SlackProfileType> {
   const { data }: any = await authClient.get("/users.profile.get");
   return data.profile;
+}
+
+async function getConversations(
+  authClient: Axios,
+  params?: any
+): Promise<SlackConversationsType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+    if (paramsString.charAt(0) === "&") {
+      paramsString = "?" + paramsString.slice(1);
+    }
+  }
+  const { data }: any = await authClient.get(
+    `/conversations.list${paramsString}`
+  );
+  return data;
+}
+
+async function getConversationHistory(
+  authClient: Axios,
+  params: any
+): Promise<SlackConversationHistoryType> {
+  const { data }: any = await authClient.post("/conversations.history", params);
+  return data;
+}
+
+async function getConversationReplies(
+  authClient: Axios,
+  params: any
+): Promise<SlackConversationHistoryType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+    if (paramsString.charAt(0) === "&") {
+      paramsString = "?" + paramsString.slice(1);
+    }
+  }
+  const { data }: any = await authClient.get(
+    `/conversations.replies${paramsString}`
+  );
+  return data;
 }
 
 async function postMessage(
@@ -57,6 +123,42 @@ export class Slack extends OAuth2Source implements Source {
         getProfile,
         null,
         SlackProfile
+      ),
+      conversations: new Resource<
+        SlackConversationsInputType,
+        SlackConversationsType
+      >(
+        "conversations",
+        "Slack Conversations",
+        "get",
+        "Get a list of Slack conversations",
+        getConversations,
+        SlackConversationsInput,
+        SlackConversations
+      ),
+      conversationHistory: new Resource<
+        SlackConversationHistoryInputType,
+        SlackConversationHistoryType
+      >(
+        "conversationHistory",
+        "Slack Conversation History",
+        "get",
+        "Get the history of a Slack conversation",
+        getConversationHistory,
+        SlackConversationHistoryInput,
+        SlackConversationHistory
+      ),
+      conversationReplies: new Resource<
+        SlackConversationRepliesInputType,
+        SlackConversationRepliesType
+      >(
+        "conversationReplies",
+        "Slack Conversation Replies",
+        "get",
+        "Get the replies of a Slack conversation message",
+        getConversationReplies,
+        SlackConversationRepliesInput,
+        SlackConversationReplies
       ),
       postMessage: new PostResource<
         SlackPostMessageBodyType,

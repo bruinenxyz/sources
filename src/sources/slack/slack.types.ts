@@ -80,6 +80,523 @@ export const SlackProfile = {
   },
 } as const satisfies JSONSchema;
 
+export const SlackConversationsInput = {
+  title: "Slack Conversations Input",
+  description: "The input for slack conversations",
+  type: "object",
+  properties: {
+    cursor: {
+      type: "string",
+      description: "The cursor (i.e. next page token) for slack conversations",
+    },
+    exclude_archived: {
+      type: "boolean",
+      description: "Whether to exclude archived conversations",
+    },
+    limit: {
+      type: "number",
+      description: "The max number of conversations to return",
+    },
+    types: {
+      type: "string",
+      description: "The types of conversations to return",
+    },
+  },
+} as const satisfies JSONSchema;
+
+export const SlackConversations = {
+  title: "Slack Conversations",
+  description: "A slack conversations response",
+  type: "object",
+  properties: {
+    ok: {
+      type: "boolean",
+      description: "Whether the conversations were retrieved successfully",
+    },
+    channels: {
+      type: "array",
+      description: "The array of conversations",
+      items: {
+        type: "object",
+        description: "A conversation",
+        properties: {
+          id: {
+            type: "string",
+            description: "The id of the conversation",
+          },
+          name: {
+            type: "string",
+            description: "The name of the conversation",
+          },
+          is_channel: {
+            type: "boolean",
+            description: "Whether the conversation is a channel",
+          },
+          is_group: {
+            type: "boolean",
+            description: "Whether the conversation is a group",
+          },
+          is_im: {
+            type: "boolean",
+            description: "Whether the conversation is an im",
+          },
+          created: {
+            type: "number",
+            description: "The created timestamp of the conversation",
+          },
+          creator: {
+            type: "string",
+            description: "The creator of the conversation",
+          },
+          is_archived: {
+            type: "boolean",
+            description: "Whether the conversation is archived",
+          },
+          is_general: {
+            type: "boolean",
+            description: "Whether the conversation is general",
+          },
+          unlinked: {
+            type: "number",
+            description: "The unlinked timestamp of the conversation",
+          },
+          name_normalized: {
+            type: "string",
+            description: "The normalized name of the conversation",
+          },
+          is_shared: {
+            type: "boolean",
+            description: "Whether the conversation is shared",
+          },
+          is_ext_shared: {
+            type: "boolean",
+            description: "Whether the conversation is externally shared",
+          },
+          is_org_shared: {
+            type: "boolean",
+            description: "Whether the conversation is org shared",
+          },
+          pending_shared: {
+            type: "array",
+            description: "The pending shared of the conversation",
+          },
+          is_pending_ext_shared: {
+            type: "boolean",
+            description:
+              "Whether the conversation is pending externally shared",
+          },
+          is_member: {
+            type: "boolean",
+            description: "Whether the conversation is a member",
+          },
+          is_private: {
+            type: "boolean",
+            description: "Whether the conversation is private",
+          },
+          is_mpim: {
+            type: "boolean",
+            description: "Whether the conversation is mpim",
+          },
+          is_open: {
+            type: "boolean",
+            description: "Whether the conversation is open",
+          },
+          updated: {
+            type: "number",
+            description: "The updated timestamp of the conversation",
+          },
+          topic: {
+            type: "object",
+            description: "The topic of the conversation",
+            properties: {
+              value: {
+                type: "string",
+                description: "The description of the topic",
+              },
+              creator: {
+                type: "string",
+                description: "The creator of the topic",
+              },
+              last_set: {
+                type: "number",
+                description: "The last set timestamp of the topic",
+              },
+            },
+          },
+          purpose: {
+            type: "object",
+            description: "The purpose of the conversation",
+            properties: {
+              value: {
+                type: "string",
+                description: "The description of the purpose",
+              },
+              creator: {
+                type: "string",
+                description: "The creator of the purpose",
+              },
+              last_set: {
+                type: "number",
+                description: "The last set timestamp of the purpose",
+              },
+            },
+          },
+          priority: {
+            type: "number",
+            description: "The priority of the conversation",
+          },
+          previous_names: {
+            type: "array",
+            description: "The previous names of the conversation",
+            items: {
+              type: "string",
+              description: "A previous name of the conversation",
+            },
+          },
+          num_members: {
+            type: "number",
+            description: "The number of members of the conversation",
+          },
+        },
+      },
+    },
+    response_metadata: {
+      type: "object",
+      description: "The response metadata of the conversations",
+      properties: {
+        next_cursor: {
+          type: "string",
+          description:
+            "The next cursor (i.e. next page token) of the conversations",
+        },
+      },
+    },
+    error: {
+      type: "string",
+      description: "The error of the conversations",
+    },
+  },
+} as const satisfies JSONSchema;
+
+export const SlackConversationHistoryInput = {
+  title: "Slack Conversation History Input",
+  description: "A slack conversation history input",
+  type: "object",
+  properties: {
+    channel: {
+      type: "string",
+      description: "The channel ID to retrieve history from",
+    },
+    cursor: {
+      type: "string",
+      description: "The cursor (i.e. page token) to retrieve history from",
+    },
+    inclusive: {
+      type: "boolean",
+      description:
+        "Whether to include messages with oldest or latest timestamps in results. Ignored unless either timestamp is specified.",
+    },
+    latest: {
+      type: "number",
+      description:
+        "Only messages before this Unix timestamp will be included in results. Default is the current time.",
+    },
+    limit: {
+      type: "number",
+      description:
+        "The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.",
+    },
+    oldest: {
+      type: "number",
+      description:
+        "Only messages after this Unix timestamp will be included in results. Default is 0.",
+    },
+  },
+  required: ["channel"],
+} as const satisfies JSONSchema;
+
+export const SlackConversationHistory = {
+  title: "Slack Conversation History",
+  description: "A slack conversation history response",
+  type: "object",
+  properties: {
+    ok: {
+      type: "boolean",
+      description:
+        "Whether the conversation history was retrieved successfully",
+    },
+    messages: {
+      type: "array",
+      description: "The messages of the conversation history",
+      items: {
+        type: "object",
+        description: "A message of the conversation history",
+        properties: {
+          type: {
+            type: "string",
+            description: "The type of the message",
+          },
+          user: {
+            type: "string",
+            description: "The user that sent the message",
+          },
+          text: {
+            type: "string",
+            description: "The text of the message",
+          },
+          ts: {
+            type: "string",
+            description: "The timestamp of the message",
+          },
+          attachments: {
+            type: "array",
+            description: "The attachments of the message",
+            items: {
+              type: "object",
+              description: "An attachment of the message",
+              properties: {
+                service_name: {
+                  type: "string",
+                  description: "The service name of the attachment",
+                },
+                text: {
+                  type: "string",
+                  description: "The text of the attachment",
+                },
+                fallback: {
+                  type: "string",
+                  description: "The fallback of the attachment",
+                },
+                thumb_url: {
+                  type: "string",
+                  description: "The thumbnail URL of the attachment",
+                },
+                thumb_width: {
+                  type: "number",
+                  description: "The thumbnail width of the attachment",
+                },
+                thumb_height: {
+                  type: "number",
+                  description: "The thumbnail height of the attachment",
+                },
+                id: {
+                  type: "number",
+                  description: "The ID of the attachment",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    has_more: {
+      type: "boolean",
+      description: "Whether there are more messages to retrieve",
+    },
+    pin_count: {
+      type: "number",
+      description: "The number of pinned messages in the conversation",
+    },
+    response_metadata: {
+      type: "object",
+      description: "The response metadata of the conversation history",
+      properties: {
+        next_cursor: {
+          type: "string",
+          description:
+            "The next cursor (i.e. next page token) of the conversation history",
+        },
+      },
+    },
+    error: {
+      type: "string",
+      description: "The error of the conversation history",
+    },
+  },
+} as const satisfies JSONSchema;
+
+export const SlackConversationRepliesInput = {
+  title: "Slack Conversation Replies Input",
+  description: "A slack conversation replies input",
+  type: "object",
+  properties: {
+    channel: {
+      type: "string",
+      description: "The channel ID to retrieve replies from",
+    },
+    ts: {
+      type: "string",
+      description: "The timestamp of the parent message",
+    },
+    cursor: {
+      type: "string",
+      description: "The cursor (i.e. page token) to retrieve replies from",
+    },
+    inclusive: {
+      type: "boolean",
+      description:
+        "Whether to include messages with oldest or latest timestamps in results. Ignored unless either timestamp is specified.",
+    },
+    latest: {
+      type: "number",
+      description:
+        "Only messages before this Unix timestamp will be included in results. Default is the current time.",
+    },
+    limit: {
+      type: "number",
+      description:
+        "The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.",
+    },
+    oldest: {
+      type: "number",
+      description:
+        "Only messages after this Unix timestamp will be included in results. Default is 0.",
+    },
+  },
+  required: ["channel", "ts"],
+} as const satisfies JSONSchema;
+
+export const SlackConversationReplies = {
+  title: "Slack Conversation Replies",
+  description: "A slack conversation replies response",
+  type: "object",
+  properties: {
+    ok: {
+      type: "boolean",
+      description:
+        "Whether the conversation replies were retrieved successfully",
+    },
+    messages: {
+      type: "array",
+      description: "The messages of the conversation replies",
+      items: {
+        type: "object",
+        description: "A message of the conversation replies",
+        properties: {
+          type: {
+            type: "string",
+            description: "The type of the message",
+          },
+          user: {
+            type: "string",
+            description: "The user that sent the message",
+          },
+          text: {
+            type: "string",
+            description: "The text of the message",
+          },
+          thread_ts: {
+            type: "string",
+            description: "The timestamp of the parent message",
+          },
+          parent_user_id: {
+            type: "string",
+            description: "The user ID of the parent message",
+          },
+          reply_count: {
+            type: "number",
+            description: "The number of replies to the message",
+          },
+          subscribed: {
+            type: "boolean",
+            description: "Whether the user is subscribed to the message",
+          },
+          last_read: {
+            type: "string",
+            description: "The timestamp of the last read message",
+          },
+          unread_count: {
+            type: "number",
+            description: "The number of unread messages",
+          },
+          ts: {
+            type: "string",
+            description: "The timestamp of the message",
+          },
+          attachments: {
+            type: "array",
+            description: "The attachments of the message",
+            items: {
+              type: "object",
+              description: "An attachment of the message",
+              properties: {
+                service_name: {
+                  type: "string",
+                  description: "The service name of the attachment",
+                },
+                text: {
+                  type: "string",
+                  description: "The text of the attachment",
+                },
+                fallback: {
+                  type: "string",
+                  description: "The fallback of the attachment",
+                },
+                thumb_url: {
+                  type: "string",
+                  description: "The thumbnail URL of the attachment",
+                },
+                thumb_width: {
+                  type: "number",
+                  description: "The thumbnail width of the attachment",
+                },
+                thumb_height: {
+                  type: "number",
+                  description: "The thumbnail height of the attachment",
+                },
+                id: {
+                  type: "number",
+                  description: "The ID of the attachment",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    has_more: {
+      type: "boolean",
+      description: "Whether there are more messages to retrieve",
+    },
+    response_metadata: {
+      type: "object",
+      description: "The response metadata of the conversation replies",
+      properties: {
+        next_cursor: {
+          type: "string",
+          description:
+            "The next cursor (i.e. next page token) of the conversation replies",
+        },
+      },
+    },
+    error: {
+      type: "string",
+      description: "The error of the conversation replies",
+    },
+  },
+} as const satisfies JSONSchema;
+
+export const SlackPostMessageBody = {
+  title: "Slack Post Message Body",
+  description: "A slack post message body",
+  type: "object",
+  properties: {
+    channel: {
+      type: "string",
+      description: "The channel to post to",
+    },
+    thread_ts: {
+      type: "string",
+      description: "The thread to post to",
+    },
+    text: {
+      type: "string",
+      description: "The text to post",
+    },
+  },
+  required: ["channel", "text"],
+} as const satisfies JSONSchema;
+
 export const SlackPostMessage = {
   title: "Slack Post Message",
   description: "A slack post message response",
@@ -124,25 +641,4 @@ export const SlackPostMessage = {
       },
     },
   },
-} as const satisfies JSONSchema;
-
-export const SlackPostMessageBody = {
-  title: "Slack Post Message Body",
-  description: "A slack post message body",
-  type: "object",
-  properties: {
-    channel: {
-      type: "string",
-      description: "The channel to post to",
-    },
-    thread_ts: {
-      type: "string",
-      description: "The thread to post to",
-    },
-    text: {
-      type: "string",
-      description: "The text to post",
-    },
-  },
-  required: ["channel", "text"],
 } as const satisfies JSONSchema;
