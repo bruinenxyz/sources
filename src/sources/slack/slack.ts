@@ -73,6 +73,8 @@ async function getConversationHistory(
   authClient: Axios,
   params: any
 ): Promise<SlackConversationHistoryType> {
+  const body = { ...params };
+  delete body["accountId"];
   const { data }: any = await authClient.post("/conversations.history", params);
   return data;
 }

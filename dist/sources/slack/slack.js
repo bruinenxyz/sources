@@ -75,6 +75,8 @@ function getConversations(authClient, params) {
 }
 function getConversationHistory(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
+        const body = Object.assign({}, params);
+        delete body["accountId"];
         const { data } = yield authClient.post("/conversations.history", params);
         return data;
     });
