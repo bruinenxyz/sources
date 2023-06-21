@@ -1,9 +1,9 @@
-type Action<Params, ReturnType> = (
+export type Action<Params, ReturnType> = (
   authenticatedClient: any,
   params: Params
 ) => Promise<ReturnType>;
 
-type PostAction<Body, Params, ReturnType> = (
+export type PostAction<Body, Params, ReturnType> = (
   authenticatedClient: any,
   body: Body,
   params: Params

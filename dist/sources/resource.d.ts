@@ -1,5 +1,5 @@
-type Action<Params, ReturnType> = (authenticatedClient: any, params: Params) => Promise<ReturnType>;
-type PostAction<Body, Params, ReturnType> = (authenticatedClient: any, body: Body, params: Params) => Promise<ReturnType>;
+export type Action<Params, ReturnType> = (authenticatedClient: any, params: Params) => Promise<ReturnType>;
+export type PostAction<Body, Params, ReturnType> = (authenticatedClient: any, body: Body, params: Params) => Promise<ReturnType>;
 export declare class Resource<Params, ReturnType> {
     name: string;
     friendlyName: string;
@@ -61,4 +61,3 @@ export type PostResourceMetadata = {
     JSONInputSchema: any;
     JSONOutputSchema: any;
 };
-export {};
