@@ -282,7 +282,7 @@ export class Slack extends OAuth2Source implements Source {
   public async getExternalAccountId(authClient: Axios) {
     const { email } = await getProfile(authClient);
     if (email) {
-      const { data } = await axios.get(
+      const { data } = await authClient.get(
         `${slack_api_url}/users.lookupByEmail?email=${email}`
       );
       if (data.ok) {

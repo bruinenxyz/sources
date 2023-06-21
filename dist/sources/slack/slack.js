@@ -203,7 +203,7 @@ class Slack extends source_1.OAuth2Source {
         return __awaiter(this, void 0, void 0, function* () {
             const { email } = yield getProfile(authClient);
             if (email) {
-                const { data } = yield axios_1.default.get(`${slack_api_url}/users.lookupByEmail?email=${email}`);
+                const { data } = yield authClient.get(`${slack_api_url}/users.lookupByEmail?email=${email}`);
                 if (data.ok) {
                     return data.user.id;
                 }
