@@ -125,10 +125,10 @@ class Slack extends source_1.OAuth2Source {
         this.getSourceJSONSchema = () => null;
         this.description = "A source for Slack";
         this.resources = {
-            profile: new resource_1.Resource("profile", "Slack Profile", "get", "Your basic Slack profile", getProfile, null, slack_types_1.SlackProfile),
-            conversations: new resource_1.Resource("conversations", "Slack Conversations", "get", "Get a list of Slack conversations", getConversations, slack_types_1.SlackConversationsInput, slack_types_1.SlackConversations),
-            conversationHistory: new resource_1.Resource("conversationHistory", "Slack Conversation History", "get", "Get the history of a Slack conversation", getConversationHistory, slack_types_1.SlackConversationHistoryInput, slack_types_1.SlackConversationHistory),
-            conversationReplies: new resource_1.Resource("conversationReplies", "Slack Conversation Replies", "get", "Get the replies of a Slack conversation message", getConversationReplies, slack_types_1.SlackConversationRepliesInput, slack_types_1.SlackConversationReplies),
+            profile: new resource_1.GetResource("profile", "Slack Profile", "get", "Your basic Slack profile", getProfile, null, slack_types_1.SlackProfile),
+            conversations: new resource_1.GetResource("conversations", "Slack Conversations", "get", "Get a list of Slack conversations", getConversations, slack_types_1.SlackConversationsInput, slack_types_1.SlackConversations),
+            conversationHistory: new resource_1.GetResource("conversationHistory", "Slack Conversation History", "get", "Get the history of a Slack conversation", getConversationHistory, slack_types_1.SlackConversationHistoryInput, slack_types_1.SlackConversationHistory),
+            conversationReplies: new resource_1.GetResource("conversationReplies", "Slack Conversation Replies", "get", "Get the replies of a Slack conversation message", getConversationReplies, slack_types_1.SlackConversationRepliesInput, slack_types_1.SlackConversationReplies),
             postMessage: new resource_1.PostResource("postMessage", "Slack Post Message", "post", "Post a message to a Slack channel", postMessage, slack_types_1.SlackPostMessageBody, null, slack_types_1.SlackPostMessage),
         };
         this.metadata = {
@@ -196,12 +196,6 @@ class Slack extends source_1.OAuth2Source {
                 return `Slack deactivation error: ${error}`;
             }
         });
-    }
-    isTokenExpired(accessCredentials) {
-        if (new Date() > new Date(accessCredentials.expires)) {
-            return true;
-        }
-        return false;
     }
     getExternalAccountId(authClient) {
         return __awaiter(this, void 0, void 0, function* () {

@@ -1,4 +1,4 @@
-import { Resource } from "../resource";
+import { Resource, GetResource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
 import { GithubProfile, GithubRepos } from "./github.types";
@@ -34,7 +34,7 @@ async function getProfile(
 
 export class Github extends OAuth2Source implements Source {
   resources: {
-    [x: string]: Resource<any, any>;
+    [x: string]: Resource<any, any, any>;
   };
   description: string;
 
@@ -42,7 +42,7 @@ export class Github extends OAuth2Source implements Source {
     super("github");
     this.description = "A source for github";
     this.resources = {
-      repos: new Resource<null, GithubReposType>(
+      repos: new GetResource<null, GithubReposType>(
         "repos",
         "GitHub Repos",
         "get",
@@ -51,7 +51,7 @@ export class Github extends OAuth2Source implements Source {
         null,
         GithubRepos
       ),
-      profile: new Resource<null, GithubProfileType>(
+      profile: new GetResource<null, GithubProfileType>(
         "profile",
         "GitHub Profile",
         "get",

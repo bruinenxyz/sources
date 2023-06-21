@@ -1,12 +1,12 @@
 import { Axios } from "axios";
-import { PostResource, Resource } from "./resource";
-import { ResourceMetadata, PostResourceMetadata } from "./resource";
+import { Resource } from "./resource";
+import { GetResourceMetadata, PostResourceMetadata } from "./resource";
 export declare class BaseSource {
     name: string;
     type: SourceType;
     accessType: AccessType;
     resources: {
-        [x: string]: Resource<any, any> | PostResource<any, any, any>;
+        [x: string]: Resource<any, any, any>;
     };
     metadata: Metadata;
     constructor(name: string, type: SourceType, accessType: AccessType);
@@ -14,7 +14,7 @@ export declare class BaseSource {
     getType(): SourceType;
     getAccessType(): AccessType;
     getResources(): {
-        [x: string]: Resource<any, any> | PostResource<any, any, any>;
+        [x: string]: Resource<any, any, any>;
     };
     getMetadata(): Metadata;
 }
@@ -29,7 +29,7 @@ export interface Source {
     accessType: AccessType;
     description: string;
     resources: {
-        [x: string]: Resource<any, any> | PostResource<any, any, any>;
+        [x: string]: Resource<any, any, any>;
     };
     metadata: Metadata;
     getAuthUrl: (state: string, credentials: string, redirectUrl: string) => string;
@@ -64,7 +64,7 @@ type Metadata = {
             fields: CredentialField[];
         };
     };
-    resources: (ResourceMetadata | PostResourceMetadata)[];
+    resources: (GetResourceMetadata | PostResourceMetadata)[];
 } | {};
 type CredentialField = {
     name: string;

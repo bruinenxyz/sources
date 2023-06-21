@@ -1,4 +1,4 @@
-type Action<Params, ReturnType> = (
+type GetAction<Params, ReturnType> = (
   authenticatedClient: any,
   params: Params
 ) => Promise<ReturnType>;
@@ -9,12 +9,16 @@ type PostAction<Body, Params, ReturnType> = (
   params: Params
 ) => Promise<ReturnType>;
 
-export class Resource<Params, ReturnType> {
+export type Resource<Body, Params, ReturnType> =
+  | GetResource<Params, ReturnType>
+  | PostResource<Body, Params, ReturnType>;
+
+export class GetResource<Params, ReturnType> {
   public name: string;
   public friendlyName: string;
   public type: string;
   public description: string;
-  public action: Action<Params, ReturnType>;
+  public action: GetAction<Params, ReturnType>;
   public JSONInputSchema: unknown;
   public JSONOutputSchema: unknown;
   public constructor(
@@ -22,7 +26,7 @@ export class Resource<Params, ReturnType> {
     friendlyName: string,
     type: string,
     description: string,
-    action: Action<Params, ReturnType>,
+    action: GetAction<Params, ReturnType>,
     JSONInputSchema: unknown,
     JSONOutputSchema: unknown
   ) {
@@ -123,7 +127,7 @@ export class PostResource<Body, Params, ReturnType> {
   }
 }
 
-export type ResourceMetadata = {
+export type GetResourceMetadata = {
   name: string;
   friendlyName: string;
   type: string;

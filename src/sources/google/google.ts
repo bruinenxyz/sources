@@ -1,4 +1,4 @@
-import { Resource } from "../resource";
+import { Resource, GetResource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
 import {
@@ -614,7 +614,7 @@ async function getEvent(
 
 export class Google extends OAuth2Source implements Source {
   resources: {
-    [x: string]: Resource<any, any>;
+    [x: string]: Resource<any, any, any>;
   };
   description: string;
 
@@ -622,7 +622,7 @@ export class Google extends OAuth2Source implements Source {
     super("google");
     this.description = "A source for Google";
     this.resources = {
-      profile: new Resource<null, GoogleProfileType>(
+      profile: new GetResource<null, GoogleProfileType>(
         "profile",
         "Google Profile",
         "get",
@@ -631,7 +631,7 @@ export class Google extends OAuth2Source implements Source {
         null,
         GoogleProfile
       ),
-      drafts: new Resource<GoogleDraftsInputType, GoogleDraftsType>(
+      drafts: new GetResource<GoogleDraftsInputType, GoogleDraftsType>(
         "drafts",
         "Google Drafts",
         "get",
@@ -640,7 +640,10 @@ export class Google extends OAuth2Source implements Source {
         GoogleDraftsInput,
         GoogleDrafts
       ),
-      parsedDrafts: new Resource<GoogleDraftsInputType, GoogleParsedDraftsType>(
+      parsedDrafts: new GetResource<
+        GoogleDraftsInputType,
+        GoogleParsedDraftsType
+      >(
         "parsedDrafts",
         "Google Parsed Drafts",
         "get",
@@ -649,7 +652,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleDraftsInput,
         GoogleParsedDrafts
       ),
-      draft: new Resource<GoogleDraftInputType, GoogleDraftType>(
+      draft: new GetResource<GoogleDraftInputType, GoogleDraftType>(
         "draft",
         "Google Draft",
         "get",
@@ -658,7 +661,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleDraftInput,
         GoogleDraft
       ),
-      parsedDraft: new Resource<GoogleDraftInputType, GoogleParsedDraftType>(
+      parsedDraft: new GetResource<GoogleDraftInputType, GoogleParsedDraftType>(
         "parsedDraft",
         "Google Parsed Draft",
         "get",
@@ -667,7 +670,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleDraftInput,
         GoogleParsedDraft
       ),
-      labels: new Resource<null, GoogleLabelsType>(
+      labels: new GetResource<null, GoogleLabelsType>(
         "labels",
         "Google Labels",
         "get",
@@ -676,7 +679,7 @@ export class Google extends OAuth2Source implements Source {
         null,
         GoogleLabels
       ),
-      label: new Resource<GoogleLabelInputType, GoogleLabelType>(
+      label: new GetResource<GoogleLabelInputType, GoogleLabelType>(
         "label",
         "Google Label",
         "get",
@@ -685,7 +688,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleLabelInput,
         GoogleLabel
       ),
-      messages: new Resource<GoogleMessagesInputType, GoogleMessagesType>(
+      messages: new GetResource<GoogleMessagesInputType, GoogleMessagesType>(
         "messages",
         "Google Messages",
         "get",
@@ -694,7 +697,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleMessagesInput,
         GoogleMessages
       ),
-      parsedMessages: new Resource<
+      parsedMessages: new GetResource<
         GoogleMessagesInputType,
         GoogleParsedMessagesType
       >(
@@ -706,7 +709,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleMessagesInput,
         GoogleParsedMessages
       ),
-      message: new Resource<GoogleMessageInputType, GoogleMessageType>(
+      message: new GetResource<GoogleMessageInputType, GoogleMessageType>(
         "message",
         "Google Message",
         "get",
@@ -715,7 +718,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleMessageInput,
         GoogleMessage
       ),
-      parsedMessage: new Resource<
+      parsedMessage: new GetResource<
         GoogleMessageInputType,
         GoogleParsedMessageType
       >(
@@ -727,7 +730,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleMessageInput,
         GoogleParsedMessage
       ),
-      threads: new Resource<GoogleThreadsInputType, GoogleThreadsType>(
+      threads: new GetResource<GoogleThreadsInputType, GoogleThreadsType>(
         "threads",
         "Google Threads",
         "get",
@@ -736,7 +739,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleThreadsInput,
         GoogleThreads
       ),
-      parsedThreads: new Resource<
+      parsedThreads: new GetResource<
         GoogleThreadsInputType,
         GoogleParsedThreadsType
       >(
@@ -748,7 +751,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleThreadsInput,
         GoogleParsedThreads
       ),
-      thread: new Resource<GoogleThreadInputType, GoogleThreadType>(
+      thread: new GetResource<GoogleThreadInputType, GoogleThreadType>(
         "thread",
         "Google Thread",
         "get",
@@ -757,7 +760,10 @@ export class Google extends OAuth2Source implements Source {
         GoogleThreadInput,
         GoogleThread
       ),
-      parsedThread: new Resource<GoogleThreadInputType, GoogleParsedThreadType>(
+      parsedThread: new GetResource<
+        GoogleThreadInputType,
+        GoogleParsedThreadType
+      >(
         "parsedThread",
         "Google Parsed Thread",
         "get",
@@ -766,7 +772,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleThreadInput,
         GoogleParsedThread
       ),
-      calendars: new Resource<GoogleCalendarsInputType, GoogleCalendarsType>(
+      calendars: new GetResource<GoogleCalendarsInputType, GoogleCalendarsType>(
         "calendars",
         "Google Calendars",
         "get",
@@ -775,7 +781,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleCalendarsInput,
         GoogleCalendars
       ),
-      calendar: new Resource<GoogleCalendarInputType, GoogleCalendarType>(
+      calendar: new GetResource<GoogleCalendarInputType, GoogleCalendarType>(
         "calendar",
         "Google Calendar",
         "get",
@@ -784,7 +790,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleCalendarInput,
         GoogleCalendar
       ),
-      events: new Resource<GoogleEventsInputType, GoogleEventsType>(
+      events: new GetResource<GoogleEventsInputType, GoogleEventsType>(
         "events",
         "Google Events",
         "get",
@@ -793,7 +799,7 @@ export class Google extends OAuth2Source implements Source {
         GoogleEventsInput,
         GoogleEvents
       ),
-      event: new Resource<GoogleEventInputType, GoogleEventType>(
+      event: new GetResource<GoogleEventInputType, GoogleEventType>(
         "event",
         "Google Event",
         "get",

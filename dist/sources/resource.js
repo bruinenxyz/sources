@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostResource = exports.Resource = void 0;
-class Resource {
+exports.PostResource = exports.GetResource = void 0;
+class GetResource {
     constructor(name, friendlyName, type, description, action, JSONInputSchema, JSONOutputSchema) {
         this.name = name;
         this.friendlyName = friendlyName;
@@ -35,7 +35,7 @@ class Resource {
         };
     }
 }
-exports.Resource = Resource;
+exports.GetResource = GetResource;
 class PostResource {
     constructor(name, friendlyName, type, description, action, JSONBodySchema, JSONInputSchema, JSONOutputSchema) {
         this.name = name;

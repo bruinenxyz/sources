@@ -1,4 +1,4 @@
-import { Resource, PostResource } from "../resource";
+import { Resource, GetResource, PostResource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
 import {
@@ -109,7 +109,7 @@ async function postMessage(
 
 export class Slack extends OAuth2Source implements Source {
   resources: {
-    [x: string]: Resource<any, any> | PostResource<any, any, any>;
+    [x: string]: Resource<any, any, any>;
   };
   description: string;
 
@@ -117,7 +117,7 @@ export class Slack extends OAuth2Source implements Source {
     super("slack");
     this.description = "A source for Slack";
     this.resources = {
-      profile: new Resource<null, SlackProfileType>(
+      profile: new GetResource<null, SlackProfileType>(
         "profile",
         "Slack Profile",
         "get",
@@ -126,7 +126,7 @@ export class Slack extends OAuth2Source implements Source {
         null,
         SlackProfile
       ),
-      conversations: new Resource<
+      conversations: new GetResource<
         SlackConversationsInputType,
         SlackConversationsType
       >(
@@ -138,7 +138,7 @@ export class Slack extends OAuth2Source implements Source {
         SlackConversationsInput,
         SlackConversations
       ),
-      conversationHistory: new Resource<
+      conversationHistory: new GetResource<
         SlackConversationHistoryInputType,
         SlackConversationHistoryType
       >(
@@ -150,7 +150,7 @@ export class Slack extends OAuth2Source implements Source {
         SlackConversationHistoryInput,
         SlackConversationHistory
       ),
-      conversationReplies: new Resource<
+      conversationReplies: new GetResource<
         SlackConversationRepliesInputType,
         SlackConversationRepliesType
       >(
@@ -276,13 +276,6 @@ export class Slack extends OAuth2Source implements Source {
       `&client_id=${credentials.id}`;
     return url;
   };
-
-  public isTokenExpired(accessCredentials: any): boolean {
-    if (new Date() > new Date(accessCredentials.expires)) {
-      return true;
-    }
-    return false;
-  }
 
   public async getExternalAccountId(authClient: Axios) {
     const { data } = await authClient.get("/users.identity");

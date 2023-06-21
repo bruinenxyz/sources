@@ -3,7 +3,7 @@ import { OAuth2Source, Source } from "../source";
 import { Axios } from "axios";
 export declare class Github extends OAuth2Source implements Source {
     resources: {
-        [x: string]: Resource<any, any>;
+        [x: string]: Resource<any, any, any>;
     };
     description: string;
     constructor();

@@ -1,17 +1,18 @@
-type Action<Params, ReturnType> = (authenticatedClient: any, params: Params) => Promise<ReturnType>;
+type GetAction<Params, ReturnType> = (authenticatedClient: any, params: Params) => Promise<ReturnType>;
 type PostAction<Body, Params, ReturnType> = (authenticatedClient: any, body: Body, params: Params) => Promise<ReturnType>;
-export declare class Resource<Params, ReturnType> {
+export type Resource<Body, Params, ReturnType> = GetResource<Params, ReturnType> | PostResource<Body, Params, ReturnType>;
+export declare class GetResource<Params, ReturnType> {
     name: string;
     friendlyName: string;
     type: string;
     description: string;
-    action: Action<Params, ReturnType>;
+    action: GetAction<Params, ReturnType>;
     JSONInputSchema: unknown;
     JSONOutputSchema: unknown;
-    constructor(name: string, friendlyName: string, type: string, description: string, action: Action<Params, ReturnType>, JSONInputSchema: unknown, JSONOutputSchema: unknown);
+    constructor(name: string, friendlyName: string, type: string, description: string, action: GetAction<Params, ReturnType>, JSONInputSchema: unknown, JSONOutputSchema: unknown);
     getName(): string;
     getType(): string;
-    getAction(): Action<Params, ReturnType>;
+    getAction(): GetAction<Params, ReturnType>;
     getJSON(): {
         name: string;
         friendlyName: string;
@@ -44,7 +45,7 @@ export declare class PostResource<Body, Params, ReturnType> {
         JSONOutputSchema: unknown;
     };
 }
-export type ResourceMetadata = {
+export type GetResourceMetadata = {
     name: string;
     friendlyName: string;
     type: string;

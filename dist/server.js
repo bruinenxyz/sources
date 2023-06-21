@@ -15,7 +15,7 @@ const generateEndpoints = (source) => {
     Object.values(sourceObject.resources).map((resource) => {
         app.get(`/${sourceObject.getName()}/${resource.getName()}`, (req, res) => {
             const action = resource.getAction();
-            action(axios_1.default, req.query).then((result) => {
+            action(axios_1.default, null, req.query).then((result) => {
                 res.send(result);
             });
         });

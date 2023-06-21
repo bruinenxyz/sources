@@ -1,9 +1,9 @@
-import { Resource, PostResource } from "../resource";
+import { Resource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { Axios } from "axios";
 export declare class Slack extends OAuth2Source implements Source {
     resources: {
-        [x: string]: Resource<any, any> | PostResource<any, any, any>;
+        [x: string]: Resource<any, any, any>;
     };
     description: string;
     constructor();
@@ -21,7 +21,6 @@ export declare class Slack extends OAuth2Source implements Source {
     }>;
     deactivate(accessCredentials: any): Promise<string>;
     getAuthUrl: (state: string, credentials: any, redirectUrl: string) => string;
-    isTokenExpired(accessCredentials: any): boolean;
     getExternalAccountId(authClient: Axios): Promise<any>;
     getSourceJSONSchema: () => null;
 }

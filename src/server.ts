@@ -16,7 +16,7 @@ const generateEndpoints = (source: typeof Github) => {
   Object.values(sourceObject.resources).map((resource) => {
     app.get(`/${sourceObject.getName()}/${resource.getName()}`, (req, res) => {
       const action = resource.getAction();
-      action(axios, req.query).then((result) => {
+      action(axios, null, req.query).then((result) => {
         res.send(result);
       });
     });
