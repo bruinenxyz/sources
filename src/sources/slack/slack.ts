@@ -40,6 +40,8 @@ const slackScopes = [
   "mpim:read",
   "mpim:history",
   "users.profile:read",
+  "users:read",
+  "users:read.email",
 ];
 
 async function getProfile(
@@ -277,17 +279,15 @@ export class Slack extends OAuth2Source implements Source {
     return url;
   };
 
-  public isTokenExpired(accessCredentials: any): boolean {
-    if (new Date() > new Date(accessCredentials.expires)) {
-      return true;
-    }
-    return false;
-  }
-
   public async getExternalAccountId(authClient: Axios) {
-    const { data } = await authClient.get("/users.identity");
-    if (data.ok) {
-      return data.user.id.toString();
+    const { email } = await getProfile(authClient);
+    if (email) {
+      const { data } = await axios.get(
+        `${slack_api_url}/users.lookupByEmail?email=${email}`
+      );
+      if (data.ok) {
+        return data.user.id;
+      }
     }
     return "";
   }

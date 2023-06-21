@@ -51,6 +51,8 @@ const slackScopes = [
     "mpim:read",
     "mpim:history",
     "users.profile:read",
+    "users:read",
+    "users:read.email",
 ];
 function getProfile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -197,17 +199,14 @@ class Slack extends source_1.OAuth2Source {
             }
         });
     }
-    isTokenExpired(accessCredentials) {
-        if (new Date() > new Date(accessCredentials.expires)) {
-            return true;
-        }
-        return false;
-    }
     getExternalAccountId(authClient) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield authClient.get("/users.identity");
-            if (data.ok) {
-                return data.user.id.toString();
+            const { email } = yield getProfile(authClient);
+            if (email) {
+                const { data } = yield axios_1.default.get(`${slack_api_url}/users.lookupByEmail?email=${email}`);
+                if (data.ok) {
+                    return data.user.id;
+                }
             }
             return "";
         });
