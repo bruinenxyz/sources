@@ -119,6 +119,18 @@ function getConversationHistory(authClient, params) {
         return data;
     });
 }
+function getEnhancedConversationHistory(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const body = Object.assign({}, params);
+        delete body["accountId"];
+        const { data } = yield authClient.post("/conversations.history", params);
+        const enhancedMessages = yield Promise.all(data.messages.map((message) => __awaiter(this, void 0, void 0, function* () {
+            const user = yield getUser(authClient, { user: message.user });
+            return Object.assign(Object.assign({}, message), { user: { id: user.id, name: user.name, real_name: user.real_name } });
+        })));
+        return Object.assign(Object.assign({}, data), { messages: enhancedMessages });
+    });
+}
 function getConversationReplies(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         let paramsString = "";
@@ -168,6 +180,7 @@ class Slack extends source_1.OAuth2Source {
             conversations: new resource_1.Resource("conversations", "Slack Conversations", "get", "Get a list of Slack conversations", getConversations, slack_types_1.SlackConversationsInput, slack_types_1.SlackConversations),
             enhancedConversations: new resource_1.Resource("enhancedConversations", "Slack Enhanced Conversations", "get", "Get a list of Slack conversations with members", getEnhancedConversations, slack_types_1.SlackConversationsInput, slack_types_1.SlackEnhancedConversations),
             conversationHistory: new resource_1.Resource("conversationHistory", "Slack Conversation History", "get", "Get the history of a Slack conversation", getConversationHistory, slack_types_1.SlackConversationHistoryInput, slack_types_1.SlackConversationHistory),
+            enhancedConversationHistory: new resource_1.Resource("enhancedConversationHistory", "Slack Enhanced Conversation History", "get", "Get the history of a Slack conversation with user information", getEnhancedConversationHistory, slack_types_1.SlackConversationHistoryInput, slack_types_1.SlackEnhancedConversationHistory),
             conversationReplies: new resource_1.Resource("conversationReplies", "Slack Conversation Replies", "get", "Get the replies of a Slack conversation message", getConversationReplies, slack_types_1.SlackConversationRepliesInput, slack_types_1.SlackConversationReplies),
             postMessage: new resource_1.PostResource("postMessage", "Slack Post Message", "post", "Post a message to a Slack channel", postMessage, slack_types_1.SlackPostMessageBody, null, slack_types_1.SlackPostMessage),
         };

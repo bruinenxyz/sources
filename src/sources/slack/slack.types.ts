@@ -688,6 +688,48 @@ export const SlackConversationHistory = {
             type: "string",
             description: "The timestamp of the message",
           },
+          team: {
+            type: "string",
+            description: "The team of the message",
+          },
+          bot_id: {
+            type: "string",
+            description: "The bot ID of the message",
+          },
+          bot_profile: {
+            type: "object",
+            description: "The bot profile of the message",
+            properties: {
+              id: {
+                type: "string",
+                description: "The id of the bot profile",
+              },
+              deleted: {
+                type: "boolean",
+                description: "Whether the bot profile was deleted",
+              },
+              name: {
+                type: "string",
+                description: "The name of the bot profile",
+              },
+              updated: {
+                type: "number",
+                description: "The updated timestamp of the bot profile",
+              },
+              app_id: {
+                type: "string",
+                description: "The app ID of the bot profile",
+              },
+              team_id: {
+                type: "string",
+                description: "The team ID of the bot profile",
+              },
+            },
+          },
+          app_id: {
+            type: "string",
+            description: "The app ID of the message",
+          },
           attachments: {
             type: "array",
             description: "The attachments of the message",
@@ -722,6 +764,268 @@ export const SlackConversationHistory = {
                 id: {
                   type: "number",
                   description: "The ID of the attachment",
+                },
+              },
+            },
+          },
+          blocks: {
+            type: "array",
+            description: "The blocks of the message",
+            items: {
+              type: "object",
+              description: "A block of the message",
+              properties: {
+                type: {
+                  type: "string",
+                  description: "The type of the block",
+                },
+                block_id: {
+                  type: "string",
+                  description: "The block ID of the block",
+                },
+                elements: {
+                  type: "array",
+                  description: "The elements of the block",
+                  items: {
+                    type: "object",
+                    description: "An element of the block",
+                  },
+                },
+              },
+            },
+          },
+          reactions: {
+            type: "array",
+            description: "The reactions of the message",
+            items: {
+              type: "object",
+              description: "A reaction of the message",
+              properties: {
+                name: {
+                  type: "string",
+                  description: "The name of the reaction",
+                },
+                users: {
+                  type: "array",
+                  description: "The users of the reaction",
+                  items: {
+                    type: "string",
+                    description: "The user IDs of a user of the reaction",
+                  },
+                },
+                count: {
+                  type: "number",
+                  description:
+                    "The count of the number of users who used the reaction",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    has_more: {
+      type: "boolean",
+      description: "Whether there are more messages to retrieve",
+    },
+    pin_count: {
+      type: "number",
+      description: "The number of pinned messages in the conversation",
+    },
+    response_metadata: {
+      type: "object",
+      description: "The response metadata of the conversation history",
+      properties: {
+        next_cursor: {
+          type: "string",
+          description:
+            "The next cursor (i.e. next page token) of the conversation history",
+        },
+      },
+    },
+    error: {
+      type: "string",
+      description: "The error of the conversation history",
+    },
+  },
+} as const satisfies JSONSchema;
+
+export const SlackEnhancedConversationHistory = {
+  title: "Slack Conversation History",
+  description: "A slack conversation history response",
+  type: "object",
+  properties: {
+    ok: {
+      type: "boolean",
+      description:
+        "Whether the conversation history was retrieved successfully",
+    },
+    messages: {
+      type: "array",
+      description: "The messages of the conversation history",
+      items: {
+        type: "object",
+        description: "A message of the conversation history",
+        properties: {
+          type: {
+            type: "string",
+            description: "The type of the message",
+          },
+          user: {
+            type: "object",
+            description: "The user that sent the message",
+            properties: {
+              id: {
+                type: "string",
+                description: "The ID of the user",
+              },
+              name: {
+                type: "string",
+                description: "The name of the user",
+              },
+              real_name: {
+                type: "string",
+                description: "The real name of the user",
+              },
+            },
+          },
+          text: {
+            type: "string",
+            description: "The text of the message",
+          },
+          ts: {
+            type: "string",
+            description: "The timestamp of the message",
+          },
+          team: {
+            type: "string",
+            description: "The team of the message",
+          },
+          bot_id: {
+            type: "string",
+            description: "The bot ID of the message",
+          },
+          bot_profile: {
+            type: "object",
+            description: "The bot profile of the message",
+            properties: {
+              id: {
+                type: "string",
+                description: "The id of the bot profile",
+              },
+              deleted: {
+                type: "boolean",
+                description: "Whether the bot profile was deleted",
+              },
+              name: {
+                type: "string",
+                description: "The name of the bot profile",
+              },
+              updated: {
+                type: "number",
+                description: "The updated timestamp of the bot profile",
+              },
+              app_id: {
+                type: "string",
+                description: "The app ID of the bot profile",
+              },
+              team_id: {
+                type: "string",
+                description: "The team ID of the bot profile",
+              },
+            },
+          },
+          app_id: {
+            type: "string",
+            description: "The app ID of the message",
+          },
+          attachments: {
+            type: "array",
+            description: "The attachments of the message",
+            items: {
+              type: "object",
+              description: "An attachment of the message",
+              properties: {
+                service_name: {
+                  type: "string",
+                  description: "The service name of the attachment",
+                },
+                text: {
+                  type: "string",
+                  description: "The text of the attachment",
+                },
+                fallback: {
+                  type: "string",
+                  description: "The fallback of the attachment",
+                },
+                thumb_url: {
+                  type: "string",
+                  description: "The thumbnail URL of the attachment",
+                },
+                thumb_width: {
+                  type: "number",
+                  description: "The thumbnail width of the attachment",
+                },
+                thumb_height: {
+                  type: "number",
+                  description: "The thumbnail height of the attachment",
+                },
+                id: {
+                  type: "number",
+                  description: "The ID of the attachment",
+                },
+              },
+            },
+          },
+          blocks: {
+            type: "array",
+            description: "The blocks of the message",
+            items: {
+              type: "object",
+              description: "A block of the message",
+              properties: {
+                type: {
+                  type: "string",
+                  description: "The type of the block",
+                },
+                block_id: {
+                  type: "string",
+                  description: "The block ID of the block",
+                },
+                elements: {
+                  type: "array",
+                  description: "The elements of the block",
+                  items: {
+                    type: "object",
+                    description: "An element of the block",
+                  },
+                },
+              },
+            },
+          },
+          reactions: {
+            type: "array",
+            description: "The reactions of the message",
+            items: {
+              type: "object",
+              description: "A reaction of the message",
+              properties: {
+                name: {
+                  type: "string",
+                  description: "The name of the reaction",
+                },
+                users: {
+                  type: "array",
+                  description: "The users of the reaction",
+                  items: {
+                    type: "string",
+                    description: "The user IDs of a user of the reaction",
+                  },
+                },
+                count: {
+                  type: "number",
+                  description:
+                    "The count of the number of users who used the reaction",
                 },
               },
             },

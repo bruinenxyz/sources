@@ -12,6 +12,7 @@ import {
   SlackEnhancedConversations,
   SlackConversationHistoryInput,
   SlackConversationHistory,
+  SlackEnhancedConversationHistory,
   SlackConversationRepliesInput,
   SlackConversationReplies,
 } from "./slack.types";
@@ -33,6 +34,9 @@ type SlackConversationHistoryInputType = FromSchema<
   typeof SlackConversationHistoryInput
 >;
 type SlackConversationHistoryType = FromSchema<typeof SlackConversationHistory>;
+type SlackEnhancedConversationHistoryType = FromSchema<
+  typeof SlackEnhancedConversationHistory
+>;
 type SlackConversationRepliesInputType = FromSchema<
   typeof SlackConversationRepliesInput
 >;
@@ -138,6 +142,25 @@ async function getConversationHistory(
   return data;
 }
 
+async function getEnhancedConversationHistory(
+  authClient: Axios,
+  params: any
+): Promise<SlackEnhancedConversationHistoryType> {
+  const body = { ...params };
+  delete body["accountId"];
+  const { data }: any = await authClient.post("/conversations.history", params);
+  const enhancedMessages = await Promise.all(
+    data.messages.map(async (message: any) => {
+      const user = await getUser(authClient, { user: message.user });
+      return {
+        ...message,
+        user: { id: user.id, name: user.name, real_name: user.real_name },
+      };
+    })
+  );
+  return { ...data, messages: enhancedMessages };
+}
+
 async function getConversationReplies(
   authClient: Axios,
   params: any
@@ -229,6 +252,18 @@ export class Slack extends OAuth2Source implements Source {
         getConversationHistory,
         SlackConversationHistoryInput,
         SlackConversationHistory
+      ),
+      enhancedConversationHistory: new Resource<
+        SlackConversationHistoryInputType,
+        SlackEnhancedConversationHistoryType
+      >(
+        "enhancedConversationHistory",
+        "Slack Enhanced Conversation History",
+        "get",
+        "Get the history of a Slack conversation with user information",
+        getEnhancedConversationHistory,
+        SlackConversationHistoryInput,
+        SlackEnhancedConversationHistory
       ),
       conversationReplies: new Resource<
         SlackConversationRepliesInputType,
