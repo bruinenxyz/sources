@@ -126,6 +126,13 @@ function getEnhancedConversationHistory(authClient, params) {
         const { data } = yield authClient.post("/conversations.history", params);
         const enhancedMessages = yield Promise.all(data.messages.map((message) => __awaiter(this, void 0, void 0, function* () {
             const user = yield getUser(authClient, { user: message.user });
+            if (message.reply_users) {
+                const replyUsers = yield Promise.all(message.reply_users.map((replyUser) => __awaiter(this, void 0, void 0, function* () {
+                    const user = yield getUser(authClient, { user: replyUser });
+                    return { id: user.id, name: user.name, real_name: user.real_name };
+                })));
+                return Object.assign(Object.assign({}, message), { user: { id: user.id, name: user.name, real_name: user.real_name }, reply_users: replyUsers });
+            }
             return Object.assign(Object.assign({}, message), { user: { id: user.id, name: user.name, real_name: user.real_name } });
         })));
         return Object.assign(Object.assign({}, data), { messages: enhancedMessages });
@@ -144,6 +151,32 @@ function getConversationReplies(authClient, params) {
         }
         const { data } = yield authClient.get(`/conversations.replies${paramsString}`);
         return data;
+    });
+}
+function getEnhancedConversationReplies(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let paramsString = "";
+        if (params) {
+            Object.keys(params).forEach((key) => {
+                paramsString += `&${key}=${params[key]}`;
+            });
+            if (paramsString.charAt(0) === "&") {
+                paramsString = "?" + paramsString.slice(1);
+            }
+        }
+        const { data } = yield authClient.get(`/conversations.replies${paramsString}`);
+        const enhancedMessages = yield Promise.all(data.messages.map((message) => __awaiter(this, void 0, void 0, function* () {
+            const user = yield getUser(authClient, { user: message.user });
+            if (message.reply_users) {
+                const replyUsers = yield Promise.all(message.reply_users.map((replyUser) => __awaiter(this, void 0, void 0, function* () {
+                    const user = yield getUser(authClient, { user: replyUser });
+                    return { id: user.id, name: user.name, real_name: user.real_name };
+                })));
+                return Object.assign(Object.assign({}, message), { user: { id: user.id, name: user.name, real_name: user.real_name }, reply_users: replyUsers });
+            }
+            return Object.assign(Object.assign({}, message), { user: { id: user.id, name: user.name, real_name: user.real_name } });
+        })));
+        return Object.assign(Object.assign({}, data), { messages: enhancedMessages });
     });
 }
 function postMessage(authClient, body, params) {
@@ -182,6 +215,7 @@ class Slack extends source_1.OAuth2Source {
             conversationHistory: new resource_1.Resource("conversationHistory", "Slack Conversation History", "get", "Get the history of a Slack conversation", getConversationHistory, slack_types_1.SlackConversationHistoryInput, slack_types_1.SlackConversationHistory),
             enhancedConversationHistory: new resource_1.Resource("enhancedConversationHistory", "Slack Enhanced Conversation History", "get", "Get the history of a Slack conversation with user information", getEnhancedConversationHistory, slack_types_1.SlackConversationHistoryInput, slack_types_1.SlackEnhancedConversationHistory),
             conversationReplies: new resource_1.Resource("conversationReplies", "Slack Conversation Replies", "get", "Get the replies of a Slack conversation message", getConversationReplies, slack_types_1.SlackConversationRepliesInput, slack_types_1.SlackConversationReplies),
+            enhancedConversationReplies: new resource_1.Resource("enhancedConversationReplies", "Slack Enhanced Conversation Replies", "get", "Get the replies of a Slack conversation message with user information", getEnhancedConversationReplies, slack_types_1.SlackConversationRepliesInput, slack_types_1.SlackEnhancedConversationReplies),
             postMessage: new resource_1.PostResource("postMessage", "Slack Post Message", "post", "Post a message to a Slack channel", postMessage, slack_types_1.SlackPostMessageBody, null, slack_types_1.SlackPostMessage),
         };
         this.metadata = {

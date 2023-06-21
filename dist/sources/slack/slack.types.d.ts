@@ -711,6 +711,38 @@ export declare const SlackConversationHistory: {
                         readonly type: "string";
                         readonly description: "The app ID of the message";
                     };
+                    readonly reply_count: {
+                        readonly type: "number";
+                        readonly description: "The reply count of the message";
+                    };
+                    readonly reply_users_count: {
+                        readonly type: "number";
+                        readonly description: "The reply users count of the message";
+                    };
+                    readonly latest_reply: {
+                        readonly type: "string";
+                        readonly description: "The latest reply of the message";
+                    };
+                    readonly reply_users: {
+                        readonly type: "array";
+                        readonly description: "The reply users of the message";
+                        readonly items: {
+                            readonly type: "string";
+                            readonly description: "A reply user of the message";
+                        };
+                    };
+                    readonly subscribed: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the user is subscribed to the message";
+                    };
+                    readonly last_read: {
+                        readonly type: "string";
+                        readonly description: "The last read of the message";
+                    };
+                    readonly is_locked: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the message is locked";
+                    };
                     readonly attachments: {
                         readonly type: "array";
                         readonly description: "The attachments of the message";
@@ -916,6 +948,52 @@ export declare const SlackEnhancedConversationHistory: {
                         readonly type: "string";
                         readonly description: "The app ID of the message";
                     };
+                    readonly reply_count: {
+                        readonly type: "number";
+                        readonly description: "The reply count of the message";
+                    };
+                    readonly reply_users_count: {
+                        readonly type: "number";
+                        readonly description: "The reply users count of the message";
+                    };
+                    readonly latest_reply: {
+                        readonly type: "string";
+                        readonly description: "The latest reply of the message";
+                    };
+                    readonly reply_users: {
+                        readonly type: "array";
+                        readonly description: "The reply users of the message";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "A reply user of the message";
+                            readonly properties: {
+                                readonly id: {
+                                    readonly type: "string";
+                                    readonly description: "The ID of the reply user";
+                                };
+                                readonly name: {
+                                    readonly type: "string";
+                                    readonly description: "The name of the reply user";
+                                };
+                                readonly real_name: {
+                                    readonly type: "string";
+                                    readonly description: "The real name of the reply user";
+                                };
+                            };
+                        };
+                    };
+                    readonly subscribed: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the user is subscribed to the message";
+                    };
+                    readonly last_read: {
+                        readonly type: "string";
+                        readonly description: "The last read of the message";
+                    };
+                    readonly is_locked: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the message is locked";
+                    };
                     readonly attachments: {
                         readonly type: "array";
                         readonly description: "The attachments of the message";
@@ -1093,6 +1171,22 @@ export declare const SlackConversationReplies: {
                         readonly type: "string";
                         readonly description: "The user that sent the message";
                     };
+                    readonly team: {
+                        readonly type: "string";
+                        readonly description: "The team ID of the message";
+                    };
+                    readonly reply_users_count: {
+                        readonly type: "number";
+                        readonly description: "The number of users who replied to the message";
+                    };
+                    readonly reply_users: {
+                        readonly type: "array";
+                        readonly description: "The users who replied to the message";
+                        readonly items: {
+                            readonly type: "string";
+                            readonly description: "The user IDs of a user who replied to the message";
+                        };
+                    };
                     readonly text: {
                         readonly type: "string";
                         readonly description: "The text of the message";
@@ -1116,6 +1210,10 @@ export declare const SlackConversationReplies: {
                     readonly last_read: {
                         readonly type: "string";
                         readonly description: "The timestamp of the last read message";
+                    };
+                    readonly is_locked: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the message is locked";
                     };
                     readonly unread_count: {
                         readonly type: "number";
@@ -1159,6 +1257,275 @@ export declare const SlackConversationReplies: {
                                 readonly id: {
                                     readonly type: "number";
                                     readonly description: "The ID of the attachment";
+                                };
+                            };
+                        };
+                    };
+                    readonly blocks: {
+                        readonly type: "array";
+                        readonly description: "The blocks of the message";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "A block of the message";
+                            readonly properties: {
+                                readonly type: {
+                                    readonly type: "string";
+                                    readonly description: "The type of the block";
+                                };
+                                readonly block_id: {
+                                    readonly type: "string";
+                                    readonly description: "The block ID of the block";
+                                };
+                                readonly elements: {
+                                    readonly type: "array";
+                                    readonly description: "The elements of the block";
+                                    readonly items: {
+                                        readonly type: "object";
+                                        readonly description: "An element of the block";
+                                    };
+                                };
+                            };
+                        };
+                    };
+                    readonly reactions: {
+                        readonly type: "array";
+                        readonly description: "The reactions of the message";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "A reaction of the message";
+                            readonly properties: {
+                                readonly name: {
+                                    readonly type: "string";
+                                    readonly description: "The name of the reaction";
+                                };
+                                readonly users: {
+                                    readonly type: "array";
+                                    readonly description: "The users of the reaction";
+                                    readonly items: {
+                                        readonly type: "string";
+                                        readonly description: "The user IDs of a user of the reaction";
+                                    };
+                                };
+                                readonly count: {
+                                    readonly type: "number";
+                                    readonly description: "The count of the number of users who used the reaction";
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        readonly has_more: {
+            readonly type: "boolean";
+            readonly description: "Whether there are more messages to retrieve";
+        };
+        readonly response_metadata: {
+            readonly type: "object";
+            readonly description: "The response metadata of the conversation replies";
+            readonly properties: {
+                readonly next_cursor: {
+                    readonly type: "string";
+                    readonly description: "The next cursor (i.e. next page token) of the conversation replies";
+                };
+            };
+        };
+        readonly error: {
+            readonly type: "string";
+            readonly description: "The error of the conversation replies";
+        };
+    };
+};
+export declare const SlackEnhancedConversationReplies: {
+    readonly title: "Slack Enhanced Conversation Replies";
+    readonly description: "An enhanced slack conversation replies response";
+    readonly type: "object";
+    readonly properties: {
+        readonly ok: {
+            readonly type: "boolean";
+            readonly description: "Whether the conversation replies were retrieved successfully";
+        };
+        readonly messages: {
+            readonly type: "array";
+            readonly description: "The messages of the conversation replies";
+            readonly items: {
+                readonly type: "object";
+                readonly description: "A message of the conversation replies";
+                readonly properties: {
+                    readonly type: {
+                        readonly type: "string";
+                        readonly description: "The type of the message";
+                    };
+                    readonly user: {
+                        readonly type: "object";
+                        readonly description: "The user that sent the message";
+                        readonly properties: {
+                            readonly id: {
+                                readonly type: "string";
+                                readonly description: "The ID of the user";
+                            };
+                            readonly name: {
+                                readonly type: "string";
+                                readonly description: "The name of the user";
+                            };
+                            readonly real_name: {
+                                readonly type: "string";
+                                readonly description: "The real name of the user";
+                            };
+                        };
+                    };
+                    readonly team: {
+                        readonly type: "string";
+                        readonly description: "The team ID of the message";
+                    };
+                    readonly reply_users_count: {
+                        readonly type: "number";
+                        readonly description: "The number of users who replied to the message";
+                    };
+                    readonly reply_users: {
+                        readonly type: "array";
+                        readonly description: "The users who replied to the message";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "The user IDs of a user who replied to the message";
+                            readonly properties: {
+                                readonly id: {
+                                    readonly type: "string";
+                                    readonly description: "The ID of the user";
+                                };
+                                readonly name: {
+                                    readonly type: "string";
+                                    readonly description: "The name of the user";
+                                };
+                                readonly real_name: {
+                                    readonly type: "string";
+                                    readonly description: "The real name of the user";
+                                };
+                            };
+                        };
+                    };
+                    readonly text: {
+                        readonly type: "string";
+                        readonly description: "The text of the message";
+                    };
+                    readonly thread_ts: {
+                        readonly type: "string";
+                        readonly description: "The timestamp of the parent message";
+                    };
+                    readonly parent_user_id: {
+                        readonly type: "string";
+                        readonly description: "The user ID of the parent message";
+                    };
+                    readonly reply_count: {
+                        readonly type: "number";
+                        readonly description: "The number of replies to the message";
+                    };
+                    readonly subscribed: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the user is subscribed to the message";
+                    };
+                    readonly last_read: {
+                        readonly type: "string";
+                        readonly description: "The timestamp of the last read message";
+                    };
+                    readonly is_locked: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the message is locked";
+                    };
+                    readonly unread_count: {
+                        readonly type: "number";
+                        readonly description: "The number of unread messages";
+                    };
+                    readonly ts: {
+                        readonly type: "string";
+                        readonly description: "The timestamp of the message";
+                    };
+                    readonly attachments: {
+                        readonly type: "array";
+                        readonly description: "The attachments of the message";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "An attachment of the message";
+                            readonly properties: {
+                                readonly service_name: {
+                                    readonly type: "string";
+                                    readonly description: "The service name of the attachment";
+                                };
+                                readonly text: {
+                                    readonly type: "string";
+                                    readonly description: "The text of the attachment";
+                                };
+                                readonly fallback: {
+                                    readonly type: "string";
+                                    readonly description: "The fallback of the attachment";
+                                };
+                                readonly thumb_url: {
+                                    readonly type: "string";
+                                    readonly description: "The thumbnail URL of the attachment";
+                                };
+                                readonly thumb_width: {
+                                    readonly type: "number";
+                                    readonly description: "The thumbnail width of the attachment";
+                                };
+                                readonly thumb_height: {
+                                    readonly type: "number";
+                                    readonly description: "The thumbnail height of the attachment";
+                                };
+                                readonly id: {
+                                    readonly type: "number";
+                                    readonly description: "The ID of the attachment";
+                                };
+                            };
+                        };
+                    };
+                    readonly blocks: {
+                        readonly type: "array";
+                        readonly description: "The blocks of the message";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "A block of the message";
+                            readonly properties: {
+                                readonly type: {
+                                    readonly type: "string";
+                                    readonly description: "The type of the block";
+                                };
+                                readonly block_id: {
+                                    readonly type: "string";
+                                    readonly description: "The block ID of the block";
+                                };
+                                readonly elements: {
+                                    readonly type: "array";
+                                    readonly description: "The elements of the block";
+                                    readonly items: {
+                                        readonly type: "object";
+                                        readonly description: "An element of the block";
+                                    };
+                                };
+                            };
+                        };
+                    };
+                    readonly reactions: {
+                        readonly type: "array";
+                        readonly description: "The reactions of the message";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "A reaction of the message";
+                            readonly properties: {
+                                readonly name: {
+                                    readonly type: "string";
+                                    readonly description: "The name of the reaction";
+                                };
+                                readonly users: {
+                                    readonly type: "array";
+                                    readonly description: "The users of the reaction";
+                                    readonly items: {
+                                        readonly type: "string";
+                                        readonly description: "The user IDs of a user of the reaction";
+                                    };
+                                };
+                                readonly count: {
+                                    readonly type: "number";
+                                    readonly description: "The count of the number of users who used the reaction";
                                 };
                             };
                         };

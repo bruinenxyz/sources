@@ -5,8 +5,6 @@ import {
   SlackProfile,
   SlackUserInput,
   SlackUser,
-  SlackPostMessage,
-  SlackPostMessageBody,
   SlackConversationsInput,
   SlackConversations,
   SlackEnhancedConversations,
@@ -15,6 +13,9 @@ import {
   SlackEnhancedConversationHistory,
   SlackConversationRepliesInput,
   SlackConversationReplies,
+  SlackEnhancedConversationReplies,
+  SlackPostMessage,
+  SlackPostMessageBody,
 } from "./slack.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
@@ -23,8 +24,6 @@ import * as _ from "lodash";
 type SlackProfileType = FromSchema<typeof SlackProfile>;
 type SlackUserInputType = FromSchema<typeof SlackUserInput>;
 type SlackUserType = FromSchema<typeof SlackUser>;
-type SlackPostMessageBodyType = FromSchema<typeof SlackPostMessageBody>;
-type SlackPostMessageType = FromSchema<typeof SlackPostMessage>;
 type SlackConversationsInputType = FromSchema<typeof SlackConversationsInput>;
 type SlackConversationsType = FromSchema<typeof SlackConversations>;
 type SlackEnhancedConversationsType = FromSchema<
@@ -41,6 +40,11 @@ type SlackConversationRepliesInputType = FromSchema<
   typeof SlackConversationRepliesInput
 >;
 type SlackConversationRepliesType = FromSchema<typeof SlackConversationReplies>;
+type SlackEnhancedConversationRepliesType = FromSchema<
+  typeof SlackEnhancedConversationReplies
+>;
+type SlackPostMessageBodyType = FromSchema<typeof SlackPostMessageBody>;
+type SlackPostMessageType = FromSchema<typeof SlackPostMessage>;
 
 const slack_api_url = "https://slack.com/api";
 const slackScopes = [
@@ -152,6 +156,19 @@ async function getEnhancedConversationHistory(
   const enhancedMessages = await Promise.all(
     data.messages.map(async (message: any) => {
       const user = await getUser(authClient, { user: message.user });
+      if (message.reply_users) {
+        const replyUsers = await Promise.all(
+          message.reply_users.map(async (replyUser: any) => {
+            const user = await getUser(authClient, { user: replyUser });
+            return { id: user.id, name: user.name, real_name: user.real_name };
+          })
+        );
+        return {
+          ...message,
+          user: { id: user.id, name: user.name, real_name: user.real_name },
+          reply_users: replyUsers,
+        };
+      }
       return {
         ...message,
         user: { id: user.id, name: user.name, real_name: user.real_name },
@@ -164,7 +181,7 @@ async function getEnhancedConversationHistory(
 async function getConversationReplies(
   authClient: Axios,
   params: any
-): Promise<SlackConversationHistoryType> {
+): Promise<SlackConversationRepliesType> {
   let paramsString = "";
   if (params) {
     Object.keys(params).forEach((key: string) => {
@@ -178,6 +195,47 @@ async function getConversationReplies(
     `/conversations.replies${paramsString}`
   );
   return data;
+}
+
+async function getEnhancedConversationReplies(
+  authClient: Axios,
+  params: any
+): Promise<SlackEnhancedConversationRepliesType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+    if (paramsString.charAt(0) === "&") {
+      paramsString = "?" + paramsString.slice(1);
+    }
+  }
+  const { data }: any = await authClient.get(
+    `/conversations.replies${paramsString}`
+  );
+  const enhancedMessages = await Promise.all(
+    data.messages.map(async (message: any) => {
+      const user = await getUser(authClient, { user: message.user });
+      if (message.reply_users) {
+        const replyUsers = await Promise.all(
+          message.reply_users.map(async (replyUser: any) => {
+            const user = await getUser(authClient, { user: replyUser });
+            return { id: user.id, name: user.name, real_name: user.real_name };
+          })
+        );
+        return {
+          ...message,
+          user: { id: user.id, name: user.name, real_name: user.real_name },
+          reply_users: replyUsers,
+        };
+      }
+      return {
+        ...message,
+        user: { id: user.id, name: user.name, real_name: user.real_name },
+      };
+    })
+  );
+  return { ...data, messages: enhancedMessages };
 }
 
 async function postMessage(
@@ -276,6 +334,18 @@ export class Slack extends OAuth2Source implements Source {
         getConversationReplies,
         SlackConversationRepliesInput,
         SlackConversationReplies
+      ),
+      enhancedConversationReplies: new Resource<
+        SlackConversationRepliesInputType,
+        SlackEnhancedConversationRepliesType
+      >(
+        "enhancedConversationReplies",
+        "Slack Enhanced Conversation Replies",
+        "get",
+        "Get the replies of a Slack conversation message with user information",
+        getEnhancedConversationReplies,
+        SlackConversationRepliesInput,
+        SlackEnhancedConversationReplies
       ),
       postMessage: new PostResource<
         SlackPostMessageBodyType,

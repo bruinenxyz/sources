@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SlackPostMessage = exports.SlackPostMessageBody = exports.SlackConversationReplies = exports.SlackConversationRepliesInput = exports.SlackEnhancedConversationHistory = exports.SlackConversationHistory = exports.SlackConversationHistoryInput = exports.SlackEnhancedConversations = exports.SlackConversations = exports.SlackConversationsInput = exports.SlackUser = exports.SlackUserInput = exports.SlackProfile = void 0;
+exports.SlackPostMessage = exports.SlackPostMessageBody = exports.SlackEnhancedConversationReplies = exports.SlackConversationReplies = exports.SlackConversationRepliesInput = exports.SlackEnhancedConversationHistory = exports.SlackConversationHistory = exports.SlackConversationHistoryInput = exports.SlackEnhancedConversations = exports.SlackConversations = exports.SlackConversationsInput = exports.SlackUser = exports.SlackUserInput = exports.SlackProfile = void 0;
 exports.SlackProfile = {
     title: "SlackProfile",
     description: "A slack profile",
@@ -714,6 +714,38 @@ exports.SlackConversationHistory = {
                         type: "string",
                         description: "The app ID of the message",
                     },
+                    reply_count: {
+                        type: "number",
+                        description: "The reply count of the message",
+                    },
+                    reply_users_count: {
+                        type: "number",
+                        description: "The reply users count of the message",
+                    },
+                    latest_reply: {
+                        type: "string",
+                        description: "The latest reply of the message",
+                    },
+                    reply_users: {
+                        type: "array",
+                        description: "The reply users of the message",
+                        items: {
+                            type: "string",
+                            description: "A reply user of the message",
+                        },
+                    },
+                    subscribed: {
+                        type: "boolean",
+                        description: "Whether the user is subscribed to the message",
+                    },
+                    last_read: {
+                        type: "string",
+                        description: "The last read of the message",
+                    },
+                    is_locked: {
+                        type: "boolean",
+                        description: "Whether the message is locked",
+                    },
                     attachments: {
                         type: "array",
                         description: "The attachments of the message",
@@ -919,6 +951,52 @@ exports.SlackEnhancedConversationHistory = {
                         type: "string",
                         description: "The app ID of the message",
                     },
+                    reply_count: {
+                        type: "number",
+                        description: "The reply count of the message",
+                    },
+                    reply_users_count: {
+                        type: "number",
+                        description: "The reply users count of the message",
+                    },
+                    latest_reply: {
+                        type: "string",
+                        description: "The latest reply of the message",
+                    },
+                    reply_users: {
+                        type: "array",
+                        description: "The reply users of the message",
+                        items: {
+                            type: "object",
+                            description: "A reply user of the message",
+                            properties: {
+                                id: {
+                                    type: "string",
+                                    description: "The ID of the reply user",
+                                },
+                                name: {
+                                    type: "string",
+                                    description: "The name of the reply user",
+                                },
+                                real_name: {
+                                    type: "string",
+                                    description: "The real name of the reply user",
+                                },
+                            },
+                        },
+                    },
+                    subscribed: {
+                        type: "boolean",
+                        description: "Whether the user is subscribed to the message",
+                    },
+                    last_read: {
+                        type: "string",
+                        description: "The last read of the message",
+                    },
+                    is_locked: {
+                        type: "boolean",
+                        description: "Whether the message is locked",
+                    },
                     attachments: {
                         type: "array",
                         description: "The attachments of the message",
@@ -1096,6 +1174,22 @@ exports.SlackConversationReplies = {
                         type: "string",
                         description: "The user that sent the message",
                     },
+                    team: {
+                        type: "string",
+                        description: "The team ID of the message",
+                    },
+                    reply_users_count: {
+                        type: "number",
+                        description: "The number of users who replied to the message",
+                    },
+                    reply_users: {
+                        type: "array",
+                        description: "The users who replied to the message",
+                        items: {
+                            type: "string",
+                            description: "The user IDs of a user who replied to the message",
+                        },
+                    },
                     text: {
                         type: "string",
                         description: "The text of the message",
@@ -1119,6 +1213,10 @@ exports.SlackConversationReplies = {
                     last_read: {
                         type: "string",
                         description: "The timestamp of the last read message",
+                    },
+                    is_locked: {
+                        type: "boolean",
+                        description: "Whether the message is locked",
                     },
                     unread_count: {
                         type: "number",
@@ -1162,6 +1260,275 @@ exports.SlackConversationReplies = {
                                 id: {
                                     type: "number",
                                     description: "The ID of the attachment",
+                                },
+                            },
+                        },
+                    },
+                    blocks: {
+                        type: "array",
+                        description: "The blocks of the message",
+                        items: {
+                            type: "object",
+                            description: "A block of the message",
+                            properties: {
+                                type: {
+                                    type: "string",
+                                    description: "The type of the block",
+                                },
+                                block_id: {
+                                    type: "string",
+                                    description: "The block ID of the block",
+                                },
+                                elements: {
+                                    type: "array",
+                                    description: "The elements of the block",
+                                    items: {
+                                        type: "object",
+                                        description: "An element of the block",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    reactions: {
+                        type: "array",
+                        description: "The reactions of the message",
+                        items: {
+                            type: "object",
+                            description: "A reaction of the message",
+                            properties: {
+                                name: {
+                                    type: "string",
+                                    description: "The name of the reaction",
+                                },
+                                users: {
+                                    type: "array",
+                                    description: "The users of the reaction",
+                                    items: {
+                                        type: "string",
+                                        description: "The user IDs of a user of the reaction",
+                                    },
+                                },
+                                count: {
+                                    type: "number",
+                                    description: "The count of the number of users who used the reaction",
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        has_more: {
+            type: "boolean",
+            description: "Whether there are more messages to retrieve",
+        },
+        response_metadata: {
+            type: "object",
+            description: "The response metadata of the conversation replies",
+            properties: {
+                next_cursor: {
+                    type: "string",
+                    description: "The next cursor (i.e. next page token) of the conversation replies",
+                },
+            },
+        },
+        error: {
+            type: "string",
+            description: "The error of the conversation replies",
+        },
+    },
+};
+exports.SlackEnhancedConversationReplies = {
+    title: "Slack Enhanced Conversation Replies",
+    description: "An enhanced slack conversation replies response",
+    type: "object",
+    properties: {
+        ok: {
+            type: "boolean",
+            description: "Whether the conversation replies were retrieved successfully",
+        },
+        messages: {
+            type: "array",
+            description: "The messages of the conversation replies",
+            items: {
+                type: "object",
+                description: "A message of the conversation replies",
+                properties: {
+                    type: {
+                        type: "string",
+                        description: "The type of the message",
+                    },
+                    user: {
+                        type: "object",
+                        description: "The user that sent the message",
+                        properties: {
+                            id: {
+                                type: "string",
+                                description: "The ID of the user",
+                            },
+                            name: {
+                                type: "string",
+                                description: "The name of the user",
+                            },
+                            real_name: {
+                                type: "string",
+                                description: "The real name of the user",
+                            },
+                        },
+                    },
+                    team: {
+                        type: "string",
+                        description: "The team ID of the message",
+                    },
+                    reply_users_count: {
+                        type: "number",
+                        description: "The number of users who replied to the message",
+                    },
+                    reply_users: {
+                        type: "array",
+                        description: "The users who replied to the message",
+                        items: {
+                            type: "object",
+                            description: "The user IDs of a user who replied to the message",
+                            properties: {
+                                id: {
+                                    type: "string",
+                                    description: "The ID of the user",
+                                },
+                                name: {
+                                    type: "string",
+                                    description: "The name of the user",
+                                },
+                                real_name: {
+                                    type: "string",
+                                    description: "The real name of the user",
+                                },
+                            },
+                        },
+                    },
+                    text: {
+                        type: "string",
+                        description: "The text of the message",
+                    },
+                    thread_ts: {
+                        type: "string",
+                        description: "The timestamp of the parent message",
+                    },
+                    parent_user_id: {
+                        type: "string",
+                        description: "The user ID of the parent message",
+                    },
+                    reply_count: {
+                        type: "number",
+                        description: "The number of replies to the message",
+                    },
+                    subscribed: {
+                        type: "boolean",
+                        description: "Whether the user is subscribed to the message",
+                    },
+                    last_read: {
+                        type: "string",
+                        description: "The timestamp of the last read message",
+                    },
+                    is_locked: {
+                        type: "boolean",
+                        description: "Whether the message is locked",
+                    },
+                    unread_count: {
+                        type: "number",
+                        description: "The number of unread messages",
+                    },
+                    ts: {
+                        type: "string",
+                        description: "The timestamp of the message",
+                    },
+                    attachments: {
+                        type: "array",
+                        description: "The attachments of the message",
+                        items: {
+                            type: "object",
+                            description: "An attachment of the message",
+                            properties: {
+                                service_name: {
+                                    type: "string",
+                                    description: "The service name of the attachment",
+                                },
+                                text: {
+                                    type: "string",
+                                    description: "The text of the attachment",
+                                },
+                                fallback: {
+                                    type: "string",
+                                    description: "The fallback of the attachment",
+                                },
+                                thumb_url: {
+                                    type: "string",
+                                    description: "The thumbnail URL of the attachment",
+                                },
+                                thumb_width: {
+                                    type: "number",
+                                    description: "The thumbnail width of the attachment",
+                                },
+                                thumb_height: {
+                                    type: "number",
+                                    description: "The thumbnail height of the attachment",
+                                },
+                                id: {
+                                    type: "number",
+                                    description: "The ID of the attachment",
+                                },
+                            },
+                        },
+                    },
+                    blocks: {
+                        type: "array",
+                        description: "The blocks of the message",
+                        items: {
+                            type: "object",
+                            description: "A block of the message",
+                            properties: {
+                                type: {
+                                    type: "string",
+                                    description: "The type of the block",
+                                },
+                                block_id: {
+                                    type: "string",
+                                    description: "The block ID of the block",
+                                },
+                                elements: {
+                                    type: "array",
+                                    description: "The elements of the block",
+                                    items: {
+                                        type: "object",
+                                        description: "An element of the block",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    reactions: {
+                        type: "array",
+                        description: "The reactions of the message",
+                        items: {
+                            type: "object",
+                            description: "A reaction of the message",
+                            properties: {
+                                name: {
+                                    type: "string",
+                                    description: "The name of the reaction",
+                                },
+                                users: {
+                                    type: "array",
+                                    description: "The users of the reaction",
+                                    items: {
+                                        type: "string",
+                                        description: "The user IDs of a user of the reaction",
+                                    },
+                                },
+                                count: {
+                                    type: "number",
+                                    description: "The count of the number of users who used the reaction",
                                 },
                             },
                         },
