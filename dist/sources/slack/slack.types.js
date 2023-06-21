@@ -416,8 +416,8 @@ exports.SlackConversations = {
     },
 };
 exports.SlackEnhancedConversations = {
-    title: "Slack Conversations",
-    description: "A slack conversations response",
+    title: "Slack Enhanced Conversations",
+    description: "A slack enhanced conversations response",
     type: "object",
     properties: {
         ok: {
@@ -832,8 +832,8 @@ exports.SlackConversationHistory = {
     },
 };
 exports.SlackEnhancedConversationHistory = {
-    title: "Slack Conversation History",
-    description: "A slack conversation history response",
+    title: "Slack Enhanced Conversation History",
+    description: "A slack enhanced conversation history response",
     type: "object",
     properties: {
         ok: {

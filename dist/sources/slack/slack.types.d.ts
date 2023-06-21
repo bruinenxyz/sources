@@ -413,8 +413,8 @@ export declare const SlackConversations: {
     };
 };
 export declare const SlackEnhancedConversations: {
-    readonly title: "Slack Conversations";
-    readonly description: "A slack conversations response";
+    readonly title: "Slack Enhanced Conversations";
+    readonly description: "A slack enhanced conversations response";
     readonly type: "object";
     readonly properties: {
         readonly ok: {
@@ -829,8 +829,8 @@ export declare const SlackConversationHistory: {
     };
 };
 export declare const SlackEnhancedConversationHistory: {
-    readonly title: "Slack Conversation History";
-    readonly description: "A slack conversation history response";
+    readonly title: "Slack Enhanced Conversation History";
+    readonly description: "A slack enhanced conversation history response";
     readonly type: "object";
     readonly properties: {
         readonly ok: {
