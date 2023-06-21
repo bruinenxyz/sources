@@ -57,7 +57,14 @@ const slackScopes = [
 function getProfile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const { data } = yield authClient.get("/users.profile.get");
-        return data.profile;
+        const userData = yield authClient.get(`${slack_api_url}/users.lookupByEmail?email=${data.profile.email}`);
+        return Object.assign(Object.assign({}, data.profile), { userId: userData.data.user.id });
+    });
+}
+function getUser(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield authClient.get(`/users.info?user=${params.user}`);
+        return data.user;
     });
 }
 function getConversations(authClient, params) {
@@ -73,6 +80,35 @@ function getConversations(authClient, params) {
         }
         const { data } = yield authClient.get(`/conversations.list${paramsString}`);
         return data;
+    });
+}
+function getEnhancedConversations(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let paramsString = "";
+        if (params) {
+            Object.keys(params).forEach((key) => {
+                paramsString += `&${key}=${params[key]}`;
+            });
+            if (paramsString.charAt(0) === "&") {
+                paramsString = "?" + paramsString.slice(1);
+            }
+        }
+        const { data } = yield authClient.get(`/conversations.list${paramsString}`);
+        const enhancedChannels = yield Promise.all(data.channels.map((channel) => __awaiter(this, void 0, void 0, function* () {
+            let memberIds = [];
+            let cursor = null;
+            while (cursor !== "") {
+                const { data } = yield authClient.get(`/conversations.members?channel=${channel.id}${cursor !== null ? `&cursor=${cursor}` : ""}`);
+                memberIds = memberIds.concat(data.members);
+                cursor = data.response_metadata.next_cursor;
+            }
+            const members = yield Promise.all(memberIds.map((memberId) => __awaiter(this, void 0, void 0, function* () {
+                const user = yield getUser(authClient, { user: memberId });
+                return { id: user.id, name: user.name, real_name: user.real_name };
+            })));
+            return Object.assign(Object.assign({}, channel), { members: members });
+        })));
+        return Object.assign(Object.assign({}, data), { channels: enhancedChannels });
     });
 }
 function getConversationHistory(authClient, params) {
@@ -128,7 +164,9 @@ class Slack extends source_1.OAuth2Source {
         this.description = "A source for Slack";
         this.resources = {
             profile: new resource_1.Resource("profile", "Slack Profile", "get", "Your basic Slack profile", getProfile, null, slack_types_1.SlackProfile),
+            user: new resource_1.Resource("user", "Slack User", "get", "Get a Slack user by user ID", getUser, slack_types_1.SlackUserInput, slack_types_1.SlackUser),
             conversations: new resource_1.Resource("conversations", "Slack Conversations", "get", "Get a list of Slack conversations", getConversations, slack_types_1.SlackConversationsInput, slack_types_1.SlackConversations),
+            enhancedConversations: new resource_1.Resource("enhancedConversations", "Slack Enhanced Conversations", "get", "Get a list of Slack conversations with members", getEnhancedConversations, slack_types_1.SlackConversationsInput, slack_types_1.SlackEnhancedConversations),
             conversationHistory: new resource_1.Resource("conversationHistory", "Slack Conversation History", "get", "Get the history of a Slack conversation", getConversationHistory, slack_types_1.SlackConversationHistoryInput, slack_types_1.SlackConversationHistory),
             conversationReplies: new resource_1.Resource("conversationReplies", "Slack Conversation Replies", "get", "Get the replies of a Slack conversation message", getConversationReplies, slack_types_1.SlackConversationRepliesInput, slack_types_1.SlackConversationReplies),
             postMessage: new resource_1.PostResource("postMessage", "Slack Post Message", "post", "Post a message to a Slack channel", postMessage, slack_types_1.SlackPostMessageBody, null, slack_types_1.SlackPostMessage),
@@ -201,12 +239,9 @@ class Slack extends source_1.OAuth2Source {
     }
     getExternalAccountId(authClient) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { email } = yield getProfile(authClient);
-            if (email) {
-                const { data } = yield authClient.get(`${slack_api_url}/users.lookupByEmail?email=${email}`);
-                if (data.ok) {
-                    return data.user.id;
-                }
+            const { userId } = yield getProfile(authClient);
+            if (userId) {
+                return userId;
             }
             return "";
         });

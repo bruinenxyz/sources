@@ -3,10 +3,13 @@ import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
 import {
   SlackProfile,
+  SlackUserInput,
+  SlackUser,
   SlackPostMessage,
   SlackPostMessageBody,
   SlackConversationsInput,
   SlackConversations,
+  SlackEnhancedConversations,
   SlackConversationHistoryInput,
   SlackConversationHistory,
   SlackConversationRepliesInput,
@@ -17,10 +20,15 @@ import axios from "axios";
 import * as _ from "lodash";
 
 type SlackProfileType = FromSchema<typeof SlackProfile>;
+type SlackUserInputType = FromSchema<typeof SlackUserInput>;
+type SlackUserType = FromSchema<typeof SlackUser>;
 type SlackPostMessageBodyType = FromSchema<typeof SlackPostMessageBody>;
 type SlackPostMessageType = FromSchema<typeof SlackPostMessage>;
 type SlackConversationsInputType = FromSchema<typeof SlackConversationsInput>;
 type SlackConversationsType = FromSchema<typeof SlackConversations>;
+type SlackEnhancedConversationsType = FromSchema<
+  typeof SlackEnhancedConversations
+>;
 type SlackConversationHistoryInputType = FromSchema<
   typeof SlackConversationHistoryInput
 >;
@@ -49,7 +57,15 @@ async function getProfile(
   params?: null
 ): Promise<SlackProfileType> {
   const { data }: any = await authClient.get("/users.profile.get");
-  return data.profile;
+  const userData = await authClient.get(
+    `${slack_api_url}/users.lookupByEmail?email=${data.profile.email}`
+  );
+  return { ...data.profile, userId: userData.data.user.id };
+}
+
+async function getUser(authClient: Axios, params: any): Promise<SlackUserType> {
+  const { data }: any = await authClient.get(`/users.info?user=${params.user}`);
+  return data.user;
 }
 
 async function getConversations(
@@ -69,6 +85,47 @@ async function getConversations(
     `/conversations.list${paramsString}`
   );
   return data;
+}
+
+async function getEnhancedConversations(
+  authClient: Axios,
+  params?: any
+): Promise<SlackEnhancedConversationsType> {
+  let paramsString = "";
+  if (params) {
+    Object.keys(params).forEach((key: string) => {
+      paramsString += `&${key}=${params[key] as string}`;
+    });
+    if (paramsString.charAt(0) === "&") {
+      paramsString = "?" + paramsString.slice(1);
+    }
+  }
+  const { data }: any = await authClient.get(
+    `/conversations.list${paramsString}`
+  );
+  const enhancedChannels = await Promise.all(
+    data.channels.map(async (channel: any) => {
+      let memberIds: string[] = [];
+      let cursor = null;
+      while (cursor !== "") {
+        const { data }: any = await authClient.get(
+          `/conversations.members?channel=${channel.id}${
+            cursor !== null ? `&cursor=${cursor}` : ""
+          }`
+        );
+        memberIds = memberIds.concat(data.members);
+        cursor = data.response_metadata.next_cursor;
+      }
+      const members = await Promise.all(
+        memberIds.map(async (memberId: any) => {
+          const user = await getUser(authClient, { user: memberId });
+          return { id: user.id, name: user.name, real_name: user.real_name };
+        })
+      );
+      return { ...channel, members: members };
+    })
+  );
+  return { ...data, channels: enhancedChannels };
 }
 
 async function getConversationHistory(
@@ -128,6 +185,15 @@ export class Slack extends OAuth2Source implements Source {
         null,
         SlackProfile
       ),
+      user: new Resource<SlackUserInputType, SlackUserType>(
+        "user",
+        "Slack User",
+        "get",
+        "Get a Slack user by user ID",
+        getUser,
+        SlackUserInput,
+        SlackUser
+      ),
       conversations: new Resource<
         SlackConversationsInputType,
         SlackConversationsType
@@ -139,6 +205,18 @@ export class Slack extends OAuth2Source implements Source {
         getConversations,
         SlackConversationsInput,
         SlackConversations
+      ),
+      enhancedConversations: new Resource<
+        SlackConversationsInputType,
+        SlackEnhancedConversationsType
+      >(
+        "enhancedConversations",
+        "Slack Enhanced Conversations",
+        "get",
+        "Get a list of Slack conversations with members",
+        getEnhancedConversations,
+        SlackConversationsInput,
+        SlackEnhancedConversations
       ),
       conversationHistory: new Resource<
         SlackConversationHistoryInputType,
@@ -280,14 +358,9 @@ export class Slack extends OAuth2Source implements Source {
   };
 
   public async getExternalAccountId(authClient: Axios) {
-    const { email } = await getProfile(authClient);
-    if (email) {
-      const { data } = await authClient.get(
-        `${slack_api_url}/users.lookupByEmail?email=${email}`
-      );
-      if (data.ok) {
-        return data.user.id;
-      }
+    const { userId } = await getProfile(authClient);
+    if (userId) {
+      return userId;
     }
     return "";
   }

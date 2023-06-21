@@ -5,6 +5,10 @@ export const SlackProfile = {
   description: "A slack profile",
   type: "object",
   properties: {
+    userId: {
+      type: "string",
+      description: "The user id of the profile",
+    },
     title: {
       type: "string",
       description: "The title of the profile",
@@ -80,6 +84,145 @@ export const SlackProfile = {
   },
 } as const satisfies JSONSchema;
 
+export const SlackUserInput = {
+  title: "Slack User Input",
+  description: "The input for slack user",
+  type: "object",
+  properties: {
+    user: {
+      type: "string",
+      description: "The user id",
+    },
+  },
+  required: ["user"],
+} as const satisfies JSONSchema;
+
+export const SlackUser = {
+  title: "Slack User",
+  description: "A slack user",
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+      description: "The id of the user",
+    },
+    team_id: {
+      type: "string",
+      description: "The team id of the user",
+    },
+    name: {
+      type: "string",
+      description: "The name of the user",
+    },
+    deleted: {
+      type: "boolean",
+      description: "Whether the user is deleted",
+    },
+    color: {
+      type: "string",
+      description: "The color of the user",
+    },
+    real_name: {
+      type: "string",
+      description: "The real name of the user",
+    },
+    tz: {
+      type: "string",
+      description: "The timezone of the user",
+    },
+    tz_label: {
+      type: "string",
+      description: "The timezone label of the user",
+    },
+    tz_offset: {
+      type: "number",
+      description: "The timezone offset of the user",
+    },
+    profile: {
+      type: "object",
+      description: "The profile of the user",
+      properties: {
+        avatar_hash: {
+          type: "string",
+          description: "The avatar hash of the user",
+        },
+        status_text: {
+          type: "string",
+          description: "The status text of the user",
+        },
+        status_emoji: {
+          type: "string",
+          description: "The status emoji of the user",
+        },
+        real_name: {
+          type: "string",
+          description: "The real name of the user",
+        },
+        display_name: {
+          type: "string",
+          description: "The display name of the user",
+        },
+        real_name_normalized: {
+          type: "string",
+          description: "The normalized real name of the user",
+        },
+        display_name_normalized: {
+          type: "string",
+          description: "The normalized display name of the user",
+        },
+        email: {
+          type: "string",
+          description: "The email of the user",
+        },
+        image_original: {
+          type: "string",
+          description: "The original image of the user",
+        },
+        team: {
+          type: "string",
+          description: "The team of the user",
+        },
+      },
+    },
+    is_admin: {
+      type: "boolean",
+      description: "Whether the user is an admin",
+    },
+    is_owner: {
+      type: "boolean",
+      description: "Whether the user is an owner",
+    },
+    is_primary_owner: {
+      type: "boolean",
+      description: "Whether the user is a primary owner",
+    },
+    is_restricted: {
+      type: "boolean",
+      description: "Whether the user is restricted",
+    },
+    is_ultra_restricted: {
+      type: "boolean",
+      description: "Whether the user is ultra restricted",
+    },
+    is_bot: {
+      type: "boolean",
+      description: "Whether the user is a bot",
+    },
+    is_app_user: {
+      type: "boolean",
+      description: "Whether the user is an app user",
+    },
+    updated: {
+      type: "number",
+      description: "The updated timestamp of the user",
+    },
+    has_2fa: {
+      type: "boolean",
+      description: "Whether the user has 2fa",
+    },
+  },
+} as const satisfies JSONSchema;
+
 export const SlackConversationsInput = {
   title: "Slack Conversations Input",
   description: "The input for slack conversations",
@@ -99,7 +242,8 @@ export const SlackConversationsInput = {
     },
     types: {
       type: "string",
-      description: "The types of conversations to return",
+      description:
+        "A comma separated list of the types of conversations to return. Defaults to public_channel. Additional types include mpim & im.",
     },
   },
 } as const satisfies JSONSchema;
@@ -256,6 +400,202 @@ export const SlackConversations = {
           num_members: {
             type: "number",
             description: "The number of members of the conversation",
+          },
+        },
+      },
+    },
+    response_metadata: {
+      type: "object",
+      description: "The response metadata of the conversations",
+      properties: {
+        next_cursor: {
+          type: "string",
+          description:
+            "The next cursor (i.e. next page token) of the conversations",
+        },
+      },
+    },
+    error: {
+      type: "string",
+      description: "The error of the conversations",
+    },
+  },
+} as const satisfies JSONSchema;
+
+export const SlackEnhancedConversations = {
+  title: "Slack Conversations",
+  description: "A slack conversations response",
+  type: "object",
+  properties: {
+    ok: {
+      type: "boolean",
+      description: "Whether the conversations were retrieved successfully",
+    },
+    channels: {
+      type: "array",
+      description: "The array of conversations",
+      items: {
+        type: "object",
+        description: "A conversation",
+        properties: {
+          id: {
+            type: "string",
+            description: "The id of the conversation",
+          },
+          name: {
+            type: "string",
+            description: "The name of the conversation",
+          },
+          is_channel: {
+            type: "boolean",
+            description: "Whether the conversation is a channel",
+          },
+          is_group: {
+            type: "boolean",
+            description: "Whether the conversation is a group",
+          },
+          is_im: {
+            type: "boolean",
+            description: "Whether the conversation is an im",
+          },
+          created: {
+            type: "number",
+            description: "The created timestamp of the conversation",
+          },
+          creator: {
+            type: "string",
+            description: "The creator of the conversation",
+          },
+          is_archived: {
+            type: "boolean",
+            description: "Whether the conversation is archived",
+          },
+          is_general: {
+            type: "boolean",
+            description: "Whether the conversation is general",
+          },
+          unlinked: {
+            type: "number",
+            description: "The unlinked timestamp of the conversation",
+          },
+          name_normalized: {
+            type: "string",
+            description: "The normalized name of the conversation",
+          },
+          is_shared: {
+            type: "boolean",
+            description: "Whether the conversation is shared",
+          },
+          is_ext_shared: {
+            type: "boolean",
+            description: "Whether the conversation is externally shared",
+          },
+          is_org_shared: {
+            type: "boolean",
+            description: "Whether the conversation is org shared",
+          },
+          pending_shared: {
+            type: "array",
+            description: "The pending shared of the conversation",
+          },
+          is_pending_ext_shared: {
+            type: "boolean",
+            description:
+              "Whether the conversation is pending externally shared",
+          },
+          is_member: {
+            type: "boolean",
+            description: "Whether the conversation is a member",
+          },
+          is_private: {
+            type: "boolean",
+            description: "Whether the conversation is private",
+          },
+          is_mpim: {
+            type: "boolean",
+            description: "Whether the conversation is mpim",
+          },
+          is_open: {
+            type: "boolean",
+            description: "Whether the conversation is open",
+          },
+          updated: {
+            type: "number",
+            description: "The updated timestamp of the conversation",
+          },
+          topic: {
+            type: "object",
+            description: "The topic of the conversation",
+            properties: {
+              value: {
+                type: "string",
+                description: "The description of the topic",
+              },
+              creator: {
+                type: "string",
+                description: "The creator of the topic",
+              },
+              last_set: {
+                type: "number",
+                description: "The last set timestamp of the topic",
+              },
+            },
+          },
+          purpose: {
+            type: "object",
+            description: "The purpose of the conversation",
+            properties: {
+              value: {
+                type: "string",
+                description: "The description of the purpose",
+              },
+              creator: {
+                type: "string",
+                description: "The creator of the purpose",
+              },
+              last_set: {
+                type: "number",
+                description: "The last set timestamp of the purpose",
+              },
+            },
+          },
+          priority: {
+            type: "number",
+            description: "The priority of the conversation",
+          },
+          previous_names: {
+            type: "array",
+            description: "The previous names of the conversation",
+            items: {
+              type: "string",
+              description: "A previous name of the conversation",
+            },
+          },
+          num_members: {
+            type: "number",
+            description: "The number of members of the conversation",
+          },
+          members: {
+            type: "array",
+            description: "The members of the conversation",
+            items: {
+              type: "object",
+              description: "A member of the conversation",
+              properties: {
+                id: {
+                  type: "string",
+                  description: "The id of the member",
+                },
+                name: {
+                  type: "string",
+                  description: "The name of the member",
+                },
+                real_name: {
+                  type: "string",
+                  description: "The real name of the member",
+                },
+              },
+            },
           },
         },
       },

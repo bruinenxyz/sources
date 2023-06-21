@@ -3,6 +3,10 @@ export declare const SlackProfile: {
     readonly description: "A slack profile";
     readonly type: "object";
     readonly properties: {
+        readonly userId: {
+            readonly type: "string";
+            readonly description: "The user id of the profile";
+        };
         readonly title: {
             readonly type: "string";
             readonly description: "The title of the profile";
@@ -77,6 +81,143 @@ export declare const SlackProfile: {
         };
     };
 };
+export declare const SlackUserInput: {
+    readonly title: "Slack User Input";
+    readonly description: "The input for slack user";
+    readonly type: "object";
+    readonly properties: {
+        readonly user: {
+            readonly type: "string";
+            readonly description: "The user id";
+        };
+    };
+    readonly required: readonly ["user"];
+};
+export declare const SlackUser: {
+    readonly title: "Slack User";
+    readonly description: "A slack user";
+    readonly type: "object";
+    readonly properties: {
+        readonly id: {
+            readonly type: "string";
+            readonly description: "The id of the user";
+        };
+        readonly team_id: {
+            readonly type: "string";
+            readonly description: "The team id of the user";
+        };
+        readonly name: {
+            readonly type: "string";
+            readonly description: "The name of the user";
+        };
+        readonly deleted: {
+            readonly type: "boolean";
+            readonly description: "Whether the user is deleted";
+        };
+        readonly color: {
+            readonly type: "string";
+            readonly description: "The color of the user";
+        };
+        readonly real_name: {
+            readonly type: "string";
+            readonly description: "The real name of the user";
+        };
+        readonly tz: {
+            readonly type: "string";
+            readonly description: "The timezone of the user";
+        };
+        readonly tz_label: {
+            readonly type: "string";
+            readonly description: "The timezone label of the user";
+        };
+        readonly tz_offset: {
+            readonly type: "number";
+            readonly description: "The timezone offset of the user";
+        };
+        readonly profile: {
+            readonly type: "object";
+            readonly description: "The profile of the user";
+            readonly properties: {
+                readonly avatar_hash: {
+                    readonly type: "string";
+                    readonly description: "The avatar hash of the user";
+                };
+                readonly status_text: {
+                    readonly type: "string";
+                    readonly description: "The status text of the user";
+                };
+                readonly status_emoji: {
+                    readonly type: "string";
+                    readonly description: "The status emoji of the user";
+                };
+                readonly real_name: {
+                    readonly type: "string";
+                    readonly description: "The real name of the user";
+                };
+                readonly display_name: {
+                    readonly type: "string";
+                    readonly description: "The display name of the user";
+                };
+                readonly real_name_normalized: {
+                    readonly type: "string";
+                    readonly description: "The normalized real name of the user";
+                };
+                readonly display_name_normalized: {
+                    readonly type: "string";
+                    readonly description: "The normalized display name of the user";
+                };
+                readonly email: {
+                    readonly type: "string";
+                    readonly description: "The email of the user";
+                };
+                readonly image_original: {
+                    readonly type: "string";
+                    readonly description: "The original image of the user";
+                };
+                readonly team: {
+                    readonly type: "string";
+                    readonly description: "The team of the user";
+                };
+            };
+        };
+        readonly is_admin: {
+            readonly type: "boolean";
+            readonly description: "Whether the user is an admin";
+        };
+        readonly is_owner: {
+            readonly type: "boolean";
+            readonly description: "Whether the user is an owner";
+        };
+        readonly is_primary_owner: {
+            readonly type: "boolean";
+            readonly description: "Whether the user is a primary owner";
+        };
+        readonly is_restricted: {
+            readonly type: "boolean";
+            readonly description: "Whether the user is restricted";
+        };
+        readonly is_ultra_restricted: {
+            readonly type: "boolean";
+            readonly description: "Whether the user is ultra restricted";
+        };
+        readonly is_bot: {
+            readonly type: "boolean";
+            readonly description: "Whether the user is a bot";
+        };
+        readonly is_app_user: {
+            readonly type: "boolean";
+            readonly description: "Whether the user is an app user";
+        };
+        readonly updated: {
+            readonly type: "number";
+            readonly description: "The updated timestamp of the user";
+        };
+        readonly has_2fa: {
+            readonly type: "boolean";
+            readonly description: "Whether the user has 2fa";
+        };
+    };
+};
 export declare const SlackConversationsInput: {
     readonly title: "Slack Conversations Input";
     readonly description: "The input for slack conversations";
@@ -96,7 +237,7 @@ export declare const SlackConversationsInput: {
         };
         readonly types: {
             readonly type: "string";
-            readonly description: "The types of conversations to return";
+            readonly description: "A comma separated list of the types of conversations to return. Defaults to public_channel. Additional types include mpim & im.";
         };
     };
 };
@@ -251,6 +392,199 @@ export declare const SlackConversations: {
                     readonly num_members: {
                         readonly type: "number";
                         readonly description: "The number of members of the conversation";
+                    };
+                };
+            };
+        };
+        readonly response_metadata: {
+            readonly type: "object";
+            readonly description: "The response metadata of the conversations";
+            readonly properties: {
+                readonly next_cursor: {
+                    readonly type: "string";
+                    readonly description: "The next cursor (i.e. next page token) of the conversations";
+                };
+            };
+        };
+        readonly error: {
+            readonly type: "string";
+            readonly description: "The error of the conversations";
+        };
+    };
+};
+export declare const SlackEnhancedConversations: {
+    readonly title: "Slack Conversations";
+    readonly description: "A slack conversations response";
+    readonly type: "object";
+    readonly properties: {
+        readonly ok: {
+            readonly type: "boolean";
+            readonly description: "Whether the conversations were retrieved successfully";
+        };
+        readonly channels: {
+            readonly type: "array";
+            readonly description: "The array of conversations";
+            readonly items: {
+                readonly type: "object";
+                readonly description: "A conversation";
+                readonly properties: {
+                    readonly id: {
+                        readonly type: "string";
+                        readonly description: "The id of the conversation";
+                    };
+                    readonly name: {
+                        readonly type: "string";
+                        readonly description: "The name of the conversation";
+                    };
+                    readonly is_channel: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is a channel";
+                    };
+                    readonly is_group: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is a group";
+                    };
+                    readonly is_im: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is an im";
+                    };
+                    readonly created: {
+                        readonly type: "number";
+                        readonly description: "The created timestamp of the conversation";
+                    };
+                    readonly creator: {
+                        readonly type: "string";
+                        readonly description: "The creator of the conversation";
+                    };
+                    readonly is_archived: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is archived";
+                    };
+                    readonly is_general: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is general";
+                    };
+                    readonly unlinked: {
+                        readonly type: "number";
+                        readonly description: "The unlinked timestamp of the conversation";
+                    };
+                    readonly name_normalized: {
+                        readonly type: "string";
+                        readonly description: "The normalized name of the conversation";
+                    };
+                    readonly is_shared: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is shared";
+                    };
+                    readonly is_ext_shared: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is externally shared";
+                    };
+                    readonly is_org_shared: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is org shared";
+                    };
+                    readonly pending_shared: {
+                        readonly type: "array";
+                        readonly description: "The pending shared of the conversation";
+                    };
+                    readonly is_pending_ext_shared: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is pending externally shared";
+                    };
+                    readonly is_member: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is a member";
+                    };
+                    readonly is_private: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is private";
+                    };
+                    readonly is_mpim: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is mpim";
+                    };
+                    readonly is_open: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the conversation is open";
+                    };
+                    readonly updated: {
+                        readonly type: "number";
+                        readonly description: "The updated timestamp of the conversation";
+                    };
+                    readonly topic: {
+                        readonly type: "object";
+                        readonly description: "The topic of the conversation";
+                        readonly properties: {
+                            readonly value: {
+                                readonly type: "string";
+                                readonly description: "The description of the topic";
+                            };
+                            readonly creator: {
+                                readonly type: "string";
+                                readonly description: "The creator of the topic";
+                            };
+                            readonly last_set: {
+                                readonly type: "number";
+                                readonly description: "The last set timestamp of the topic";
+                            };
+                        };
+                    };
+                    readonly purpose: {
+                        readonly type: "object";
+                        readonly description: "The purpose of the conversation";
+                        readonly properties: {
+                            readonly value: {
+                                readonly type: "string";
+                                readonly description: "The description of the purpose";
+                            };
+                            readonly creator: {
+                                readonly type: "string";
+                                readonly description: "The creator of the purpose";
+                            };
+                            readonly last_set: {
+                                readonly type: "number";
+                                readonly description: "The last set timestamp of the purpose";
+                            };
+                        };
+                    };
+                    readonly priority: {
+                        readonly type: "number";
+                        readonly description: "The priority of the conversation";
+                    };
+                    readonly previous_names: {
+                        readonly type: "array";
+                        readonly description: "The previous names of the conversation";
+                        readonly items: {
+                            readonly type: "string";
+                            readonly description: "A previous name of the conversation";
+                        };
+                    };
+                    readonly num_members: {
+                        readonly type: "number";
+                        readonly description: "The number of members of the conversation";
+                    };
+                    readonly members: {
+                        readonly type: "array";
+                        readonly description: "The members of the conversation";
+                        readonly items: {
+                            readonly type: "object";
+                            readonly description: "A member of the conversation";
+                            readonly properties: {
+                                readonly id: {
+                                    readonly type: "string";
+                                    readonly description: "The id of the member";
+                                };
+                                readonly name: {
+                                    readonly type: "string";
+                                    readonly description: "The name of the member";
+                                };
+                                readonly real_name: {
+                                    readonly type: "string";
+                                    readonly description: "The real name of the member";
+                                };
+                            };
+                        };
                     };
                 };
             };
