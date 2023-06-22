@@ -577,7 +577,8 @@ export const SlackEnhancedConversations = {
           },
           members: {
             type: "array",
-            description: "The members of the conversation",
+            description:
+              "The members of the conversation. A maximum of 50 members will be returned if num_members is greater than 50.",
             items: {
               type: "object",
               description: "A member of the conversation",

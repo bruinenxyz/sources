@@ -566,7 +566,7 @@ export declare const SlackEnhancedConversations: {
                     };
                     readonly members: {
                         readonly type: "array";
-                        readonly description: "The members of the conversation";
+                        readonly description: "The members of the conversation. A maximum of 50 members will be returned if num_members is greater than 50.";
                         readonly items: {
                             readonly type: "object";
                             readonly description: "A member of the conversation";
