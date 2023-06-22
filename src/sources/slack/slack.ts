@@ -20,6 +20,7 @@ import {
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
 import * as _ from "lodash";
+import qs from "qs";
 
 type SlackProfileType = FromSchema<typeof SlackProfile>;
 type SlackUserInputType = FromSchema<typeof SlackUserInput>;
@@ -60,6 +61,18 @@ const slackScopes = [
   "users:read.email",
 ];
 
+function generateParamsString(params: any): string {
+  if (params) {
+    const cleanParams = { ...params };
+    delete cleanParams["accountId"];
+    return qs.stringify(cleanParams, {
+      addQueryPrefix: true,
+      encode: false,
+    });
+  }
+  return "";
+}
+
 async function getProfile(
   authClient: Axios,
   params?: null
@@ -80,17 +93,9 @@ async function getConversations(
   authClient: Axios,
   params?: any
 ): Promise<SlackConversationsType> {
-  let paramsString = "";
-  if (params) {
-    Object.keys(params).forEach((key: string) => {
-      paramsString += `&${key}=${params[key] as string}`;
-    });
-    if (paramsString.charAt(0) === "&") {
-      paramsString = "?" + paramsString.slice(1);
-    }
-  }
+  const paramString = generateParamsString(params);
   const { data }: any = await authClient.get(
-    `/conversations.list${paramsString}`
+    `/conversations.list${paramString}`
   );
   return data;
 }
@@ -99,17 +104,9 @@ async function getEnhancedConversations(
   authClient: Axios,
   params?: any
 ): Promise<SlackEnhancedConversationsType> {
-  let paramsString = "";
-  if (params) {
-    Object.keys(params).forEach((key: string) => {
-      paramsString += `&${key}=${params[key] as string}`;
-    });
-    if (paramsString.charAt(0) === "&") {
-      paramsString = "?" + paramsString.slice(1);
-    }
-  }
+  const paramString = generateParamsString(params);
   const { data }: any = await authClient.get(
-    `/conversations.list${paramsString}`
+    `/conversations.list${paramString}`
   );
   const enhancedChannels = await Promise.all(
     data.channels.map(async (channel: any) => {
@@ -182,17 +179,9 @@ async function getConversationReplies(
   authClient: Axios,
   params: any
 ): Promise<SlackConversationRepliesType> {
-  let paramsString = "";
-  if (params) {
-    Object.keys(params).forEach((key: string) => {
-      paramsString += `&${key}=${params[key] as string}`;
-    });
-    if (paramsString.charAt(0) === "&") {
-      paramsString = "?" + paramsString.slice(1);
-    }
-  }
+  const paramString = generateParamsString(params);
   const { data }: any = await authClient.get(
-    `/conversations.replies${paramsString}`
+    `/conversations.replies${paramString}`
   );
   return data;
 }
@@ -201,17 +190,9 @@ async function getEnhancedConversationReplies(
   authClient: Axios,
   params: any
 ): Promise<SlackEnhancedConversationRepliesType> {
-  let paramsString = "";
-  if (params) {
-    Object.keys(params).forEach((key: string) => {
-      paramsString += `&${key}=${params[key] as string}`;
-    });
-    if (paramsString.charAt(0) === "&") {
-      paramsString = "?" + paramsString.slice(1);
-    }
-  }
+  const paramString = generateParamsString(params);
   const { data }: any = await authClient.get(
-    `/conversations.replies${paramsString}`
+    `/conversations.replies${paramString}`
   );
   const enhancedMessages = await Promise.all(
     data.messages.map(async (message: any) => {

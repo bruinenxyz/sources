@@ -41,6 +41,7 @@ const source_1 = require("../source");
 const slack_types_1 = require("./slack.types");
 const axios_1 = __importDefault(require("axios"));
 const _ = __importStar(require("lodash"));
+const qs_1 = __importDefault(require("qs"));
 const slack_api_url = "https://slack.com/api";
 const slackScopes = [
     "chat:write",
@@ -54,6 +55,17 @@ const slackScopes = [
     "users:read",
     "users:read.email",
 ];
+function generateParamsString(params) {
+    if (params) {
+        const cleanParams = Object.assign({}, params);
+        delete cleanParams["accountId"];
+        return qs_1.default.stringify(cleanParams, {
+            addQueryPrefix: true,
+            encode: false,
+        });
+    }
+    return "";
+}
 function getProfile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const { data } = yield authClient.get("/users.profile.get");
@@ -69,31 +81,15 @@ function getUser(authClient, params) {
 }
 function getConversations(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        let paramsString = "";
-        if (params) {
-            Object.keys(params).forEach((key) => {
-                paramsString += `&${key}=${params[key]}`;
-            });
-            if (paramsString.charAt(0) === "&") {
-                paramsString = "?" + paramsString.slice(1);
-            }
-        }
-        const { data } = yield authClient.get(`/conversations.list${paramsString}`);
+        const paramString = generateParamsString(params);
+        const { data } = yield authClient.get(`/conversations.list${paramString}`);
         return data;
     });
 }
 function getEnhancedConversations(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        let paramsString = "";
-        if (params) {
-            Object.keys(params).forEach((key) => {
-                paramsString += `&${key}=${params[key]}`;
-            });
-            if (paramsString.charAt(0) === "&") {
-                paramsString = "?" + paramsString.slice(1);
-            }
-        }
-        const { data } = yield authClient.get(`/conversations.list${paramsString}`);
+        const paramString = generateParamsString(params);
+        const { data } = yield authClient.get(`/conversations.list${paramString}`);
         const enhancedChannels = yield Promise.all(data.channels.map((channel) => __awaiter(this, void 0, void 0, function* () {
             let memberIds = [];
             let cursor = null;
@@ -140,31 +136,15 @@ function getEnhancedConversationHistory(authClient, params) {
 }
 function getConversationReplies(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        let paramsString = "";
-        if (params) {
-            Object.keys(params).forEach((key) => {
-                paramsString += `&${key}=${params[key]}`;
-            });
-            if (paramsString.charAt(0) === "&") {
-                paramsString = "?" + paramsString.slice(1);
-            }
-        }
-        const { data } = yield authClient.get(`/conversations.replies${paramsString}`);
+        const paramString = generateParamsString(params);
+        const { data } = yield authClient.get(`/conversations.replies${paramString}`);
         return data;
     });
 }
 function getEnhancedConversationReplies(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        let paramsString = "";
-        if (params) {
-            Object.keys(params).forEach((key) => {
-                paramsString += `&${key}=${params[key]}`;
-            });
-            if (paramsString.charAt(0) === "&") {
-                paramsString = "?" + paramsString.slice(1);
-            }
-        }
-        const { data } = yield authClient.get(`/conversations.replies${paramsString}`);
+        const paramString = generateParamsString(params);
+        const { data } = yield authClient.get(`/conversations.replies${paramString}`);
         const enhancedMessages = yield Promise.all(data.messages.map((message) => __awaiter(this, void 0, void 0, function* () {
             const user = yield getUser(authClient, { user: message.user });
             if (message.reply_users) {
