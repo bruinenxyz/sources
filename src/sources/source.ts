@@ -1,13 +1,13 @@
 import { Axios } from "axios";
-import { Resource } from "./resource";
-import { ResourceMetadata } from "./resource";
+import { PostResource, Resource } from "./resource";
+import { ResourceMetadata, PostResourceMetadata } from "./resource";
 
 export class BaseSource {
   public name: string;
   public type: SourceType;
   public accessType: AccessType;
   public resources: {
-    [x: string]: Resource<any, any>;
+    [x: string]: Resource<any, any> | PostResource<any, any, any>;
   };
   public metadata: Metadata;
 
@@ -63,7 +63,7 @@ export interface Source {
   accessType: AccessType;
   description: string;
   resources: {
-    [x: string]: Resource<any, any>;
+    [x: string]: Resource<any, any> | PostResource<any, any, any>;
   };
   metadata: Metadata;
   getAuthUrl: (
@@ -117,7 +117,7 @@ type Metadata =
           fields: CredentialField[];
         };
       };
-      resources: ResourceMetadata[];
+      resources: (ResourceMetadata | PostResourceMetadata)[];
     }
   | {};
 type CredentialField = {

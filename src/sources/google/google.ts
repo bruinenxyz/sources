@@ -807,7 +807,7 @@ export class Google extends OAuth2Source implements Source {
       name: this.getName(),
       friendlyName: "Google",
       description:
-        "Provider of online services including search, email, storage, productivity tools, advertising, and mobile OS.",
+        "Provider of online services including search, email, storage, productivity tools, advertising, and mobile OS",
       icon: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
       color: ["#eb4132", "#fbbd01", "#31a952", "#4086f4"],
       auth: { authType: "oAuth2", authStart: "" },
