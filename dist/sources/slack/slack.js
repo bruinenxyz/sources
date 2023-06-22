@@ -55,6 +55,7 @@ const slackScopes = [
     "users:read",
     "users:read.email",
 ];
+// Generates a query string from an object of params
 function generateParamsString(params) {
     if (params) {
         const cleanParams = Object.assign({}, params);
@@ -66,16 +67,27 @@ function generateParamsString(params) {
     }
     return "";
 }
+// Generates an array of BasicUser objects from an array of userIds
+function getBasicUserArray(authClient, userIds) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Promise.all(userIds.map((userId) => __awaiter(this, void 0, void 0, function* () {
+            const user = yield getUser(authClient, { userId: userId });
+            return _.pick(user, ["id", "name", "real_name"]);
+        })));
+    });
+}
 function getProfile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const { data } = yield authClient.get("/users.profile.get");
+        // Get user data using email
         const userData = yield authClient.get(`${slack_api_url}/users.lookupByEmail?email=${data.profile.email}`);
         return Object.assign(Object.assign({}, data.profile), { userId: userData.data.user.id });
     });
 }
+// Get user data using userId
 function getUser(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { data } = yield authClient.get(`/users.info?user=${params.user}`);
+        const { data } = yield authClient.get(`/users.info?user=${params.userId}`);
         return data.user;
     });
 }
@@ -90,18 +102,12 @@ function getEnhancedConversations(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const paramString = generateParamsString(params);
         const { data } = yield authClient.get(`/conversations.list${paramString}`);
-        const enhancedChannels = yield Promise.all(data.channels.map((channel) => __awaiter(this, void 0, void 0, function* () {
-            let memberIds = [];
-            let cursor = null;
-            while (cursor !== "") {
-                const { data } = yield authClient.get(`/conversations.members?channel=${channel.id}${cursor !== null ? `&cursor=${cursor}` : ""}`);
-                memberIds = memberIds.concat(data.members);
-                cursor = data.response_metadata.next_cursor;
-            }
-            const members = yield Promise.all(memberIds.map((memberId) => __awaiter(this, void 0, void 0, function* () {
-                const user = yield getUser(authClient, { user: memberId });
-                return { id: user.id, name: user.name, real_name: user.real_name };
-            })));
+        const channels = [...(data.channels || [])];
+        // Add array of members as BasicUser objects for each channel
+        const enhancedChannels = yield Promise.all(channels.map((channel) => __awaiter(this, void 0, void 0, function* () {
+            const { data } = yield authClient.get(`/conversations.members?channel=${channel.id}&limit=50`);
+            const userIds = [...(data.members || [])];
+            const members = yield getBasicUserArray(authClient, userIds);
             return Object.assign(Object.assign({}, channel), { members: members });
         })));
         return Object.assign(Object.assign({}, data), { channels: enhancedChannels });
@@ -119,17 +125,20 @@ function getEnhancedConversationHistory(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const body = Object.assign({}, params);
         delete body["accountId"];
-        const { data } = yield authClient.post("/conversations.history", params);
-        const enhancedMessages = yield Promise.all(data.messages.map((message) => __awaiter(this, void 0, void 0, function* () {
-            const user = yield getUser(authClient, { user: message.user });
+        // Limits to 100 messages - Slack default is 100
+        if (parseInt(body.limit) > 100) {
+            delete body["limit"];
+        }
+        const { data } = yield authClient.post("/conversations.history", body);
+        const messages = [...(data.messages || [])];
+        // Add BasicUser object as user and array of BasicUser objects as reply_users for each message
+        const enhancedMessages = yield Promise.all(messages.map((message) => __awaiter(this, void 0, void 0, function* () {
+            const user = yield getUser(authClient, { userId: message.user });
             if (message.reply_users) {
-                const replyUsers = yield Promise.all(message.reply_users.map((replyUser) => __awaiter(this, void 0, void 0, function* () {
-                    const user = yield getUser(authClient, { user: replyUser });
-                    return { id: user.id, name: user.name, real_name: user.real_name };
-                })));
-                return Object.assign(Object.assign({}, message), { user: { id: user.id, name: user.name, real_name: user.real_name }, reply_users: replyUsers });
+                const replyUsers = yield getBasicUserArray(authClient, message.reply_users);
+                return Object.assign(Object.assign({}, message), { user: _.pick(user, ["id", "name", "real_name"]), reply_users: replyUsers });
             }
-            return Object.assign(Object.assign({}, message), { user: { id: user.id, name: user.name, real_name: user.real_name } });
+            return Object.assign(Object.assign({}, message), { user: _.pick(user, ["id", "name", "real_name"]) });
         })));
         return Object.assign(Object.assign({}, data), { messages: enhancedMessages });
     });
@@ -145,16 +154,15 @@ function getEnhancedConversationReplies(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const paramString = generateParamsString(params);
         const { data } = yield authClient.get(`/conversations.replies${paramString}`);
-        const enhancedMessages = yield Promise.all(data.messages.map((message) => __awaiter(this, void 0, void 0, function* () {
-            const user = yield getUser(authClient, { user: message.user });
+        const messages = [...(data.messages || [])];
+        // Add BasicUser object as user and array of BasicUser objects as reply_users for each message
+        const enhancedMessages = yield Promise.all(messages.map((message) => __awaiter(this, void 0, void 0, function* () {
+            const user = yield getUser(authClient, { userId: message.user });
             if (message.reply_users) {
-                const replyUsers = yield Promise.all(message.reply_users.map((replyUser) => __awaiter(this, void 0, void 0, function* () {
-                    const user = yield getUser(authClient, { user: replyUser });
-                    return { id: user.id, name: user.name, real_name: user.real_name };
-                })));
-                return Object.assign(Object.assign({}, message), { user: { id: user.id, name: user.name, real_name: user.real_name }, reply_users: replyUsers });
+                const replyUsers = yield getBasicUserArray(authClient, message.reply_users);
+                return Object.assign(Object.assign({}, message), { user: _.pick(user, ["id", "name", "real_name"]), reply_users: replyUsers });
             }
-            return Object.assign(Object.assign({}, message), { user: { id: user.id, name: user.name, real_name: user.real_name } });
+            return Object.assign(Object.assign({}, message), { user: _.pick(user, ["id", "name", "real_name"]) });
         })));
         return Object.assign(Object.assign({}, data), { messages: enhancedMessages });
     });

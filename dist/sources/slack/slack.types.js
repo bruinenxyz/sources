@@ -89,12 +89,12 @@ exports.SlackUserInput = {
     description: "The input for slack user",
     type: "object",
     properties: {
-        user: {
+        userId: {
             type: "string",
             description: "The user id",
         },
     },
-    required: ["user"],
+    required: ["userId"],
 };
 exports.SlackUser = {
     title: "Slack User",
@@ -236,7 +236,7 @@ exports.SlackConversationsInput = {
         },
         limit: {
             type: "number",
-            description: "The max number of conversations to return",
+            description: "The max number of conversations to return. Default is 100.",
         },
         types: {
             type: "string",
@@ -631,7 +631,7 @@ exports.SlackConversationHistoryInput = {
         },
         limit: {
             type: "number",
-            description: "The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.",
+            description: "The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. Default is 100, maximum for enhanced conversation history is 100.",
         },
         oldest: {
             type: "number",

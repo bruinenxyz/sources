@@ -89,12 +89,12 @@ export const SlackUserInput = {
   description: "The input for slack user",
   type: "object",
   properties: {
-    user: {
+    userId: {
       type: "string",
       description: "The user id",
     },
   },
-  required: ["user"],
+  required: ["userId"],
 } as const satisfies JSONSchema;
 
 export const SlackUser = {
@@ -238,7 +238,7 @@ export const SlackConversationsInput = {
     },
     limit: {
       type: "number",
-      description: "The max number of conversations to return",
+      description: "The max number of conversations to return. Default is 100.",
     },
     types: {
       type: "string",
@@ -644,7 +644,7 @@ export const SlackConversationHistoryInput = {
     limit: {
       type: "number",
       description:
-        "The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.",
+        "The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. Default is 100, maximum for enhanced conversation history is 100.",
     },
     oldest: {
       type: "number",

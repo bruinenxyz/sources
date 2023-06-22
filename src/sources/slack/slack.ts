@@ -47,6 +47,12 @@ type SlackEnhancedConversationRepliesType = FromSchema<
 type SlackPostMessageBodyType = FromSchema<typeof SlackPostMessageBody>;
 type SlackPostMessageType = FromSchema<typeof SlackPostMessage>;
 
+type BasicUser = {
+  id?: string;
+  name?: string;
+  real_name?: string;
+};
+
 const slack_api_url = "https://slack.com/api";
 const slackScopes = [
   "chat:write",
@@ -61,6 +67,7 @@ const slackScopes = [
   "users:read.email",
 ];
 
+// Generates a query string from an object of params
 function generateParamsString(params: any): string {
   if (params) {
     const cleanParams = { ...params };
@@ -73,19 +80,36 @@ function generateParamsString(params: any): string {
   return "";
 }
 
+// Generates an array of BasicUser objects from an array of userIds
+async function getBasicUserArray(
+  authClient: Axios,
+  userIds: string[]
+): Promise<BasicUser[]> {
+  return await Promise.all(
+    userIds.map(async (userId: any) => {
+      const user = await getUser(authClient, { userId: userId });
+      return _.pick(user, ["id", "name", "real_name"]);
+    })
+  );
+}
+
 async function getProfile(
   authClient: Axios,
   params?: null
 ): Promise<SlackProfileType> {
   const { data }: any = await authClient.get("/users.profile.get");
+  // Get user data using email
   const userData = await authClient.get(
     `${slack_api_url}/users.lookupByEmail?email=${data.profile.email}`
   );
   return { ...data.profile, userId: userData.data.user.id };
 }
 
+// Get user data using userId
 async function getUser(authClient: Axios, params: any): Promise<SlackUserType> {
-  const { data }: any = await authClient.get(`/users.info?user=${params.user}`);
+  const { data }: any = await authClient.get(
+    `/users.info?user=${params.userId}`
+  );
   return data.user;
 }
 
@@ -108,25 +132,15 @@ async function getEnhancedConversations(
   const { data }: any = await authClient.get(
     `/conversations.list${paramString}`
   );
+  const channels = [...(data.channels || [])];
+  // Add array of members as BasicUser objects for each channel
   const enhancedChannels = await Promise.all(
-    data.channels.map(async (channel: any) => {
-      let memberIds: string[] = [];
-      let cursor = null;
-      while (cursor !== "") {
-        const { data }: any = await authClient.get(
-          `/conversations.members?channel=${channel.id}${
-            cursor !== null ? `&cursor=${cursor}` : ""
-          }`
-        );
-        memberIds = memberIds.concat(data.members);
-        cursor = data.response_metadata.next_cursor;
-      }
-      const members = await Promise.all(
-        memberIds.map(async (memberId: any) => {
-          const user = await getUser(authClient, { user: memberId });
-          return { id: user.id, name: user.name, real_name: user.real_name };
-        })
+    channels.map(async (channel: any) => {
+      const { data }: any = await authClient.get(
+        `/conversations.members?channel=${channel.id}&limit=50`
       );
+      const userIds = [...(data.members || [])];
+      const members = await getBasicUserArray(authClient, userIds);
       return { ...channel, members: members };
     })
   );
@@ -149,26 +163,30 @@ async function getEnhancedConversationHistory(
 ): Promise<SlackEnhancedConversationHistoryType> {
   const body = { ...params };
   delete body["accountId"];
-  const { data }: any = await authClient.post("/conversations.history", params);
+  // Limits to 100 messages - Slack default is 100
+  if (parseInt(body.limit) > 100) {
+    delete body["limit"];
+  }
+  const { data }: any = await authClient.post("/conversations.history", body);
+  const messages = [...(data.messages || [])];
+  // Add BasicUser object as user and array of BasicUser objects as reply_users for each message
   const enhancedMessages = await Promise.all(
-    data.messages.map(async (message: any) => {
-      const user = await getUser(authClient, { user: message.user });
+    messages.map(async (message: any) => {
+      const user = await getUser(authClient, { userId: message.user });
       if (message.reply_users) {
-        const replyUsers = await Promise.all(
-          message.reply_users.map(async (replyUser: any) => {
-            const user = await getUser(authClient, { user: replyUser });
-            return { id: user.id, name: user.name, real_name: user.real_name };
-          })
+        const replyUsers = await getBasicUserArray(
+          authClient,
+          message.reply_users
         );
         return {
           ...message,
-          user: { id: user.id, name: user.name, real_name: user.real_name },
+          user: _.pick(user, ["id", "name", "real_name"]),
           reply_users: replyUsers,
         };
       }
       return {
         ...message,
-        user: { id: user.id, name: user.name, real_name: user.real_name },
+        user: _.pick(user, ["id", "name", "real_name"]),
       };
     })
   );
@@ -194,25 +212,25 @@ async function getEnhancedConversationReplies(
   const { data }: any = await authClient.get(
     `/conversations.replies${paramString}`
   );
+  const messages = [...(data.messages || [])];
+  // Add BasicUser object as user and array of BasicUser objects as reply_users for each message
   const enhancedMessages = await Promise.all(
-    data.messages.map(async (message: any) => {
-      const user = await getUser(authClient, { user: message.user });
+    messages.map(async (message: any) => {
+      const user = await getUser(authClient, { userId: message.user });
       if (message.reply_users) {
-        const replyUsers = await Promise.all(
-          message.reply_users.map(async (replyUser: any) => {
-            const user = await getUser(authClient, { user: replyUser });
-            return { id: user.id, name: user.name, real_name: user.real_name };
-          })
+        const replyUsers = await getBasicUserArray(
+          authClient,
+          message.reply_users
         );
         return {
           ...message,
-          user: { id: user.id, name: user.name, real_name: user.real_name },
+          user: _.pick(user, ["id", "name", "real_name"]),
           reply_users: replyUsers,
         };
       }
       return {
         ...message,
-        user: { id: user.id, name: user.name, real_name: user.real_name },
+        user: _.pick(user, ["id", "name", "real_name"]),
       };
     })
   );

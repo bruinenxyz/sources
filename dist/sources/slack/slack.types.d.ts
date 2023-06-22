@@ -86,12 +86,12 @@ export declare const SlackUserInput: {
     readonly description: "The input for slack user";
     readonly type: "object";
     readonly properties: {
-        readonly user: {
+        readonly userId: {
             readonly type: "string";
             readonly description: "The user id";
         };
     };
-    readonly required: readonly ["user"];
+    readonly required: readonly ["userId"];
 };
 export declare const SlackUser: {
     readonly title: "Slack User";
@@ -233,7 +233,7 @@ export declare const SlackConversationsInput: {
         };
         readonly limit: {
             readonly type: "number";
-            readonly description: "The max number of conversations to return";
+            readonly description: "The max number of conversations to return. Default is 100.";
         };
         readonly types: {
             readonly type: "string";
@@ -628,7 +628,7 @@ export declare const SlackConversationHistoryInput: {
         };
         readonly limit: {
             readonly type: "number";
-            readonly description: "The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.";
+            readonly description: "The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. Default is 100, maximum for enhanced conversation history is 100.";
         };
         readonly oldest: {
             readonly type: "number";
