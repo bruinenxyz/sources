@@ -656,7 +656,9 @@ async function getDriveAbout(
   authClient: Axios,
   params?: null
 ): Promise<GoogleDriveAboutType> {
-  const { data } = await authClient.get("/about");
+  const { data } = await authClient.get("/about").catch((error) => {
+    return error.response;
+  });
   return data;
 }
 
