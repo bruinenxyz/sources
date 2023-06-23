@@ -686,7 +686,7 @@ async function getSharedDrive(
 
 async function getDriveFiles(
   authClient: Axios,
-  params: any
+  params?: any
 ): Promise<GoogleDriveFilesType> {
   const paramString = generateParamsString(params);
   const { data } = await authClient.get(`/files${paramString}`);

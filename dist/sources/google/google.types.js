@@ -2692,10 +2692,6 @@ exports.GoogleDriveAbout = {
     type: "object",
     description: "Information about the user, the user's Drive, and system capabilities.",
     properties: {
-        kind: {
-            type: "string",
-            description: "Identifies what kind of resource this is. Value: the fixed string drive#about.",
-        },
         storageQuota: {
             type: "object",
             description: "The user's storage quota limits and usage. All fields are measured in bytes.",
@@ -2717,44 +2713,6 @@ exports.GoogleDriveAbout = {
                     description: "The total usage across all services.",
                 },
             },
-        },
-        driveThemes: {
-            type: "array",
-            description: "A list of themes that are supported for shared drives.",
-            items: {
-                type: "object",
-                description: "A drive theme",
-                properties: {
-                    id: {
-                        type: "string",
-                        description: "The ID of the theme.",
-                    },
-                    backgroundImageLink: {
-                        type: "string",
-                        description: "A link to this theme's background image.",
-                    },
-                    colorRgb: {
-                        type: "string",
-                        description: "The color of this theme as an RGB hex string.",
-                    },
-                },
-            },
-        },
-        canCreateDrives: {
-            type: "boolean",
-            description: "Whether the user can create shared drives.",
-        },
-        importFormats: {
-            type: "object",
-            description: "A map of source MIME type to possible targets for all supported imports.",
-        },
-        exportFormats: {
-            type: "object",
-            description: "A map of source MIME type to possible targets for all supported exports.",
-        },
-        appInstalled: {
-            type: "boolean",
-            description: "Whether the user has installed the requesting app.",
         },
         user: {
             type: "object",
@@ -2785,22 +2743,6 @@ exports.GoogleDriveAbout = {
                     description: "A link to the user's profile photo, if available.",
                 },
             },
-        },
-        folderColorPalette: {
-            type: "array",
-            description: "The currently supported folder colors as RGB hex strings.",
-            items: {
-                type: "string",
-                description: "A folder color",
-            },
-        },
-        maxImportSizes: {
-            type: "object",
-            description: "A map of maximum import sizes by MIME type, in bytes.",
-        },
-        maxUploadSize: {
-            type: "string",
-            description: "The maximum upload size in bytes.",
         },
     },
 };
@@ -3205,7 +3147,7 @@ exports.GoogleDriveFilesInput = {
     properties: {
         driveId: {
             type: "string",
-            description: "The ID of the shared drive or `root` if attempting to access the user's MyDrive",
+            description: "The ID of the shared drive. If the drifeId is not provided, defaults to the user's myDrive.",
         },
         corpora: {
             type: "string",
@@ -3252,7 +3194,6 @@ exports.GoogleDriveFilesInput = {
             description: "A comma-separated list of labels to return for each file. If specified, supported labels are 'createdTime', 'folder', 'modifiedByMeTime', 'modifiedTime', 'name', 'quotaBytesUsed', 'recency', 'sharedWithMeTime', 'starred', and 'viewedByMeTime'.",
         },
     },
-    required: ["driveId"],
 };
 exports.GoogleDriveFiles = {
     type: "object",
