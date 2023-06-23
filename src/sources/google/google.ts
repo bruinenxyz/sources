@@ -656,9 +656,11 @@ async function getDriveAbout(
   authClient: Axios,
   params?: null
 ): Promise<GoogleDriveAboutType> {
-  const { data } = await authClient.get("/about").catch((error) => {
-    return error.response;
-  });
+  const { data } = await authClient
+    .get("/about?fields=user,storageQuota")
+    .catch((error) => {
+      return error.response;
+    });
   return data;
 }
 

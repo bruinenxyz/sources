@@ -482,7 +482,9 @@ function getEvent(authClient, params) {
 }
 function getDriveAbout(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { data } = yield authClient.get("/about").catch((error) => {
+        const { data } = yield authClient
+            .get("/about?fields=user,storageQuota")
+            .catch((error) => {
             return error.response;
         });
         return data;
