@@ -480,12 +480,10 @@ function getEvent(authClient, params) {
         return data;
     });
 }
-function getDrives(authClient, params) {
+function getSharedDrives(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const paramString = generateParamsString(params);
-        const { data } = yield authClient.get(`/drives${paramString}`).catch((e) => {
-            return e.response;
-        });
+        const { data } = yield authClient.get(`/drives${paramString}`);
         return data;
     });
 }
@@ -578,8 +576,8 @@ class Google extends source_1.OAuth2Source {
             calendar: new resource_1.Resource("calendar", "Google Calendar", "get", "Your google calendar", getCalendar, google_types_1.GoogleCalendarInput, google_types_1.GoogleCalendar),
             events: new resource_1.Resource("events", "Google Events", "get", "Your google events", getEvents, google_types_1.GoogleEventsInput, google_types_1.GoogleEvents),
             event: new resource_1.Resource("event", "Google Event", "get", "Your google event", getEvent, google_types_1.GoogleEventInput, google_types_1.GoogleEvent),
-            drives: new resource_1.Resource("drives", "Google Drives", "get", "Your google drives", getDrives, google_types_1.GoogleDrivesInput, google_types_1.GoogleDrives),
-            drive: new resource_1.Resource("drive", "Google Drive", "get", "Your google drive", getDrive, google_types_1.GoogleDriveInput, google_types_1.GoogleDrive),
+            sharedDrives: new resource_1.Resource("sharedDrives", "Google Shared Drives", "get", "Your google shared drives, excluding the user's `My Drive`", getSharedDrives, google_types_1.GoogleSharedDrivesInput, google_types_1.GoogleSharedDrives),
+            drive: new resource_1.Resource("drive", "Google Drive", "get", "A google drive", getDrive, google_types_1.GoogleDriveInput, google_types_1.GoogleDrive),
             driveFiles: new resource_1.Resource("driveFiles", "Google Drive Files", "get", "Your google drive files", getDriveFiles, google_types_1.GoogleDriveFilesInput, google_types_1.GoogleDriveFiles),
             driveFileMetadata: new resource_1.Resource("driveFileMetadata", "Google Drive File Metadata", "get", "Your google drive file metadata", getDriveFileMetadata, google_types_1.GoogleDriveFileInput, google_types_1.GoogleDriveFileMetadata),
             driveFile: new resource_1.Resource("driveFile", "Google Drive File", "get", "Your google drive file", getDriveFile, google_types_1.GoogleDriveFileInput, google_types_1.GoogleDriveFile),

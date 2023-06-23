@@ -32,8 +32,8 @@ import {
   GoogleEvents,
   GoogleEventInput,
   GoogleEvent,
-  GoogleDrivesInput,
-  GoogleDrives,
+  GoogleSharedDrivesInput,
+  GoogleSharedDrives,
   GoogleDriveInput,
   GoogleDrive,
   GoogleDriveFilesInput,
@@ -78,8 +78,8 @@ type GoogleEventsInputType = FromSchema<typeof GoogleEventsInput>;
 type GoogleEventsType = FromSchema<typeof GoogleEvents>;
 type GoogleEventInputType = FromSchema<typeof GoogleEventInput>;
 type GoogleEventType = FromSchema<typeof GoogleEvent>;
-type GoogleDrivesInputType = FromSchema<typeof GoogleDrivesInput>;
-type GoogleDrivesType = FromSchema<typeof GoogleDrives>;
+type GoogleSharedDrivesInputType = FromSchema<typeof GoogleSharedDrivesInput>;
+type GoogleSharedDrivesType = FromSchema<typeof GoogleSharedDrives>;
 type GoogleDriveInputType = FromSchema<typeof GoogleDriveInput>;
 type GoogleDriveType = FromSchema<typeof GoogleDrive>;
 type GoogleDriveFilesInputType = FromSchema<typeof GoogleDriveFilesInput>;
@@ -650,14 +650,12 @@ async function getEvent(
   return data;
 }
 
-async function getDrives(
+async function getSharedDrives(
   authClient: Axios,
   params?: any
-): Promise<GoogleDrivesType | any> {
+): Promise<GoogleSharedDrivesType | any> {
   const paramString = generateParamsString(params);
-  const { data } = await authClient.get(`/drives${paramString}`).catch((e) => {
-    return e.response;
-  });
+  const { data } = await authClient.get(`/drives${paramString}`);
   return data;
 }
 
@@ -894,20 +892,23 @@ export class Google extends OAuth2Source implements Source {
         GoogleEventInput,
         GoogleEvent
       ),
-      drives: new Resource<GoogleDrivesInputType, GoogleDrivesType>(
-        "drives",
-        "Google Drives",
+      sharedDrives: new Resource<
+        GoogleSharedDrivesInputType,
+        GoogleSharedDrivesType
+      >(
+        "sharedDrives",
+        "Google Shared Drives",
         "get",
-        "Your google drives",
-        getDrives,
-        GoogleDrivesInput,
-        GoogleDrives
+        "Your google shared drives, excluding the user's `My Drive`",
+        getSharedDrives,
+        GoogleSharedDrivesInput,
+        GoogleSharedDrives
       ),
       drive: new Resource<GoogleDriveInputType, GoogleDriveType>(
         "drive",
         "Google Drive",
         "get",
-        "Your google drive",
+        "A google drive",
         getDrive,
         GoogleDriveInput,
         GoogleDrive

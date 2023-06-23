@@ -3168,9 +3168,9 @@ export declare const GoogleEvent: {
         };
     };
 };
-export declare const GoogleDrivesInput: {
+export declare const GoogleSharedDrivesInput: {
     readonly type: "object";
-    readonly description: "The input for your google drives";
+    readonly description: "The input for your google shared drives";
     readonly properties: {
         readonly pageSize: {
             readonly type: "number";
@@ -3186,21 +3186,21 @@ export declare const GoogleDrivesInput: {
         };
     };
 };
-export declare const GoogleDrives: {
+export declare const GoogleSharedDrives: {
     readonly type: "object";
-    readonly description: "The google drives response";
+    readonly description: "The google shared drives response";
     readonly properties: {
         readonly kind: {
             readonly type: "string";
-            readonly description: "The kind of the google drives response";
+            readonly description: "The kind of the google shared drives response";
         };
         readonly nextPageToken: {
             readonly type: "string";
-            readonly description: "The nextPageToken of the google drives";
+            readonly description: "The nextPageToken of the google shared drives";
         };
         readonly drives: {
             readonly type: "array";
-            readonly description: "The list of drives";
+            readonly description: "The list of shared drives";
             readonly items: {
                 readonly type: "object";
                 readonly description: "A drive";
@@ -3382,7 +3382,7 @@ export declare const GoogleDriveInput: {
     readonly properties: {
         readonly driveId: {
             readonly type: "string";
-            readonly description: "The ID of the shared drive";
+            readonly description: "The ID of the shared drive. To access the user's `My Drive` pass the string `root`";
         };
         readonly useDoimainAdminAccess: {
             readonly type: "boolean";

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GoogleDriveFile = exports.GoogleDriveFileInput = exports.GoogleDriveFileMetadata = exports.GoogleDriveFileMetadataInput = exports.GoogleDriveFiles = exports.GoogleDriveFilesInput = exports.GoogleDrive = exports.GoogleDriveInput = exports.GoogleDrives = exports.GoogleDrivesInput = exports.GoogleEvent = exports.GoogleEventInput = exports.GoogleEvents = exports.GoogleEventsInput = exports.GoogleCalendar = exports.GoogleCalendarInput = exports.GoogleCalendars = exports.GoogleCalendarsInput = exports.GoogleParsedThread = exports.GoogleThread = exports.GoogleThreadInput = exports.GoogleParsedThreads = exports.GoogleThreads = exports.GoogleThreadsInput = exports.GoogleParsedMessage = exports.GoogleMessage = exports.GoogleMessageInput = exports.GoogleParsedMessages = exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleParsedDraft = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleParsedDrafts = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
+exports.GoogleDriveFile = exports.GoogleDriveFileInput = exports.GoogleDriveFileMetadata = exports.GoogleDriveFileMetadataInput = exports.GoogleDriveFiles = exports.GoogleDriveFilesInput = exports.GoogleDrive = exports.GoogleDriveInput = exports.GoogleSharedDrives = exports.GoogleSharedDrivesInput = exports.GoogleEvent = exports.GoogleEventInput = exports.GoogleEvents = exports.GoogleEventsInput = exports.GoogleCalendar = exports.GoogleCalendarInput = exports.GoogleCalendars = exports.GoogleCalendarsInput = exports.GoogleParsedThread = exports.GoogleThread = exports.GoogleThreadInput = exports.GoogleParsedThreads = exports.GoogleThreads = exports.GoogleThreadsInput = exports.GoogleParsedMessage = exports.GoogleMessage = exports.GoogleMessageInput = exports.GoogleParsedMessages = exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleParsedDraft = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleParsedDrafts = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
 exports.GoogleProfile = {
     title: "GoogleProfile",
     description: "A google profile",
@@ -2688,9 +2688,9 @@ exports.GoogleEvent = {
         },
     },
 };
-exports.GoogleDrivesInput = {
+exports.GoogleSharedDrivesInput = {
     type: "object",
-    description: "The input for your google drives",
+    description: "The input for your google shared drives",
     properties: {
         pageSize: {
             type: "number",
@@ -2706,21 +2706,21 @@ exports.GoogleDrivesInput = {
         },
     },
 };
-exports.GoogleDrives = {
+exports.GoogleSharedDrives = {
     type: "object",
-    description: "The google drives response",
+    description: "The google shared drives response",
     properties: {
         kind: {
             type: "string",
-            description: "The kind of the google drives response",
+            description: "The kind of the google shared drives response",
         },
         nextPageToken: {
             type: "string",
-            description: "The nextPageToken of the google drives",
+            description: "The nextPageToken of the google shared drives",
         },
         drives: {
             type: "array",
-            description: "The list of drives",
+            description: "The list of shared drives",
             items: {
                 type: "object",
                 description: "A drive",
@@ -2902,7 +2902,7 @@ exports.GoogleDriveInput = {
     properties: {
         driveId: {
             type: "string",
-            description: "The ID of the shared drive",
+            description: "The ID of the shared drive. To access the user's `My Drive` pass the string `root`",
         },
         useDoimainAdminAccess: {
             type: "boolean",

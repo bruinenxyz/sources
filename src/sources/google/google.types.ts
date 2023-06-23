@@ -2721,9 +2721,9 @@ export const GoogleEvent = {
   },
 } as const satisfies JSONSchema;
 
-export const GoogleDrivesInput = {
+export const GoogleSharedDrivesInput = {
   type: "object",
-  description: "The input for your google drives",
+  description: "The input for your google shared drives",
   properties: {
     pageSize: {
       type: "number",
@@ -2740,21 +2740,21 @@ export const GoogleDrivesInput = {
   },
 } as const satisfies JSONSchema;
 
-export const GoogleDrives = {
+export const GoogleSharedDrives = {
   type: "object",
-  description: "The google drives response",
+  description: "The google shared drives response",
   properties: {
     kind: {
       type: "string",
-      description: "The kind of the google drives response",
+      description: "The kind of the google shared drives response",
     },
     nextPageToken: {
       type: "string",
-      description: "The nextPageToken of the google drives",
+      description: "The nextPageToken of the google shared drives",
     },
     drives: {
       type: "array",
-      description: "The list of drives",
+      description: "The list of shared drives",
       items: {
         type: "object",
         description: "A drive",
@@ -2973,7 +2973,8 @@ export const GoogleDriveInput = {
   properties: {
     driveId: {
       type: "string",
-      description: "The ID of the shared drive",
+      description:
+        "The ID of the shared drive. To access the user's `My Drive` pass the string `root`",
     },
     useDoimainAdminAccess: {
       type: "boolean",
