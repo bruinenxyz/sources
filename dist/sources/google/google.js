@@ -480,6 +480,12 @@ function getEvent(authClient, params) {
         return data;
     });
 }
+function getDriveAbout(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield authClient.get("/about");
+        return data;
+    });
+}
 function getSharedDrives(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const paramString = generateParamsString(params);
@@ -487,7 +493,7 @@ function getSharedDrives(authClient, params) {
         return data;
     });
 }
-function getDrive(authClient, params) {
+function getSharedDrive(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const paramString = generateParamsString(_.omit(params, ["driveId"]));
         const { data } = yield authClient.get(`/drives/${params.driveId}${paramString}}`);
@@ -522,8 +528,9 @@ class Google extends source_1.OAuth2Source {
         this.getBaseUrl = (resourceName) => {
             const calendarArray = ["calendars", "calendar", "events", "event"];
             const driveArray = [
+                "driveAbout",
                 "sharedDrives",
-                "drive",
+                "sharedDrive",
                 "driveFiles",
                 "driveFileMetadata",
                 "driveFile",
@@ -577,8 +584,9 @@ class Google extends source_1.OAuth2Source {
             calendar: new resource_1.Resource("calendar", "Google Calendar", "get", "Your google calendar", getCalendar, google_types_1.GoogleCalendarInput, google_types_1.GoogleCalendar),
             events: new resource_1.Resource("events", "Google Events", "get", "Your google events", getEvents, google_types_1.GoogleEventsInput, google_types_1.GoogleEvents),
             event: new resource_1.Resource("event", "Google Event", "get", "Your google event", getEvent, google_types_1.GoogleEventInput, google_types_1.GoogleEvent),
+            driveAbout: new resource_1.Resource("driveAbout", "Google Drive About", "get", "Information about the user, the user's Drive, and system capabilities.", getDriveAbout, null, google_types_1.GoogleDriveAbout),
             sharedDrives: new resource_1.Resource("sharedDrives", "Google Shared Drives", "get", "Your google shared drives, excluding the user's `My Drive`", getSharedDrives, google_types_1.GoogleSharedDrivesInput, google_types_1.GoogleSharedDrives),
-            drive: new resource_1.Resource("drive", "Google Drive", "get", "A google drive", getDrive, google_types_1.GoogleDriveInput, google_types_1.GoogleDrive),
+            sharedDrive: new resource_1.Resource("sharedDrive", "Google Shared Drive", "get", "A google shared drive", getSharedDrive, google_types_1.GoogleSharedDriveInput, google_types_1.GoogleSharedDrive),
             driveFiles: new resource_1.Resource("driveFiles", "Google Drive Files", "get", "Your google drive files", getDriveFiles, google_types_1.GoogleDriveFilesInput, google_types_1.GoogleDriveFiles),
             driveFileMetadata: new resource_1.Resource("driveFileMetadata", "Google Drive File Metadata", "get", "Your google drive file metadata", getDriveFileMetadata, google_types_1.GoogleDriveFileInput, google_types_1.GoogleDriveFileMetadata),
             driveFile: new resource_1.Resource("driveFile", "Google Drive File", "get", "Your google drive file", getDriveFile, google_types_1.GoogleDriveFileInput, google_types_1.GoogleDriveFile),

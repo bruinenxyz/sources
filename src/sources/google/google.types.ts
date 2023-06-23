@@ -2721,6 +2721,131 @@ export const GoogleEvent = {
   },
 } as const satisfies JSONSchema;
 
+export const GoogleDriveAbout = {
+  type: "object",
+  description:
+    "Information about the user, the user's Drive, and system capabilities.",
+  properties: {
+    kind: {
+      type: "string",
+      description:
+        "Identifies what kind of resource this is. Value: the fixed string drive#about.",
+    },
+    storageQuota: {
+      type: "object",
+      description:
+        "The user's storage quota limits and usage. All fields are measured in bytes.",
+      properties: {
+        limit: {
+          type: "string",
+          description:
+            "The usage limit, if applicable. This will not be present if the user has unlimited storage.",
+        },
+        usageInDrive: {
+          type: "string",
+          description: "The usage by all files in Google Drive.",
+        },
+        usageInDriveTrash: {
+          type: "string",
+          description: "The usage by trashed files in Google Drive.",
+        },
+        usage: {
+          type: "string",
+          description: "The total usage across all services.",
+        },
+      },
+    },
+    driveThemes: {
+      type: "array",
+      description: "A list of themes that are supported for shared drives.",
+      items: {
+        type: "object",
+        description: "A drive theme",
+        properties: {
+          id: {
+            type: "string",
+            description: "The ID of the theme.",
+          },
+          backgroundImageLink: {
+            type: "string",
+            description: "A link to this theme's background image.",
+          },
+          colorRgb: {
+            type: "string",
+            description: "The color of this theme as an RGB hex string.",
+          },
+        },
+      },
+    },
+    canCreateDrives: {
+      type: "boolean",
+      description: "Whether the user can create shared drives.",
+    },
+    importFormats: {
+      type: "object",
+      description:
+        "A map of source MIME type to possible targets for all supported imports.",
+    },
+    exportFormats: {
+      type: "object",
+      description:
+        "A map of source MIME type to possible targets for all supported exports.",
+    },
+    appInstalled: {
+      type: "boolean",
+      description: "Whether the user has installed the requesting app.",
+    },
+    user: {
+      type: "object",
+      description: "The authenticated user.",
+      properties: {
+        displayName: {
+          type: "string",
+          description: "A plain text displayable name for this user.",
+        },
+        kind: {
+          type: "string",
+          description:
+            "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+        },
+        me: {
+          type: "boolean",
+          description: "Whether this user is the requesting user.",
+        },
+        permissionId: {
+          type: "string",
+          description: "The user's ID as visible in Permission resources.",
+        },
+        emailAddress: {
+          type: "string",
+          description:
+            "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+        },
+        photoLink: {
+          type: "string",
+          description: "A link to the user's profile photo, if available.",
+        },
+      },
+    },
+    folderColorPalette: {
+      type: "array",
+      description: "The currently supported folder colors as RGB hex strings.",
+      items: {
+        type: "string",
+        description: "A folder color",
+      },
+    },
+    maxImportSizes: {
+      type: "object",
+      description: "A map of maximum import sizes by MIME type, in bytes.",
+    },
+    maxUploadSize: {
+      type: "string",
+      description: "The maximum upload size in bytes.",
+    },
+  },
+} as const satisfies JSONSchema;
+
 export const GoogleSharedDrivesInput = {
   type: "object",
   description: "The input for your google shared drives",
@@ -2967,14 +3092,13 @@ export const GoogleSharedDrives = {
   },
 } as const satisfies JSONSchema;
 
-export const GoogleDriveInput = {
+export const GoogleSharedDriveInput = {
   type: "object",
-  description: "the google drive input",
+  description: "the google shared drive input",
   properties: {
     driveId: {
       type: "string",
-      description:
-        "The ID of the shared drive. To access the user's `My Drive` pass the string `root`",
+      description: "The ID of the shared drive.",
     },
     useDoimainAdminAccess: {
       type: "boolean",
@@ -2985,9 +3109,9 @@ export const GoogleDriveInput = {
   required: ["driveId"],
 } as const satisfies JSONSchema;
 
-export const GoogleDrive = {
+export const GoogleSharedDrive = {
   type: "object",
-  description: "the google drive response",
+  description: "the google shared drive response",
   properties: {
     id: {
       type: "string",
@@ -3195,7 +3319,8 @@ export const GoogleDriveFilesInput = {
   properties: {
     driveId: {
       type: "string",
-      description: "The ID of the shared drive",
+      description:
+        "The ID of the shared drive or `root` if attempting to access the user's MyDrive",
     },
     corpora: {
       type: "string",

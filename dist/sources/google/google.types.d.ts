@@ -3168,6 +3168,122 @@ export declare const GoogleEvent: {
         };
     };
 };
+export declare const GoogleDriveAbout: {
+    readonly type: "object";
+    readonly description: "Information about the user, the user's Drive, and system capabilities.";
+    readonly properties: {
+        readonly kind: {
+            readonly type: "string";
+            readonly description: "Identifies what kind of resource this is. Value: the fixed string drive#about.";
+        };
+        readonly storageQuota: {
+            readonly type: "object";
+            readonly description: "The user's storage quota limits and usage. All fields are measured in bytes.";
+            readonly properties: {
+                readonly limit: {
+                    readonly type: "string";
+                    readonly description: "The usage limit, if applicable. This will not be present if the user has unlimited storage.";
+                };
+                readonly usageInDrive: {
+                    readonly type: "string";
+                    readonly description: "The usage by all files in Google Drive.";
+                };
+                readonly usageInDriveTrash: {
+                    readonly type: "string";
+                    readonly description: "The usage by trashed files in Google Drive.";
+                };
+                readonly usage: {
+                    readonly type: "string";
+                    readonly description: "The total usage across all services.";
+                };
+            };
+        };
+        readonly driveThemes: {
+            readonly type: "array";
+            readonly description: "A list of themes that are supported for shared drives.";
+            readonly items: {
+                readonly type: "object";
+                readonly description: "A drive theme";
+                readonly properties: {
+                    readonly id: {
+                        readonly type: "string";
+                        readonly description: "The ID of the theme.";
+                    };
+                    readonly backgroundImageLink: {
+                        readonly type: "string";
+                        readonly description: "A link to this theme's background image.";
+                    };
+                    readonly colorRgb: {
+                        readonly type: "string";
+                        readonly description: "The color of this theme as an RGB hex string.";
+                    };
+                };
+            };
+        };
+        readonly canCreateDrives: {
+            readonly type: "boolean";
+            readonly description: "Whether the user can create shared drives.";
+        };
+        readonly importFormats: {
+            readonly type: "object";
+            readonly description: "A map of source MIME type to possible targets for all supported imports.";
+        };
+        readonly exportFormats: {
+            readonly type: "object";
+            readonly description: "A map of source MIME type to possible targets for all supported exports.";
+        };
+        readonly appInstalled: {
+            readonly type: "boolean";
+            readonly description: "Whether the user has installed the requesting app.";
+        };
+        readonly user: {
+            readonly type: "object";
+            readonly description: "The authenticated user.";
+            readonly properties: {
+                readonly displayName: {
+                    readonly type: "string";
+                    readonly description: "A plain text displayable name for this user.";
+                };
+                readonly kind: {
+                    readonly type: "string";
+                    readonly description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.";
+                };
+                readonly me: {
+                    readonly type: "boolean";
+                    readonly description: "Whether this user is the requesting user.";
+                };
+                readonly permissionId: {
+                    readonly type: "string";
+                    readonly description: "The user's ID as visible in Permission resources.";
+                };
+                readonly emailAddress: {
+                    readonly type: "string";
+                    readonly description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.";
+                };
+                readonly photoLink: {
+                    readonly type: "string";
+                    readonly description: "A link to the user's profile photo, if available.";
+                };
+            };
+        };
+        readonly folderColorPalette: {
+            readonly type: "array";
+            readonly description: "The currently supported folder colors as RGB hex strings.";
+            readonly items: {
+                readonly type: "string";
+                readonly description: "A folder color";
+            };
+        };
+        readonly maxImportSizes: {
+            readonly type: "object";
+            readonly description: "A map of maximum import sizes by MIME type, in bytes.";
+        };
+        readonly maxUploadSize: {
+            readonly type: "string";
+            readonly description: "The maximum upload size in bytes.";
+        };
+    };
+};
 export declare const GoogleSharedDrivesInput: {
     readonly type: "object";
     readonly description: "The input for your google shared drives";
@@ -3376,13 +3492,13 @@ export declare const GoogleSharedDrives: {
         };
     };
 };
-export declare const GoogleDriveInput: {
+export declare const GoogleSharedDriveInput: {
     readonly type: "object";
-    readonly description: "the google drive input";
+    readonly description: "the google shared drive input";
     readonly properties: {
         readonly driveId: {
             readonly type: "string";
-            readonly description: "The ID of the shared drive. To access the user's `My Drive` pass the string `root`";
+            readonly description: "The ID of the shared drive.";
         };
         readonly useDoimainAdminAccess: {
             readonly type: "boolean";
@@ -3391,9 +3507,9 @@ export declare const GoogleDriveInput: {
     };
     readonly required: readonly ["driveId"];
 };
-export declare const GoogleDrive: {
+export declare const GoogleSharedDrive: {
     readonly type: "object";
-    readonly description: "the google drive response";
+    readonly description: "the google shared drive response";
     readonly properties: {
         readonly id: {
             readonly type: "string";
@@ -3569,7 +3685,7 @@ export declare const GoogleDriveFilesInput: {
     readonly properties: {
         readonly driveId: {
             readonly type: "string";
-            readonly description: "The ID of the shared drive";
+            readonly description: "The ID of the shared drive or `root` if attempting to access the user's MyDrive";
         };
         readonly corpora: {
             readonly type: "string";

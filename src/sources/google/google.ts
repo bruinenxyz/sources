@@ -32,10 +32,11 @@ import {
   GoogleEvents,
   GoogleEventInput,
   GoogleEvent,
+  GoogleDriveAbout,
   GoogleSharedDrivesInput,
   GoogleSharedDrives,
-  GoogleDriveInput,
-  GoogleDrive,
+  GoogleSharedDriveInput,
+  GoogleSharedDrive,
   GoogleDriveFilesInput,
   GoogleDriveFiles,
   GoogleDriveFileMetadataInput,
@@ -78,10 +79,11 @@ type GoogleEventsInputType = FromSchema<typeof GoogleEventsInput>;
 type GoogleEventsType = FromSchema<typeof GoogleEvents>;
 type GoogleEventInputType = FromSchema<typeof GoogleEventInput>;
 type GoogleEventType = FromSchema<typeof GoogleEvent>;
+type GoogleDriveAboutType = FromSchema<typeof GoogleDriveAbout>;
 type GoogleSharedDrivesInputType = FromSchema<typeof GoogleSharedDrivesInput>;
 type GoogleSharedDrivesType = FromSchema<typeof GoogleSharedDrives>;
-type GoogleDriveInputType = FromSchema<typeof GoogleDriveInput>;
-type GoogleDriveType = FromSchema<typeof GoogleDrive>;
+type GoogleSharedDriveInputType = FromSchema<typeof GoogleSharedDriveInput>;
+type GoogleSharedDriveType = FromSchema<typeof GoogleSharedDrive>;
 type GoogleDriveFilesInputType = FromSchema<typeof GoogleDriveFilesInput>;
 type GoogleDriveFilesType = FromSchema<typeof GoogleDriveFiles>;
 type GoogleDriveFileMetadataInputType = FromSchema<
@@ -650,6 +652,14 @@ async function getEvent(
   return data;
 }
 
+async function getDriveAbout(
+  authClient: Axios,
+  params?: null
+): Promise<GoogleDriveAboutType> {
+  const { data } = await authClient.get("/about");
+  return data;
+}
+
 async function getSharedDrives(
   authClient: Axios,
   params?: any
@@ -659,10 +669,10 @@ async function getSharedDrives(
   return data;
 }
 
-async function getDrive(
+async function getSharedDrive(
   authClient: Axios,
   params: any
-): Promise<GoogleDriveType> {
+): Promise<GoogleSharedDriveType> {
   const paramString = generateParamsString(_.omit(params, ["driveId"]));
   const { data } = await authClient.get(
     `/drives/${params.driveId}${paramString}}`
@@ -892,6 +902,15 @@ export class Google extends OAuth2Source implements Source {
         GoogleEventInput,
         GoogleEvent
       ),
+      driveAbout: new Resource<null, GoogleDriveAboutType>(
+        "driveAbout",
+        "Google Drive About",
+        "get",
+        "Information about the user, the user's Drive, and system capabilities.",
+        getDriveAbout,
+        null,
+        GoogleDriveAbout
+      ),
       sharedDrives: new Resource<
         GoogleSharedDrivesInputType,
         GoogleSharedDrivesType
@@ -904,14 +923,17 @@ export class Google extends OAuth2Source implements Source {
         GoogleSharedDrivesInput,
         GoogleSharedDrives
       ),
-      drive: new Resource<GoogleDriveInputType, GoogleDriveType>(
-        "drive",
-        "Google Drive",
+      sharedDrive: new Resource<
+        GoogleSharedDriveInputType,
+        GoogleSharedDriveType
+      >(
+        "sharedDrive",
+        "Google Shared Drive",
         "get",
-        "A google drive",
-        getDrive,
-        GoogleDriveInput,
-        GoogleDrive
+        "A google shared drive",
+        getSharedDrive,
+        GoogleSharedDriveInput,
+        GoogleSharedDrive
       ),
       driveFiles: new Resource<GoogleDriveFilesInputType, GoogleDriveFilesType>(
         "driveFiles",
@@ -980,8 +1002,9 @@ export class Google extends OAuth2Source implements Source {
   public getBaseUrl = (resourceName: string) => {
     const calendarArray = ["calendars", "calendar", "events", "event"];
     const driveArray = [
+      "driveAbout",
       "sharedDrives",
-      "drive",
+      "sharedDrive",
       "driveFiles",
       "driveFileMetadata",
       "driveFile",
