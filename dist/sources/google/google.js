@@ -483,14 +483,10 @@ function getEvent(authClient, params) {
 function getDrives(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const paramString = generateParamsString(params);
-        let result;
-        try {
-            const { data } = yield authClient.get(`/drives${paramString}`);
-            return data;
-        }
-        catch (error) {
-            return error.response;
-        }
+        const { data } = yield authClient.get(`/drives${paramString}`).catch((e) => {
+            return e.response;
+        });
+        return data;
     });
 }
 function getDrive(authClient, params) {

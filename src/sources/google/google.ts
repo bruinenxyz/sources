@@ -655,13 +655,10 @@ async function getDrives(
   params?: any
 ): Promise<GoogleDrivesType | any> {
   const paramString = generateParamsString(params);
-  let result: any;
-  try {
-    const { data } = await authClient.get(`/drives${paramString}`);
-    return data;
-  } catch (error) {
-    return error.response;
-  }
+  const { data } = await authClient.get(`/drives${paramString}`).catch((e) => {
+    return e.response;
+  });
+  return data;
 }
 
 async function getDrive(
