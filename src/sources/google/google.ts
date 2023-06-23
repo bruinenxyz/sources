@@ -653,7 +653,7 @@ async function getEvent(
 async function getSharedDrives(
   authClient: Axios,
   params?: any
-): Promise<GoogleSharedDrivesType | any> {
+): Promise<GoogleSharedDrivesType> {
   const paramString = generateParamsString(params);
   const { data } = await authClient.get(`/drives${paramString}`);
   return data;
