@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GoogleEvent = exports.GoogleEventInput = exports.GoogleEvents = exports.GoogleEventsInput = exports.GoogleCalendar = exports.GoogleCalendarInput = exports.GoogleCalendars = exports.GoogleCalendarsInput = exports.GoogleParsedThread = exports.GoogleThread = exports.GoogleThreadInput = exports.GoogleParsedThreads = exports.GoogleThreads = exports.GoogleThreadsInput = exports.GoogleParsedMessage = exports.GoogleMessage = exports.GoogleMessageInput = exports.GoogleParsedMessages = exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleParsedDraft = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleParsedDrafts = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
+exports.GoogleDriveFile = exports.GoogleDriveFileInput = exports.GoogleDriveFileMetadata = exports.GoogleDriveFileMetadataInput = exports.GoogleDriveFiles = exports.GoogleDriveFilesInput = exports.GoogleDrive = exports.GoogleDriveInput = exports.GoogleDrives = exports.GoogleDrivesInput = exports.GoogleEvent = exports.GoogleEventInput = exports.GoogleEvents = exports.GoogleEventsInput = exports.GoogleCalendar = exports.GoogleCalendarInput = exports.GoogleCalendars = exports.GoogleCalendarsInput = exports.GoogleParsedThread = exports.GoogleThread = exports.GoogleThreadInput = exports.GoogleParsedThreads = exports.GoogleThreads = exports.GoogleThreadsInput = exports.GoogleParsedMessage = exports.GoogleMessage = exports.GoogleMessageInput = exports.GoogleParsedMessages = exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleParsedDraft = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleParsedDrafts = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
 exports.GoogleProfile = {
     title: "GoogleProfile",
     description: "A google profile",
@@ -2685,6 +2685,2940 @@ exports.GoogleEvent = {
         eventType: {
             type: "string",
             description: "The eventType of the event",
+        },
+    },
+};
+exports.GoogleDrivesInput = {
+    type: "object",
+    description: "The input for your google drives",
+    properties: {
+        pageSize: {
+            type: "number",
+            description: "The pageSize of the google drives response",
+        },
+        pageToken: {
+            type: "string",
+            description: "The pageToken of the google drives",
+        },
+        q: {
+            type: "string",
+            description: "The query for the google drives",
+        },
+    },
+};
+exports.GoogleDrives = {
+    type: "object",
+    description: "The google drives response",
+    properties: {
+        kind: {
+            type: "string",
+            description: "The kind of the google drives response",
+        },
+        nextPageToken: {
+            type: "string",
+            description: "The nextPageToken of the google drives",
+        },
+        drives: {
+            type: "array",
+            description: "The list of drives",
+            items: {
+                type: "object",
+                description: "A drive",
+                properties: {
+                    id: {
+                        type: "string",
+                        description: "The id of the drive",
+                    },
+                    name: {
+                        type: "string",
+                        description: "The name of the drive",
+                    },
+                    colorRgb: {
+                        type: "string",
+                        description: "The colorRgb of the drive",
+                    },
+                    kind: {
+                        type: "string",
+                        description: "The kind of the drive",
+                    },
+                    backgroundImageLink: {
+                        type: "string",
+                        description: "A short-lived link to this shared drive's background image",
+                    },
+                    capabilities: {
+                        type: "object",
+                        description: "Capabilities the current user has on this shared drive.",
+                        properties: {
+                            canAddChildren: {
+                                type: "boolean",
+                                description: "Whether the current user can add children to folders in this shared drive",
+                            },
+                            canComment: {
+                                type: "boolean",
+                                description: "Whether the current user can comment on files in this shared drive",
+                            },
+                            canCopy: {
+                                type: "boolean",
+                                description: "Whether the current user can copy files in this shared drive",
+                            },
+                            canDeleteDrive: {
+                                type: "boolean",
+                                description: "Whether the current user can delete this shared drive",
+                            },
+                            canDownload: {
+                                type: "boolean",
+                                description: "Whether the current user can download files in this shared drive",
+                            },
+                            canEdit: {
+                                type: "boolean",
+                                description: "Whether the current user can edit files in this shared drive",
+                            },
+                            canListChildren: {
+                                type: "boolean",
+                                description: "Whether the current user can list the children of folders in this shared drive",
+                            },
+                            canManageMembers: {
+                                type: "boolean",
+                                description: "Whether the current user can add members to this shared drive or remove them or change their role",
+                            },
+                            canReadRevisions: {
+                                type: "boolean",
+                                description: "Whether the current user can read the revisions resource of files in this shared drive",
+                            },
+                            canRename: {
+                                type: "boolean",
+                                description: "Whether the current user can rename files or folders in this shared drive",
+                            },
+                            canRenameDrive: {
+                                type: "boolean",
+                                description: "Whether the current user can rename this shared drive",
+                            },
+                            canShare: {
+                                type: "boolean",
+                                description: "Whether the current user can share files or folders in this shared drive",
+                            },
+                            canChangeCopyRequiresWriterPermissionRestriction: {
+                                type: "boolean",
+                                description: "Whether the current user can change the copyRequiresWriterPermission restriction of this shared drive",
+                            },
+                            canChangeDomainUsersOnlyRestriction: {
+                                type: "boolean",
+                                description: "Whether the current user can change the domainUsersOnly restriction of this shared drive",
+                            },
+                            canChangeDriveMembersOnlyRestriction: {
+                                type: "boolean",
+                                description: "Whether the current user can change the driveMembersOnly restriction of this shared drive",
+                            },
+                            canChangeSharingFoldersRequiresOrganizerPermissionRestriction: {
+                                type: "boolean",
+                                description: "Whether the current user can change the sharingFoldersRestriction of this shared drive",
+                            },
+                            canResetDriveRestrictions: {
+                                type: "boolean",
+                                description: "Whether the current user can reset the shared drive restrictions to defaults.",
+                            },
+                            canDeleteChildren: {
+                                type: "boolean",
+                                description: "Whether the current user can delete children from folders in this shared drive",
+                            },
+                            canTrashChildren: {
+                                type: "boolean",
+                                description: "Whether the current user can trash children from folders in this shared drive",
+                            },
+                        },
+                    },
+                    themeId: {
+                        type: "string",
+                        description: "The ID of the theme from which the background image and color will be set.",
+                    },
+                    backgroundImageFile: {
+                        type: "object",
+                        description: "An image file and cropping parameters from which a background image for this shared drive is set.",
+                        properties: {
+                            id: {
+                                type: "string",
+                                description: "The ID of an image file in Drive to use for the background image.",
+                            },
+                            xCoordinate: {
+                                type: "number",
+                                description: "The X coordinate of the upper left corner of the cropping area in the background image.",
+                            },
+                            yCoordinate: {
+                                type: "number",
+                                description: "The Y coordinate of the upper left corner of the cropping area in the background image.",
+                            },
+                            width: {
+                                type: "number",
+                                description: "The width of the cropped image in the closed range of 0 to 1. This value represents the width of the cropped image divided by the width of the entire image. The height is computed by applying a width to height aspect ratio of 80 to 9. The resulting image must be at least 1280 pixels wide and 144 pixels high.",
+                            },
+                        },
+                    },
+                    createdTime: {
+                        type: "string",
+                        description: "The time at which the shared drive was created (RFC 3339 date-time).",
+                    },
+                    hidden: {
+                        type: "boolean",
+                        description: "Whether the shared drive is hidden from default view.",
+                    },
+                    restrictions: {
+                        type: "object",
+                        description: "A set of restrictions that apply to this shared drive or items inside this shared drive.",
+                        properties: {
+                            copyRequiresWriterPermission: {
+                                type: "boolean",
+                                description: "Whether the options to copy, print, or download files inside this shared drive, should be disabled for readers and commenters. When this restriction is set to true, it will override the similarly named field to true for any file inside this shared drive.",
+                            },
+                            domainUsersOnly: {
+                                type: "boolean",
+                                description: "Whether access to this shared drive and items inside this shared drive is restricted to users of the domain to which this shared drive belongs. This restriction may be overridden by other sharing policies controlled outside of this shared drive.",
+                            },
+                            driveMembersOnly: {
+                                type: "boolean",
+                                description: "Whether access to items inside this shared drive is restricted to its members.",
+                            },
+                            adminManagedRestrictions: {
+                                type: "boolean",
+                                description: "Whether administrative privileges on this shared drive are required to modify restrictions.",
+                            },
+                            sharingFoldersRequiresOrganizerPermission: {
+                                type: "boolean",
+                                description: "If true, only users with the organizer role can share folders. If false, users with either the organizer role or the file organizer role can share folders.",
+                            },
+                        },
+                    },
+                    orgUnitId: {
+                        type: "string",
+                        description: "The organizational unit of this shared drive. This field is only populated when the useDomainAdminAccess parameter is set to true",
+                    },
+                },
+            },
+        },
+    },
+};
+exports.GoogleDriveInput = {
+    type: "object",
+    description: "the google drive input",
+    properties: {
+        driveId: {
+            type: "string",
+            description: "The ID of the shared drive",
+        },
+        useDoimainAdminAccess: {
+            type: "boolean",
+            description: "Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the shared drive belongs",
+        },
+    },
+    required: ["driveId"],
+};
+exports.GoogleDrive = {
+    type: "object",
+    description: "the google drive response",
+    properties: {
+        id: {
+            type: "string",
+            description: "The id of the drive",
+        },
+        name: {
+            type: "string",
+            description: "The name of the drive",
+        },
+        colorRgb: {
+            type: "string",
+            description: "The colorRgb of the drive",
+        },
+        kind: {
+            type: "string",
+            description: "The kind of the drive",
+        },
+        backgroundImageLink: {
+            type: "string",
+            description: "A short-lived link to this shared drive's background image",
+        },
+        capabilities: {
+            type: "object",
+            description: "Capabilities the current user has on this shared drive.",
+            properties: {
+                canAddChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can add children to folders in this shared drive",
+                },
+                canComment: {
+                    type: "boolean",
+                    description: "Whether the current user can comment on files in this shared drive",
+                },
+                canCopy: {
+                    type: "boolean",
+                    description: "Whether the current user can copy files in this shared drive",
+                },
+                canDeleteDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can delete this shared drive",
+                },
+                canDownload: {
+                    type: "boolean",
+                    description: "Whether the current user can download files in this shared drive",
+                },
+                canEdit: {
+                    type: "boolean",
+                    description: "Whether the current user can edit files in this shared drive",
+                },
+                canListChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can list the children of folders in this shared drive",
+                },
+                canManageMembers: {
+                    type: "boolean",
+                    description: "Whether the current user can add members to this shared drive or remove them or change their role",
+                },
+                canReadRevisions: {
+                    type: "boolean",
+                    description: "Whether the current user can read the revisions resource of files in this shared drive",
+                },
+                canRename: {
+                    type: "boolean",
+                    description: "Whether the current user can rename files or folders in this shared drive",
+                },
+                canRenameDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can rename this shared drive",
+                },
+                canShare: {
+                    type: "boolean",
+                    description: "Whether the current user can share files or folders in this shared drive",
+                },
+                canChangeCopyRequiresWriterPermissionRestriction: {
+                    type: "boolean",
+                    description: "Whether the current user can change the copyRequiresWriterPermission restriction of this shared drive",
+                },
+                canChangeDomainUsersOnlyRestriction: {
+                    type: "boolean",
+                    description: "Whether the current user can change the domainUsersOnly restriction of this shared drive",
+                },
+                canChangeDriveMembersOnlyRestriction: {
+                    type: "boolean",
+                    description: "Whether the current user can change the driveMembersOnly restriction of this shared drive",
+                },
+                canChangeSharingFoldersRequiresOrganizerPermissionRestriction: {
+                    type: "boolean",
+                    description: "Whether the current user can change the sharingFoldersRestriction of this shared drive",
+                },
+                canResetDriveRestrictions: {
+                    type: "boolean",
+                    description: "Whether the current user can reset the shared drive restrictions to defaults.",
+                },
+                canDeleteChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can delete children from folders in this shared drive",
+                },
+                canTrashChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can trash children from folders in this shared drive",
+                },
+            },
+        },
+        themeId: {
+            type: "string",
+            description: "The ID of the theme from which the background image and color will be set.",
+        },
+        backgroundImageFile: {
+            type: "object",
+            description: "An image file and cropping parameters from which a background image for this shared drive is set.",
+            properties: {
+                id: {
+                    type: "string",
+                    description: "The ID of an image file in Drive to use for the background image.",
+                },
+                xCoordinate: {
+                    type: "number",
+                    description: "The X coordinate of the upper left corner of the cropping area in the background image.",
+                },
+                yCoordinate: {
+                    type: "number",
+                    description: "The Y coordinate of the upper left corner of the cropping area in the background image.",
+                },
+                width: {
+                    type: "number",
+                    description: "The width of the cropped image in the closed range of 0 to 1. This value represents the width of the cropped image divided by the width of the entire image. The height is computed by applying a width to height aspect ratio of 80 to 9. The resulting image must be at least 1280 pixels wide and 144 pixels high.",
+                },
+            },
+        },
+        createdTime: {
+            type: "string",
+            description: "The time at which the shared drive was created (RFC 3339 date-time).",
+        },
+        hidden: {
+            type: "boolean",
+            description: "Whether the shared drive is hidden from default view.",
+        },
+        restrictions: {
+            type: "object",
+            description: "A set of restrictions that apply to this shared drive or items inside this shared drive.",
+            properties: {
+                copyRequiresWriterPermission: {
+                    type: "boolean",
+                    description: "Whether the options to copy, print, or download files inside this shared drive, should be disabled for readers and commenters. When this restriction is set to true, it will override the similarly named field to true for any file inside this shared drive.",
+                },
+                domainUsersOnly: {
+                    type: "boolean",
+                    description: "Whether access to this shared drive and items inside this shared drive is restricted to users of the domain to which this shared drive belongs. This restriction may be overridden by other sharing policies controlled outside of this shared drive.",
+                },
+                driveMembersOnly: {
+                    type: "boolean",
+                    description: "Whether access to items inside this shared drive is restricted to its members.",
+                },
+                adminManagedRestrictions: {
+                    type: "boolean",
+                    description: "Whether administrative privileges on this shared drive are required to modify restrictions.",
+                },
+                sharingFoldersRequiresOrganizerPermission: {
+                    type: "boolean",
+                    description: "If true, only users with the organizer role can share folders. If false, users with either the organizer role or the file organizer role can share folders.",
+                },
+            },
+        },
+        orgUnitId: {
+            type: "string",
+            description: "The organizational unit of this shared drive. This field is only populated when the useDomainAdminAccess parameter is set to true",
+        },
+    },
+};
+exports.GoogleDriveFilesInput = {
+    type: "object",
+    description: "The input for files from a google drive",
+    properties: {
+        driveId: {
+            type: "string",
+            description: "The ID of the shared drive",
+        },
+        corpora: {
+            type: "string",
+            description: "Bodies of items (files/documents) to which the query applies. Supported bodies are 'user', 'domain', 'drive', and 'allDrives'. Prefer 'user' or 'drive' to 'allDrives' for efficiency. By default, corpora is set to 'user'. However, this can change depending on the filter set through the 'q' parameter.",
+        },
+        includeItemsFromAllDrives: {
+            type: "boolean",
+            description: "Whether both My Drive and shared drive items should be included in results.",
+        },
+        trashed: {
+            type: "boolean",
+            description: "Whether to include trashed items. Defaults to true.",
+        },
+        orderBy: {
+            type: "string",
+            description: "A comma-separated list of sort keys. Valid keys are 'createdTime', 'folder', 'modifiedByMeTime', 'modifiedTime', 'name', 'name_natural', 'quotaBytesUsed', 'recency', 'sharedWithMeTime', 'starred', and 'viewedByMeTime'. Each key sorts ascending by default, but can be reversed with the 'desc' modifier. Example usage: ?orderBy=folder,modifiedTime desc,name.",
+        },
+        pageSize: {
+            type: "number",
+            description: "The maximum number of files to return per page. Partial or empty result pages are possible even before the end of the files list has been reached.",
+        },
+        pageToken: {
+            type: "string",
+            description: "The token for continuing a previous list request on the next page. This should be set to the value of 'nextPageToken' from the previous response.",
+        },
+        q: {
+            type: "string",
+            description: "A query for filtering the file results. See https://developers.google.com/drive/api/guides/search-files for supported syntax.",
+        },
+        spaces: {
+            type: "string",
+            description: "A comma-separated list of spaces to query within the corpora. Supported values are 'drive' and 'appDataFolder'.",
+        },
+        supportsAllDrives: {
+            type: "boolean",
+            description: "Whether the requesting application supports both My Drives and shared drives. (Default: false)",
+        },
+        includePermissionsForView: {
+            type: "string",
+            description: "Specifies which additional view's permissions to include in the response. Only 'published' is supported.",
+        },
+        includeLabels: {
+            type: "string",
+            description: "A comma-separated list of labels to return for each file. If specified, supported labels are 'createdTime', 'folder', 'modifiedByMeTime', 'modifiedTime', 'name', 'quotaBytesUsed', 'recency', 'sharedWithMeTime', 'starred', and 'viewedByMeTime'.",
+        },
+    },
+    required: ["driveId"],
+};
+exports.GoogleDriveFiles = {
+    type: "object",
+    description: "The output for files from a google drive",
+    properties: {
+        nextPageToken: {
+            type: "string",
+            description: "The token for the next page of files. This will be absent if the end of the files list has been reached.",
+        },
+        kind: {
+            type: "string",
+            description: "Identifies what kind of resource this is. Value: the fixed string 'drive#fileList'.",
+        },
+        incompleteSearch: {
+            type: "boolean",
+            description: "Whether the search process was incomplete. If true, then some search results may be missing, since all documents were not searched. This may occur when searching multiple drives with the 'allDrives' corpora, but all corpora could not be searched. When this happens, it is suggested that clients narrow their query by choosing a different corpus such as 'user' or 'drive'.",
+        },
+        files: {
+            type: "array",
+            description: "The list of files. If nextPageToken is populated, then this list may be incomplete and an additional page of results should be fetched.",
+            items: {
+                type: "object",
+                description: "A single Drive file",
+                properties: {
+                    kind: {
+                        type: "string",
+                        description: "Identifies what kind of resource this is. Value: the fixed string 'drive#file'.",
+                    },
+                    driveId: {
+                        type: "string",
+                        description: "The ID of the shared drive the file resides in. Only populated for items in shared drives.",
+                    },
+                    fileExtension: {
+                        type: "string",
+                        description: "The extension of the file. The final component of fullFileExtension. This is only available for files with binary content in Google Drive.",
+                    },
+                    copyRequiresWriterPermission: {
+                        type: "boolean",
+                        description: "Whether the options to copy, print, or download this file, should be disabled for readers and commenters.",
+                    },
+                    md5Checksum: {
+                        type: "string",
+                        description: "The MD5 checksum for the content of the file. This is only applicable to files with binary content in Google Drive.",
+                    },
+                    contentHints: {
+                        type: "object",
+                        description: "Additional information about the content of the file. These fields are never populated in responses.",
+                        properties: {
+                            indexableText: {
+                                type: "string",
+                                description: "Text to be indexed for the file to improve fullText queries. This is limited to 128KB in length and may contain HTML elements.",
+                            },
+                            thumbnail: {
+                                type: "object",
+                                description: "A thumbnail for the file. This will only be used if Drive cannot generate a standard thumbnail.",
+                                properties: {
+                                    image: {
+                                        type: "string",
+                                        description: "The URL-safe Base64 encoded bytes of the thumbnail image. It should conform to RFC 4648 section 5.",
+                                    },
+                                    mimeType: {
+                                        type: "string",
+                                        description: "The MIME type of the thumbnail.",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    writersCanShare: {
+                        type: "boolean",
+                        description: "Whether users with only writer permission can modify the file's permissions. Not populated for items in shared drives.",
+                    },
+                    viewedByMe: {
+                        type: "boolean",
+                        description: "Whether the file has been viewed by this user.",
+                    },
+                    mimeType: {
+                        type: "string",
+                        description: "The MIME type of the file. Google Drive will attempt to automatically detect an appropriate value from uploaded content if no value is provided. The value cannot be changed unless a new revision is uploaded. If a file is created with a Google Doc MIME type, the uploaded content will be imported if possible. The supported import formats are published in the About resource.",
+                    },
+                    parents: {
+                        type: "array",
+                        description: "The IDs of the parent folders which contain the file. If not specified as part of a create request, the file will be placed directly in the user's My Drive folder. If not specified as part of a copy request, the file will inherit any discoverable parents of the source file. Update requests must use the addParents and removeParents parameters to modify the parents list.",
+                        items: {
+                            type: "string",
+                        },
+                    },
+                    thumbnailLink: {
+                        type: "string",
+                        description: "A short-lived link to the file's thumbnail, if available. Typically lasts on the order of hours. Only populated when the requesting app can access the file's content.",
+                    },
+                    iconLink: {
+                        type: "string",
+                        description: "A static, unauthenticated link to the file's icon.",
+                    },
+                    shared: {
+                        type: "boolean",
+                        description: "Whether the file has been shared. Not populated for items in shared drives.",
+                    },
+                    lastModifyingUser: {
+                        type: "object",
+                        description: "The last user to modify the file.",
+                        properties: {
+                            displayName: {
+                                type: "string",
+                                description: "A plain text displayable name for this user.",
+                            },
+                            kind: {
+                                type: "string",
+                                description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                            },
+                            me: {
+                                type: "boolean",
+                                description: "Whether this user is the requesting user.",
+                            },
+                            permissionId: {
+                                type: "string",
+                                description: "The user's ID as visible in Permission resources.",
+                            },
+                            emailAddress: {
+                                type: "string",
+                                description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                            },
+                            photoLink: {
+                                type: "string",
+                                description: "A link to the user's profile photo, if available.",
+                            },
+                        },
+                    },
+                    owners: {
+                        type: "array",
+                        description: "The owners of the file. Currently, only certain legacy files may have more than one owner. Not populated for items in shared drives.",
+                        items: {
+                            type: "object",
+                            description: "A user that ownes the file.",
+                            properties: {
+                                displayName: {
+                                    type: "string",
+                                    description: "A plain text displayable name for this user.",
+                                },
+                                kind: {
+                                    type: "string",
+                                    description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                                },
+                                me: {
+                                    type: "boolean",
+                                    description: "Whether this user is the requesting user.",
+                                },
+                                permissionId: {
+                                    type: "string",
+                                    description: "The user's ID as visible in Permission resources.",
+                                },
+                                emailAddress: {
+                                    type: "string",
+                                    description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                                },
+                                photoLink: {
+                                    type: "string",
+                                    description: "A link to the user's profile photo, if available.",
+                                },
+                            },
+                        },
+                    },
+                    headRevisionId: {
+                        type: "string",
+                        description: "The ID of the file's head revision. This is currently only available for files with binary content in Google Drive.",
+                    },
+                    sharingUser: {
+                        type: "object",
+                        description: "The user who shared the file with the requesting user, if applicable.",
+                        properties: {
+                            displayName: {
+                                type: "string",
+                                description: "A plain text displayable name for this user.",
+                            },
+                            kind: {
+                                type: "string",
+                                description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                            },
+                            me: {
+                                type: "boolean",
+                                description: "Whether this user is the requesting user.",
+                            },
+                            permissionId: {
+                                type: "string",
+                                description: "The user's ID as visible in Permission resources.",
+                            },
+                            emailAddress: {
+                                type: "string",
+                                description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                            },
+                            photoLink: {
+                                type: "string",
+                                description: "A link to the user's profile photo, if available.",
+                            },
+                        },
+                    },
+                    webViewLink: {
+                        type: "string",
+                        description: "A link for opening the file in a relevant Google editor or viewer in a browser.",
+                    },
+                    webContentLink: {
+                        type: "string",
+                        description: "A link for downloading the content of the file in a browser. This is only available for files with binary content in Google Drive.",
+                    },
+                    size: {
+                        type: "string",
+                        description: "Size in bytes of blobs and first party editor files. Won't be populated for files that have no size, like shortcuts and folders.",
+                    },
+                    permissions: {
+                        type: "array",
+                        description: "The full list of permissions for the file. This is only available if the requesting user can share the file. Not populated for items in shared drives.",
+                        items: {
+                            type: "object",
+                            description: "A permission for a file. A permission grants a user, group, domain or the world access to a file or a folder hierarchy.",
+                            properties: {
+                                id: {
+                                    type: "string",
+                                    description: "The ID of the permission.",
+                                },
+                                type: {
+                                    type: "string",
+                                    description: "The type of the grantee. Valid values are: - user - group - domain - anyone",
+                                },
+                                displayName: {
+                                    type: "string",
+                                    description: "The `pretty` name of the value of the permission.",
+                                },
+                                kind: {
+                                    type: "string",
+                                    description: "Identifies what kind of resource this is. Value: the fixed string 'drive#permission'.",
+                                },
+                                permissionDetails: {
+                                    type: "array",
+                                    description: " Details of whether the permissions on this shared drive item are inherited or directly on this item. This is an output-only field which is present only for shared drive items.",
+                                    items: {
+                                        type: "object",
+                                        description: "A set of permissions that a user with the effective role can use to access a file or folder.",
+                                        properties: {
+                                            permissionType: {
+                                                type: "string",
+                                                description: "The type of the permission",
+                                            },
+                                            inheritedFrom: {
+                                                type: "string",
+                                                description: "The ID of the item from which this permission is inherited. This is an output-only field and is only populated for members of the shared drive.",
+                                            },
+                                            role: {
+                                                type: "string",
+                                                description: "The role of the permission",
+                                            },
+                                            inherited: {
+                                                type: "boolean",
+                                                description: "Whether this permission is inherited.",
+                                            },
+                                        },
+                                    },
+                                },
+                                photoLink: {
+                                    type: "string",
+                                    description: "A link to the user's profile photo, if available.",
+                                },
+                                emailAddress: {
+                                    type: "string",
+                                    description: "The email address of the user or group to which this permission refers.",
+                                },
+                                role: {
+                                    type: "string",
+                                    description: "The role granted by this permission. Valid values are: - owner - organizer - fileOrganizer - writer - commenter - reader",
+                                },
+                                allowFileDiscovery: {
+                                    type: "boolean",
+                                    description: "Whether the permission allows the file to be discovered through search. This is only applicable for permissions of type domain or anyone.",
+                                },
+                                domain: {
+                                    type: "string",
+                                    description: "The domain to which this permission refers.",
+                                },
+                                expirationTime: {
+                                    type: "string",
+                                    description: "The time at which this permission will expire (RFC 3339 date-time). Expiration times have the following restrictions: - They can only be set on user and group permissions - The time must be in the future - The time cannot be more than a year in the future",
+                                },
+                                deleted: {
+                                    type: "boolean",
+                                    description: "Whether the account associated with this permission has been deleted. This field only pertains to user and group permissions.",
+                                },
+                                view: {
+                                    type: "string",
+                                    description: "Indicates the view for this permission. Only populated for permissions that belong to a view. published is the only supported value.",
+                                },
+                                pendingOwner: {
+                                    type: "boolean",
+                                    description: "Whether the account associated with this permission is a pending owner. Only populated for user type permissions for files that are not in a shared drive.",
+                                },
+                            },
+                        },
+                    },
+                    hasThumbnail: {
+                        type: "boolean",
+                        description: "Whether the file has a thumbnail.",
+                    },
+                    spaces: {
+                        type: "array",
+                        description: "The spaces which contain the file. The currently supported values are 'drive', 'appDataFolder' and 'photos'.",
+                        items: {
+                            type: "string",
+                        },
+                    },
+                    folderColorRgb: {
+                        type: "string",
+                        description: "The color for a folder as an RGB hex string.",
+                    },
+                    id: {
+                        type: "string",
+                        description: "The ID of the file.",
+                    },
+                    name: {
+                        type: "string",
+                        description: "The name of the file. This is not necessarily unique within a folder. Note that for immutable items such as the top level folders of shared drives, My Drive root folder, and Application Data folder the name is constant.",
+                    },
+                    description: {
+                        type: "string",
+                        description: "A short description of the file.",
+                    },
+                    starred: {
+                        type: "boolean",
+                        description: "Whether the user has starred the file.",
+                    },
+                    trashed: {
+                        type: "boolean",
+                        description: "Whether the file has been trashed, either explicitly or from a trashed parent folder. Only the owner may trash a file. The trashed item is excluded from all files.list responses returned for any user who does not own the file. However, all users with access to the file can see the trashed item metadata in an API response. All users with access can copy, download, export, and share the file.",
+                    },
+                    explicitlyTrashed: {
+                        type: "boolean",
+                        description: "Whether the file has been explicitly trashed, as opposed to recursively trashed from a parent folder.",
+                    },
+                    createdTime: {
+                        type: "string",
+                        description: "The time at which the file was created (RFC 3339 date-time).",
+                    },
+                    modifiedTime: {
+                        type: "string",
+                        description: "The last time the file was modified by anyone (RFC 3339 date-time). Note that setting modifiedTime will also update modifiedByMeTime for the user.",
+                    },
+                    modifiedByMeTime: {
+                        type: "string",
+                        description: "The last time the file was modified by the user (RFC 3339 date-time).",
+                    },
+                    viewedByMeTime: {
+                        type: "string",
+                        description: "The last time the file was viewed by the user (RFC 3339 date-time).",
+                    },
+                    sharedWithMeTime: {
+                        type: "string",
+                        description: "The time at which the file was shared with the user, if applicable (RFC 3339 date-time).",
+                    },
+                    quotaBytesUsed: {
+                        type: "string",
+                        description: "The number of storage quota bytes used by the file. This includes the head revision as well as previous revisions with keepForever enabled.",
+                    },
+                    version: {
+                        type: "string",
+                        description: "A monotonically increasing version number for the file. This reflects every change made to the file on the server, even those not visible to the user.",
+                    },
+                    originalFilename: {
+                        type: "string",
+                        description: "The original filename of the uploaded content if available, or else the original value of the name field. This is only available for files with binary content in Google Drive.",
+                    },
+                    ownedByMe: {
+                        type: "boolean",
+                        description: "Whether the user owns the file. Not populated for items in shared drives.",
+                    },
+                    fullFileExtension: {
+                        type: "string",
+                        description: 'The full file extension extracted from the name field. May contain multiple concatenated extensions, such as "tar.gz". This is only available for files with binary content in Google Drive. This is automatically updated when the name field changes, however it is not cleared if the new name does not contain a valid extension.',
+                    },
+                    properties: {
+                        type: "object",
+                        description: "Additional metadata about the file.",
+                    },
+                    appProperties: {
+                        type: "object",
+                        description: "Additional metadata about the file.",
+                    },
+                    isAppAuthorized: {
+                        type: "boolean",
+                        description: "Whether the file was created or opened by the requesting app.",
+                    },
+                    capabilities: {
+                        type: "object",
+                        description: "Capabilities the current user has on this file. Each capability corresponds to a fine-grained action that a user may take.",
+                        properties: {
+                            canMoveChildrenOutOfDrive: {
+                                type: "boolean",
+                                description: "Whether the current user can move children of this folder outside of the shared drive. This is false when the item is not a folder. Only populated for items in shared drives.",
+                            },
+                            canReadDrive: {
+                                type: "boolean",
+                                description: "Whether the current user can read the shared drive to which this file belongs. Only populated for items in shared drives.",
+                            },
+                            canEdit: {
+                                type: "boolean",
+                                description: "Whether the current user can edit this file.",
+                            },
+                            canCopy: {
+                                type: "boolean",
+                                description: "Whether the current user can copy this file. For an item in a shared drive, whether the current user can copy non-folder descendants of this item, or this item itself if it is not a folder.",
+                            },
+                            canComment: {
+                                type: "boolean",
+                                description: "Whether the current user can comment on this file.",
+                            },
+                            canAddChildren: {
+                                type: "boolean",
+                                description: "Whether the current user can add children to this folder. This is always false when the item is not a folder.",
+                            },
+                            canDelete: {
+                                type: "boolean",
+                                description: "Whether the current user can delete this file.",
+                            },
+                            canDownload: {
+                                type: "boolean",
+                                description: "Whether the current user can download this file.",
+                            },
+                            canListChildren: {
+                                type: "boolean",
+                                description: "Whether the current user can list the children of this folder. This is always false when the item is not a folder.",
+                            },
+                            canRemoveChildren: {
+                                type: "boolean",
+                                description: "Whether the current user can remove children from this folder. This is always false when the item is not a folder.",
+                            },
+                            canRename: {
+                                type: "boolean",
+                                description: "Whether the current user can rename this file.",
+                            },
+                            canTrash: {
+                                type: "boolean",
+                                description: "Whether the current user can move this file to trash.",
+                            },
+                            canReadRevisions: {
+                                type: "boolean",
+                                description: "Whether the current user can read the revisions resource of this file. For a shared drive item, whether revisions of non-folder descendants of this item, or this item itself if it is not a folder, can be read.",
+                            },
+                            canChangeCopyRequiresWriterPermission: {
+                                type: "boolean",
+                                description: "Whether the current user can change the copyRequiresWriterPermission restriction of this file.",
+                            },
+                            canUnrtash: {
+                                type: "boolean",
+                                description: "Whether the current user can restore this file from trash.",
+                            },
+                            canModifyContent: {
+                                type: "boolean",
+                                description: "Whether the current user can modify the content of this file.",
+                            },
+                            canDeleteChildren: {
+                                type: "boolean",
+                                description: "Whether the current user can delete children of this folder. This is false when the item is not a folder. Only populated for items in shared drives.",
+                            },
+                            canTrashChildren: {
+                                type: "boolean",
+                                description: "Whether the current user can trash children of this folder. This is false when the item is not a folder. Only populated for items in shared drives.",
+                            },
+                            canMoveItemOutOfDrive: {
+                                type: "boolean",
+                                description: "Whether the current user can move this item outside of this drive by changing its parent. Note that a request to change the parent of the item may still fail depending on the new parent that is being added.",
+                            },
+                            canAddMyDriveParent: {
+                                type: "boolean",
+                                description: "Whether the current user can add a parent for the item without removing an existing parent in the same request. Not populated for shared drive files.",
+                            },
+                            canRemoveMyDriveParent: {
+                                type: "boolean",
+                                description: "Whether the current user can remove a parent from the item without adding another parent in the same request. Not populated for shared drive files.",
+                            },
+                            canMoveItemWithinDrive: {
+                                type: "boolean",
+                                description: "Whether the current user can move this item within this drive. Note that a request to change the parent of the item may still fail depending on the new parent that is being added and the parent that is being removed.",
+                            },
+                            canShare: {
+                                type: "boolean",
+                                description: "Whether the current user can modify the sharing settings for this file.",
+                            },
+                            canMoveChildrenWithinDrive: {
+                                type: "boolean",
+                                description: "Whether the current user can move children of this folder within this drive. This is false when the item is not a folder. Note that a request to move the child may still fail depending on the current user's access to the child and to the destination folder.",
+                            },
+                            canModifyContentRestriction: {
+                                type: "boolean",
+                                description: "Whether the current user can modify the contentRestrictions on this file.",
+                            },
+                            canAddFolderFromAnotherDrive: {
+                                type: "boolean",
+                                description: "Whether the current user can add a folder from another drive (different shared drive or My Drive) to this folder. This is false when the item is not a folder. Only populated for items in shared drives.",
+                            },
+                            canChangeSecurityUpdateEnabled: {
+                                type: "boolean",
+                                description: "Whether the current user can change the securityUpdateEnabled field on link share metadata",
+                            },
+                            canAcceptOwnership: {
+                                type: "boolean",
+                                description: "Whether the current user can accept the ownership transfer for this file. Not populated for items in shared drives.",
+                            },
+                            canReadLabels: {
+                                type: "boolean",
+                                description: "Whether the current user can read the labels on the file.",
+                            },
+                            canModifyLabels: {
+                                type: "boolean",
+                                description: "Whether the current user can modify the file's labels.",
+                            },
+                        },
+                    },
+                    hasAugmentedPermissions: {
+                        type: "boolean",
+                        description: "Whether there are permissions directly on this file. This field is only populated for items in shared drives.",
+                    },
+                    trashingUser: {
+                        type: "object",
+                        description: "The user who trashed the file. Only populated for items in shared drives.",
+                        properties: {
+                            displayName: {
+                                type: "string",
+                                description: "A plain text displayable name for this user.",
+                            },
+                            kind: {
+                                type: "string",
+                                description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                            },
+                            me: {
+                                type: "boolean",
+                                description: "Whether this user is the requesting user.",
+                            },
+                            permissionId: {
+                                type: "string",
+                                description: "The user's ID as visible in Permission resources.",
+                            },
+                            emailAddress: {
+                                type: "string",
+                                description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                            },
+                            photoLink: {
+                                type: "string",
+                                description: "A link to the user's profile photo, if available.",
+                            },
+                        },
+                    },
+                    thumbnailVersion: {
+                        type: "string",
+                        description: "The thumbnail version for use in thumbnail cache invalidation.",
+                    },
+                    trashedTime: {
+                        type: "string",
+                        description: "The time that the item was trashed (RFC 3339 date-time). Only populated for items in shared drives.",
+                    },
+                    modifiedByMe: {
+                        type: "boolean",
+                        description: "Whether the file has been modified by this user.",
+                    },
+                    permissionIds: {
+                        type: "array",
+                        description: "A collection of permission IDs for users with access to this file",
+                        items: {
+                            type: "string",
+                            description: "A permission ID from a permission for this file.",
+                        },
+                    },
+                    imageMediaMetadata: {
+                        type: "object",
+                        description: "Metadata about image media. This will only be present for image types, and its contents will depend on what can be parsed from the image content.",
+                        properties: {
+                            flashUsed: {
+                                type: "boolean",
+                                description: "Whether a flash was used in taking this image.",
+                            },
+                            meteringMode: {
+                                type: "string",
+                                description: "The metering mode used to create the photo.",
+                            },
+                            sensor: {
+                                type: "string",
+                                description: "The type of sensor used to create the photo.",
+                            },
+                            exposureMode: {
+                                type: "string",
+                                description: "The exposure mode used to create the photo.",
+                            },
+                            colorSpace: {
+                                type: "string",
+                                description: "The color space of the photo.",
+                            },
+                            whiteBalance: {
+                                type: "string",
+                                description: "The white balance mode used to create the photo.",
+                            },
+                            width: {
+                                type: "number",
+                                description: "The width of the image in pixels.",
+                            },
+                            height: {
+                                type: "number",
+                                description: "The height of the image in pixels.",
+                            },
+                            location: {
+                                type: "object",
+                                description: "The location stored in the image.",
+                                properties: {
+                                    latitude: {
+                                        type: "number",
+                                        description: "The latitude stored in the image.",
+                                    },
+                                    longitude: {
+                                        type: "number",
+                                        description: "The longitude stored in the image.",
+                                    },
+                                    altitude: {
+                                        type: "number",
+                                        description: "The altitude stored in the image.",
+                                    },
+                                },
+                            },
+                            rotation: {
+                                type: "number",
+                                description: "The rotation in clockwise degrees from the image's original orientation.",
+                            },
+                            time: {
+                                type: "string",
+                                description: "The date and time the photo was taken (EXIF DateTime).",
+                            },
+                            cameraMake: {
+                                type: "string",
+                                description: "The make of the camera used to create the photo.",
+                            },
+                            cameraModel: {
+                                type: "string",
+                                description: "The model of the camera used to create the photo.",
+                            },
+                            exposureTime: {
+                                type: "number",
+                                description: "The length of the exposure, in seconds.",
+                            },
+                            aperture: {
+                                type: "number",
+                                description: "The aperture used to create the photo (f-number).",
+                            },
+                            focalLength: {
+                                type: "number",
+                                description: "The focal length used to create the photo, in millimeters.",
+                            },
+                            isoSpeed: {
+                                type: "number",
+                                description: "The ISO speed used to create the photo.",
+                            },
+                            exposureBias: {
+                                type: "number",
+                                description: "The exposure bias of the photo (APEX value).",
+                            },
+                            maxApertureValue: {
+                                type: "number",
+                                description: "The smallest f-number of the lens at the focal length used to create the photo (APEX value).",
+                            },
+                            subjectDistance: {
+                                type: "number",
+                                description: "The distance to the subject of the photo, in meters.",
+                            },
+                            lens: {
+                                type: "string",
+                                description: "The lens used to create the photo.",
+                            },
+                        },
+                    },
+                    videoMediaMetadata: {
+                        type: "object",
+                        description: "Metadata about video media. This will only be present for video types.",
+                        properties: {
+                            width: {
+                                type: "number",
+                                description: "The width of the video in pixels.",
+                            },
+                            height: {
+                                type: "number",
+                                description: "The height of the video in pixels.",
+                            },
+                            durationMillis: {
+                                type: "number",
+                                description: "The duration of the video in milliseconds.",
+                            },
+                        },
+                    },
+                    shortcutDetails: {
+                        type: "object",
+                        description: "Shortcut file details. Only populated for shortcut files, which have the mimeType field set to application/vnd.google-apps.shortcut.",
+                        properties: {
+                            targetId: {
+                                type: "string",
+                                description: "The ID of the file that this shortcut points to.",
+                            },
+                            targetMimeType: {
+                                type: "string",
+                                description: "The MIME type of the file that this shortcut points to. The value of this field is a snapshot of the target's MIME type, captured when the shortcut is created.",
+                            },
+                            targetResourceKey: {
+                                type: "string",
+                                description: "The resource key of the target file.",
+                            },
+                        },
+                    },
+                    contentRestrictions: {
+                        type: "array",
+                        description: "Content restrictions for this file. Only populated if there are content restrictions for this file.",
+                        items: {
+                            type: "object",
+                            description: "A set of restrictions for a content file.",
+                            properties: {
+                                readOnly: {
+                                    type: "boolean",
+                                    description: "Whether the content of the file is read-only. If a file is read-only, a new revision of the file may not be added, comments may not be added or modified, and the title of the file may not be modified.",
+                                },
+                                reason: {
+                                    type: "string",
+                                    description: "Reason for why the content of the file is restricted.",
+                                },
+                                type: {
+                                    type: "string",
+                                    description: "The type of the content restriction. Currently the only possible value is globalContentRestriction.",
+                                },
+                                restrictingUser: {
+                                    type: "object",
+                                    description: "The user who set the content restriction.",
+                                    properties: {
+                                        displayName: {
+                                            type: "string",
+                                            description: "A plain text displayable name for this user.",
+                                        },
+                                        kind: {
+                                            type: "string",
+                                            description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                                        },
+                                        me: {
+                                            type: "boolean",
+                                            description: "Whether this user is the requesting user.",
+                                        },
+                                        permissionId: {
+                                            type: "string",
+                                            description: "The user's ID as visible in Permission resources.",
+                                        },
+                                        emailAddress: {
+                                            type: "string",
+                                            description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                                        },
+                                        photoLink: {
+                                            type: "string",
+                                            description: "A link to the user's profile photo, if available.",
+                                        },
+                                    },
+                                },
+                                restrictionTime: {
+                                    type: "string",
+                                    description: "The time at which the content restriction was set (formatted RFC 3339 timestamp).",
+                                },
+                            },
+                        },
+                    },
+                    resourceKey: {
+                        type: "string",
+                        description: "A key needed to access the item via a shared link.",
+                    },
+                    linkShareMetadata: {
+                        type: "object",
+                        description: "Metadata about the shared link.",
+                        properties: {
+                            securityUpdateEligible: {
+                                type: "boolean",
+                                description: "Indicates whether the link is eligible for security update.",
+                            },
+                            securityUpdateEnabled: {
+                                type: "boolean",
+                                description: "Specifies whether the link requires a password to access.",
+                            },
+                        },
+                    },
+                    labelInfo: {
+                        type: "object",
+                        description: "An overview of the labels on the file.",
+                        properties: {
+                            labels: {
+                                type: "array",
+                                description: "The list of labels contained on the file.",
+                                items: {
+                                    type: "object",
+                                    description: "A label contained on the file",
+                                    properties: {
+                                        id: {
+                                            type: "string",
+                                            description: "The ID of the label.",
+                                        },
+                                        revisionId: {
+                                            type: "string",
+                                            description: "The revision ID of the label.",
+                                        },
+                                        kind: {
+                                            type: "string",
+                                            description: "Identifies what kind of resource this is. Value: the fixed string 'drive#label'.",
+                                        },
+                                        fields: {
+                                            type: "object",
+                                            description: "Additional metadata about this label.",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    sha1Checksum: {
+                        type: "string",
+                        description: "The SHA1 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files.",
+                    },
+                    sha256Checksum: {
+                        type: "string",
+                        description: "The SHA256 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files.",
+                    },
+                },
+            },
+        },
+    },
+};
+exports.GoogleDriveFileMetadataInput = {
+    type: "object",
+    description: "The input for a file from a google drive",
+    properties: {
+        fileId: {
+            type: "string",
+            description: "The id of the file",
+        },
+        supportsAllDrives: {
+            type: "boolean",
+            description: "Whether the requesting application supports both My Drives and shared drives.",
+        },
+        includePermissionsForView: {
+            type: "string",
+            description: "Specifies which additional view's permissions to include in the response. Only 'published' is supported.",
+        },
+        includeLabels: {
+            type: "string",
+            description: "A comma-separated list of IDs of labels to include in the labelInfo part of the response.",
+        },
+    },
+    required: ["fileId"],
+};
+exports.GoogleDriveFileMetadata = {
+    type: "object",
+    description: "A single Drive file",
+    properties: {
+        kind: {
+            type: "string",
+            description: "Identifies what kind of resource this is. Value: the fixed string 'drive#file'.",
+        },
+        driveId: {
+            type: "string",
+            description: "The ID of the shared drive the file resides in. Only populated for items in shared drives.",
+        },
+        fileExtension: {
+            type: "string",
+            description: "The extension of the file. The final component of fullFileExtension. This is only available for files with binary content in Google Drive.",
+        },
+        copyRequiresWriterPermission: {
+            type: "boolean",
+            description: "Whether the options to copy, print, or download this file, should be disabled for readers and commenters.",
+        },
+        md5Checksum: {
+            type: "string",
+            description: "The MD5 checksum for the content of the file. This is only applicable to files with binary content in Google Drive.",
+        },
+        contentHints: {
+            type: "object",
+            description: "Additional information about the content of the file. These fields are never populated in responses.",
+            properties: {
+                indexableText: {
+                    type: "string",
+                    description: "Text to be indexed for the file to improve fullText queries. This is limited to 128KB in length and may contain HTML elements.",
+                },
+                thumbnail: {
+                    type: "object",
+                    description: "A thumbnail for the file. This will only be used if Drive cannot generate a standard thumbnail.",
+                    properties: {
+                        image: {
+                            type: "string",
+                            description: "The URL-safe Base64 encoded bytes of the thumbnail image. It should conform to RFC 4648 section 5.",
+                        },
+                        mimeType: {
+                            type: "string",
+                            description: "The MIME type of the thumbnail.",
+                        },
+                    },
+                },
+            },
+        },
+        writersCanShare: {
+            type: "boolean",
+            description: "Whether users with only writer permission can modify the file's permissions. Not populated for items in shared drives.",
+        },
+        viewedByMe: {
+            type: "boolean",
+            description: "Whether the file has been viewed by this user.",
+        },
+        mimeType: {
+            type: "string",
+            description: "The MIME type of the file. Google Drive will attempt to automatically detect an appropriate value from uploaded content if no value is provided. The value cannot be changed unless a new revision is uploaded. If a file is created with a Google Doc MIME type, the uploaded content will be imported if possible. The supported import formats are published in the About resource.",
+        },
+        parents: {
+            type: "array",
+            description: "The IDs of the parent folders which contain the file. If not specified as part of a create request, the file will be placed directly in the user's My Drive folder. If not specified as part of a copy request, the file will inherit any discoverable parents of the source file. Update requests must use the addParents and removeParents parameters to modify the parents list.",
+            items: {
+                type: "string",
+            },
+        },
+        thumbnailLink: {
+            type: "string",
+            description: "A short-lived link to the file's thumbnail, if available. Typically lasts on the order of hours. Only populated when the requesting app can access the file's content.",
+        },
+        iconLink: {
+            type: "string",
+            description: "A static, unauthenticated link to the file's icon.",
+        },
+        shared: {
+            type: "boolean",
+            description: "Whether the file has been shared. Not populated for items in shared drives.",
+        },
+        lastModifyingUser: {
+            type: "object",
+            description: "The last user to modify the file.",
+            properties: {
+                displayName: {
+                    type: "string",
+                    description: "A plain text displayable name for this user.",
+                },
+                kind: {
+                    type: "string",
+                    description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                },
+                me: {
+                    type: "boolean",
+                    description: "Whether this user is the requesting user.",
+                },
+                permissionId: {
+                    type: "string",
+                    description: "The user's ID as visible in Permission resources.",
+                },
+                emailAddress: {
+                    type: "string",
+                    description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                },
+                photoLink: {
+                    type: "string",
+                    description: "A link to the user's profile photo, if available.",
+                },
+            },
+        },
+        owners: {
+            type: "array",
+            description: "The owners of the file. Currently, only certain legacy files may have more than one owner. Not populated for items in shared drives.",
+            items: {
+                type: "object",
+                description: "A user that ownes the file.",
+                properties: {
+                    displayName: {
+                        type: "string",
+                        description: "A plain text displayable name for this user.",
+                    },
+                    kind: {
+                        type: "string",
+                        description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                    },
+                    me: {
+                        type: "boolean",
+                        description: "Whether this user is the requesting user.",
+                    },
+                    permissionId: {
+                        type: "string",
+                        description: "The user's ID as visible in Permission resources.",
+                    },
+                    emailAddress: {
+                        type: "string",
+                        description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                    },
+                    photoLink: {
+                        type: "string",
+                        description: "A link to the user's profile photo, if available.",
+                    },
+                },
+            },
+        },
+        headRevisionId: {
+            type: "string",
+            description: "The ID of the file's head revision. This is currently only available for files with binary content in Google Drive.",
+        },
+        sharingUser: {
+            type: "object",
+            description: "The user who shared the file with the requesting user, if applicable.",
+            properties: {
+                displayName: {
+                    type: "string",
+                    description: "A plain text displayable name for this user.",
+                },
+                kind: {
+                    type: "string",
+                    description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                },
+                me: {
+                    type: "boolean",
+                    description: "Whether this user is the requesting user.",
+                },
+                permissionId: {
+                    type: "string",
+                    description: "The user's ID as visible in Permission resources.",
+                },
+                emailAddress: {
+                    type: "string",
+                    description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                },
+                photoLink: {
+                    type: "string",
+                    description: "A link to the user's profile photo, if available.",
+                },
+            },
+        },
+        webViewLink: {
+            type: "string",
+            description: "A link for opening the file in a relevant Google editor or viewer in a browser.",
+        },
+        webContentLink: {
+            type: "string",
+            description: "A link for downloading the content of the file in a browser. This is only available for files with binary content in Google Drive.",
+        },
+        size: {
+            type: "string",
+            description: "Size in bytes of blobs and first party editor files. Won't be populated for files that have no size, like shortcuts and folders.",
+        },
+        permissions: {
+            type: "array",
+            description: "The full list of permissions for the file. This is only available if the requesting user can share the file. Not populated for items in shared drives.",
+            items: {
+                type: "object",
+                description: "A permission for a file. A permission grants a user, group, domain or the world access to a file or a folder hierarchy.",
+                properties: {
+                    id: {
+                        type: "string",
+                        description: "The ID of the permission.",
+                    },
+                    type: {
+                        type: "string",
+                        description: "The type of the grantee. Valid values are: - user - group - domain - anyone",
+                    },
+                    displayName: {
+                        type: "string",
+                        description: "The `pretty` name of the value of the permission.",
+                    },
+                    kind: {
+                        type: "string",
+                        description: "Identifies what kind of resource this is. Value: the fixed string 'drive#permission'.",
+                    },
+                    permissionDetails: {
+                        type: "array",
+                        description: " Details of whether the permissions on this shared drive item are inherited or directly on this item. This is an output-only field which is present only for shared drive items.",
+                        items: {
+                            type: "object",
+                            description: "A set of permissions that a user with the effective role can use to access a file or folder.",
+                            properties: {
+                                permissionType: {
+                                    type: "string",
+                                    description: "The type of the permission",
+                                },
+                                inheritedFrom: {
+                                    type: "string",
+                                    description: "The ID of the item from which this permission is inherited. This is an output-only field and is only populated for members of the shared drive.",
+                                },
+                                role: {
+                                    type: "string",
+                                    description: "The role of the permission",
+                                },
+                                inherited: {
+                                    type: "boolean",
+                                    description: "Whether this permission is inherited.",
+                                },
+                            },
+                        },
+                    },
+                    photoLink: {
+                        type: "string",
+                        description: "A link to the user's profile photo, if available.",
+                    },
+                    emailAddress: {
+                        type: "string",
+                        description: "The email address of the user or group to which this permission refers.",
+                    },
+                    role: {
+                        type: "string",
+                        description: "The role granted by this permission. Valid values are: - owner - organizer - fileOrganizer - writer - commenter - reader",
+                    },
+                    allowFileDiscovery: {
+                        type: "boolean",
+                        description: "Whether the permission allows the file to be discovered through search. This is only applicable for permissions of type domain or anyone.",
+                    },
+                    domain: {
+                        type: "string",
+                        description: "The domain to which this permission refers.",
+                    },
+                    expirationTime: {
+                        type: "string",
+                        description: "The time at which this permission will expire (RFC 3339 date-time). Expiration times have the following restrictions: - They can only be set on user and group permissions - The time must be in the future - The time cannot be more than a year in the future",
+                    },
+                    deleted: {
+                        type: "boolean",
+                        description: "Whether the account associated with this permission has been deleted. This field only pertains to user and group permissions.",
+                    },
+                    view: {
+                        type: "string",
+                        description: "Indicates the view for this permission. Only populated for permissions that belong to a view. published is the only supported value.",
+                    },
+                    pendingOwner: {
+                        type: "boolean",
+                        description: "Whether the account associated with this permission is a pending owner. Only populated for user type permissions for files that are not in a shared drive.",
+                    },
+                },
+            },
+        },
+        hasThumbnail: {
+            type: "boolean",
+            description: "Whether the file has a thumbnail.",
+        },
+        spaces: {
+            type: "array",
+            description: "The spaces which contain the file. The currently supported values are 'drive', 'appDataFolder' and 'photos'.",
+            items: {
+                type: "string",
+            },
+        },
+        folderColorRgb: {
+            type: "string",
+            description: "The color for a folder as an RGB hex string.",
+        },
+        id: {
+            type: "string",
+            description: "The ID of the file.",
+        },
+        name: {
+            type: "string",
+            description: "The name of the file. This is not necessarily unique within a folder. Note that for immutable items such as the top level folders of shared drives, My Drive root folder, and Application Data folder the name is constant.",
+        },
+        description: {
+            type: "string",
+            description: "A short description of the file.",
+        },
+        starred: {
+            type: "boolean",
+            description: "Whether the user has starred the file.",
+        },
+        trashed: {
+            type: "boolean",
+            description: "Whether the file has been trashed, either explicitly or from a trashed parent folder. Only the owner may trash a file. The trashed item is excluded from all files.list responses returned for any user who does not own the file. However, all users with access to the file can see the trashed item metadata in an API response. All users with access can copy, download, export, and share the file.",
+        },
+        explicitlyTrashed: {
+            type: "boolean",
+            description: "Whether the file has been explicitly trashed, as opposed to recursively trashed from a parent folder.",
+        },
+        createdTime: {
+            type: "string",
+            description: "The time at which the file was created (RFC 3339 date-time).",
+        },
+        modifiedTime: {
+            type: "string",
+            description: "The last time the file was modified by anyone (RFC 3339 date-time). Note that setting modifiedTime will also update modifiedByMeTime for the user.",
+        },
+        modifiedByMeTime: {
+            type: "string",
+            description: "The last time the file was modified by the user (RFC 3339 date-time).",
+        },
+        viewedByMeTime: {
+            type: "string",
+            description: "The last time the file was viewed by the user (RFC 3339 date-time).",
+        },
+        sharedWithMeTime: {
+            type: "string",
+            description: "The time at which the file was shared with the user, if applicable (RFC 3339 date-time).",
+        },
+        quotaBytesUsed: {
+            type: "string",
+            description: "The number of storage quota bytes used by the file. This includes the head revision as well as previous revisions with keepForever enabled.",
+        },
+        version: {
+            type: "string",
+            description: "A monotonically increasing version number for the file. This reflects every change made to the file on the server, even those not visible to the user.",
+        },
+        originalFilename: {
+            type: "string",
+            description: "The original filename of the uploaded content if available, or else the original value of the name field. This is only available for files with binary content in Google Drive.",
+        },
+        ownedByMe: {
+            type: "boolean",
+            description: "Whether the user owns the file. Not populated for items in shared drives.",
+        },
+        fullFileExtension: {
+            type: "string",
+            description: 'The full file extension extracted from the name field. May contain multiple concatenated extensions, such as "tar.gz". This is only available for files with binary content in Google Drive. This is automatically updated when the name field changes, however it is not cleared if the new name does not contain a valid extension.',
+        },
+        properties: {
+            type: "object",
+            description: "Additional metadata about the file.",
+        },
+        appProperties: {
+            type: "object",
+            description: "Additional metadata about the file.",
+        },
+        isAppAuthorized: {
+            type: "boolean",
+            description: "Whether the file was created or opened by the requesting app.",
+        },
+        capabilities: {
+            type: "object",
+            description: "Capabilities the current user has on this file. Each capability corresponds to a fine-grained action that a user may take.",
+            properties: {
+                canMoveChildrenOutOfDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can move children of this folder outside of the shared drive. This is false when the item is not a folder. Only populated for items in shared drives.",
+                },
+                canReadDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can read the shared drive to which this file belongs. Only populated for items in shared drives.",
+                },
+                canEdit: {
+                    type: "boolean",
+                    description: "Whether the current user can edit this file.",
+                },
+                canCopy: {
+                    type: "boolean",
+                    description: "Whether the current user can copy this file. For an item in a shared drive, whether the current user can copy non-folder descendants of this item, or this item itself if it is not a folder.",
+                },
+                canComment: {
+                    type: "boolean",
+                    description: "Whether the current user can comment on this file.",
+                },
+                canAddChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can add children to this folder. This is always false when the item is not a folder.",
+                },
+                canDelete: {
+                    type: "boolean",
+                    description: "Whether the current user can delete this file.",
+                },
+                canDownload: {
+                    type: "boolean",
+                    description: "Whether the current user can download this file.",
+                },
+                canListChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can list the children of this folder. This is always false when the item is not a folder.",
+                },
+                canRemoveChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can remove children from this folder. This is always false when the item is not a folder.",
+                },
+                canRename: {
+                    type: "boolean",
+                    description: "Whether the current user can rename this file.",
+                },
+                canTrash: {
+                    type: "boolean",
+                    description: "Whether the current user can move this file to trash.",
+                },
+                canReadRevisions: {
+                    type: "boolean",
+                    description: "Whether the current user can read the revisions resource of this file. For a shared drive item, whether revisions of non-folder descendants of this item, or this item itself if it is not a folder, can be read.",
+                },
+                canChangeCopyRequiresWriterPermission: {
+                    type: "boolean",
+                    description: "Whether the current user can change the copyRequiresWriterPermission restriction of this file.",
+                },
+                canUnrtash: {
+                    type: "boolean",
+                    description: "Whether the current user can restore this file from trash.",
+                },
+                canModifyContent: {
+                    type: "boolean",
+                    description: "Whether the current user can modify the content of this file.",
+                },
+                canDeleteChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can delete children of this folder. This is false when the item is not a folder. Only populated for items in shared drives.",
+                },
+                canTrashChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can trash children of this folder. This is false when the item is not a folder. Only populated for items in shared drives.",
+                },
+                canMoveItemOutOfDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can move this item outside of this drive by changing its parent. Note that a request to change the parent of the item may still fail depending on the new parent that is being added.",
+                },
+                canAddMyDriveParent: {
+                    type: "boolean",
+                    description: "Whether the current user can add a parent for the item without removing an existing parent in the same request. Not populated for shared drive files.",
+                },
+                canRemoveMyDriveParent: {
+                    type: "boolean",
+                    description: "Whether the current user can remove a parent from the item without adding another parent in the same request. Not populated for shared drive files.",
+                },
+                canMoveItemWithinDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can move this item within this drive. Note that a request to change the parent of the item may still fail depending on the new parent that is being added and the parent that is being removed.",
+                },
+                canShare: {
+                    type: "boolean",
+                    description: "Whether the current user can modify the sharing settings for this file.",
+                },
+                canMoveChildrenWithinDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can move children of this folder within this drive. This is false when the item is not a folder. Note that a request to move the child may still fail depending on the current user's access to the child and to the destination folder.",
+                },
+                canModifyContentRestriction: {
+                    type: "boolean",
+                    description: "Whether the current user can modify the contentRestrictions on this file.",
+                },
+                canAddFolderFromAnotherDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can add a folder from another drive (different shared drive or My Drive) to this folder. This is false when the item is not a folder. Only populated for items in shared drives.",
+                },
+                canChangeSecurityUpdateEnabled: {
+                    type: "boolean",
+                    description: "Whether the current user can change the securityUpdateEnabled field on link share metadata",
+                },
+                canAcceptOwnership: {
+                    type: "boolean",
+                    description: "Whether the current user can accept the ownership transfer for this file. Not populated for items in shared drives.",
+                },
+                canReadLabels: {
+                    type: "boolean",
+                    description: "Whether the current user can read the labels on the file.",
+                },
+                canModifyLabels: {
+                    type: "boolean",
+                    description: "Whether the current user can modify the file's labels.",
+                },
+            },
+        },
+        hasAugmentedPermissions: {
+            type: "boolean",
+            description: "Whether there are permissions directly on this file. This field is only populated for items in shared drives.",
+        },
+        trashingUser: {
+            type: "object",
+            description: "The user who trashed the file. Only populated for items in shared drives.",
+            properties: {
+                displayName: {
+                    type: "string",
+                    description: "A plain text displayable name for this user.",
+                },
+                kind: {
+                    type: "string",
+                    description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                },
+                me: {
+                    type: "boolean",
+                    description: "Whether this user is the requesting user.",
+                },
+                permissionId: {
+                    type: "string",
+                    description: "The user's ID as visible in Permission resources.",
+                },
+                emailAddress: {
+                    type: "string",
+                    description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                },
+                photoLink: {
+                    type: "string",
+                    description: "A link to the user's profile photo, if available.",
+                },
+            },
+        },
+        thumbnailVersion: {
+            type: "string",
+            description: "The thumbnail version for use in thumbnail cache invalidation.",
+        },
+        trashedTime: {
+            type: "string",
+            description: "The time that the item was trashed (RFC 3339 date-time). Only populated for items in shared drives.",
+        },
+        modifiedByMe: {
+            type: "boolean",
+            description: "Whether the file has been modified by this user.",
+        },
+        permissionIds: {
+            type: "array",
+            description: "A collection of permission IDs for users with access to this file",
+            items: {
+                type: "string",
+                description: "A permission ID from a permission for this file.",
+            },
+        },
+        imageMediaMetadata: {
+            type: "object",
+            description: "Metadata about image media. This will only be present for image types, and its contents will depend on what can be parsed from the image content.",
+            properties: {
+                flashUsed: {
+                    type: "boolean",
+                    description: "Whether a flash was used in taking this image.",
+                },
+                meteringMode: {
+                    type: "string",
+                    description: "The metering mode used to create the photo.",
+                },
+                sensor: {
+                    type: "string",
+                    description: "The type of sensor used to create the photo.",
+                },
+                exposureMode: {
+                    type: "string",
+                    description: "The exposure mode used to create the photo.",
+                },
+                colorSpace: {
+                    type: "string",
+                    description: "The color space of the photo.",
+                },
+                whiteBalance: {
+                    type: "string",
+                    description: "The white balance mode used to create the photo.",
+                },
+                width: {
+                    type: "number",
+                    description: "The width of the image in pixels.",
+                },
+                height: {
+                    type: "number",
+                    description: "The height of the image in pixels.",
+                },
+                location: {
+                    type: "object",
+                    description: "The location stored in the image.",
+                    properties: {
+                        latitude: {
+                            type: "number",
+                            description: "The latitude stored in the image.",
+                        },
+                        longitude: {
+                            type: "number",
+                            description: "The longitude stored in the image.",
+                        },
+                        altitude: {
+                            type: "number",
+                            description: "The altitude stored in the image.",
+                        },
+                    },
+                },
+                rotation: {
+                    type: "number",
+                    description: "The rotation in clockwise degrees from the image's original orientation.",
+                },
+                time: {
+                    type: "string",
+                    description: "The date and time the photo was taken (EXIF DateTime).",
+                },
+                cameraMake: {
+                    type: "string",
+                    description: "The make of the camera used to create the photo.",
+                },
+                cameraModel: {
+                    type: "string",
+                    description: "The model of the camera used to create the photo.",
+                },
+                exposureTime: {
+                    type: "number",
+                    description: "The length of the exposure, in seconds.",
+                },
+                aperture: {
+                    type: "number",
+                    description: "The aperture used to create the photo (f-number).",
+                },
+                focalLength: {
+                    type: "number",
+                    description: "The focal length used to create the photo, in millimeters.",
+                },
+                isoSpeed: {
+                    type: "number",
+                    description: "The ISO speed used to create the photo.",
+                },
+                exposureBias: {
+                    type: "number",
+                    description: "The exposure bias of the photo (APEX value).",
+                },
+                maxApertureValue: {
+                    type: "number",
+                    description: "The smallest f-number of the lens at the focal length used to create the photo (APEX value).",
+                },
+                subjectDistance: {
+                    type: "number",
+                    description: "The distance to the subject of the photo, in meters.",
+                },
+                lens: {
+                    type: "string",
+                    description: "The lens used to create the photo.",
+                },
+            },
+        },
+        videoMediaMetadata: {
+            type: "object",
+            description: "Metadata about video media. This will only be present for video types.",
+            properties: {
+                width: {
+                    type: "number",
+                    description: "The width of the video in pixels.",
+                },
+                height: {
+                    type: "number",
+                    description: "The height of the video in pixels.",
+                },
+                durationMillis: {
+                    type: "number",
+                    description: "The duration of the video in milliseconds.",
+                },
+            },
+        },
+        shortcutDetails: {
+            type: "object",
+            description: "Shortcut file details. Only populated for shortcut files, which have the mimeType field set to application/vnd.google-apps.shortcut.",
+            properties: {
+                targetId: {
+                    type: "string",
+                    description: "The ID of the file that this shortcut points to.",
+                },
+                targetMimeType: {
+                    type: "string",
+                    description: "The MIME type of the file that this shortcut points to. The value of this field is a snapshot of the target's MIME type, captured when the shortcut is created.",
+                },
+                targetResourceKey: {
+                    type: "string",
+                    description: "The resource key of the target file.",
+                },
+            },
+        },
+        contentRestrictions: {
+            type: "array",
+            description: "Content restrictions for this file. Only populated if there are content restrictions for this file.",
+            items: {
+                type: "object",
+                description: "A set of restrictions for a content file.",
+                properties: {
+                    readOnly: {
+                        type: "boolean",
+                        description: "Whether the content of the file is read-only. If a file is read-only, a new revision of the file may not be added, comments may not be added or modified, and the title of the file may not be modified.",
+                    },
+                    reason: {
+                        type: "string",
+                        description: "Reason for why the content of the file is restricted.",
+                    },
+                    type: {
+                        type: "string",
+                        description: "The type of the content restriction. Currently the only possible value is globalContentRestriction.",
+                    },
+                    restrictingUser: {
+                        type: "object",
+                        description: "The user who set the content restriction.",
+                        properties: {
+                            displayName: {
+                                type: "string",
+                                description: "A plain text displayable name for this user.",
+                            },
+                            kind: {
+                                type: "string",
+                                description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                            },
+                            me: {
+                                type: "boolean",
+                                description: "Whether this user is the requesting user.",
+                            },
+                            permissionId: {
+                                type: "string",
+                                description: "The user's ID as visible in Permission resources.",
+                            },
+                            emailAddress: {
+                                type: "string",
+                                description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                            },
+                            photoLink: {
+                                type: "string",
+                                description: "A link to the user's profile photo, if available.",
+                            },
+                        },
+                    },
+                    restrictionTime: {
+                        type: "string",
+                        description: "The time at which the content restriction was set (formatted RFC 3339 timestamp).",
+                    },
+                },
+            },
+        },
+        resourceKey: {
+            type: "string",
+            description: "A key needed to access the item via a shared link.",
+        },
+        linkShareMetadata: {
+            type: "object",
+            description: "Metadata about the shared link.",
+            properties: {
+                securityUpdateEligible: {
+                    type: "boolean",
+                    description: "Indicates whether the link is eligible for security update.",
+                },
+                securityUpdateEnabled: {
+                    type: "boolean",
+                    description: "Specifies whether the link requires a password to access.",
+                },
+            },
+        },
+        labelInfo: {
+            type: "object",
+            description: "An overview of the labels on the file.",
+            properties: {
+                labels: {
+                    type: "array",
+                    description: "The list of labels contained on the file.",
+                    items: {
+                        type: "object",
+                        description: "A label contained on the file",
+                        properties: {
+                            id: {
+                                type: "string",
+                                description: "The ID of the label.",
+                            },
+                            revisionId: {
+                                type: "string",
+                                description: "The revision ID of the label.",
+                            },
+                            kind: {
+                                type: "string",
+                                description: "Identifies what kind of resource this is. Value: the fixed string 'drive#label'.",
+                            },
+                            fields: {
+                                type: "object",
+                                description: "Additional metadata about this label.",
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        sha1Checksum: {
+            type: "string",
+            description: "The SHA1 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files.",
+        },
+        sha256Checksum: {
+            type: "string",
+            description: "The SHA256 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files.",
+        },
+    },
+};
+exports.GoogleDriveFileInput = {
+    type: "object",
+    description: "The input for a file from a google drive",
+    properties: {
+        fileId: {
+            type: "string",
+            description: "The id of the file",
+        },
+        acknowledgeAbuse: {
+            type: "boolean",
+            description: "Whether the user is acknowledging the risk of downloading known malware or other abusive files.",
+        },
+        supportsAllDrives: {
+            type: "boolean",
+            description: "Whether the requesting application supports both My Drives and shared drives.",
+        },
+        includePermissionsForView: {
+            type: "string",
+            description: "Specifies which additional view's permissions to include in the response. Only 'published' is supported.",
+        },
+        includeLabels: {
+            type: "string",
+            description: "A comma-separated list of IDs of labels to include in the labelInfo part of the response.",
+        },
+    },
+    required: ["fileId", "acknowledgeAbuse"],
+};
+exports.GoogleDriveFile = {
+    type: "object",
+    description: "A single Drive file",
+    properties: {
+        kind: {
+            type: "string",
+            description: "Identifies what kind of resource this is. Value: the fixed string 'drive#file'.",
+        },
+        driveId: {
+            type: "string",
+            description: "The ID of the shared drive the file resides in. Only populated for items in shared drives.",
+        },
+        fileExtension: {
+            type: "string",
+            description: "The extension of the file. The final component of fullFileExtension. This is only available for files with binary content in Google Drive.",
+        },
+        copyRequiresWriterPermission: {
+            type: "boolean",
+            description: "Whether the options to copy, print, or download this file, should be disabled for readers and commenters.",
+        },
+        md5Checksum: {
+            type: "string",
+            description: "The MD5 checksum for the content of the file. This is only applicable to files with binary content in Google Drive.",
+        },
+        contentHints: {
+            type: "object",
+            description: "Additional information about the content of the file. These fields are never populated in responses.",
+            properties: {
+                indexableText: {
+                    type: "string",
+                    description: "Text to be indexed for the file to improve fullText queries. This is limited to 128KB in length and may contain HTML elements.",
+                },
+                thumbnail: {
+                    type: "object",
+                    description: "A thumbnail for the file. This will only be used if Drive cannot generate a standard thumbnail.",
+                    properties: {
+                        image: {
+                            type: "string",
+                            description: "The URL-safe Base64 encoded bytes of the thumbnail image. It should conform to RFC 4648 section 5.",
+                        },
+                        mimeType: {
+                            type: "string",
+                            description: "The MIME type of the thumbnail.",
+                        },
+                    },
+                },
+            },
+        },
+        writersCanShare: {
+            type: "boolean",
+            description: "Whether users with only writer permission can modify the file's permissions. Not populated for items in shared drives.",
+        },
+        viewedByMe: {
+            type: "boolean",
+            description: "Whether the file has been viewed by this user.",
+        },
+        mimeType: {
+            type: "string",
+            description: "The MIME type of the file. Google Drive will attempt to automatically detect an appropriate value from uploaded content if no value is provided. The value cannot be changed unless a new revision is uploaded. If a file is created with a Google Doc MIME type, the uploaded content will be imported if possible. The supported import formats are published in the About resource.",
+        },
+        parents: {
+            type: "array",
+            description: "The IDs of the parent folders which contain the file. If not specified as part of a create request, the file will be placed directly in the user's My Drive folder. If not specified as part of a copy request, the file will inherit any discoverable parents of the source file. Update requests must use the addParents and removeParents parameters to modify the parents list.",
+            items: {
+                type: "string",
+            },
+        },
+        thumbnailLink: {
+            type: "string",
+            description: "A short-lived link to the file's thumbnail, if available. Typically lasts on the order of hours. Only populated when the requesting app can access the file's content.",
+        },
+        iconLink: {
+            type: "string",
+            description: "A static, unauthenticated link to the file's icon.",
+        },
+        shared: {
+            type: "boolean",
+            description: "Whether the file has been shared. Not populated for items in shared drives.",
+        },
+        lastModifyingUser: {
+            type: "object",
+            description: "The last user to modify the file.",
+            properties: {
+                displayName: {
+                    type: "string",
+                    description: "A plain text displayable name for this user.",
+                },
+                kind: {
+                    type: "string",
+                    description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                },
+                me: {
+                    type: "boolean",
+                    description: "Whether this user is the requesting user.",
+                },
+                permissionId: {
+                    type: "string",
+                    description: "The user's ID as visible in Permission resources.",
+                },
+                emailAddress: {
+                    type: "string",
+                    description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                },
+                photoLink: {
+                    type: "string",
+                    description: "A link to the user's profile photo, if available.",
+                },
+            },
+        },
+        owners: {
+            type: "array",
+            description: "The owners of the file. Currently, only certain legacy files may have more than one owner. Not populated for items in shared drives.",
+            items: {
+                type: "object",
+                description: "A user that ownes the file.",
+                properties: {
+                    displayName: {
+                        type: "string",
+                        description: "A plain text displayable name for this user.",
+                    },
+                    kind: {
+                        type: "string",
+                        description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                    },
+                    me: {
+                        type: "boolean",
+                        description: "Whether this user is the requesting user.",
+                    },
+                    permissionId: {
+                        type: "string",
+                        description: "The user's ID as visible in Permission resources.",
+                    },
+                    emailAddress: {
+                        type: "string",
+                        description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                    },
+                    photoLink: {
+                        type: "string",
+                        description: "A link to the user's profile photo, if available.",
+                    },
+                },
+            },
+        },
+        headRevisionId: {
+            type: "string",
+            description: "The ID of the file's head revision. This is currently only available for files with binary content in Google Drive.",
+        },
+        sharingUser: {
+            type: "object",
+            description: "The user who shared the file with the requesting user, if applicable.",
+            properties: {
+                displayName: {
+                    type: "string",
+                    description: "A plain text displayable name for this user.",
+                },
+                kind: {
+                    type: "string",
+                    description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                },
+                me: {
+                    type: "boolean",
+                    description: "Whether this user is the requesting user.",
+                },
+                permissionId: {
+                    type: "string",
+                    description: "The user's ID as visible in Permission resources.",
+                },
+                emailAddress: {
+                    type: "string",
+                    description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                },
+                photoLink: {
+                    type: "string",
+                    description: "A link to the user's profile photo, if available.",
+                },
+            },
+        },
+        webViewLink: {
+            type: "string",
+            description: "A link for opening the file in a relevant Google editor or viewer in a browser.",
+        },
+        webContentLink: {
+            type: "string",
+            description: "A link for downloading the content of the file in a browser. This is only available for files with binary content in Google Drive.",
+        },
+        size: {
+            type: "string",
+            description: "Size in bytes of blobs and first party editor files. Won't be populated for files that have no size, like shortcuts and folders.",
+        },
+        permissions: {
+            type: "array",
+            description: "The full list of permissions for the file. This is only available if the requesting user can share the file. Not populated for items in shared drives.",
+            items: {
+                type: "object",
+                description: "A permission for a file. A permission grants a user, group, domain or the world access to a file or a folder hierarchy.",
+                properties: {
+                    id: {
+                        type: "string",
+                        description: "The ID of the permission.",
+                    },
+                    type: {
+                        type: "string",
+                        description: "The type of the grantee. Valid values are: - user - group - domain - anyone",
+                    },
+                    displayName: {
+                        type: "string",
+                        description: "The `pretty` name of the value of the permission.",
+                    },
+                    kind: {
+                        type: "string",
+                        description: "Identifies what kind of resource this is. Value: the fixed string 'drive#permission'.",
+                    },
+                    permissionDetails: {
+                        type: "array",
+                        description: " Details of whether the permissions on this shared drive item are inherited or directly on this item. This is an output-only field which is present only for shared drive items.",
+                        items: {
+                            type: "object",
+                            description: "A set of permissions that a user with the effective role can use to access a file or folder.",
+                            properties: {
+                                permissionType: {
+                                    type: "string",
+                                    description: "The type of the permission",
+                                },
+                                inheritedFrom: {
+                                    type: "string",
+                                    description: "The ID of the item from which this permission is inherited. This is an output-only field and is only populated for members of the shared drive.",
+                                },
+                                role: {
+                                    type: "string",
+                                    description: "The role of the permission",
+                                },
+                                inherited: {
+                                    type: "boolean",
+                                    description: "Whether this permission is inherited.",
+                                },
+                            },
+                        },
+                    },
+                    photoLink: {
+                        type: "string",
+                        description: "A link to the user's profile photo, if available.",
+                    },
+                    emailAddress: {
+                        type: "string",
+                        description: "The email address of the user or group to which this permission refers.",
+                    },
+                    role: {
+                        type: "string",
+                        description: "The role granted by this permission. Valid values are: - owner - organizer - fileOrganizer - writer - commenter - reader",
+                    },
+                    allowFileDiscovery: {
+                        type: "boolean",
+                        description: "Whether the permission allows the file to be discovered through search. This is only applicable for permissions of type domain or anyone.",
+                    },
+                    domain: {
+                        type: "string",
+                        description: "The domain to which this permission refers.",
+                    },
+                    expirationTime: {
+                        type: "string",
+                        description: "The time at which this permission will expire (RFC 3339 date-time). Expiration times have the following restrictions: - They can only be set on user and group permissions - The time must be in the future - The time cannot be more than a year in the future",
+                    },
+                    deleted: {
+                        type: "boolean",
+                        description: "Whether the account associated with this permission has been deleted. This field only pertains to user and group permissions.",
+                    },
+                    view: {
+                        type: "string",
+                        description: "Indicates the view for this permission. Only populated for permissions that belong to a view. published is the only supported value.",
+                    },
+                    pendingOwner: {
+                        type: "boolean",
+                        description: "Whether the account associated with this permission is a pending owner. Only populated for user type permissions for files that are not in a shared drive.",
+                    },
+                },
+            },
+        },
+        hasThumbnail: {
+            type: "boolean",
+            description: "Whether the file has a thumbnail.",
+        },
+        spaces: {
+            type: "array",
+            description: "The spaces which contain the file. The currently supported values are 'drive', 'appDataFolder' and 'photos'.",
+            items: {
+                type: "string",
+            },
+        },
+        folderColorRgb: {
+            type: "string",
+            description: "The color for a folder as an RGB hex string.",
+        },
+        id: {
+            type: "string",
+            description: "The ID of the file.",
+        },
+        name: {
+            type: "string",
+            description: "The name of the file. This is not necessarily unique within a folder. Note that for immutable items such as the top level folders of shared drives, My Drive root folder, and Application Data folder the name is constant.",
+        },
+        description: {
+            type: "string",
+            description: "A short description of the file.",
+        },
+        starred: {
+            type: "boolean",
+            description: "Whether the user has starred the file.",
+        },
+        trashed: {
+            type: "boolean",
+            description: "Whether the file has been trashed, either explicitly or from a trashed parent folder. Only the owner may trash a file. The trashed item is excluded from all files.list responses returned for any user who does not own the file. However, all users with access to the file can see the trashed item metadata in an API response. All users with access can copy, download, export, and share the file.",
+        },
+        explicitlyTrashed: {
+            type: "boolean",
+            description: "Whether the file has been explicitly trashed, as opposed to recursively trashed from a parent folder.",
+        },
+        createdTime: {
+            type: "string",
+            description: "The time at which the file was created (RFC 3339 date-time).",
+        },
+        modifiedTime: {
+            type: "string",
+            description: "The last time the file was modified by anyone (RFC 3339 date-time). Note that setting modifiedTime will also update modifiedByMeTime for the user.",
+        },
+        modifiedByMeTime: {
+            type: "string",
+            description: "The last time the file was modified by the user (RFC 3339 date-time).",
+        },
+        viewedByMeTime: {
+            type: "string",
+            description: "The last time the file was viewed by the user (RFC 3339 date-time).",
+        },
+        sharedWithMeTime: {
+            type: "string",
+            description: "The time at which the file was shared with the user, if applicable (RFC 3339 date-time).",
+        },
+        quotaBytesUsed: {
+            type: "string",
+            description: "The number of storage quota bytes used by the file. This includes the head revision as well as previous revisions with keepForever enabled.",
+        },
+        version: {
+            type: "string",
+            description: "A monotonically increasing version number for the file. This reflects every change made to the file on the server, even those not visible to the user.",
+        },
+        originalFilename: {
+            type: "string",
+            description: "The original filename of the uploaded content if available, or else the original value of the name field. This is only available for files with binary content in Google Drive.",
+        },
+        ownedByMe: {
+            type: "boolean",
+            description: "Whether the user owns the file. Not populated for items in shared drives.",
+        },
+        fullFileExtension: {
+            type: "string",
+            description: 'The full file extension extracted from the name field. May contain multiple concatenated extensions, such as "tar.gz". This is only available for files with binary content in Google Drive. This is automatically updated when the name field changes, however it is not cleared if the new name does not contain a valid extension.',
+        },
+        properties: {
+            type: "object",
+            description: "Additional metadata about the file.",
+        },
+        appProperties: {
+            type: "object",
+            description: "Additional metadata about the file.",
+        },
+        isAppAuthorized: {
+            type: "boolean",
+            description: "Whether the file was created or opened by the requesting app.",
+        },
+        capabilities: {
+            type: "object",
+            description: "Capabilities the current user has on this file. Each capability corresponds to a fine-grained action that a user may take.",
+            properties: {
+                canMoveChildrenOutOfDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can move children of this folder outside of the shared drive. This is false when the item is not a folder. Only populated for items in shared drives.",
+                },
+                canReadDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can read the shared drive to which this file belongs. Only populated for items in shared drives.",
+                },
+                canEdit: {
+                    type: "boolean",
+                    description: "Whether the current user can edit this file.",
+                },
+                canCopy: {
+                    type: "boolean",
+                    description: "Whether the current user can copy this file. For an item in a shared drive, whether the current user can copy non-folder descendants of this item, or this item itself if it is not a folder.",
+                },
+                canComment: {
+                    type: "boolean",
+                    description: "Whether the current user can comment on this file.",
+                },
+                canAddChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can add children to this folder. This is always false when the item is not a folder.",
+                },
+                canDelete: {
+                    type: "boolean",
+                    description: "Whether the current user can delete this file.",
+                },
+                canDownload: {
+                    type: "boolean",
+                    description: "Whether the current user can download this file.",
+                },
+                canListChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can list the children of this folder. This is always false when the item is not a folder.",
+                },
+                canRemoveChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can remove children from this folder. This is always false when the item is not a folder.",
+                },
+                canRename: {
+                    type: "boolean",
+                    description: "Whether the current user can rename this file.",
+                },
+                canTrash: {
+                    type: "boolean",
+                    description: "Whether the current user can move this file to trash.",
+                },
+                canReadRevisions: {
+                    type: "boolean",
+                    description: "Whether the current user can read the revisions resource of this file. For a shared drive item, whether revisions of non-folder descendants of this item, or this item itself if it is not a folder, can be read.",
+                },
+                canChangeCopyRequiresWriterPermission: {
+                    type: "boolean",
+                    description: "Whether the current user can change the copyRequiresWriterPermission restriction of this file.",
+                },
+                canUnrtash: {
+                    type: "boolean",
+                    description: "Whether the current user can restore this file from trash.",
+                },
+                canModifyContent: {
+                    type: "boolean",
+                    description: "Whether the current user can modify the content of this file.",
+                },
+                canDeleteChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can delete children of this folder. This is false when the item is not a folder. Only populated for items in shared drives.",
+                },
+                canTrashChildren: {
+                    type: "boolean",
+                    description: "Whether the current user can trash children of this folder. This is false when the item is not a folder. Only populated for items in shared drives.",
+                },
+                canMoveItemOutOfDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can move this item outside of this drive by changing its parent. Note that a request to change the parent of the item may still fail depending on the new parent that is being added.",
+                },
+                canAddMyDriveParent: {
+                    type: "boolean",
+                    description: "Whether the current user can add a parent for the item without removing an existing parent in the same request. Not populated for shared drive files.",
+                },
+                canRemoveMyDriveParent: {
+                    type: "boolean",
+                    description: "Whether the current user can remove a parent from the item without adding another parent in the same request. Not populated for shared drive files.",
+                },
+                canMoveItemWithinDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can move this item within this drive. Note that a request to change the parent of the item may still fail depending on the new parent that is being added and the parent that is being removed.",
+                },
+                canShare: {
+                    type: "boolean",
+                    description: "Whether the current user can modify the sharing settings for this file.",
+                },
+                canMoveChildrenWithinDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can move children of this folder within this drive. This is false when the item is not a folder. Note that a request to move the child may still fail depending on the current user's access to the child and to the destination folder.",
+                },
+                canModifyContentRestriction: {
+                    type: "boolean",
+                    description: "Whether the current user can modify the contentRestrictions on this file.",
+                },
+                canAddFolderFromAnotherDrive: {
+                    type: "boolean",
+                    description: "Whether the current user can add a folder from another drive (different shared drive or My Drive) to this folder. This is false when the item is not a folder. Only populated for items in shared drives.",
+                },
+                canChangeSecurityUpdateEnabled: {
+                    type: "boolean",
+                    description: "Whether the current user can change the securityUpdateEnabled field on link share metadata",
+                },
+                canAcceptOwnership: {
+                    type: "boolean",
+                    description: "Whether the current user can accept the ownership transfer for this file. Not populated for items in shared drives.",
+                },
+                canReadLabels: {
+                    type: "boolean",
+                    description: "Whether the current user can read the labels on the file.",
+                },
+                canModifyLabels: {
+                    type: "boolean",
+                    description: "Whether the current user can modify the file's labels.",
+                },
+            },
+        },
+        hasAugmentedPermissions: {
+            type: "boolean",
+            description: "Whether there are permissions directly on this file. This field is only populated for items in shared drives.",
+        },
+        trashingUser: {
+            type: "object",
+            description: "The user who trashed the file. Only populated for items in shared drives.",
+            properties: {
+                displayName: {
+                    type: "string",
+                    description: "A plain text displayable name for this user.",
+                },
+                kind: {
+                    type: "string",
+                    description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                },
+                me: {
+                    type: "boolean",
+                    description: "Whether this user is the requesting user.",
+                },
+                permissionId: {
+                    type: "string",
+                    description: "The user's ID as visible in Permission resources.",
+                },
+                emailAddress: {
+                    type: "string",
+                    description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                },
+                photoLink: {
+                    type: "string",
+                    description: "A link to the user's profile photo, if available.",
+                },
+            },
+        },
+        thumbnailVersion: {
+            type: "string",
+            description: "The thumbnail version for use in thumbnail cache invalidation.",
+        },
+        trashedTime: {
+            type: "string",
+            description: "The time that the item was trashed (RFC 3339 date-time). Only populated for items in shared drives.",
+        },
+        modifiedByMe: {
+            type: "boolean",
+            description: "Whether the file has been modified by this user.",
+        },
+        permissionIds: {
+            type: "array",
+            description: "A collection of permission IDs for users with access to this file",
+            items: {
+                type: "string",
+                description: "A permission ID from a permission for this file.",
+            },
+        },
+        imageMediaMetadata: {
+            type: "object",
+            description: "Metadata about image media. This will only be present for image types, and its contents will depend on what can be parsed from the image content.",
+            properties: {
+                flashUsed: {
+                    type: "boolean",
+                    description: "Whether a flash was used in taking this image.",
+                },
+                meteringMode: {
+                    type: "string",
+                    description: "The metering mode used to create the photo.",
+                },
+                sensor: {
+                    type: "string",
+                    description: "The type of sensor used to create the photo.",
+                },
+                exposureMode: {
+                    type: "string",
+                    description: "The exposure mode used to create the photo.",
+                },
+                colorSpace: {
+                    type: "string",
+                    description: "The color space of the photo.",
+                },
+                whiteBalance: {
+                    type: "string",
+                    description: "The white balance mode used to create the photo.",
+                },
+                width: {
+                    type: "number",
+                    description: "The width of the image in pixels.",
+                },
+                height: {
+                    type: "number",
+                    description: "The height of the image in pixels.",
+                },
+                location: {
+                    type: "object",
+                    description: "The location stored in the image.",
+                    properties: {
+                        latitude: {
+                            type: "number",
+                            description: "The latitude stored in the image.",
+                        },
+                        longitude: {
+                            type: "number",
+                            description: "The longitude stored in the image.",
+                        },
+                        altitude: {
+                            type: "number",
+                            description: "The altitude stored in the image.",
+                        },
+                    },
+                },
+                rotation: {
+                    type: "number",
+                    description: "The rotation in clockwise degrees from the image's original orientation.",
+                },
+                time: {
+                    type: "string",
+                    description: "The date and time the photo was taken (EXIF DateTime).",
+                },
+                cameraMake: {
+                    type: "string",
+                    description: "The make of the camera used to create the photo.",
+                },
+                cameraModel: {
+                    type: "string",
+                    description: "The model of the camera used to create the photo.",
+                },
+                exposureTime: {
+                    type: "number",
+                    description: "The length of the exposure, in seconds.",
+                },
+                aperture: {
+                    type: "number",
+                    description: "The aperture used to create the photo (f-number).",
+                },
+                focalLength: {
+                    type: "number",
+                    description: "The focal length used to create the photo, in millimeters.",
+                },
+                isoSpeed: {
+                    type: "number",
+                    description: "The ISO speed used to create the photo.",
+                },
+                exposureBias: {
+                    type: "number",
+                    description: "The exposure bias of the photo (APEX value).",
+                },
+                maxApertureValue: {
+                    type: "number",
+                    description: "The smallest f-number of the lens at the focal length used to create the photo (APEX value).",
+                },
+                subjectDistance: {
+                    type: "number",
+                    description: "The distance to the subject of the photo, in meters.",
+                },
+                lens: {
+                    type: "string",
+                    description: "The lens used to create the photo.",
+                },
+            },
+        },
+        videoMediaMetadata: {
+            type: "object",
+            description: "Metadata about video media. This will only be present for video types.",
+            properties: {
+                width: {
+                    type: "number",
+                    description: "The width of the video in pixels.",
+                },
+                height: {
+                    type: "number",
+                    description: "The height of the video in pixels.",
+                },
+                durationMillis: {
+                    type: "number",
+                    description: "The duration of the video in milliseconds.",
+                },
+            },
+        },
+        shortcutDetails: {
+            type: "object",
+            description: "Shortcut file details. Only populated for shortcut files, which have the mimeType field set to application/vnd.google-apps.shortcut.",
+            properties: {
+                targetId: {
+                    type: "string",
+                    description: "The ID of the file that this shortcut points to.",
+                },
+                targetMimeType: {
+                    type: "string",
+                    description: "The MIME type of the file that this shortcut points to. The value of this field is a snapshot of the target's MIME type, captured when the shortcut is created.",
+                },
+                targetResourceKey: {
+                    type: "string",
+                    description: "The resource key of the target file.",
+                },
+            },
+        },
+        contentRestrictions: {
+            type: "array",
+            description: "Content restrictions for this file. Only populated if there are content restrictions for this file.",
+            items: {
+                type: "object",
+                description: "A set of restrictions for a content file.",
+                properties: {
+                    readOnly: {
+                        type: "boolean",
+                        description: "Whether the content of the file is read-only. If a file is read-only, a new revision of the file may not be added, comments may not be added or modified, and the title of the file may not be modified.",
+                    },
+                    reason: {
+                        type: "string",
+                        description: "Reason for why the content of the file is restricted.",
+                    },
+                    type: {
+                        type: "string",
+                        description: "The type of the content restriction. Currently the only possible value is globalContentRestriction.",
+                    },
+                    restrictingUser: {
+                        type: "object",
+                        description: "The user who set the content restriction.",
+                        properties: {
+                            displayName: {
+                                type: "string",
+                                description: "A plain text displayable name for this user.",
+                            },
+                            kind: {
+                                type: "string",
+                                description: "Identifies what kind of resource this is. Value: the fixed string 'drive#user'.",
+                            },
+                            me: {
+                                type: "boolean",
+                                description: "Whether this user is the requesting user.",
+                            },
+                            permissionId: {
+                                type: "string",
+                                description: "The user's ID as visible in Permission resources.",
+                            },
+                            emailAddress: {
+                                type: "string",
+                                description: "The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester.",
+                            },
+                            photoLink: {
+                                type: "string",
+                                description: "A link to the user's profile photo, if available.",
+                            },
+                        },
+                    },
+                    restrictionTime: {
+                        type: "string",
+                        description: "The time at which the content restriction was set (formatted RFC 3339 timestamp).",
+                    },
+                },
+            },
+        },
+        resourceKey: {
+            type: "string",
+            description: "A key needed to access the item via a shared link.",
+        },
+        linkShareMetadata: {
+            type: "object",
+            description: "Metadata about the shared link.",
+            properties: {
+                securityUpdateEligible: {
+                    type: "boolean",
+                    description: "Indicates whether the link is eligible for security update.",
+                },
+                securityUpdateEnabled: {
+                    type: "boolean",
+                    description: "Specifies whether the link requires a password to access.",
+                },
+            },
+        },
+        labelInfo: {
+            type: "object",
+            description: "An overview of the labels on the file.",
+            properties: {
+                labels: {
+                    type: "array",
+                    description: "The list of labels contained on the file.",
+                    items: {
+                        type: "object",
+                        description: "A label contained on the file",
+                        properties: {
+                            id: {
+                                type: "string",
+                                description: "The ID of the label.",
+                            },
+                            revisionId: {
+                                type: "string",
+                                description: "The revision ID of the label.",
+                            },
+                            kind: {
+                                type: "string",
+                                description: "Identifies what kind of resource this is. Value: the fixed string 'drive#label'.",
+                            },
+                            fields: {
+                                type: "object",
+                                description: "Additional metadata about this label.",
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        sha1Checksum: {
+            type: "string",
+            description: "The SHA1 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files.",
+        },
+        sha256Checksum: {
+            type: "string",
+            description: "The SHA256 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files.",
         },
     },
 };

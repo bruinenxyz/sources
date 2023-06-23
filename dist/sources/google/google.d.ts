@@ -10,7 +10,7 @@ export declare class Google extends OAuth2Source implements Source {
     getToken(credential: string): Promise<{
         accessToken: any;
     }>;
-    getBaseUrl: (resourceName: string) => "https://gmail.googleapis.com/gmail/v1/users/me" | "https://www.googleapis.com/calendar/v3";
+    getBaseUrl: (resourceName: string) => "https://gmail.googleapis.com/gmail/v1/users/me" | "https://www.googleapis.com/calendar/v3" | "https://www.googleapis.com/drive/v3";
     getAuthHeaders: (credential: {
         accessToken: string;
         refreshToken: string;

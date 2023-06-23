@@ -32,11 +32,21 @@ import {
   GoogleEvents,
   GoogleEventInput,
   GoogleEvent,
+  GoogleDrivesInput,
+  GoogleDrives,
+  GoogleDriveInput,
+  GoogleDrive,
+  GoogleDriveFilesInput,
+  GoogleDriveFiles,
+  GoogleDriveFileMetadataInput,
+  GoogleDriveFileMetadata,
+  GoogleDriveFileInput,
+  GoogleDriveFile,
 } from "./google.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
 import * as _ from "lodash";
-import { raw } from "express";
+import qs from "qs";
 
 type GoogleProfileType = FromSchema<typeof GoogleProfile>;
 type GoogleDraftsInputType = FromSchema<typeof GoogleDraftsInput>;
@@ -68,11 +78,24 @@ type GoogleEventsInputType = FromSchema<typeof GoogleEventsInput>;
 type GoogleEventsType = FromSchema<typeof GoogleEvents>;
 type GoogleEventInputType = FromSchema<typeof GoogleEventInput>;
 type GoogleEventType = FromSchema<typeof GoogleEvent>;
+type GoogleDrivesInputType = FromSchema<typeof GoogleDrivesInput>;
+type GoogleDrivesType = FromSchema<typeof GoogleDrives>;
+type GoogleDriveInputType = FromSchema<typeof GoogleDriveInput>;
+type GoogleDriveType = FromSchema<typeof GoogleDrive>;
+type GoogleDriveFilesInputType = FromSchema<typeof GoogleDriveFilesInput>;
+type GoogleDriveFilesType = FromSchema<typeof GoogleDriveFiles>;
+type GoogleDriveFileMetadataInputType = FromSchema<
+  typeof GoogleDriveFileMetadataInput
+>;
+type GoogleDriveFileMetadataType = FromSchema<typeof GoogleDriveFileMetadata>;
+type GoogleDriveFileInputType = FromSchema<typeof GoogleDriveFileInput>;
+type GoogleDriveFileType = FromSchema<typeof GoogleDriveFile>;
 
 const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
 const google_token_url = "https://oauth2.googleapis.com";
 const google_gmail_url = "https://gmail.googleapis.com/gmail/v1/users/me";
 const google_calendar_url = "https://www.googleapis.com/calendar/v3";
+const google_drive_url = "https://www.googleapis.com/drive/v3";
 
 // To view Google API Scopes go to https://developers.google.com/identity/protocols/oauth2/scopes
 const googleScopes = [
@@ -82,7 +105,20 @@ const googleScopes = [
   "https://www.googleapis.com/auth/calendar.settings.readonly",
   "https://www.googleapis.com/auth/calendar.readonly",
   "https://www.googleapis.com/auth/calendar.events.readonly",
+  "https://www.googleapis.com/auth/drive",
 ];
+
+function generateParamsString(params: any): string {
+  if (params) {
+    const cleanParams = { ...params };
+    delete cleanParams["accountId"];
+    return qs.stringify(cleanParams, {
+      addQueryPrefix: true,
+      encode: false,
+    });
+  }
+  return "";
+}
 
 function findBody(partsArray: any[]): string {
   for (let i = 0; i < partsArray.length; i++) {
@@ -612,6 +648,58 @@ async function getEvent(
   return data;
 }
 
+async function getDrives(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleDrivesType> {
+  const paramString = generateParamsString(params);
+  const { data } = await authClient.get(`/drives${paramString}`);
+  return data;
+}
+
+async function getDrive(
+  authClient: Axios,
+  params: any
+): Promise<GoogleDriveType> {
+  const paramString = generateParamsString(_.omit(params, ["driveId"]));
+  const { data } = await authClient.get(
+    `/drives/${params.driveId}${paramString}}`
+  );
+  return data;
+}
+
+async function getDriveFiles(
+  authClient: Axios,
+  params: any
+): Promise<GoogleDriveFilesType> {
+  const paramString = generateParamsString(params);
+  const { data } = await authClient.get(`/files${paramString}`);
+  return data;
+}
+
+async function getDriveFileMetadata(
+  authClient: Axios,
+  params: any
+): Promise<GoogleDriveFileMetadataType> {
+  const paramString = generateParamsString(_.omit(params, ["fileId"]));
+  const { data } = await authClient.get(
+    `/files/${params.fileId}${paramString}`
+  );
+  return data;
+}
+
+async function getDriveFile(
+  authClient: Axios,
+  params: any
+): Promise<GoogleDriveFileType> {
+  params["alt"] = "media";
+  const paramString = generateParamsString(_.omit(params, ["fileId"]));
+  const { data } = await authClient.get(
+    `/files/${params.fileId}${paramString}`
+  );
+  return data;
+}
+
 export class Google extends OAuth2Source implements Source {
   resources: {
     [x: string]: Resource<any, any>;
@@ -802,6 +890,54 @@ export class Google extends OAuth2Source implements Source {
         GoogleEventInput,
         GoogleEvent
       ),
+      drives: new Resource<GoogleDrivesInputType, GoogleDrivesType>(
+        "drives",
+        "Google Drives",
+        "get",
+        "Your google drives",
+        getDrives,
+        GoogleDrivesInput,
+        GoogleDrives
+      ),
+      drive: new Resource<GoogleDriveInputType, GoogleDriveType>(
+        "drive",
+        "Google Drive",
+        "get",
+        "Your google drive",
+        getDrive,
+        GoogleDriveInput,
+        GoogleDrive
+      ),
+      driveFiles: new Resource<GoogleDriveFilesInputType, GoogleDriveFilesType>(
+        "driveFiles",
+        "Google Drive Files",
+        "get",
+        "Your google drive files",
+        getDriveFiles,
+        GoogleDriveFilesInput,
+        GoogleDriveFiles
+      ),
+      driveFileMetadata: new Resource<
+        GoogleDriveFileMetadataInputType,
+        GoogleDriveFileMetadataType
+      >(
+        "driveFileMetadata",
+        "Google Drive File Metadata",
+        "get",
+        "Your google drive file metadata",
+        getDriveFileMetadata,
+        GoogleDriveFileInput,
+        GoogleDriveFileMetadata
+      ),
+      driveFile: new Resource<GoogleDriveFileInputType, GoogleDriveFileType>(
+        "driveFile",
+        "Google Drive File",
+        "get",
+        "Your google drive file",
+        getDriveFile,
+        GoogleDriveFileInput,
+        GoogleDriveFile
+      ),
     };
     this.metadata = {
       name: this.getName(),
@@ -838,8 +974,16 @@ export class Google extends OAuth2Source implements Source {
 
   public getBaseUrl = (resourceName: string) => {
     const calendarArray = ["calendars", "calendar", "events", "event"];
+    const driveArray = [
+      "drives",
+      "driveFiles",
+      "driveFileMetadata",
+      "driveFile",
+    ];
     if (resourceName && calendarArray.includes(resourceName)) {
       return google_calendar_url;
+    } else if (resourceName && driveArray.includes(resourceName)) {
+      return google_drive_url;
     } else {
       return google_gmail_url;
     }

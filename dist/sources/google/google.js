@@ -41,10 +41,12 @@ const source_1 = require("../source");
 const google_types_1 = require("./google.types");
 const axios_1 = __importDefault(require("axios"));
 const _ = __importStar(require("lodash"));
+const qs_1 = __importDefault(require("qs"));
 const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
 const google_token_url = "https://oauth2.googleapis.com";
 const google_gmail_url = "https://gmail.googleapis.com/gmail/v1/users/me";
 const google_calendar_url = "https://www.googleapis.com/calendar/v3";
+const google_drive_url = "https://www.googleapis.com/drive/v3";
 // To view Google API Scopes go to https://developers.google.com/identity/protocols/oauth2/scopes
 const googleScopes = [
     "https://www.googleapis.com/auth/userinfo.email",
@@ -53,7 +55,19 @@ const googleScopes = [
     "https://www.googleapis.com/auth/calendar.settings.readonly",
     "https://www.googleapis.com/auth/calendar.readonly",
     "https://www.googleapis.com/auth/calendar.events.readonly",
+    "https://www.googleapis.com/auth/drive",
 ];
+function generateParamsString(params) {
+    if (params) {
+        const cleanParams = Object.assign({}, params);
+        delete cleanParams["accountId"];
+        return qs_1.default.stringify(cleanParams, {
+            addQueryPrefix: true,
+            encode: false,
+        });
+    }
+    return "";
+}
 function findBody(partsArray) {
     for (let i = 0; i < partsArray.length; i++) {
         const mimeType = partsArray[i].mimeType;
@@ -464,13 +478,58 @@ function getEvent(authClient, params) {
         return data;
     });
 }
+function getDrives(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const paramString = generateParamsString(params);
+        const { data } = yield authClient.get(`/drives${paramString}`);
+        return data;
+    });
+}
+function getDrive(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const paramString = generateParamsString(_.omit(params, ["driveId"]));
+        const { data } = yield authClient.get(`/drives/${params.driveId}${paramString}}`);
+        return data;
+    });
+}
+function getDriveFiles(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const paramString = generateParamsString(params);
+        const { data } = yield authClient.get(`/files${paramString}`);
+        return data;
+    });
+}
+function getDriveFileMetadata(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const paramString = generateParamsString(_.omit(params, ["fileId"]));
+        const { data } = yield authClient.get(`/files/${params.fileId}${paramString}`);
+        return data;
+    });
+}
+function getDriveFile(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        params["alt"] = "media";
+        const paramString = generateParamsString(_.omit(params, ["fileId"]));
+        const { data } = yield authClient.get(`/files/${params.fileId}${paramString}`);
+        return data;
+    });
+}
 class Google extends source_1.OAuth2Source {
     constructor() {
         super("google");
         this.getBaseUrl = (resourceName) => {
             const calendarArray = ["calendars", "calendar", "events", "event"];
+            const driveArray = [
+                "drives",
+                "driveFiles",
+                "driveFileMetadata",
+                "driveFile",
+            ];
             if (resourceName && calendarArray.includes(resourceName)) {
                 return google_calendar_url;
+            }
+            else if (resourceName && driveArray.includes(resourceName)) {
+                return google_drive_url;
             }
             else {
                 return google_gmail_url;
@@ -515,6 +574,11 @@ class Google extends source_1.OAuth2Source {
             calendar: new resource_1.Resource("calendar", "Google Calendar", "get", "Your google calendar", getCalendar, google_types_1.GoogleCalendarInput, google_types_1.GoogleCalendar),
             events: new resource_1.Resource("events", "Google Events", "get", "Your google events", getEvents, google_types_1.GoogleEventsInput, google_types_1.GoogleEvents),
             event: new resource_1.Resource("event", "Google Event", "get", "Your google event", getEvent, google_types_1.GoogleEventInput, google_types_1.GoogleEvent),
+            drives: new resource_1.Resource("drives", "Google Drives", "get", "Your google drives", getDrives, google_types_1.GoogleDrivesInput, google_types_1.GoogleDrives),
+            drive: new resource_1.Resource("drive", "Google Drive", "get", "Your google drive", getDrive, google_types_1.GoogleDriveInput, google_types_1.GoogleDrive),
+            driveFiles: new resource_1.Resource("driveFiles", "Google Drive Files", "get", "Your google drive files", getDriveFiles, google_types_1.GoogleDriveFilesInput, google_types_1.GoogleDriveFiles),
+            driveFileMetadata: new resource_1.Resource("driveFileMetadata", "Google Drive File Metadata", "get", "Your google drive file metadata", getDriveFileMetadata, google_types_1.GoogleDriveFileInput, google_types_1.GoogleDriveFileMetadata),
+            driveFile: new resource_1.Resource("driveFile", "Google Drive File", "get", "Your google drive file", getDriveFile, google_types_1.GoogleDriveFileInput, google_types_1.GoogleDriveFile),
         };
         this.metadata = {
             name: this.getName(),
