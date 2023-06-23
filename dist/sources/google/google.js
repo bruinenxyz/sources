@@ -61,10 +61,12 @@ function generateParamsString(params) {
     if (params) {
         const cleanParams = Object.assign({}, params);
         delete cleanParams["accountId"];
-        return qs_1.default.stringify(cleanParams, {
-            addQueryPrefix: true,
-            encode: false,
-        });
+        if (Object.keys(cleanParams).length) {
+            return qs_1.default.stringify(cleanParams, {
+                addQueryPrefix: true,
+                encode: false,
+            });
+        }
     }
     return "";
 }
@@ -481,8 +483,13 @@ function getEvent(authClient, params) {
 function getDrives(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const paramString = generateParamsString(params);
-        const { data } = yield authClient.get(`/drives${paramString}`);
-        return data;
+        try {
+            const { data } = yield authClient.get(`/drives${paramString}`);
+            return data;
+        }
+        catch (error) {
+            return error;
+        }
     });
 }
 function getDrive(authClient, params) {

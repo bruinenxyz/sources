@@ -112,10 +112,12 @@ function generateParamsString(params: any): string {
   if (params) {
     const cleanParams = { ...params };
     delete cleanParams["accountId"];
-    return qs.stringify(cleanParams, {
-      addQueryPrefix: true,
-      encode: false,
-    });
+    if (Object.keys(cleanParams).length) {
+      return qs.stringify(cleanParams, {
+        addQueryPrefix: true,
+        encode: false,
+      });
+    }
   }
   return "";
 }
@@ -651,10 +653,14 @@ async function getEvent(
 async function getDrives(
   authClient: Axios,
   params?: any
-): Promise<GoogleDrivesType> {
+): Promise<GoogleDrivesType | any> {
   const paramString = generateParamsString(params);
-  const { data } = await authClient.get(`/drives${paramString}`);
-  return data;
+  try {
+    const { data } = await authClient.get(`/drives${paramString}`);
+    return data;
+  } catch (error) {
+    return error;
+  }
 }
 
 async function getDrive(
