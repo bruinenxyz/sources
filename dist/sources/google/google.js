@@ -522,7 +522,8 @@ class Google extends source_1.OAuth2Source {
         this.getBaseUrl = (resourceName) => {
             const calendarArray = ["calendars", "calendar", "events", "event"];
             const driveArray = [
-                "drives",
+                "sharedDrives",
+                "drive",
                 "driveFiles",
                 "driveFileMetadata",
                 "driveFile",

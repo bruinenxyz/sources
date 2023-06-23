@@ -980,7 +980,8 @@ export class Google extends OAuth2Source implements Source {
   public getBaseUrl = (resourceName: string) => {
     const calendarArray = ["calendars", "calendar", "events", "event"];
     const driveArray = [
-      "drives",
+      "sharedDrives",
+      "drive",
       "driveFiles",
       "driveFileMetadata",
       "driveFile",
