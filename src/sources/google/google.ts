@@ -697,6 +697,8 @@ async function getDriveFileMetadata(
   authClient: Axios,
   params: any
 ): Promise<GoogleDriveFileMetadataType> {
+  params["fields"] =
+    "id,name,mimeType,parents,modifiedTime,createdTime,size,webViewLink,iconLink,thumbnailLink,hasThumbnail";
   const paramString = generateParamsString(_.omit(params, ["fileId"]));
   const { data } = await authClient.get(
     `/files/${params.fileId}${paramString}`
@@ -716,13 +718,15 @@ async function getDriveFile(
     case "application/vnd.google-apps.document":
     case "application/vnd.google-apps.spreadsheet":
     case "application/vnd.google-apps.presentation":
+    case "application/pdf":
+
     default:
       params["alt"] = "media";
       const paramString = generateParamsString(_.omit(params, ["fileId"]));
       const { data } = await authClient.get(
         `/files/${params.fileId}${paramString}`
       );
-      return { ...metadata, fileContent: String(data) };
+      return { ...metadata, fileContent: data };
   }
 }
 

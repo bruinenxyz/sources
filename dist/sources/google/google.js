@@ -513,6 +513,8 @@ function getDriveFiles(authClient, params) {
 }
 function getDriveFileMetadata(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
+        params["fields"] =
+            "id,name,mimeType,parents,modifiedTime,createdTime,size,webViewLink,iconLink,thumbnailLink,hasThumbnail";
         const paramString = generateParamsString(_.omit(params, ["fileId"]));
         const { data } = yield authClient.get(`/files/${params.fileId}${paramString}`);
         return data;
@@ -525,11 +527,12 @@ function getDriveFile(authClient, params) {
             case "application/vnd.google-apps.document":
             case "application/vnd.google-apps.spreadsheet":
             case "application/vnd.google-apps.presentation":
+            case "application/pdf":
             default:
                 params["alt"] = "media";
                 const paramString = generateParamsString(_.omit(params, ["fileId"]));
                 const { data } = yield authClient.get(`/files/${params.fileId}${paramString}`);
-                return Object.assign(Object.assign({}, metadata), { fileContent: String(data) });
+                return Object.assign(Object.assign({}, metadata), { fileContent: data });
         }
     });
 }
