@@ -708,7 +708,10 @@ async function getDriveFile(
   authClient: Axios,
   params: any
 ): Promise<GoogleDriveFileType> {
-  const metadata = await getDriveFileMetadata(authClient, params);
+  const metadata = await getDriveFileMetadata(
+    authClient,
+    _.omit(params, ["acknowledgeAbuse"])
+  );
   switch (metadata.mimeType) {
     case "application/vnd.google-apps.document":
     case "application/vnd.google-apps.spreadsheet":

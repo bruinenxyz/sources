@@ -520,7 +520,7 @@ function getDriveFileMetadata(authClient, params) {
 }
 function getDriveFile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        const metadata = yield getDriveFileMetadata(authClient, params);
+        const metadata = yield getDriveFileMetadata(authClient, _.omit(params, ["acknowledgeAbuse"]));
         switch (metadata.mimeType) {
             case "application/vnd.google-apps.document":
             case "application/vnd.google-apps.spreadsheet":
