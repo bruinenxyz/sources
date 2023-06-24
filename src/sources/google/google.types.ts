@@ -3269,7 +3269,7 @@ export const GoogleDriveFilesInput = {
     includeItemsFromAllDrives: {
       type: "boolean",
       description:
-        "Whether both My Drive and shared drive items should be included in results.",
+        "Whether both My Drive and shared drive items should be included in results. Requires `supportsAllDrives` param to be true.",
     },
     trashed: {
       type: "boolean",

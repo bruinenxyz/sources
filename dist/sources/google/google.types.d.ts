@@ -3635,7 +3635,7 @@ export declare const GoogleDriveFilesInput: {
         };
         readonly includeItemsFromAllDrives: {
             readonly type: "boolean";
-            readonly description: "Whether both My Drive and shared drive items should be included in results.";
+            readonly description: "Whether both My Drive and shared drive items should be included in results. Requires `supportsAllDrives` param to be true.";
         };
         readonly trashed: {
             readonly type: "boolean";
