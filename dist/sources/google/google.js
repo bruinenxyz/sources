@@ -520,10 +520,17 @@ function getDriveFileMetadata(authClient, params) {
 }
 function getDriveFile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        params["alt"] = "media";
-        const paramString = generateParamsString(_.omit(params, ["fileId"]));
-        const { data } = yield authClient.get(`/files/${params.fileId}${paramString}`);
-        return data;
+        const metadata = yield getDriveFileMetadata(authClient, params);
+        switch (metadata.mimeType) {
+            case "application/vnd.google-apps.document":
+            case "application/vnd.google-apps.spreadsheet":
+            case "application/vnd.google-apps.presentation":
+            default:
+                params["alt"] = "media";
+                const paramString = generateParamsString(_.omit(params, ["fileId"]));
+                const { data } = yield authClient.get(`/files/${params.fileId}${paramString}`);
+                return Object.assign(Object.assign({}, metadata), { fileContent: String(data) });
+        }
     });
 }
 class Google extends source_1.OAuth2Source {

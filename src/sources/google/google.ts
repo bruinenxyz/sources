@@ -708,12 +708,19 @@ async function getDriveFile(
   authClient: Axios,
   params: any
 ): Promise<GoogleDriveFileType> {
-  params["alt"] = "media";
-  const paramString = generateParamsString(_.omit(params, ["fileId"]));
-  const { data } = await authClient.get(
-    `/files/${params.fileId}${paramString}`
-  );
-  return data;
+  const metadata = await getDriveFileMetadata(authClient, params);
+  switch (metadata.mimeType) {
+    case "application/vnd.google-apps.document":
+    case "application/vnd.google-apps.spreadsheet":
+    case "application/vnd.google-apps.presentation":
+    default:
+      params["alt"] = "media";
+      const paramString = generateParamsString(_.omit(params, ["fileId"]));
+      const { data } = await authClient.get(
+        `/files/${params.fileId}${paramString}`
+      );
+      return { ...metadata, fileContent: String(data) };
+  }
 }
 
 export class Google extends OAuth2Source implements Source {

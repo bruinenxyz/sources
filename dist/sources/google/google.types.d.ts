@@ -6157,5 +6157,9 @@ export declare const GoogleDriveFile: {
             readonly type: "string";
             readonly description: "The SHA256 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files.";
         };
+        readonly fileContent: {
+            readonly type: "string";
+            readonly description: "The actual content of the file.";
+        };
     };
 };
