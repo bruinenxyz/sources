@@ -525,14 +525,13 @@ function getDriveFile(authClient, params) {
         const metadata = yield getDriveFileMetadata(authClient, _.omit(params, ["acknowledgeAbuse"]));
         switch (metadata.mimeType) {
             case "application/vnd.google-apps.document":
+                const docResponse = yield authClient.get(`/files/${params.fileId}/export?mimeType=text/plain`);
+                return Object.assign(Object.assign({}, metadata), { fileContent: String(docResponse.data) });
             case "application/vnd.google-apps.spreadsheet":
-            case "application/vnd.google-apps.presentation":
-            case "application/pdf":
+                const sheetResponse = yield authClient.get(`/files/${params.fileId}/export?mimeType=text/csv`);
+                return Object.assign(Object.assign({}, metadata), { fileContent: String(sheetResponse.data) });
             default:
-                params["alt"] = "media";
-                const paramString = generateParamsString(_.omit(params, ["fileId"]));
-                const { data } = yield authClient.get(`/files/${params.fileId}${paramString}`);
-                return Object.assign(Object.assign({}, metadata), { fileContent: data });
+                return Object.assign(Object.assign({}, metadata), { fileContent: "ERROR: The requested file's content-type isn't currently supported." });
         }
     });
 }

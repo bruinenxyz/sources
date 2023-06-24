@@ -716,17 +716,21 @@ async function getDriveFile(
   );
   switch (metadata.mimeType) {
     case "application/vnd.google-apps.document":
-    case "application/vnd.google-apps.spreadsheet":
-    case "application/vnd.google-apps.presentation":
-    case "application/pdf":
-
-    default:
-      params["alt"] = "media";
-      const paramString = generateParamsString(_.omit(params, ["fileId"]));
-      const { data } = await authClient.get(
-        `/files/${params.fileId}${paramString}`
+      const docResponse = await authClient.get(
+        `/files/${params.fileId}/export?mimeType=text/plain`
       );
-      return { ...metadata, fileContent: data };
+      return { ...metadata, fileContent: String(docResponse.data) };
+    case "application/vnd.google-apps.spreadsheet":
+      const sheetResponse = await authClient.get(
+        `/files/${params.fileId}/export?mimeType=text/csv`
+      );
+      return { ...metadata, fileContent: String(sheetResponse.data) };
+    default:
+      return {
+        ...metadata,
+        fileContent:
+          "ERROR: The requested file's content-type isn't currently supported.",
+      };
   }
 }
 
