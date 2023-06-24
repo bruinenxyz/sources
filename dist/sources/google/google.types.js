@@ -4854,7 +4854,7 @@ exports.GoogleDriveFileInput = {
     properties: {
         fileId: {
             type: "string",
-            description: "The id of the file",
+            description: "The id of the file. Only google docs & google sheets files are currently supported via this resource.",
         },
         acknowledgeAbuse: {
             type: "boolean",
@@ -5679,7 +5679,7 @@ exports.GoogleDriveFile = {
         },
         fileContent: {
             type: "string",
-            description: "The actual content of the file.",
+            description: "The actual content of the file. Only google docs & google sheets files are supported. In case of google docs a plaintext representation of the content is returned. In the case of google sheets, a csv representation of the content is returned in string form. All other file types will return an error message in this field.",
         },
     },
 };

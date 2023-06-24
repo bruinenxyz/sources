@@ -5334,7 +5334,7 @@ export declare const GoogleDriveFileInput: {
     readonly properties: {
         readonly fileId: {
             readonly type: "string";
-            readonly description: "The id of the file";
+            readonly description: "The id of the file. Only google docs & google sheets files are currently supported via this resource.";
         };
         readonly acknowledgeAbuse: {
             readonly type: "boolean";
@@ -6159,7 +6159,7 @@ export declare const GoogleDriveFile: {
         };
         readonly fileContent: {
             readonly type: "string";
-            readonly description: "The actual content of the file.";
+            readonly description: "The actual content of the file. Only google docs & google sheets files are supported. In case of google docs a plaintext representation of the content is returned. In the case of google sheets, a csv representation of the content is returned in string form. All other file types will return an error message in this field.";
         };
     };
 };
