@@ -756,7 +756,6 @@ async function createDriveFile(
     default:
       throw new Error("Invalid file type");
   }
-
   const requestBody = `
     \n${delimiter}\
     \nContent-Type: application/json; charset=UTF-8\
@@ -765,7 +764,6 @@ async function createDriveFile(
     \nContent-Type: application/octet-stream\
     \n\n${content}\
     \n${closeDelimiter}`;
-
   const { data }: any = await authClient.post(
     `/files?uploadType=multipart${
       params.driveId ? `&supportsAllDrives=true&driveId=${params.driveId}` : ""
