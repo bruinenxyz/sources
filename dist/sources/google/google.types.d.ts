@@ -5336,10 +5336,6 @@ export declare const GoogleDriveFileInput: {
             readonly type: "string";
             readonly description: "The id of the file. Only google docs & google sheets files are currently supported via this resource.";
         };
-        readonly acknowledgeAbuse: {
-            readonly type: "boolean";
-            readonly description: "Whether the user is acknowledging the risk of downloading known malware or other abusive files.";
-        };
         readonly supportsAllDrives: {
             readonly type: "boolean";
             readonly description: "Whether the requesting application supports both My Drives and shared drives.";
@@ -5353,7 +5349,7 @@ export declare const GoogleDriveFileInput: {
             readonly description: "A comma-separated list of IDs of labels to include in the labelInfo part of the response.";
         };
     };
-    readonly required: readonly ["fileId", "acknowledgeAbuse"];
+    readonly required: readonly ["fileId"];
 };
 export declare const GoogleDriveFile: {
     readonly type: "object";
@@ -6175,16 +6171,12 @@ export declare const GoogleDriveCreateFileBody: {
                     readonly type: "string";
                     readonly description: "The name of the file. This is not necessarily unique. Must include a file extension as part of the name e.g. `file.txt`, `file.csv`";
                 };
-                readonly driveId: {
-                    readonly type: "string";
-                    readonly description: "The ID of the drive to create the file in. If not provided, the user's myDrive will be useed.";
-                };
             };
             readonly required: readonly ["name"];
         };
         readonly content: {
             readonly type: "string";
-            readonly description: "The content of the file encoded as a string.";
+            readonly description: "The content of the file as a string.";
         };
     };
     readonly required: readonly ["metadata", "content"];
@@ -6195,7 +6187,11 @@ export declare const GoogleDriveCreateFileInput: {
     readonly properties: {
         readonly fileType: {
             readonly type: "string";
-            readonly description: "The type of file to create. Valid options are `document` & `spreadsheet`.";
+            readonly description: "The type of file to create in the drive. Currently supported options are `document` (for a Google Doc) & `spreadsheet` (for a Google Sheet).";
+        };
+        readonly driveId: {
+            readonly type: "string";
+            readonly description: "The ID of the drive to create the file in. If not provided, the user's myDrive will be used.";
         };
     };
     readonly required: readonly ["fileType"];

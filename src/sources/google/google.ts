@@ -718,10 +718,7 @@ async function getDriveFile(
   authClient: Axios,
   params: any
 ): Promise<GoogleDriveFileType> {
-  const metadata = await getDriveFileMetadata(
-    authClient,
-    _.omit(params, ["acknowledgeAbuse"])
-  );
+  const metadata = await getDriveFileMetadata(authClient, params);
   switch (metadata.mimeType) {
     case "application/vnd.google-apps.document":
       const docResponse = await authClient.get(
@@ -772,13 +769,15 @@ async function createDriveFile(
     \n\n${content}\
     \n${closeDelimiter}`;
 
-  const { data }: any = await authClient
-    .post("/files?uploadType=multipart", requestBody, {
+  const { data }: any = await authClient.post(
+    `/files?uploadType=multipart${
+      params.driveId ? `&supportsAllDrives=true&driveId=${params.driveId}` : ""
+    }`,
+    requestBody,
+    {
       headers: { "Content-Type": `multipart/related; boundary=${boundary}` },
-    })
-    .catch((error) => {
-      return error.response;
-    });
+    }
+  );
   return data;
 }
 

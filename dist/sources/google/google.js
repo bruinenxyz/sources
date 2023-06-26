@@ -522,7 +522,7 @@ function getDriveFileMetadata(authClient, params) {
 }
 function getDriveFile(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
-        const metadata = yield getDriveFileMetadata(authClient, _.omit(params, ["acknowledgeAbuse"]));
+        const metadata = yield getDriveFileMetadata(authClient, params);
         switch (metadata.mimeType) {
             case "application/vnd.google-apps.document":
                 const docResponse = yield authClient.get(`/files/${params.fileId}/export?mimeType=text/plain`);
@@ -560,12 +560,8 @@ function createDriveFile(authClient, body, params) {
     \nContent-Type: application/octet-stream\
     \n\n${content}\
     \n${closeDelimiter}`;
-        const { data } = yield authClient
-            .post("/files?uploadType=multipart", requestBody, {
+        const { data } = yield authClient.post(`/files?uploadType=multipart${params.driveId ? `&supportsAllDrives=true&driveId=${params.driveId}` : ""}`, requestBody, {
             headers: { "Content-Type": `multipart/related; boundary=${boundary}` },
-        })
-            .catch((error) => {
-            return error.response;
         });
         return data;
     });

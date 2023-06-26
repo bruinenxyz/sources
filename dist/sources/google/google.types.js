@@ -4856,10 +4856,6 @@ exports.GoogleDriveFileInput = {
             type: "string",
             description: "The id of the file. Only google docs & google sheets files are currently supported via this resource.",
         },
-        acknowledgeAbuse: {
-            type: "boolean",
-            description: "Whether the user is acknowledging the risk of downloading known malware or other abusive files.",
-        },
         supportsAllDrives: {
             type: "boolean",
             description: "Whether the requesting application supports both My Drives and shared drives.",
@@ -4873,7 +4869,7 @@ exports.GoogleDriveFileInput = {
             description: "A comma-separated list of IDs of labels to include in the labelInfo part of the response.",
         },
     },
-    required: ["fileId", "acknowledgeAbuse"],
+    required: ["fileId"],
 };
 exports.GoogleDriveFile = {
     type: "object",
@@ -5695,16 +5691,12 @@ exports.GoogleDriveCreateFileBody = {
                     type: "string",
                     description: "The name of the file. This is not necessarily unique. Must include a file extension as part of the name e.g. `file.txt`, `file.csv`",
                 },
-                driveId: {
-                    type: "string",
-                    description: "The ID of the drive to create the file in. If not provided, the user's myDrive will be useed.",
-                },
             },
             required: ["name"],
         },
         content: {
             type: "string",
-            description: "The content of the file encoded as a string.",
+            description: "The content of the file as a string.",
         },
     },
     required: ["metadata", "content"],
@@ -5715,7 +5707,11 @@ exports.GoogleDriveCreateFileInput = {
     properties: {
         fileType: {
             type: "string",
-            description: "The type of file to create. Valid options are `document` & `spreadsheet`.",
+            description: "The type of file to create in the drive. Currently supported options are `document` (for a Google Doc) & `spreadsheet` (for a Google Sheet).",
+        },
+        driveId: {
+            type: "string",
+            description: "The ID of the drive to create the file in. If not provided, the user's myDrive will be used.",
         },
     },
     required: ["fileType"],
