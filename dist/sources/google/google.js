@@ -560,9 +560,9 @@ function createDriveFile(authClient, body, params) {
         ].join("\r\n");
         const contentString = [
             delimiter,
-            "Content-Type: application/octet-stream",
+            "Content-Type:text/plain",
             "",
-            Buffer.from(content, "base64"),
+            content,
         ].join("\r\n");
         const requestBody = [metadataString, contentString, closeDelimiter].join("");
         const { data } = yield authClient
