@@ -5704,7 +5704,7 @@ exports.GoogleDriveCreateFileBody = {
         },
         content: {
             type: "string",
-            description: "The content of the file encoded a string",
+            description: "The content of the file encoded as a string.",
         },
     },
     required: ["metadata", "content"],

@@ -6184,7 +6184,7 @@ export declare const GoogleDriveCreateFileBody: {
         };
         readonly content: {
             readonly type: "string";
-            readonly description: "The content of the file encoded a string";
+            readonly description: "The content of the file encoded as a string.";
         };
     };
     readonly required: readonly ["metadata", "content"];
