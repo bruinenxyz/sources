@@ -1095,6 +1095,7 @@ export class Google extends OAuth2Source implements Source {
       "driveFiles",
       "driveFileMetadata",
       "driveFile",
+      "createDriveFile",
     ];
     if (resourceName && calendarArray.includes(resourceName)) {
       return google_calendar_url;
