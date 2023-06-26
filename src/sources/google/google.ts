@@ -775,13 +775,13 @@ async function createDriveFile(
     Buffer.from(content, "base64"),
   ].join("\r\n");
   const requestBody = [metadataString, contentString, closeDelimiter].join("");
-  const { data }: any = await authClient.post(
-    "/files?uploadType=multipart",
-    requestBody,
-    {
+  const { data }: any = await authClient
+    .post("/files?uploadType=multipart", requestBody, {
       headers: { "Content-Type": `multipart/related; boundary=${boundary}` },
-    }
-  );
+    })
+    .catch((error) => {
+      return error.response;
+    });
   return data;
 }
 
