@@ -6163,3 +6163,40 @@ export declare const GoogleDriveFile: {
         };
     };
 };
+export declare const GoogleDriveCreateFileBody: {
+    readonly type: "object";
+    readonly description: "The request body for GoogleDriveCreateFile";
+    readonly properties: {
+        readonly metadata: {
+            readonly type: "object";
+            readonly description: "The metadata for the file";
+            readonly properties: {
+                readonly name: {
+                    readonly type: "string";
+                    readonly description: "The name of the file. This is not necessarily unique. Must include a file extension as part of the name e.g. `file.txt`, `file.csv`";
+                };
+                readonly driveId: {
+                    readonly type: "string";
+                    readonly description: "The ID of the drive to create the file in. If not provided, the user's myDrive will be useed.";
+                };
+            };
+            readonly required: readonly ["name"];
+        };
+        readonly content: {
+            readonly type: "string";
+            readonly description: "The content of the file encoded as a base64 string";
+        };
+    };
+    readonly required: readonly ["metadata", "content"];
+};
+export declare const GoogleDriveCreateFileInput: {
+    readonly type: "object";
+    readonly description: "The input for GoogleDriveCreateFile";
+    readonly properties: {
+        readonly fileType: {
+            readonly type: "string";
+            readonly description: "The type of file to create. Valid options are `document` & `spreadsheet`.";
+        };
+    };
+    readonly required: readonly ["fileType"];
+};

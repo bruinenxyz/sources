@@ -535,6 +535,42 @@ function getDriveFile(authClient, params) {
         }
     });
 }
+function createDriveFile(authClient, body, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const metadata = Object.assign({}, body.metadata);
+        const content = body.content;
+        const boundary = "-------314159265358979323846";
+        const delimiter = `\r\n--${boundary}\r\n`;
+        const closeDelimiter = `\r\n--${boundary}--`;
+        switch (params.fileType) {
+            case "document":
+                metadata["mimeType"] = "application/vnd.google-apps.document";
+                break;
+            case "spreadsheet":
+                metadata["mimeType"] = "application/vnd.google-apps.spreadsheet";
+                break;
+            default:
+                throw new Error("Invalid file type");
+        }
+        const metadataString = [
+            delimiter,
+            "Content-Type: application/json; charset=UTF-8",
+            "",
+            JSON.stringify(metadata),
+        ].join("\r\n");
+        const contentString = [
+            delimiter,
+            "Content-Type: text/plain",
+            "",
+            Buffer.from(content, "base64"),
+        ].join("\r\n");
+        const requestBody = [metadataString, contentString, closeDelimiter].join("");
+        const { data } = yield authClient.post("/files?uploadType=multipart", requestBody, {
+            headers: { "Content-Type": `multipart/related; boundary=${boundary}` },
+        });
+        return data;
+    });
+}
 class Google extends source_1.OAuth2Source {
     constructor() {
         super("google");
@@ -552,6 +588,9 @@ class Google extends source_1.OAuth2Source {
                 return google_calendar_url;
             }
             else if (resourceName && driveArray.includes(resourceName)) {
+                if (resourceName === "createDriveFile") {
+                    return "https://www.googleapis.com/upload/drive/v3";
+                }
                 return google_drive_url;
             }
             else {
@@ -603,6 +642,7 @@ class Google extends source_1.OAuth2Source {
             driveFiles: new resource_1.Resource("driveFiles", "Google Drive Files", "get", "Your google drive files", getDriveFiles, google_types_1.GoogleDriveFilesInput, google_types_1.GoogleDriveFiles),
             driveFileMetadata: new resource_1.Resource("driveFileMetadata", "Google Drive File Metadata", "get", "Your google drive file metadata", getDriveFileMetadata, google_types_1.GoogleDriveFileInput, google_types_1.GoogleDriveFileMetadata),
             driveFile: new resource_1.Resource("driveFile", "Google Drive File", "get", "Your google drive file", getDriveFile, google_types_1.GoogleDriveFileInput, google_types_1.GoogleDriveFile),
+            createDriveFile: new resource_1.PostResource("createDriveFile", "Google Drive Create File", "post", "Create a google drive file", createDriveFile, google_types_1.GoogleDriveCreateFileBody, google_types_1.GoogleDriveCreateFileInput, google_types_1.GoogleDriveFileMetadata),
         };
         this.metadata = {
             name: this.getName(),

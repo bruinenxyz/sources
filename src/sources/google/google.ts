@@ -1,4 +1,4 @@
-import { Resource } from "../resource";
+import { PostResource, Resource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
 import {
@@ -43,6 +43,8 @@ import {
   GoogleDriveFileMetadata,
   GoogleDriveFileInput,
   GoogleDriveFile,
+  GoogleDriveCreateFileBody,
+  GoogleDriveCreateFileInput,
 } from "./google.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
@@ -92,6 +94,12 @@ type GoogleDriveFileMetadataInputType = FromSchema<
 type GoogleDriveFileMetadataType = FromSchema<typeof GoogleDriveFileMetadata>;
 type GoogleDriveFileInputType = FromSchema<typeof GoogleDriveFileInput>;
 type GoogleDriveFileType = FromSchema<typeof GoogleDriveFile>;
+type GoogleDriveCreateFileBodyType = FromSchema<
+  typeof GoogleDriveCreateFileBody
+>;
+type GoogleDriveCreateFileInputType = FromSchema<
+  typeof GoogleDriveCreateFileInput
+>;
 
 const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
 const google_token_url = "https://oauth2.googleapis.com";
@@ -734,9 +742,52 @@ async function getDriveFile(
   }
 }
 
+async function createDriveFile(
+  authClient: Axios,
+  body: any,
+  params: any
+): Promise<GoogleDriveFileMetadataType> {
+  const metadata = { ...body.metadata };
+  const content = body.content;
+  const boundary = "-------314159265358979323846";
+  const delimiter = `\r\n--${boundary}\r\n`;
+  const closeDelimiter = `\r\n--${boundary}--`;
+  switch (params.fileType) {
+    case "document":
+      metadata["mimeType"] = "application/vnd.google-apps.document";
+      break;
+    case "spreadsheet":
+      metadata["mimeType"] = "application/vnd.google-apps.spreadsheet";
+      break;
+    default:
+      throw new Error("Invalid file type");
+  }
+  const metadataString = [
+    delimiter,
+    "Content-Type: application/json; charset=UTF-8",
+    "",
+    JSON.stringify(metadata),
+  ].join("\r\n");
+  const contentString = [
+    delimiter,
+    "Content-Type: text/plain",
+    "",
+    Buffer.from(content, "base64"),
+  ].join("\r\n");
+  const requestBody = [metadataString, contentString, closeDelimiter].join("");
+  const { data }: any = await authClient.post(
+    "/files?uploadType=multipart",
+    requestBody,
+    {
+      headers: { "Content-Type": `multipart/related; boundary=${boundary}` },
+    }
+  );
+  return data;
+}
+
 export class Google extends OAuth2Source implements Source {
   resources: {
-    [x: string]: Resource<any, any>;
+    [x: string]: Resource<any, any> | PostResource<any, any, any>;
   };
   description: string;
 
@@ -987,6 +1038,20 @@ export class Google extends OAuth2Source implements Source {
         GoogleDriveFileInput,
         GoogleDriveFile
       ),
+      createDriveFile: new PostResource<
+        GoogleDriveCreateFileBodyType,
+        GoogleDriveCreateFileInputType,
+        GoogleDriveFileMetadataType
+      >(
+        "createDriveFile",
+        "Google Drive Create File",
+        "post",
+        "Create a google drive file",
+        createDriveFile,
+        GoogleDriveCreateFileBody,
+        GoogleDriveCreateFileInput,
+        GoogleDriveFileMetadata
+      ),
     };
     this.metadata = {
       name: this.getName(),
@@ -1034,6 +1099,9 @@ export class Google extends OAuth2Source implements Source {
     if (resourceName && calendarArray.includes(resourceName)) {
       return google_calendar_url;
     } else if (resourceName && driveArray.includes(resourceName)) {
+      if (resourceName === "createDriveFile") {
+        return "https://www.googleapis.com/upload/drive/v3";
+      }
       return google_drive_url;
     } else {
       return google_gmail_url;

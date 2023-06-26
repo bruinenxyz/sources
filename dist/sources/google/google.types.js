@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GoogleDriveFile = exports.GoogleDriveFileInput = exports.GoogleDriveFileMetadata = exports.GoogleDriveFileMetadataInput = exports.GoogleDriveFiles = exports.GoogleDriveFilesInput = exports.GoogleSharedDrive = exports.GoogleSharedDriveInput = exports.GoogleSharedDrives = exports.GoogleSharedDrivesInput = exports.GoogleDriveAbout = exports.GoogleEvent = exports.GoogleEventInput = exports.GoogleEvents = exports.GoogleEventsInput = exports.GoogleCalendar = exports.GoogleCalendarInput = exports.GoogleCalendars = exports.GoogleCalendarsInput = exports.GoogleParsedThread = exports.GoogleThread = exports.GoogleThreadInput = exports.GoogleParsedThreads = exports.GoogleThreads = exports.GoogleThreadsInput = exports.GoogleParsedMessage = exports.GoogleMessage = exports.GoogleMessageInput = exports.GoogleParsedMessages = exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleParsedDraft = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleParsedDrafts = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
+exports.GoogleDriveCreateFileInput = exports.GoogleDriveCreateFileBody = exports.GoogleDriveFile = exports.GoogleDriveFileInput = exports.GoogleDriveFileMetadata = exports.GoogleDriveFileMetadataInput = exports.GoogleDriveFiles = exports.GoogleDriveFilesInput = exports.GoogleSharedDrive = exports.GoogleSharedDriveInput = exports.GoogleSharedDrives = exports.GoogleSharedDrivesInput = exports.GoogleDriveAbout = exports.GoogleEvent = exports.GoogleEventInput = exports.GoogleEvents = exports.GoogleEventsInput = exports.GoogleCalendar = exports.GoogleCalendarInput = exports.GoogleCalendars = exports.GoogleCalendarsInput = exports.GoogleParsedThread = exports.GoogleThread = exports.GoogleThreadInput = exports.GoogleParsedThreads = exports.GoogleThreads = exports.GoogleThreadsInput = exports.GoogleParsedMessage = exports.GoogleMessage = exports.GoogleMessageInput = exports.GoogleParsedMessages = exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleParsedDraft = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleParsedDrafts = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
 exports.GoogleProfile = {
     title: "GoogleProfile",
     description: "A google profile",
@@ -5682,4 +5682,41 @@ exports.GoogleDriveFile = {
             description: "The actual content of the file. Only google docs & google sheets files are supported. In case of google docs a plaintext representation of the content is returned. In the case of google sheets, a csv representation of the content is returned in string form. All other file types will return an error message in this field.",
         },
     },
+};
+exports.GoogleDriveCreateFileBody = {
+    type: "object",
+    description: "The request body for GoogleDriveCreateFile",
+    properties: {
+        metadata: {
+            type: "object",
+            description: "The metadata for the file",
+            properties: {
+                name: {
+                    type: "string",
+                    description: "The name of the file. This is not necessarily unique. Must include a file extension as part of the name e.g. `file.txt`, `file.csv`",
+                },
+                driveId: {
+                    type: "string",
+                    description: "The ID of the drive to create the file in. If not provided, the user's myDrive will be useed.",
+                },
+            },
+            required: ["name"],
+        },
+        content: {
+            type: "string",
+            description: "The content of the file encoded as a base64 string",
+        },
+    },
+    required: ["metadata", "content"],
+};
+exports.GoogleDriveCreateFileInput = {
+    type: "object",
+    description: "The input for GoogleDriveCreateFile",
+    properties: {
+        fileType: {
+            type: "string",
+            description: "The type of file to create. Valid options are `document` & `spreadsheet`.",
+        },
+    },
+    required: ["fileType"],
 };

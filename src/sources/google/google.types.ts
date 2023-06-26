@@ -6162,3 +6162,45 @@ export const GoogleDriveFile = {
     },
   },
 } as const satisfies JSONSchema;
+
+export const GoogleDriveCreateFileBody = {
+  type: "object",
+  description: "The request body for GoogleDriveCreateFile",
+  properties: {
+    metadata: {
+      type: "object",
+      description: "The metadata for the file",
+      properties: {
+        name: {
+          type: "string",
+          description:
+            "The name of the file. This is not necessarily unique. Must include a file extension as part of the name e.g. `file.txt`, `file.csv`",
+        },
+        driveId: {
+          type: "string",
+          description:
+            "The ID of the drive to create the file in. If not provided, the user's myDrive will be useed.",
+        },
+      },
+      required: ["name"],
+    },
+    content: {
+      type: "string",
+      description: "The content of the file encoded as a base64 string",
+    },
+  },
+  required: ["metadata", "content"],
+} as const satisfies JSONSchema;
+
+export const GoogleDriveCreateFileInput = {
+  type: "object",
+  description: "The input for GoogleDriveCreateFile",
+  properties: {
+    fileType: {
+      type: "string",
+      description:
+        "The type of file to create. Valid options are `document` & `spreadsheet`.",
+    },
+  },
+  required: ["fileType"],
+} as const satisfies JSONSchema;
