@@ -770,7 +770,7 @@ async function createDriveFile(
   ].join("\r\n");
   const contentString = [
     delimiter,
-    "Content-Type: text/plain",
+    "Content-Type: application/octet-stream",
     "",
     Buffer.from(content, "base64"),
   ].join("\r\n");
