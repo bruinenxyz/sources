@@ -41,10 +41,12 @@ const source_1 = require("../source");
 const google_types_1 = require("./google.types");
 const axios_1 = __importDefault(require("axios"));
 const _ = __importStar(require("lodash"));
+const qs_1 = __importDefault(require("qs"));
 const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
 const google_token_url = "https://oauth2.googleapis.com";
 const google_gmail_url = "https://gmail.googleapis.com/gmail/v1/users/me";
 const google_calendar_url = "https://www.googleapis.com/calendar/v3";
+const google_drive_url = "https://www.googleapis.com/drive/v3";
 // To view Google API Scopes go to https://developers.google.com/identity/protocols/oauth2/scopes
 const googleScopes = [
     "https://www.googleapis.com/auth/userinfo.email",
@@ -53,7 +55,21 @@ const googleScopes = [
     "https://www.googleapis.com/auth/calendar.settings.readonly",
     "https://www.googleapis.com/auth/calendar.readonly",
     "https://www.googleapis.com/auth/calendar.events.readonly",
+    "https://www.googleapis.com/auth/drive",
 ];
+function generateParamsString(params) {
+    if (params) {
+        const cleanParams = Object.assign({}, params);
+        delete cleanParams["accountId"];
+        if (Object.keys(cleanParams).length) {
+            return qs_1.default.stringify(cleanParams, {
+                addQueryPrefix: true,
+                encode: false,
+            });
+        }
+    }
+    return "";
+}
 function findBody(partsArray) {
     for (let i = 0; i < partsArray.length; i++) {
         const mimeType = partsArray[i].mimeType;
@@ -464,13 +480,110 @@ function getEvent(authClient, params) {
         return data;
     });
 }
+function getDriveAbout(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield authClient.get("/about?fields=user,storageQuota");
+        return data;
+    });
+}
+function getSharedDrives(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const paramString = generateParamsString(params);
+        const { data } = yield authClient.get(`/drives${paramString}`);
+        return data;
+    });
+}
+function getSharedDrive(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const paramString = generateParamsString(_.omit(params, ["driveId"]));
+        const { data } = yield authClient.get(`/drives/${params.driveId}${paramString}}`);
+        return data;
+    });
+}
+function getDriveFiles(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const paramString = generateParamsString(params);
+        const { data } = yield authClient.get(`/files${paramString}`);
+        return data;
+    });
+}
+function getDriveFileMetadata(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        params["fields"] =
+            "id,name,mimeType,parents,modifiedTime,createdTime,size,webViewLink,iconLink,thumbnailLink,hasThumbnail";
+        const paramString = generateParamsString(_.omit(params, ["fileId"]));
+        const { data } = yield authClient.get(`/files/${params.fileId}${paramString}`);
+        return data;
+    });
+}
+function getDriveFile(authClient, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const metadata = yield getDriveFileMetadata(authClient, params);
+        switch (metadata.mimeType) {
+            case "application/vnd.google-apps.document":
+                const docResponse = yield authClient.get(`/files/${params.fileId}/export?mimeType=text/plain`);
+                return Object.assign(Object.assign({}, metadata), { fileContent: String(docResponse.data) });
+            case "application/vnd.google-apps.spreadsheet":
+                const sheetResponse = yield authClient.get(`/files/${params.fileId}/export?mimeType=text/csv`);
+                return Object.assign(Object.assign({}, metadata), { fileContent: String(sheetResponse.data) });
+            default:
+                return Object.assign(Object.assign({}, metadata), { fileContent: "ERROR: The requested file's content-type isn't currently supported." });
+        }
+    });
+}
+function createDriveFile(authClient, body, params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const metadata = Object.assign({}, body.metadata);
+        const content = body.content;
+        const boundary = "-------314159265358979323846";
+        const delimiter = `--${boundary}`;
+        const closeDelimiter = `--${boundary}--`;
+        switch (params.fileType) {
+            case "document":
+                metadata["mimeType"] = "application/vnd.google-apps.document";
+                break;
+            case "spreadsheet":
+                metadata["mimeType"] = "application/vnd.google-apps.spreadsheet";
+                break;
+            default:
+                throw new Error("Invalid file type");
+        }
+        const requestBody = `
+    \n${delimiter}\
+    \nContent-Type: application/json; charset=UTF-8\
+    \n\n${JSON.stringify(metadata)}\
+    \n${delimiter}\
+    \nContent-Type: application/octet-stream\
+    \n\n${content}\
+    \n${closeDelimiter}`;
+        const { data } = yield authClient.post(`/files?uploadType=multipart${params.driveId ? `&supportsAllDrives=true&driveId=${params.driveId}` : ""}`, requestBody, {
+            headers: { "Content-Type": `multipart/related; boundary=${boundary}` },
+        });
+        return data;
+    });
+}
 class Google extends source_1.OAuth2Source {
     constructor() {
         super("google");
         this.getBaseUrl = (resourceName) => {
             const calendarArray = ["calendars", "calendar", "events", "event"];
+            const driveArray = [
+                "driveAbout",
+                "sharedDrives",
+                "sharedDrive",
+                "driveFiles",
+                "driveFileMetadata",
+                "driveFile",
+                "createDriveFile",
+            ];
             if (resourceName && calendarArray.includes(resourceName)) {
                 return google_calendar_url;
+            }
+            else if (resourceName && driveArray.includes(resourceName)) {
+                if (resourceName === "createDriveFile") {
+                    return "https://www.googleapis.com/upload/drive/v3";
+                }
+                return google_drive_url;
             }
             else {
                 return google_gmail_url;
@@ -515,6 +628,13 @@ class Google extends source_1.OAuth2Source {
             calendar: new resource_1.Resource("calendar", "Google Calendar", "get", "Your google calendar", getCalendar, google_types_1.GoogleCalendarInput, google_types_1.GoogleCalendar),
             events: new resource_1.Resource("events", "Google Events", "get", "Your google events", getEvents, google_types_1.GoogleEventsInput, google_types_1.GoogleEvents),
             event: new resource_1.Resource("event", "Google Event", "get", "Your google event", getEvent, google_types_1.GoogleEventInput, google_types_1.GoogleEvent),
+            driveAbout: new resource_1.Resource("driveAbout", "Google Drive About", "get", "Information about the user, the user's Drive, and system capabilities.", getDriveAbout, null, google_types_1.GoogleDriveAbout),
+            sharedDrives: new resource_1.Resource("sharedDrives", "Google Shared Drives", "get", "Your google shared drives, excluding the user's `My Drive`", getSharedDrives, google_types_1.GoogleSharedDrivesInput, google_types_1.GoogleSharedDrives),
+            sharedDrive: new resource_1.Resource("sharedDrive", "Google Shared Drive", "get", "A google shared drive", getSharedDrive, google_types_1.GoogleSharedDriveInput, google_types_1.GoogleSharedDrive),
+            driveFiles: new resource_1.Resource("driveFiles", "Google Drive Files", "get", "Your google drive files", getDriveFiles, google_types_1.GoogleDriveFilesInput, google_types_1.GoogleDriveFiles),
+            driveFileMetadata: new resource_1.Resource("driveFileMetadata", "Google Drive File Metadata", "get", "Your google drive file metadata", getDriveFileMetadata, google_types_1.GoogleDriveFileInput, google_types_1.GoogleDriveFileMetadata),
+            driveFile: new resource_1.Resource("driveFile", "Google Drive File", "get", "Your google drive file", getDriveFile, google_types_1.GoogleDriveFileInput, google_types_1.GoogleDriveFile),
+            createDriveFile: new resource_1.PostResource("createDriveFile", "Google Drive Create File", "post", "Create a google drive file", createDriveFile, google_types_1.GoogleDriveCreateFileBody, google_types_1.GoogleDriveCreateFileInput, google_types_1.GoogleDriveFileMetadata),
         };
         this.metadata = {
             name: this.getName(),

@@ -1,4 +1,4 @@
-import { Resource } from "../resource";
+import { PostResource, Resource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
 import {
@@ -32,11 +32,24 @@ import {
   GoogleEvents,
   GoogleEventInput,
   GoogleEvent,
+  GoogleDriveAbout,
+  GoogleSharedDrivesInput,
+  GoogleSharedDrives,
+  GoogleSharedDriveInput,
+  GoogleSharedDrive,
+  GoogleDriveFilesInput,
+  GoogleDriveFiles,
+  GoogleDriveFileMetadataInput,
+  GoogleDriveFileMetadata,
+  GoogleDriveFileInput,
+  GoogleDriveFile,
+  GoogleDriveCreateFileBody,
+  GoogleDriveCreateFileInput,
 } from "./google.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
 import * as _ from "lodash";
-import { raw } from "express";
+import qs from "qs";
 
 type GoogleProfileType = FromSchema<typeof GoogleProfile>;
 type GoogleDraftsInputType = FromSchema<typeof GoogleDraftsInput>;
@@ -68,11 +81,31 @@ type GoogleEventsInputType = FromSchema<typeof GoogleEventsInput>;
 type GoogleEventsType = FromSchema<typeof GoogleEvents>;
 type GoogleEventInputType = FromSchema<typeof GoogleEventInput>;
 type GoogleEventType = FromSchema<typeof GoogleEvent>;
+type GoogleDriveAboutType = FromSchema<typeof GoogleDriveAbout>;
+type GoogleSharedDrivesInputType = FromSchema<typeof GoogleSharedDrivesInput>;
+type GoogleSharedDrivesType = FromSchema<typeof GoogleSharedDrives>;
+type GoogleSharedDriveInputType = FromSchema<typeof GoogleSharedDriveInput>;
+type GoogleSharedDriveType = FromSchema<typeof GoogleSharedDrive>;
+type GoogleDriveFilesInputType = FromSchema<typeof GoogleDriveFilesInput>;
+type GoogleDriveFilesType = FromSchema<typeof GoogleDriveFiles>;
+type GoogleDriveFileMetadataInputType = FromSchema<
+  typeof GoogleDriveFileMetadataInput
+>;
+type GoogleDriveFileMetadataType = FromSchema<typeof GoogleDriveFileMetadata>;
+type GoogleDriveFileInputType = FromSchema<typeof GoogleDriveFileInput>;
+type GoogleDriveFileType = FromSchema<typeof GoogleDriveFile>;
+type GoogleDriveCreateFileBodyType = FromSchema<
+  typeof GoogleDriveCreateFileBody
+>;
+type GoogleDriveCreateFileInputType = FromSchema<
+  typeof GoogleDriveCreateFileInput
+>;
 
 const google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth";
 const google_token_url = "https://oauth2.googleapis.com";
 const google_gmail_url = "https://gmail.googleapis.com/gmail/v1/users/me";
 const google_calendar_url = "https://www.googleapis.com/calendar/v3";
+const google_drive_url = "https://www.googleapis.com/drive/v3";
 
 // To view Google API Scopes go to https://developers.google.com/identity/protocols/oauth2/scopes
 const googleScopes = [
@@ -82,7 +115,22 @@ const googleScopes = [
   "https://www.googleapis.com/auth/calendar.settings.readonly",
   "https://www.googleapis.com/auth/calendar.readonly",
   "https://www.googleapis.com/auth/calendar.events.readonly",
+  "https://www.googleapis.com/auth/drive",
 ];
+
+function generateParamsString(params: any): string {
+  if (params) {
+    const cleanParams = { ...params };
+    delete cleanParams["accountId"];
+    if (Object.keys(cleanParams).length) {
+      return qs.stringify(cleanParams, {
+        addQueryPrefix: true,
+        encode: false,
+      });
+    }
+  }
+  return "";
+}
 
 function findBody(partsArray: any[]): string {
   for (let i = 0; i < partsArray.length; i++) {
@@ -612,9 +660,125 @@ async function getEvent(
   return data;
 }
 
+async function getDriveAbout(
+  authClient: Axios,
+  params?: null
+): Promise<GoogleDriveAboutType> {
+  const { data } = await authClient.get("/about?fields=user,storageQuota");
+
+  return data;
+}
+
+async function getSharedDrives(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleSharedDrivesType> {
+  const paramString = generateParamsString(params);
+  const { data } = await authClient.get(`/drives${paramString}`);
+  return data;
+}
+
+async function getSharedDrive(
+  authClient: Axios,
+  params: any
+): Promise<GoogleSharedDriveType> {
+  const paramString = generateParamsString(_.omit(params, ["driveId"]));
+  const { data } = await authClient.get(
+    `/drives/${params.driveId}${paramString}}`
+  );
+  return data;
+}
+
+async function getDriveFiles(
+  authClient: Axios,
+  params?: any
+): Promise<GoogleDriveFilesType> {
+  const paramString = generateParamsString(params);
+  const { data } = await authClient.get(`/files${paramString}`);
+  return data;
+}
+
+async function getDriveFileMetadata(
+  authClient: Axios,
+  params: any
+): Promise<GoogleDriveFileMetadataType> {
+  params["fields"] =
+    "id,name,mimeType,parents,modifiedTime,createdTime,size,webViewLink,iconLink,thumbnailLink,hasThumbnail";
+  const paramString = generateParamsString(_.omit(params, ["fileId"]));
+  const { data } = await authClient.get(
+    `/files/${params.fileId}${paramString}`
+  );
+  return data;
+}
+
+async function getDriveFile(
+  authClient: Axios,
+  params: any
+): Promise<GoogleDriveFileType> {
+  const metadata = await getDriveFileMetadata(authClient, params);
+  switch (metadata.mimeType) {
+    case "application/vnd.google-apps.document":
+      const docResponse = await authClient.get(
+        `/files/${params.fileId}/export?mimeType=text/plain`
+      );
+      return { ...metadata, fileContent: String(docResponse.data) };
+    case "application/vnd.google-apps.spreadsheet":
+      const sheetResponse = await authClient.get(
+        `/files/${params.fileId}/export?mimeType=text/csv`
+      );
+      return { ...metadata, fileContent: String(sheetResponse.data) };
+    default:
+      return {
+        ...metadata,
+        fileContent:
+          "ERROR: The requested file's content-type isn't currently supported.",
+      };
+  }
+}
+
+async function createDriveFile(
+  authClient: Axios,
+  body: any,
+  params: any
+): Promise<GoogleDriveFileMetadataType> {
+  const metadata = { ...body.metadata };
+  const content = body.content;
+  const boundary = "-------314159265358979323846";
+  const delimiter = `--${boundary}`;
+  const closeDelimiter = `--${boundary}--`;
+  switch (params.fileType) {
+    case "document":
+      metadata["mimeType"] = "application/vnd.google-apps.document";
+      break;
+    case "spreadsheet":
+      metadata["mimeType"] = "application/vnd.google-apps.spreadsheet";
+      break;
+    default:
+      throw new Error("Invalid file type");
+  }
+  const requestBody = `
+    \n${delimiter}\
+    \nContent-Type: application/json; charset=UTF-8\
+    \n\n${JSON.stringify(metadata)}\
+    \n${delimiter}\
+    \nContent-Type: application/octet-stream\
+    \n\n${content}\
+    \n${closeDelimiter}`;
+  const { data }: any = await authClient.post(
+    `/files?uploadType=multipart${
+      params.driveId ? `&supportsAllDrives=true&driveId=${params.driveId}` : ""
+    }`,
+    requestBody,
+    {
+      headers: { "Content-Type": `multipart/related; boundary=${boundary}` },
+    }
+  );
+  return data;
+}
+
 export class Google extends OAuth2Source implements Source {
   resources: {
-    [x: string]: Resource<any, any>;
+    [x: string]: Resource<any, any> | PostResource<any, any, any>;
   };
   description: string;
 
@@ -802,6 +966,83 @@ export class Google extends OAuth2Source implements Source {
         GoogleEventInput,
         GoogleEvent
       ),
+      driveAbout: new Resource<null, GoogleDriveAboutType>(
+        "driveAbout",
+        "Google Drive About",
+        "get",
+        "Information about the user, the user's Drive, and system capabilities.",
+        getDriveAbout,
+        null,
+        GoogleDriveAbout
+      ),
+      sharedDrives: new Resource<
+        GoogleSharedDrivesInputType,
+        GoogleSharedDrivesType
+      >(
+        "sharedDrives",
+        "Google Shared Drives",
+        "get",
+        "Your google shared drives, excluding the user's `My Drive`",
+        getSharedDrives,
+        GoogleSharedDrivesInput,
+        GoogleSharedDrives
+      ),
+      sharedDrive: new Resource<
+        GoogleSharedDriveInputType,
+        GoogleSharedDriveType
+      >(
+        "sharedDrive",
+        "Google Shared Drive",
+        "get",
+        "A google shared drive",
+        getSharedDrive,
+        GoogleSharedDriveInput,
+        GoogleSharedDrive
+      ),
+      driveFiles: new Resource<GoogleDriveFilesInputType, GoogleDriveFilesType>(
+        "driveFiles",
+        "Google Drive Files",
+        "get",
+        "Your google drive files",
+        getDriveFiles,
+        GoogleDriveFilesInput,
+        GoogleDriveFiles
+      ),
+      driveFileMetadata: new Resource<
+        GoogleDriveFileMetadataInputType,
+        GoogleDriveFileMetadataType
+      >(
+        "driveFileMetadata",
+        "Google Drive File Metadata",
+        "get",
+        "Your google drive file metadata",
+        getDriveFileMetadata,
+        GoogleDriveFileInput,
+        GoogleDriveFileMetadata
+      ),
+      driveFile: new Resource<GoogleDriveFileInputType, GoogleDriveFileType>(
+        "driveFile",
+        "Google Drive File",
+        "get",
+        "Your google drive file",
+        getDriveFile,
+        GoogleDriveFileInput,
+        GoogleDriveFile
+      ),
+      createDriveFile: new PostResource<
+        GoogleDriveCreateFileBodyType,
+        GoogleDriveCreateFileInputType,
+        GoogleDriveFileMetadataType
+      >(
+        "createDriveFile",
+        "Google Drive Create File",
+        "post",
+        "Create a google drive file",
+        createDriveFile,
+        GoogleDriveCreateFileBody,
+        GoogleDriveCreateFileInput,
+        GoogleDriveFileMetadata
+      ),
     };
     this.metadata = {
       name: this.getName(),
@@ -838,8 +1079,22 @@ export class Google extends OAuth2Source implements Source {
 
   public getBaseUrl = (resourceName: string) => {
     const calendarArray = ["calendars", "calendar", "events", "event"];
+    const driveArray = [
+      "driveAbout",
+      "sharedDrives",
+      "sharedDrive",
+      "driveFiles",
+      "driveFileMetadata",
+      "driveFile",
+      "createDriveFile",
+    ];
     if (resourceName && calendarArray.includes(resourceName)) {
       return google_calendar_url;
+    } else if (resourceName && driveArray.includes(resourceName)) {
+      if (resourceName === "createDriveFile") {
+        return "https://www.googleapis.com/upload/drive/v3";
+      }
+      return google_drive_url;
     } else {
       return google_gmail_url;
     }

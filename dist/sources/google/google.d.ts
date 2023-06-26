@@ -1,16 +1,16 @@
-import { Resource } from "../resource";
+import { PostResource, Resource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { Axios } from "axios";
 export declare class Google extends OAuth2Source implements Source {
     resources: {
-        [x: string]: Resource<any, any>;
+        [x: string]: Resource<any, any> | PostResource<any, any, any>;
     };
     description: string;
     constructor();
     getToken(credential: string): Promise<{
         accessToken: any;
     }>;
-    getBaseUrl: (resourceName: string) => "https://gmail.googleapis.com/gmail/v1/users/me" | "https://www.googleapis.com/calendar/v3";
+    getBaseUrl: (resourceName: string) => "https://gmail.googleapis.com/gmail/v1/users/me" | "https://www.googleapis.com/calendar/v3" | "https://www.googleapis.com/drive/v3" | "https://www.googleapis.com/upload/drive/v3";
     getAuthHeaders: (credential: {
         accessToken: string;
         refreshToken: string;
