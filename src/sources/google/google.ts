@@ -769,24 +769,8 @@ async function createDriveFile(
     \n\n${JSON.stringify(metadata)}\
     \n${delimiter}\
     \nContent-Type: application/octet-stream\
-    \nContent-Transfer-Encoding: base64\      
     \n\n${content}\
     \n${closeDelimiter}`;
-
-  // const metadataString = [
-  //   delimiter,
-  //   "Content-Type: application/json; charset=UTF-8",
-  //   "",
-  //   JSON.stringify(metadata),
-  // ].join("\r\n");
-  // const contentString = [
-  //   delimiter,
-  //   "Content-Type: application/octet-stream",
-  //   "Content-Transfer-Encoding: base64",
-  //   "",
-  //   content,
-  // ].join("\r\n");
-  // const requestBody = [metadataString, contentString, closeDelimiter].join("");
 
   const { data }: any = await authClient
     .post("/files?uploadType=multipart", requestBody, {
