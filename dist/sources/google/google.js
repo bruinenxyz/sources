@@ -560,7 +560,7 @@ function createDriveFile(authClient, body, params) {
         ].join("\r\n");
         const contentString = [
             delimiter,
-            "Content-Type:text/plain",
+            "Content-Type: text/plain",
             "",
             content,
         ].join("\r\n");
