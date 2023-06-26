@@ -540,8 +540,8 @@ function createDriveFile(authClient, body, params) {
         const metadata = Object.assign({}, body.metadata);
         const content = body.content;
         const boundary = "-------314159265358979323846";
-        const delimiter = `\r\n--${boundary}\r\n`;
-        const closeDelimiter = `\r\n--${boundary}--`;
+        const delimiter = `--${boundary}`;
+        const closeDelimiter = `--${boundary}--`;
         switch (params.fileType) {
             case "document":
                 metadata["mimeType"] = "application/vnd.google-apps.document";
