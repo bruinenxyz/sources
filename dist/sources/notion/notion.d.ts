@@ -1,9 +1,9 @@
-import { Resource, PostResource } from "../resource";
+import { Resource, PostResource, PatchResource, DeleteResource } from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { Axios } from "axios";
 export declare class Notion extends OAuth2Source implements Source {
     resources: {
-        [x: string]: Resource<any, any> | PostResource<any, any, any>;
+        [x: string]: Resource<any, any> | PostResource<any, any, any> | PatchResource<any, any, any> | DeleteResource<any, any>;
     };
     description: string;
     constructor();

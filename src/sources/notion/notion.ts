@@ -1,4 +1,9 @@
-import { Resource, PostResource } from "../resource";
+import {
+  Resource,
+  PostResource,
+  PatchResource,
+  DeleteResource,
+} from "../resource";
 import { OAuth2Source, Source } from "../source";
 import { FromSchema } from "json-schema-to-ts";
 import {
@@ -304,7 +309,11 @@ async function deleteBlock(
 
 export class Notion extends OAuth2Source implements Source {
   resources: {
-    [x: string]: Resource<any, any> | PostResource<any, any, any>;
+    [x: string]:
+      | Resource<any, any>
+      | PostResource<any, any, any>
+      | PatchResource<any, any, any>
+      | DeleteResource<any, any>;
   };
   description: string;
 
@@ -478,7 +487,7 @@ export class Notion extends OAuth2Source implements Source {
         null,
         NotionPage
       ),
-      appendBlockChildren: new PostResource<
+      appendBlockChildren: new PatchResource<
         NotionAppendBlockChildrenBodyType,
         NotionAppendBlockChildrenInputType,
         NotionAppendBlockChildrenType
@@ -492,7 +501,10 @@ export class Notion extends OAuth2Source implements Source {
         NotionAppendBlockChildrenInput,
         NotionAppendBlockChildren
       ),
-      deleteBlock: new Resource<NotionDeleteBlockInputType, NotionBlockType>(
+      deleteBlock: new DeleteResource<
+        NotionDeleteBlockInputType,
+        NotionBlockType
+      >(
         "deleteBlock",
         "Notion Delete Block",
         "delete",

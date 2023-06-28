@@ -1,6 +1,6 @@
 import { Axios } from "axios";
-import { PostResource, Resource } from "./resource";
-import { ResourceMetadata, PostResourceMetadata } from "./resource";
+import { PostResource, Resource, PatchResource, DeleteResource } from "./resource";
+import { ResourceMetadata, PostResourceMetadata, PatchResourceMetadata, DeleteResourceMetadata } from "./resource";
 export declare class BaseSource {
     name: string;
     type: SourceType;
@@ -29,7 +29,7 @@ export interface Source {
     accessType: AccessType;
     description: string;
     resources: {
-        [x: string]: Resource<any, any> | PostResource<any, any, any>;
+        [x: string]: Resource<any, any> | PostResource<any, any, any> | PatchResource<any, any, any> | DeleteResource<any, any>;
     };
     metadata: Metadata;
     getAuthUrl: (state: string, credentials: string, redirectUrl: string) => string;
@@ -64,7 +64,7 @@ type Metadata = {
             fields: CredentialField[];
         };
     };
-    resources: (ResourceMetadata | PostResourceMetadata)[];
+    resources: (ResourceMetadata | PostResourceMetadata | PatchResourceMetadata | DeleteResourceMetadata)[];
 } | {};
 type CredentialField = {
     name: string;
