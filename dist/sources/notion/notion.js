@@ -158,25 +158,6 @@ function queryDatabase(authClient, body, params) {
         return data;
     });
 }
-function getComments(authClient, params) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const paramString = generateParamsString(params);
-        const { data } = yield authClient.get(`/comments${paramString}`);
-        return data;
-    });
-}
-function postCommentOnPage(authClient, body, params) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const { data } = yield authClient.post(`/comments`, body);
-        return data;
-    });
-}
-function postCommentOnDiscussion(authClient, body, params) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const { data } = yield authClient.post(`/comments`, body);
-        return data;
-    });
-}
 function getBlock(authClient, params) {
     return __awaiter(this, void 0, void 0, function* () {
         const { data } = yield authClient.get(`/blocks/${params.blockId}`);
@@ -234,15 +215,12 @@ class Notion extends source_1.OAuth2Source {
             pageProperty: new resource_1.Resource("pageProperty", "Notion Page Property", "get", "Get a page property by ID", getPageProperty, notion_types_1.NotionPagePropertyInput, notion_types_1.NotionPageProperty),
             database: new resource_1.Resource("database", "Notion Database", "get", "Get a database by ID", getDatabase, notion_types_1.NotionDatabaseInput, notion_types_1.NotionDatabase),
             queryDatabase: new resource_1.PostResource("queryDatabase", "Notion Query Database", "post", "Query a database by ID", queryDatabase, notion_types_1.NotionQueryDatabaseBody, notion_types_1.NotionQueryDatabaseInput, notion_types_1.NotionQueryDatabase),
-            comments: new resource_1.Resource("comments", "Notion Comments", "get", "Get a list of comments for a block", getComments, notion_types_1.NotionCommentsInput, notion_types_1.NotionComments),
-            commentOnPage: new resource_1.PostResource("commentOnPage", "Notion Comment On Page", "post", "Comment on a page", postCommentOnPage, notion_types_1.NotionCommentOnPageBody, null, notion_types_1.NotionComment),
-            commentOnDiscussion: new resource_1.PostResource("commentOnDiscussion", "Notion Comment On Discussion", "post", "Comment on a discussion", postCommentOnDiscussion, notion_types_1.NotionCommentOnDiscussionBody, null, notion_types_1.NotionComment),
             block: new resource_1.Resource("block", "Notion Block", "get", "Get a block by ID", getBlock, notion_types_1.NotionBlockInput, notion_types_1.NotionBlock),
+            deleteBlock: new resource_1.DeleteResource("deleteBlock", "Notion Delete Block", "delete", "Delete a block by ID", deleteBlock, notion_types_1.NotionDeleteBlockInput, notion_types_1.NotionBlock),
             blockChildren: new resource_1.Resource("blockChildren", "Notion Block Children", "get", "Get a block's children by ID", getBlockChildren, notion_types_1.NotionBlockChildrenInput, notion_types_1.NotionBlockChildren),
+            appendBlockChildren: new resource_1.PatchResource("appendBlockChildren", "Notion Append Block Children", "patch", "Append block children", appendBlockChildren, notion_types_1.NotionAppendBlockChildrenBody, notion_types_1.NotionAppendBlockChildrenInput, notion_types_1.NotionAppendBlockChildren),
             createPageInPage: new resource_1.PostResource("createPageInPage", "Notion Create Page In Page", "post", "Create a page where the parent is a page", createPageInPage, notion_types_1.NotionCreatePageInPageBody, null, notion_types_1.NotionPage),
             createPageInDatabase: new resource_1.PostResource("createPageInDatabase", "Notion Create Page In Database", "post", "Create a page where the parent is a database", createPageInDatabase, notion_types_1.NotionCreatePageInDatabaseBody, null, notion_types_1.NotionPage),
-            appendBlockChildren: new resource_1.PatchResource("appendBlockChildren", "Notion Append Block Children", "patch", "Append block children", appendBlockChildren, notion_types_1.NotionAppendBlockChildrenBody, notion_types_1.NotionAppendBlockChildrenInput, notion_types_1.NotionAppendBlockChildren),
-            deleteBlock: new resource_1.DeleteResource("deleteBlock", "Notion Delete Block", "delete", "Delete a block by ID", deleteBlock, notion_types_1.NotionDeleteBlockInput, notion_types_1.NotionBlock),
         };
         this.metadata = {
             name: this.getName(),

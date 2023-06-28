@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NotionDeleteBlockInput = exports.NotionAppendBlockChildren = exports.NotionAppendBlockChildrenBody = exports.NotionAppendBlockChildrenInput = exports.NotionCreatePageInDatabaseBody = exports.NotionCreatePageInPageBody = exports.NotionBlockChildren = exports.NotionBlockChildrenInput = exports.NotionBlock = exports.NotionBlockInput = exports.NotionComment = exports.NotionCommentOnDiscussionBody = exports.NotionCommentOnPageBody = exports.NotionComments = exports.NotionCommentsInput = exports.NotionQueryDatabase = exports.NotionQueryDatabaseBody = exports.NotionQueryDatabaseInput = exports.NotionDatabase = exports.NotionDatabaseInput = exports.NotionPageProperty = exports.NotionPagePropertyInput = exports.NotionPage = exports.NotionPageInput = exports.NotionSearch = exports.NotionSearchInput = exports.NotionUser = exports.NotionUserInput = exports.NotionUsers = exports.NotionUsersInput = exports.NotionProfile = void 0;
+exports.NotionDeleteBlockInput = exports.NotionAppendBlockChildren = exports.NotionAppendBlockChildrenBody = exports.NotionAppendBlockChildrenInput = exports.NotionCreatePageInDatabaseBody = exports.NotionCreatePageInPageBody = exports.NotionBlockChildren = exports.NotionBlockChildrenInput = exports.NotionBlock = exports.NotionBlockInput = exports.NotionQueryDatabase = exports.NotionQueryDatabaseBody = exports.NotionQueryDatabaseInput = exports.NotionDatabase = exports.NotionDatabaseInput = exports.NotionPageProperty = exports.NotionPagePropertyInput = exports.NotionPage = exports.NotionPageInput = exports.NotionSearch = exports.NotionSearchInput = exports.NotionUser = exports.NotionUserInput = exports.NotionUsers = exports.NotionUsersInput = exports.NotionProfile = void 0;
 exports.NotionProfile = {
     type: "object",
     description: "A Notion user profile",
@@ -973,340 +973,6 @@ exports.NotionQueryDatabase = {
         },
     },
 };
-exports.NotionCommentsInput = {
-    type: "object",
-    description: "The input for a Notion comments query",
-    properties: {
-        block_id: {
-            type: "string",
-            description: "The ID of the block",
-        },
-        start_cursor: {
-            type: "string",
-            description: "When supplied, returns a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results.",
-        },
-        page_size: {
-            type: "number",
-            description: "The number of items from the full list desired in the response. Maximum: 100. Default: 100.",
-        },
-    },
-    required: ["block_id"],
-};
-exports.NotionComments = {
-    type: "object",
-    description: "The response for a Notion comments query",
-    properties: {
-        object: {
-            type: "string",
-            description: "The object type of the comments query response",
-        },
-        next_cursor: {
-            type: "string",
-            description: "The next cursor of the comments query response",
-        },
-        has_more: {
-            type: "boolean",
-            description: "Whether the comments query response has more",
-        },
-        type: {
-            type: "string",
-            description: "The type of the comments query response",
-        },
-        comment: {
-            type: "object",
-            description: "The comment of the comments query response",
-        },
-        results: {
-            type: "array",
-            description: "The results of the comments query response",
-            items: {
-                type: "object",
-                description: "A result object of the comments query response",
-                properties: {
-                    object: {
-                        type: "string",
-                        description: "Always 'comment'",
-                    },
-                    id: {
-                        type: "string",
-                        description: "The ID of the comment",
-                    },
-                    parent: {
-                        type: "object",
-                        description: "The parent of the comment",
-                        properties: {
-                            type: {
-                                type: "string",
-                                description: "The type of the parent",
-                            },
-                            page_id: {
-                                type: "string",
-                                description: "The ID of the page",
-                            },
-                        },
-                    },
-                    discussion_id: {
-                        type: "string",
-                        description: "The ID of the discussion",
-                    },
-                    created_time: {
-                        type: "string",
-                        description: "The time the comment was created",
-                    },
-                    last_edited_time: {
-                        type: "string",
-                        description: "The time the comment was last edited",
-                    },
-                    created_by: {
-                        type: "object",
-                        description: "The user who created the comment",
-                        properties: {
-                            object: {
-                                type: "string",
-                                description: "Always 'user'",
-                            },
-                            id: {
-                                type: "string",
-                                description: "The ID of the user",
-                            },
-                        },
-                    },
-                    rich_text: {
-                        type: "array",
-                        description: "The rich text of the comment",
-                        items: {
-                            type: "object",
-                            description: "A rich text object of the comment",
-                            properties: {
-                                type: {
-                                    type: "string",
-                                    description: "The type of the rich text",
-                                },
-                                text: {
-                                    type: "object",
-                                    description: "The text of the rich text",
-                                    properties: {
-                                        content: {
-                                            type: "string",
-                                            description: "The content of the text",
-                                        },
-                                        link: {
-                                            type: "string",
-                                            description: "The link of the text",
-                                        },
-                                    },
-                                },
-                                annotations: {
-                                    type: "object",
-                                    description: "The annotations of the rich text",
-                                    properties: {
-                                        bold: {
-                                            type: "boolean",
-                                            description: "Whether the rich text is bold",
-                                        },
-                                        italic: {
-                                            type: "boolean",
-                                            description: "Whether the rich text is italic",
-                                        },
-                                        strikethrough: {
-                                            type: "boolean",
-                                            description: "Whether the rich text is strikethrough",
-                                        },
-                                        underline: {
-                                            type: "boolean",
-                                            description: "Whether the rich text is underline",
-                                        },
-                                        code: {
-                                            type: "boolean",
-                                            description: "Whether the rich text is code",
-                                        },
-                                        color: {
-                                            type: "string",
-                                            description: "The color of the rich text",
-                                        },
-                                    },
-                                },
-                                plain_text: {
-                                    type: "string",
-                                    description: "The plain text of the rich text",
-                                },
-                                href: {
-                                    type: "string",
-                                    description: "The href of the rich text",
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        },
-    },
-};
-exports.NotionCommentOnPageBody = {
-    type: "object",
-    description: "The body for a Notion comment on page request",
-    properties: {
-        parent: {
-            type: "object",
-            description: "The parent of the comment",
-            properties: {
-                page_id: {
-                    type: "string",
-                    description: "The ID of the page",
-                },
-            },
-            required: ["page_id"],
-        },
-        rich_text: {
-            type: "array",
-            description: "The rich text of the comment",
-            items: {
-                type: "object",
-                description: "A rich text object of the comment. For more information on creating a rich text object, see https://developers.notion.com/reference/rich-text",
-            },
-        },
-    },
-    required: ["parent", "rich_text"],
-};
-exports.NotionCommentOnDiscussionBody = {
-    type: "object",
-    description: "The body for a Notion comment on discussion request",
-    properties: {
-        discussion_id: {
-            type: "string",
-            description: "The ID of the discussion",
-        },
-        rich_text: {
-            type: "array",
-            description: "The rich text of the comment",
-            items: {
-                type: "object",
-                description: "A rich text object of the comment. For more information on creating a rich text object, see https://developers.notion.com/reference/rich-text",
-            },
-        },
-    },
-    required: ["discussion_id", "rich_text"],
-};
-exports.NotionComment = {
-    type: "object",
-    description: "The response for a Notion comment request",
-    properties: {
-        object: {
-            type: "string",
-            description: "Always 'comment'",
-        },
-        id: {
-            type: "string",
-            description: "The ID of the comment",
-        },
-        parent: {
-            type: "object",
-            description: "The parent of the comment",
-            properties: {
-                type: {
-                    type: "string",
-                    description: "The type of the parent",
-                },
-                page_id: {
-                    type: "string",
-                    description: "The ID of the page",
-                },
-            },
-        },
-        discussion_id: {
-            type: "string",
-            description: "The ID of the discussion",
-        },
-        created_time: {
-            type: "string",
-            description: "The time the comment was created",
-        },
-        last_edited_time: {
-            type: "string",
-            description: "The time the comment was last edited",
-        },
-        created_by: {
-            type: "object",
-            description: "The user who created the comment",
-            properties: {
-                object: {
-                    type: "string",
-                    description: "Always 'user'",
-                },
-                id: {
-                    type: "string",
-                    description: "The ID of the user",
-                },
-            },
-        },
-        rich_text: {
-            type: "array",
-            description: "The rich text of the comment",
-            items: {
-                type: "object",
-                description: "A rich text object of the comment",
-                properties: {
-                    type: {
-                        type: "string",
-                        description: "The type of the rich text",
-                    },
-                    text: {
-                        type: "object",
-                        description: "The text of the rich text",
-                        properties: {
-                            content: {
-                                type: "string",
-                                description: "The content of the text",
-                            },
-                            link: {
-                                type: "string",
-                                description: "The link of the text",
-                            },
-                        },
-                    },
-                    annotations: {
-                        type: "object",
-                        description: "The annotations of the rich text",
-                        properties: {
-                            bold: {
-                                type: "boolean",
-                                description: "Whether the rich text is bold",
-                            },
-                            italic: {
-                                type: "boolean",
-                                description: "Whether the rich text is italic",
-                            },
-                            strikethrough: {
-                                type: "boolean",
-                                description: "Whether the rich text is strikethrough",
-                            },
-                            underline: {
-                                type: "boolean",
-                                description: "Whether the rich text is underline",
-                            },
-                            code: {
-                                type: "boolean",
-                                description: "Whether the rich text is code",
-                            },
-                            color: {
-                                type: "string",
-                                description: "The color of the rich text",
-                            },
-                        },
-                    },
-                    plain_text: {
-                        type: "string",
-                        description: "The plain text of the rich text",
-                    },
-                    href: {
-                        type: "string",
-                        description: "The href of the rich text",
-                    },
-                },
-            },
-        },
-    },
-};
 exports.NotionBlockInput = {
     type: "object",
     description: "The input for a Notion block request",
@@ -1546,10 +1212,27 @@ exports.NotionCreatePageInPageBody = {
             description: "The properties of the page",
             properties: {
                 title: {
-                    type: "string",
+                    type: "array",
                     description: "The title of the page",
+                    items: {
+                        type: "object",
+                        description: "A text object",
+                        properties: {
+                            text: {
+                                type: "object",
+                                description: "The text of the object",
+                                properties: {
+                                    content: {
+                                        type: "string",
+                                        description: "The content of the text",
+                                    },
+                                },
+                            },
+                        },
+                    },
                 },
             },
+            required: ["title"],
         },
         children: {
             type: "array",

@@ -23,11 +23,6 @@ import {
   NotionQueryDatabaseInput,
   NotionQueryDatabaseBody,
   NotionQueryDatabase,
-  NotionCommentsInput,
-  NotionComments,
-  NotionCommentOnPageBody,
-  NotionCommentOnDiscussionBody,
-  NotionComment,
   NotionBlockInput,
   NotionBlock,
   NotionBlockChildrenInput,
@@ -60,13 +55,6 @@ type NotionDatabaseType = FromSchema<typeof NotionDatabase>;
 type NotionQueryDatabaseInputType = FromSchema<typeof NotionQueryDatabaseInput>;
 type NotionQueryDatabaseBodyType = FromSchema<typeof NotionQueryDatabaseBody>;
 type NotionQueryDatabaseType = FromSchema<typeof NotionQueryDatabase>;
-type NotionCommentsInputType = FromSchema<typeof NotionCommentsInput>;
-type NotionCommentsType = FromSchema<typeof NotionComments>;
-type NotionCommentOnPageBodyType = FromSchema<typeof NotionCommentOnPageBody>;
-type NotionCommentOnDiscussionBodyType = FromSchema<
-  typeof NotionCommentOnDiscussionBody
->;
-type NotionCommentType = FromSchema<typeof NotionComment>;
 type NotionBlockInputType = FromSchema<typeof NotionBlockInput>;
 type NotionBlockType = FromSchema<typeof NotionBlock>;
 type NotionBlockChildrenInputType = FromSchema<typeof NotionBlockChildrenInput>;
@@ -241,33 +229,6 @@ async function queryDatabase(
   return data;
 }
 
-async function getComments(
-  authClient: Axios,
-  params: any
-): Promise<NotionCommentsType> {
-  const paramString = generateParamsString(params);
-  const { data } = await authClient.get(`/comments${paramString}`);
-  return data;
-}
-
-async function postCommentOnPage(
-  authClient: Axios,
-  body: NotionCommentOnPageBodyType,
-  params?: null
-): Promise<NotionCommentType> {
-  const { data } = await authClient.post(`/comments`, body);
-  return data;
-}
-
-async function postCommentOnDiscussion(
-  authClient: Axios,
-  body: NotionCommentOnDiscussionBodyType,
-  params?: null
-): Promise<NotionCommentType> {
-  const { data } = await authClient.post(`/comments`, body);
-  return data;
-}
-
 async function getBlock(
   authClient: Axios,
   params: any
@@ -401,43 +362,6 @@ export class Notion extends OAuth2Source implements Source {
         NotionQueryDatabaseInput,
         NotionQueryDatabase
       ),
-      comments: new Resource<NotionCommentsInputType, NotionCommentsType>(
-        "comments",
-        "Notion Comments",
-        "get",
-        "Get a list of comments for a block",
-        getComments,
-        NotionCommentsInput,
-        NotionComments
-      ),
-      commentOnPage: new PostResource<
-        NotionCommentOnPageBodyType,
-        null,
-        NotionCommentType
-      >(
-        "commentOnPage",
-        "Notion Comment On Page",
-        "post",
-        "Comment on a page",
-        postCommentOnPage,
-        NotionCommentOnPageBody,
-        null,
-        NotionComment
-      ),
-      commentOnDiscussion: new PostResource<
-        NotionCommentOnDiscussionBodyType,
-        null,
-        NotionCommentType
-      >(
-        "commentOnDiscussion",
-        "Notion Comment On Discussion",
-        "post",
-        "Comment on a discussion",
-        postCommentOnDiscussion,
-        NotionCommentOnDiscussionBody,
-        null,
-        NotionComment
-      ),
       block: new Resource<NotionBlockInputType, NotionBlockType>(
         "block",
         "Notion Block",
@@ -445,6 +369,18 @@ export class Notion extends OAuth2Source implements Source {
         "Get a block by ID",
         getBlock,
         NotionBlockInput,
+        NotionBlock
+      ),
+      deleteBlock: new DeleteResource<
+        NotionDeleteBlockInputType,
+        NotionBlockType
+      >(
+        "deleteBlock",
+        "Notion Delete Block",
+        "delete",
+        "Delete a block by ID",
+        deleteBlock,
+        NotionDeleteBlockInput,
         NotionBlock
       ),
       blockChildren: new Resource<
@@ -458,6 +394,20 @@ export class Notion extends OAuth2Source implements Source {
         getBlockChildren,
         NotionBlockChildrenInput,
         NotionBlockChildren
+      ),
+      appendBlockChildren: new PatchResource<
+        NotionAppendBlockChildrenBodyType,
+        NotionAppendBlockChildrenInputType,
+        NotionAppendBlockChildrenType
+      >(
+        "appendBlockChildren",
+        "Notion Append Block Children",
+        "patch",
+        "Append block children",
+        appendBlockChildren,
+        NotionAppendBlockChildrenBody,
+        NotionAppendBlockChildrenInput,
+        NotionAppendBlockChildren
       ),
       createPageInPage: new PostResource<
         NotionCreatePageInPageBodyType,
@@ -486,32 +436,6 @@ export class Notion extends OAuth2Source implements Source {
         NotionCreatePageInDatabaseBody,
         null,
         NotionPage
-      ),
-      appendBlockChildren: new PatchResource<
-        NotionAppendBlockChildrenBodyType,
-        NotionAppendBlockChildrenInputType,
-        NotionAppendBlockChildrenType
-      >(
-        "appendBlockChildren",
-        "Notion Append Block Children",
-        "patch",
-        "Append block children",
-        appendBlockChildren,
-        NotionAppendBlockChildrenBody,
-        NotionAppendBlockChildrenInput,
-        NotionAppendBlockChildren
-      ),
-      deleteBlock: new DeleteResource<
-        NotionDeleteBlockInputType,
-        NotionBlockType
-      >(
-        "deleteBlock",
-        "Notion Delete Block",
-        "delete",
-        "Delete a block by ID",
-        deleteBlock,
-        NotionDeleteBlockInput,
-        NotionBlock
       ),
     };
     this.metadata = {
