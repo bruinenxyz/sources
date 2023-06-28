@@ -486,7 +486,7 @@ export const NotionPagePropertyInput = {
       description: "The ID of the property",
     },
     page_size: {
-      type: "integer",
+      type: "number",
       description:
         "The number of results to return. The maximum page size is 100. If left blank, the default of 100 is used.",
     },

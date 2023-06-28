@@ -463,7 +463,7 @@ export declare const NotionPagePropertyInput: {
             readonly description: "The ID of the property";
         };
         readonly page_size: {
-            readonly type: "integer";
+            readonly type: "number";
             readonly description: "The number of results to return. The maximum page size is 100. If left blank, the default of 100 is used.";
         };
         readonly start_cursor: {
