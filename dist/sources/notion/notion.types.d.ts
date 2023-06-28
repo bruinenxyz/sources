@@ -1524,3 +1524,242 @@ export declare const NotionBlockChildren: {
         };
     };
 };
+export declare const NotionCreatePageInPageBody: {
+    readonly type: "object";
+    readonly description: "The body for a Notion create page in page request";
+    readonly properties: {
+        readonly parent: {
+            readonly type: "object";
+            readonly description: "The parent of the page";
+            readonly properties: {
+                readonly page_id: {
+                    readonly type: "string";
+                    readonly description: "The ID of the parent page";
+                };
+            };
+        };
+        readonly properties: {
+            readonly type: "object";
+            readonly description: "The properties of the page";
+            readonly properties: {
+                readonly title: {
+                    readonly type: "string";
+                    readonly description: "The title of the page";
+                };
+            };
+        };
+        readonly children: {
+            readonly type: "array";
+            readonly description: "The children of the page as an array of block objects";
+            readonly items: {
+                readonly type: "object";
+                readonly description: "A block object. For more information on block objects, see https://developers.notion.com/reference/block";
+                readonly properties: {
+                    readonly object: {
+                        readonly type: "string";
+                        readonly description: "Always 'block'";
+                    };
+                    readonly type: {
+                        readonly type: "string";
+                        readonly description: "The type of the block";
+                    };
+                };
+            };
+        };
+        readonly icon: {
+            readonly type: "object";
+            readonly description: "The icon of the new page. Either an emoji object or an external file object.";
+            readonly properties: {
+                readonly type: {
+                    readonly type: "string";
+                    readonly description: "The type of the icon";
+                };
+                readonly emoji: {
+                    readonly type: "string";
+                    readonly description: "The emoji of the icon";
+                };
+                readonly file: {
+                    readonly type: "object";
+                    readonly description: "The external file of the icon. For more information on constructing a file object, see https://developers.notion.com/reference/file-object";
+                };
+            };
+        };
+        readonly cover: {
+            readonly type: "object";
+            readonly description: "The cover of the new page. Takes the form of a file object. For more information on constructing a file object, see https://developers.notion.com/reference/file-object";
+        };
+    };
+    readonly required: readonly ["parent", "properties"];
+};
+export declare const NotionCreatePageInDatabaseBody: {
+    readonly type: "object";
+    readonly description: "The body for a Notion create page in database request";
+    readonly properties: {
+        readonly parent: {
+            readonly type: "object";
+            readonly description: "The parent of the page";
+            readonly properties: {
+                readonly database_id: {
+                    readonly type: "string";
+                    readonly description: "The ID of the parent database";
+                };
+            };
+        };
+        readonly properties: {
+            readonly type: "object";
+            readonly description: "The properties of the page. The schema must match the parent database's properties";
+        };
+        readonly children: {
+            readonly type: "array";
+            readonly description: "The children of the page as an array of block objects";
+            readonly items: {
+                readonly type: "object";
+                readonly description: "A block object. For more information on block objects, see https://developers.notion.com/reference/block";
+                readonly properties: {
+                    readonly object: {
+                        readonly type: "string";
+                        readonly description: "Always 'block'";
+                    };
+                    readonly type: {
+                        readonly type: "string";
+                        readonly description: "The type of the block";
+                    };
+                };
+            };
+        };
+        readonly icon: {
+            readonly type: "object";
+            readonly description: "The icon of the new page. Either an emoji object or an external file object.";
+            readonly properties: {
+                readonly type: {
+                    readonly type: "string";
+                    readonly description: "The type of the icon";
+                };
+                readonly emoji: {
+                    readonly type: "string";
+                    readonly description: "The emoji of the icon";
+                };
+                readonly file: {
+                    readonly type: "object";
+                    readonly description: "The external file of the icon. For more information on constructing a file object, see https://developers.notion.com/reference/file-object";
+                };
+            };
+        };
+        readonly cover: {
+            readonly type: "object";
+            readonly description: "The cover of the new page. Takes the form of a file object. For more information on constructing a file object, see https://developers.notion.com/reference/file-object";
+        };
+    };
+    readonly required: readonly ["parent", "properties"];
+};
+export declare const NotionAppendBlockChildrenInput: {
+    readonly type: "object";
+    readonly description: "The input for a Notion append block children request";
+    readonly properties: {
+        readonly blockId: {
+            readonly type: "string";
+            readonly description: "The ID of the block to append children to";
+        };
+    };
+    readonly required: readonly ["blockId"];
+};
+export declare const NotionAppendBlockChildrenBody: {
+    readonly type: "object";
+    readonly description: "The body for a Notion append block children request";
+    readonly properties: {
+        readonly children: {
+            readonly type: "array";
+            readonly description: "The children of the block as an array of block objects";
+            readonly items: {
+                readonly type: "object";
+                readonly description: "A block object. For more information on block objects, see https://developers.notion.com/reference/block";
+                readonly properties: {
+                    readonly object: {
+                        readonly type: "string";
+                        readonly description: "Always 'block'";
+                    };
+                    readonly type: {
+                        readonly type: "string";
+                        readonly description: "The type of the block";
+                    };
+                };
+            };
+        };
+    };
+    readonly required: readonly ["children"];
+};
+export declare const NotionAppendBlockChildren: {
+    readonly type: "object";
+    readonly description: "The response for a Notion append block children request";
+    readonly properties: {
+        readonly object: {
+            readonly type: "string";
+            readonly description: "Always 'list'";
+        };
+        readonly next_cursor: {
+            readonly type: "null";
+            readonly description: "The cursor value to continue pagination. This will be null if no further results exist";
+        };
+        readonly has_more: {
+            readonly type: "boolean";
+            readonly description: "Whether there are more results after this page";
+        };
+        readonly type: {
+            readonly type: "string";
+            readonly description: "The type of the results";
+        };
+        readonly block: {
+            readonly type: "object";
+            readonly description: "The block that was appended to";
+        };
+        readonly results: {
+            readonly type: "array";
+            readonly description: "The blocks that were appended";
+            readonly items: {
+                readonly type: "object";
+                readonly description: "A block object that was appended";
+                readonly properties: {
+                    readonly object: {
+                        readonly type: "string";
+                        readonly description: "Always 'block'";
+                    };
+                    readonly type: {
+                        readonly type: "string";
+                        readonly description: "The type of the block. This value is also a key in the plock object that contains the block content.";
+                    };
+                    readonly id: {
+                        readonly type: "string";
+                        readonly description: "The ID of the block";
+                    };
+                    readonly createdTime: {
+                        readonly type: "string";
+                        readonly description: "The time the block was created";
+                    };
+                    readonly lastEditedTime: {
+                        readonly type: "string";
+                        readonly description: "The time the block was last edited";
+                    };
+                    readonly hasChildren: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the block has children";
+                    };
+                    readonly archived: {
+                        readonly type: "boolean";
+                        readonly description: "Whether the block is archived";
+                    };
+                };
+            };
+        };
+    };
+};
+export declare const NotionDeleteBlockInput: {
+    readonly type: "object";
+    readonly description: "The input for a Notion delete block request";
+    readonly properties: {
+        readonly blockId: {
+            readonly type: "string";
+            readonly description: "The ID of the block to delete";
+        };
+    };
+    readonly required: readonly ["blockId"];
+};

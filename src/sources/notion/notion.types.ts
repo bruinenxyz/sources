@@ -1578,3 +1578,260 @@ export const NotionBlockChildren = {
     },
   },
 } as const satisfies JSONSchema;
+
+export const NotionCreatePageInPageBody = {
+  type: "object",
+  description: "The body for a Notion create page in page request",
+  properties: {
+    parent: {
+      type: "object",
+      description: "The parent of the page",
+      properties: {
+        page_id: {
+          type: "string",
+          description: "The ID of the parent page",
+        },
+      },
+    },
+    properties: {
+      type: "object",
+      description: "The properties of the page",
+      properties: {
+        title: {
+          type: "string",
+          description: "The title of the page",
+        },
+      },
+    },
+    children: {
+      type: "array",
+      description: "The children of the page as an array of block objects",
+      items: {
+        type: "object",
+        description:
+          "A block object. For more information on block objects, see https://developers.notion.com/reference/block",
+        properties: {
+          object: {
+            type: "string",
+            description: "Always 'block'",
+          },
+          type: {
+            type: "string",
+            description: "The type of the block",
+          },
+        },
+      },
+    },
+    icon: {
+      type: "object",
+      description:
+        "The icon of the new page. Either an emoji object or an external file object.",
+      properties: {
+        type: {
+          type: "string",
+          description: "The type of the icon",
+        },
+        emoji: {
+          type: "string",
+          description: "The emoji of the icon",
+        },
+        file: {
+          type: "object",
+          description:
+            "The external file of the icon. For more information on constructing a file object, see https://developers.notion.com/reference/file-object",
+        },
+      },
+    },
+    cover: {
+      type: "object",
+      description:
+        "The cover of the new page. Takes the form of a file object. For more information on constructing a file object, see https://developers.notion.com/reference/file-object",
+    },
+  },
+  required: ["parent", "properties"],
+} as const satisfies JSONSchema;
+
+export const NotionCreatePageInDatabaseBody = {
+  type: "object",
+  description: "The body for a Notion create page in database request",
+  properties: {
+    parent: {
+      type: "object",
+      description: "The parent of the page",
+      properties: {
+        database_id: {
+          type: "string",
+          description: "The ID of the parent database",
+        },
+      },
+    },
+    properties: {
+      type: "object",
+      description:
+        "The properties of the page. The schema must match the parent database's properties",
+    },
+    children: {
+      type: "array",
+      description: "The children of the page as an array of block objects",
+      items: {
+        type: "object",
+        description:
+          "A block object. For more information on block objects, see https://developers.notion.com/reference/block",
+        properties: {
+          object: {
+            type: "string",
+            description: "Always 'block'",
+          },
+          type: {
+            type: "string",
+            description: "The type of the block",
+          },
+        },
+      },
+    },
+    icon: {
+      type: "object",
+      description:
+        "The icon of the new page. Either an emoji object or an external file object.",
+      properties: {
+        type: {
+          type: "string",
+          description: "The type of the icon",
+        },
+        emoji: {
+          type: "string",
+          description: "The emoji of the icon",
+        },
+        file: {
+          type: "object",
+          description:
+            "The external file of the icon. For more information on constructing a file object, see https://developers.notion.com/reference/file-object",
+        },
+      },
+    },
+    cover: {
+      type: "object",
+      description:
+        "The cover of the new page. Takes the form of a file object. For more information on constructing a file object, see https://developers.notion.com/reference/file-object",
+    },
+  },
+  required: ["parent", "properties"],
+} as const satisfies JSONSchema;
+
+export const NotionAppendBlockChildrenInput = {
+  type: "object",
+  description: "The input for a Notion append block children request",
+  properties: {
+    blockId: {
+      type: "string",
+      description: "The ID of the block to append children to",
+    },
+  },
+  required: ["blockId"],
+} as const satisfies JSONSchema;
+
+export const NotionAppendBlockChildrenBody = {
+  type: "object",
+  description: "The body for a Notion append block children request",
+  properties: {
+    children: {
+      type: "array",
+      description: "The children of the block as an array of block objects",
+      items: {
+        type: "object",
+        description:
+          "A block object. For more information on block objects, see https://developers.notion.com/reference/block",
+        properties: {
+          object: {
+            type: "string",
+            description: "Always 'block'",
+          },
+          type: {
+            type: "string",
+            description: "The type of the block",
+          },
+        },
+      },
+    },
+  },
+  required: ["children"],
+} as const satisfies JSONSchema;
+
+export const NotionAppendBlockChildren = {
+  type: "object",
+  description: "The response for a Notion append block children request",
+  properties: {
+    object: {
+      type: "string",
+      description: "Always 'list'",
+    },
+    next_cursor: {
+      type: "null",
+      description:
+        "The cursor value to continue pagination. This will be null if no further results exist",
+    },
+    has_more: {
+      type: "boolean",
+      description: "Whether there are more results after this page",
+    },
+    type: {
+      type: "string",
+      description: "The type of the results",
+    },
+    block: {
+      type: "object",
+      description: "The block that was appended to",
+    },
+    results: {
+      type: "array",
+      description: "The blocks that were appended",
+      items: {
+        type: "object",
+        description: "A block object that was appended",
+        properties: {
+          object: {
+            type: "string",
+            description: "Always 'block'",
+          },
+          type: {
+            type: "string",
+            description:
+              "The type of the block. This value is also a key in the plock object that contains the block content.",
+          },
+          id: {
+            type: "string",
+            description: "The ID of the block",
+          },
+          createdTime: {
+            type: "string",
+            description: "The time the block was created",
+          },
+          lastEditedTime: {
+            type: "string",
+            description: "The time the block was last edited",
+          },
+          hasChildren: {
+            type: "boolean",
+            description: "Whether the block has children",
+          },
+          archived: {
+            type: "boolean",
+            description: "Whether the block is archived",
+          },
+        },
+      },
+    },
+  },
+} as const satisfies JSONSchema;
+
+export const NotionDeleteBlockInput = {
+  type: "object",
+  description: "The input for a Notion delete block request",
+  properties: {
+    blockId: {
+      type: "string",
+      description: "The ID of the block to delete",
+    },
+  },
+  required: ["blockId"],
+} as const satisfies JSONSchema;

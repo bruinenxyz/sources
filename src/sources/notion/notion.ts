@@ -27,6 +27,12 @@ import {
   NotionBlock,
   NotionBlockChildrenInput,
   NotionBlockChildren,
+  NotionCreatePageInPageBody,
+  NotionCreatePageInDatabaseBody,
+  NotionAppendBlockChildrenBody,
+  NotionAppendBlockChildrenInput,
+  NotionAppendBlockChildren,
+  NotionDeleteBlockInput,
 } from "./notion.types";
 import { Axios, AxiosResponse } from "axios";
 import axios from "axios";
@@ -60,6 +66,22 @@ type NotionBlockInputType = FromSchema<typeof NotionBlockInput>;
 type NotionBlockType = FromSchema<typeof NotionBlock>;
 type NotionBlockChildrenInputType = FromSchema<typeof NotionBlockChildrenInput>;
 type NotionBlockChildrenType = FromSchema<typeof NotionBlockChildren>;
+type NotionCreatePageInPageBodyType = FromSchema<
+  typeof NotionCreatePageInPageBody
+>;
+type NotionCreatePageInDatabaseBodyType = FromSchema<
+  typeof NotionCreatePageInDatabaseBody
+>;
+type NotionAppendBlockChildrenBodyType = FromSchema<
+  typeof NotionAppendBlockChildrenBody
+>;
+type NotionAppendBlockChildrenInputType = FromSchema<
+  typeof NotionAppendBlockChildrenInput
+>;
+type NotionAppendBlockChildrenType = FromSchema<
+  typeof NotionAppendBlockChildren
+>;
+type NotionDeleteBlockInputType = FromSchema<typeof NotionDeleteBlockInput>;
 
 const notion_api_url = "https://api.notion.com/v1";
 
@@ -168,6 +190,24 @@ async function getPageProperty(
   return data;
 }
 
+async function createPageInPage(
+  authClient: Axios,
+  body: NotionCreatePageInPageBodyType,
+  params?: null
+): Promise<NotionPageType> {
+  const { data } = await authClient.post(`/pages`, body);
+  return data;
+}
+
+async function createPageInDatabase(
+  authClient: Axios,
+  body: NotionCreatePageInDatabaseBodyType,
+  params?: null
+): Promise<NotionPageType> {
+  const { data } = await authClient.post(`/pages`, body);
+  return data;
+}
+
 async function getDatabase(
   authClient: Axios,
   params: any
@@ -239,6 +279,26 @@ async function getBlockChildren(
   const { data } = await authClient.get(
     `/blocks/${params.blockId}/children${paramString}`
   );
+  return data;
+}
+
+async function appendBlockChildren(
+  authClient: Axios,
+  body: NotionAppendBlockChildrenBodyType,
+  params: any
+): Promise<NotionAppendBlockChildrenType> {
+  const { data } = await authClient.patch(
+    `/blocks/${params.blockId}/children`,
+    body
+  );
+  return data;
+}
+
+async function deleteBlock(
+  authClient: Axios,
+  params: any
+): Promise<NotionBlockType> {
+  const { data } = await authClient.delete(`/blocks/${params.blockId}`);
   return data;
 }
 
@@ -389,6 +449,57 @@ export class Notion extends OAuth2Source implements Source {
         getBlockChildren,
         NotionBlockChildrenInput,
         NotionBlockChildren
+      ),
+      createPageInPage: new PostResource<
+        NotionCreatePageInPageBodyType,
+        null,
+        NotionPageType
+      >(
+        "createPageInPage",
+        "Notion Create Page In Page",
+        "post",
+        "Create a page where the parent is a page",
+        createPageInPage,
+        NotionCreatePageInPageBody,
+        null,
+        NotionPage
+      ),
+      createPageInDatabase: new PostResource<
+        NotionCreatePageInDatabaseBodyType,
+        null,
+        NotionPageType
+      >(
+        "createPageInDatabase",
+        "Notion Create Page In Database",
+        "post",
+        "Create a page where the parent is a database",
+        createPageInDatabase,
+        NotionCreatePageInDatabaseBody,
+        null,
+        NotionPage
+      ),
+      appendBlockChildren: new PostResource<
+        NotionAppendBlockChildrenBodyType,
+        NotionAppendBlockChildrenInputType,
+        NotionAppendBlockChildrenType
+      >(
+        "appendBlockChildren",
+        "Notion Append Block Children",
+        "patch",
+        "Append block children",
+        appendBlockChildren,
+        NotionAppendBlockChildrenBody,
+        NotionAppendBlockChildrenInput,
+        NotionAppendBlockChildren
+      ),
+      deleteBlock: new Resource<NotionDeleteBlockInputType, NotionBlockType>(
+        "deleteBlock",
+        "Notion Delete Block",
+        "delete",
+        "Delete a block by ID",
+        deleteBlock,
+        NotionDeleteBlockInput,
+        NotionBlock
       ),
     };
     this.metadata = {
