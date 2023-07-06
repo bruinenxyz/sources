@@ -1380,7 +1380,7 @@ export declare const NotionAppendBlockChildren: {
             readonly description: "Always 'list'";
         };
         readonly next_cursor: {
-            readonly type: "null";
+            readonly type: "string";
             readonly description: "The cursor value to continue pagination. This will be null if no further results exist";
         };
         readonly has_more: {

@@ -1383,7 +1383,7 @@ exports.NotionAppendBlockChildren = {
             description: "Always 'list'",
         },
         next_cursor: {
-            type: "null",
+            type: "string",
             description: "The cursor value to continue pagination. This will be null if no further results exist",
         },
         has_more: {
