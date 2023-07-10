@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoogleDriveCreateFileInput = exports.GoogleDriveCreateFileBody = exports.GoogleDriveFile = exports.GoogleDriveFileInput = exports.GoogleDriveFileMetadata = exports.GoogleDriveFileMetadataInput = exports.GoogleDriveFiles = exports.GoogleDriveFilesInput = exports.GoogleSharedDrive = exports.GoogleSharedDriveInput = exports.GoogleSharedDrives = exports.GoogleSharedDrivesInput = exports.GoogleDriveAbout = exports.GoogleEvent = exports.GoogleEventInput = exports.GoogleEvents = exports.GoogleEventsInput = exports.GoogleCalendar = exports.GoogleCalendarInput = exports.GoogleCalendars = exports.GoogleCalendarsInput = exports.GoogleParsedThread = exports.GoogleThread = exports.GoogleThreadInput = exports.GoogleParsedThreads = exports.GoogleThreads = exports.GoogleThreadsInput = exports.GoogleParsedMessage = exports.GoogleMessage = exports.GoogleMessageInput = exports.GoogleParsedMessages = exports.GoogleMessages = exports.GoogleMessagesInput = exports.GoogleLabel = exports.GoogleLabelInput = exports.GoogleLabels = exports.GoogleParsedDraft = exports.GoogleDraft = exports.GoogleDraftInput = exports.GoogleParsedDrafts = exports.GoogleDrafts = exports.GoogleDraftsInput = exports.GoogleProfile = void 0;
 exports.GoogleProfile = {
-    title: "GoogleProfile",
+    title: "Google Profile",
     description: "A google profile",
     type: "object",
     properties: {
@@ -19,7 +19,7 @@ exports.GoogleProfile = {
     },
 };
 exports.GoogleDraftsInput = {
-    title: "GoogleDraftsInput",
+    title: "Google Drafts Input",
     description: "The input for your google drafts",
     type: "object",
     properties: {
@@ -34,7 +34,7 @@ exports.GoogleDraftsInput = {
     },
 };
 exports.GoogleDrafts = {
-    title: "GoogleDrafts",
+    title: "Google Drafts",
     description: "Your google drafts",
     type: "object",
     properties: {
@@ -73,7 +73,7 @@ exports.GoogleDrafts = {
     },
 };
 exports.GoogleParsedDrafts = {
-    title: "GoogleParsedDrafts",
+    title: "Google Parsed Drafts",
     description: "Your google parsed drafts",
     type: "object",
     properties: {
@@ -226,7 +226,7 @@ exports.GoogleParsedDrafts = {
     },
 };
 exports.GoogleDraftInput = {
-    title: "GoogleDraftInput",
+    title: "Google Draft Input",
     description: "The input for your google draft",
     type: "object",
     properties: {
@@ -238,7 +238,7 @@ exports.GoogleDraftInput = {
     required: ["draftId"],
 };
 exports.GoogleDraft = {
-    title: "GoogleDraft",
+    title: "Google Draft",
     description: "Your google draft",
     type: "object",
     properties: {
@@ -404,7 +404,7 @@ exports.GoogleDraft = {
     },
 };
 exports.GoogleParsedDraft = {
-    title: "GoogleParsedDraft",
+    title: "Google Parsed Draft",
     description: "Your google parsed draft",
     type: "object",
     properties: {
@@ -525,7 +525,7 @@ exports.GoogleParsedDraft = {
     },
 };
 exports.GoogleLabels = {
-    title: "GoogleLabels",
+    title: "Google Labels",
     description: "Your google labels",
     type: "object",
     properties: {
@@ -556,7 +556,7 @@ exports.GoogleLabels = {
     },
 };
 exports.GoogleLabelInput = {
-    title: "GoogleLabelInput",
+    title: "Google Label Input",
     description: "The input for your google label",
     type: "object",
     properties: {
@@ -568,7 +568,7 @@ exports.GoogleLabelInput = {
     required: ["labelId"],
 };
 exports.GoogleLabel = {
-    title: "GoogleLabel",
+    title: "Google Label",
     description: "Your google label",
     type: "object",
     properties: {
@@ -610,7 +610,7 @@ exports.GoogleLabel = {
     },
 };
 exports.GoogleMessagesInput = {
-    title: "GoogleMessagesInput",
+    title: "Google Messages Input",
     description: "The input for your google messages",
     type: "object",
     properties: {
@@ -626,7 +626,7 @@ exports.GoogleMessagesInput = {
     },
 };
 exports.GoogleMessages = {
-    title: "GoogleMessages",
+    title: "Google Messages",
     description: "Your google messages",
     type: "object",
     properties: {
@@ -652,7 +652,7 @@ exports.GoogleMessages = {
     },
 };
 exports.GoogleParsedMessages = {
-    title: "GoogleParsedMessages",
+    title: "Google Parsed Messages",
     description: "Your google parsed messages",
     type: "object",
     properties: {
@@ -801,7 +801,7 @@ exports.GoogleParsedMessages = {
     },
 };
 exports.GoogleMessageInput = {
-    title: "GoogleMessageInput",
+    title: "Google Message Input",
     description: "The input for your google message",
     type: "object",
     properties: {
@@ -813,7 +813,7 @@ exports.GoogleMessageInput = {
     required: ["messageId"],
 };
 exports.GoogleMessage = {
-    title: "GoogleMessage",
+    title: "Google Message",
     description: "Your google message",
     type: "object",
     properties: {
@@ -907,7 +907,7 @@ exports.GoogleMessage = {
     },
 };
 exports.GoogleParsedMessage = {
-    title: "GoogleParsedMessage",
+    title: "Google Parsed Message",
     description: "Your google parsed message",
     type: "object",
     properties: {
@@ -1030,7 +1030,7 @@ exports.GoogleParsedMessage = {
     },
 };
 exports.GoogleThreadsInput = {
-    title: "GoogleThreadsInput",
+    title: "Google Threads Input",
     description: "The input for your google threads",
     type: "object",
     properties: {
@@ -1046,7 +1046,7 @@ exports.GoogleThreadsInput = {
     },
 };
 exports.GoogleThreads = {
-    title: "GoogleThreads",
+    title: "Google Threads",
     description: "Your google threads",
     type: "object",
     properties: {
@@ -1073,7 +1073,7 @@ exports.GoogleThreads = {
     },
 };
 exports.GoogleParsedThreads = {
-    title: "GoogleParsedThreads",
+    title: "Google Parsed Threads",
     description: "Your google parsed threads",
     type: "object",
     properties: {
@@ -1239,7 +1239,7 @@ exports.GoogleParsedThreads = {
     },
 };
 exports.GoogleThreadInput = {
-    title: "GoogleThreadInput",
+    title: "Google Thread Input",
     description: "The input for your google thread",
     type: "object",
     properties: {
@@ -1251,7 +1251,7 @@ exports.GoogleThreadInput = {
     required: ["threadId"],
 };
 exports.GoogleThread = {
-    title: "GoogleThread",
+    title: "Google Thread",
     description: "Your google thread",
     type: "object",
     properties: {
@@ -1375,7 +1375,7 @@ exports.GoogleThread = {
     },
 };
 exports.GoogleParsedThread = {
-    title: "GoogleParsedThread",
+    title: "Google Parsed Thread",
     description: "Your google thread",
     type: "object",
     properties: {
@@ -1521,7 +1521,7 @@ exports.GoogleParsedThread = {
     },
 };
 exports.GoogleCalendarsInput = {
-    title: "GoogleCalendarsInput",
+    title: "Google Calendars Input",
     description: "The input for your google calendars",
     type: "object",
     properties: {
@@ -1544,7 +1544,7 @@ exports.GoogleCalendarsInput = {
     },
 };
 exports.GoogleCalendars = {
-    title: "GoogleCalendars",
+    title: "Google Calendars",
     description: "Your google calendars",
     type: "object",
     properties: {
@@ -1670,7 +1670,7 @@ exports.GoogleCalendars = {
     },
 };
 exports.GoogleCalendarInput = {
-    title: "GoogleCalendarInput",
+    title: "Google Calendar Input",
     description: "The input for your google calendar",
     type: "object",
     properties: {
@@ -1679,7 +1679,7 @@ exports.GoogleCalendarInput = {
     required: ["calendarId"],
 };
 exports.GoogleCalendar = {
-    title: "GoogleCalendar",
+    title: "Google Calendar",
     description: "Your google calendar",
     type: "object",
     properties: {
@@ -1707,7 +1707,7 @@ exports.GoogleCalendar = {
     },
 };
 exports.GoogleEventsInput = {
-    title: "GoogleEventsInput",
+    title: "Google Events Input",
     description: "The input for your google calendar's events",
     type: "object",
     properties: {
@@ -1730,7 +1730,7 @@ exports.GoogleEventsInput = {
     },
 };
 exports.GoogleEvents = {
-    title: "GoogleEvents",
+    title: "Google Events",
     description: "Your google calendar's events",
     type: "object",
     properties: {
@@ -2227,7 +2227,7 @@ exports.GoogleEvents = {
     },
 };
 exports.GoogleEventInput = {
-    title: "GoogleEventInput",
+    title: "Google Event Input",
     description: "The input for your google calendar's event",
     type: "object",
     properties: {
@@ -2241,7 +2241,7 @@ exports.GoogleEventInput = {
     required: ["calendarId", "eventId"],
 };
 exports.GoogleEvent = {
-    title: "GoogleEvent",
+    title: "Google Event",
     description: "Your google calendar's event",
     type: "object",
     properties: {
@@ -2689,6 +2689,7 @@ exports.GoogleEvent = {
     },
 };
 exports.GoogleDriveAbout = {
+    title: "Google Drive About",
     type: "object",
     description: "Information about the user, the user's Drive, and system capabilities.",
     properties: {
@@ -2747,6 +2748,7 @@ exports.GoogleDriveAbout = {
     },
 };
 exports.GoogleSharedDrivesInput = {
+    title: "Google Shared Drives Input",
     type: "object",
     description: "The input for your google shared drives",
     properties: {
@@ -2765,6 +2767,7 @@ exports.GoogleSharedDrivesInput = {
     },
 };
 exports.GoogleSharedDrives = {
+    title: "Google Shared Drives",
     type: "object",
     description: "The google shared drives response",
     properties: {
@@ -2955,6 +2958,7 @@ exports.GoogleSharedDrives = {
     },
 };
 exports.GoogleSharedDriveInput = {
+    title: "Google Shared Drive Input",
     type: "object",
     description: "the google shared drive input",
     properties: {
@@ -2970,6 +2974,7 @@ exports.GoogleSharedDriveInput = {
     required: ["driveId"],
 };
 exports.GoogleSharedDrive = {
+    title: "Google Shared Drive",
     type: "object",
     description: "the google shared drive response",
     properties: {
@@ -3142,6 +3147,7 @@ exports.GoogleSharedDrive = {
     },
 };
 exports.GoogleDriveFilesInput = {
+    title: "Google Drive Files Input",
     type: "object",
     description: "The input for files from a google drive",
     properties: {
@@ -3196,6 +3202,7 @@ exports.GoogleDriveFilesInput = {
     },
 };
 exports.GoogleDriveFiles = {
+    title: "Google Drive Files",
     type: "object",
     description: "The output for files from a google drive",
     properties: {
@@ -4022,6 +4029,7 @@ exports.GoogleDriveFiles = {
     },
 };
 exports.GoogleDriveFileMetadataInput = {
+    title: "Google Drive File Metadata Input",
     type: "object",
     description: "The input for a file from a google drive",
     properties: {
@@ -4045,6 +4053,7 @@ exports.GoogleDriveFileMetadataInput = {
     required: ["fileId"],
 };
 exports.GoogleDriveFileMetadata = {
+    title: "Google Drive File Metadata",
     type: "object",
     description: "A single Drive file",
     properties: {
@@ -4849,6 +4858,7 @@ exports.GoogleDriveFileMetadata = {
     },
 };
 exports.GoogleDriveFileInput = {
+    title: "Google Drive File Input",
     type: "object",
     description: "The input for a file from a google drive",
     properties: {
@@ -4872,6 +4882,7 @@ exports.GoogleDriveFileInput = {
     required: ["fileId"],
 };
 exports.GoogleDriveFile = {
+    title: "Google Drive File",
     type: "object",
     description: "A single Drive file",
     properties: {
@@ -5680,6 +5691,7 @@ exports.GoogleDriveFile = {
     },
 };
 exports.GoogleDriveCreateFileBody = {
+    title: "Google Drive Create File Body",
     type: "object",
     description: "The request body for GoogleDriveCreateFile",
     properties: {
@@ -5702,6 +5714,7 @@ exports.GoogleDriveCreateFileBody = {
     required: ["metadata", "content"],
 };
 exports.GoogleDriveCreateFileInput = {
+    title: "Google Drive Create File Input",
     type: "object",
     description: "The input for GoogleDriveCreateFile",
     properties: {

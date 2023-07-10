@@ -1,7 +1,7 @@
 import { JSONSchema } from "json-schema-to-ts";
 
 export const GithubProfile = {
-  title: "GithubProfile",
+  title: "Github Profile",
   description: "A github profile",
   type: "object",
   properties: {
@@ -161,7 +161,7 @@ export const GithubProfile = {
 } as const satisfies JSONSchema;
 
 export const GithubRepos = {
-  title: "GithubRepos",
+  title: "Github Repos",
   description: "Your github repos",
   type: "array",
   items: {

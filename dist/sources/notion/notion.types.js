@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotionDeleteBlockInput = exports.NotionAppendBlockChildren = exports.NotionAppendBlockChildrenBody = exports.NotionAppendBlockChildrenInput = exports.NotionCreatePageInDatabaseBody = exports.NotionCreatePageInPageBody = exports.NotionBlockChildren = exports.NotionBlockChildrenInput = exports.NotionBlock = exports.NotionBlockInput = exports.NotionQueryDatabase = exports.NotionQueryDatabaseBody = exports.NotionQueryDatabaseInput = exports.NotionDatabase = exports.NotionDatabaseInput = exports.NotionPageProperty = exports.NotionPagePropertyInput = exports.NotionPage = exports.NotionPageInput = exports.NotionSearch = exports.NotionSearchInput = exports.NotionUser = exports.NotionUserInput = exports.NotionUsers = exports.NotionUsersInput = exports.NotionProfile = void 0;
 exports.NotionProfile = {
+    title: "Notion Profile",
     type: "object",
     description: "A Notion user profile",
     properties: {
@@ -28,6 +29,7 @@ exports.NotionProfile = {
     },
 };
 exports.NotionUsersInput = {
+    title: "Notion Users Input",
     type: "object",
     description: "The input for a list of Notion users",
     properties: {
@@ -42,6 +44,7 @@ exports.NotionUsersInput = {
     },
 };
 exports.NotionUsers = {
+    title: "Notion Users",
     type: "object",
     description: "A list of Notion users",
     properties: {
@@ -106,6 +109,7 @@ exports.NotionUsers = {
     },
 };
 exports.NotionUserInput = {
+    title: "Notion User Input",
     type: "object",
     description: "The input for a Notion user",
     properties: {
@@ -117,6 +121,7 @@ exports.NotionUserInput = {
     required: ["userId"],
 };
 exports.NotionUser = {
+    title: "Notion User",
     type: "object",
     description: "A Notion user",
     properties: {
@@ -163,6 +168,7 @@ exports.NotionUser = {
     },
 };
 exports.NotionSearchInput = {
+    title: "Notion Search Input",
     type: "object",
     description: "The input for a Notion search",
     properties: {
@@ -193,6 +199,7 @@ exports.NotionSearchInput = {
     },
 };
 exports.NotionSearch = {
+    title: "Notion Search",
     type: "object",
     description: "A Notion search",
     properties: {
@@ -329,6 +336,7 @@ exports.NotionSearch = {
     },
 };
 exports.NotionPageInput = {
+    title: "Notion Page Input",
     type: "object",
     description: "The input for a Notion page",
     properties: {
@@ -344,6 +352,7 @@ exports.NotionPageInput = {
     required: ["pageId"],
 };
 exports.NotionPage = {
+    title: "Notion Page",
     type: "object",
     description: "A Notion page. Page properties are limited to up to 25 references per page property. To retrieve data related to properties that have more than 25 references, use the Retrieve a page property endpoint. ",
     properties: {
@@ -454,6 +463,7 @@ exports.NotionPage = {
     },
 };
 exports.NotionPagePropertyInput = {
+    title: "Notion Page Property Input",
     type: "object",
     description: "The input for a Notion page property",
     properties: {
@@ -477,6 +487,7 @@ exports.NotionPagePropertyInput = {
     required: ["pageId", "propertyId"],
 };
 exports.NotionPageProperty = {
+    title: "Notion Page Property",
     type: "object",
     description: "A Notion page property",
     properties: {
@@ -568,6 +579,7 @@ exports.NotionPageProperty = {
     },
 };
 exports.NotionDatabaseInput = {
+    title: "Notion Database Input",
     type: "object",
     description: "The input for a Notion database",
     properties: {
@@ -579,6 +591,7 @@ exports.NotionDatabaseInput = {
     required: ["databaseId"],
 };
 exports.NotionDatabase = {
+    title: "Notion Database",
     type: "object",
     description: "A Notion database",
     properties: {
@@ -797,6 +810,7 @@ exports.NotionDatabase = {
     },
 };
 exports.NotionQueryDatabaseInput = {
+    title: "Notion Query Database Input",
     type: "object",
     description: "The input for a Notion database query",
     properties: {
@@ -812,6 +826,7 @@ exports.NotionQueryDatabaseInput = {
     required: ["databaseId"],
 };
 exports.NotionQueryDatabaseBody = {
+    title: "Notion Query Database Body",
     type: "object",
     description: "The body for a Notion database query",
     properties: {
@@ -852,6 +867,7 @@ exports.NotionQueryDatabaseBody = {
     },
 };
 exports.NotionQueryDatabase = {
+    title: "Notion Query Database",
     type: "object",
     description: "The response for a Notion database query",
     properties: {
@@ -992,6 +1008,7 @@ exports.NotionQueryDatabase = {
     },
 };
 exports.NotionBlockInput = {
+    title: "Notion Block Input",
     type: "object",
     description: "The input for a Notion block request",
     properties: {
@@ -1003,6 +1020,7 @@ exports.NotionBlockInput = {
     required: ["blockId"],
 };
 exports.NotionBlock = {
+    title: "Notion Block",
     type: "object",
     description: "The response for a Notion block request",
     properties: {
@@ -1083,6 +1101,7 @@ exports.NotionBlock = {
     },
 };
 exports.NotionBlockChildrenInput = {
+    title: "Notion Block Children Input",
     type: "object",
     description: "The input for a Notion block children request",
     properties: {
@@ -1102,6 +1121,7 @@ exports.NotionBlockChildrenInput = {
     required: ["blockId"],
 };
 exports.NotionBlockChildren = {
+    title: "Notion Block Children",
     type: "object",
     description: "The response for a Notion block children request",
     properties: {
@@ -1212,6 +1232,7 @@ exports.NotionBlockChildren = {
     },
 };
 exports.NotionCreatePageInPageBody = {
+    title: "Notion Create Page In Page Body",
     type: "object",
     description: "The body for a Notion create page in page request",
     properties: {
@@ -1296,6 +1317,7 @@ exports.NotionCreatePageInPageBody = {
     required: ["parent", "properties"],
 };
 exports.NotionCreatePageInDatabaseBody = {
+    title: "Notion Create Page In Database Body",
     type: "object",
     description: "The body for a Notion create page in database request",
     properties: {
@@ -1357,6 +1379,7 @@ exports.NotionCreatePageInDatabaseBody = {
     required: ["parent", "properties"],
 };
 exports.NotionAppendBlockChildrenInput = {
+    title: "Notion Append Block Children Input",
     type: "object",
     description: "The input for a Notion append block children request",
     properties: {
@@ -1368,6 +1391,7 @@ exports.NotionAppendBlockChildrenInput = {
     required: ["blockId"],
 };
 exports.NotionAppendBlockChildrenBody = {
+    title: "Notion Append Block Children Body",
     type: "object",
     description: "The body for a Notion append block children request",
     properties: {
@@ -1393,6 +1417,7 @@ exports.NotionAppendBlockChildrenBody = {
     required: ["children"],
 };
 exports.NotionAppendBlockChildren = {
+    title: "Notion Append Block Children",
     type: "object",
     description: "The response for a Notion append block children request",
     properties: {
@@ -1457,6 +1482,7 @@ exports.NotionAppendBlockChildren = {
     },
 };
 exports.NotionDeleteBlockInput = {
+    title: "Notion Delete Block Input",
     type: "object",
     description: "The input for a Notion delete block request",
     properties: {

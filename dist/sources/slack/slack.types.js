@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SlackPostMessage = exports.SlackPostMessageBody = exports.SlackEnhancedConversationReplies = exports.SlackConversationReplies = exports.SlackConversationRepliesInput = exports.SlackEnhancedConversationHistory = exports.SlackConversationHistory = exports.SlackConversationHistoryInput = exports.SlackEnhancedConversations = exports.SlackConversations = exports.SlackConversationsInput = exports.SlackUser = exports.SlackUserInput = exports.SlackProfile = void 0;
 exports.SlackProfile = {
-    title: "SlackProfile",
+    title: "Slack Profile",
     description: "A slack profile",
     type: "object",
     properties: {

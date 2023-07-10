@@ -1,5 +1,5 @@
 export declare const GithubProfile: {
-    readonly title: "GithubProfile";
+    readonly title: "Github Profile";
     readonly description: "A github profile";
     readonly type: "object";
     readonly properties: {
@@ -158,7 +158,7 @@ export declare const GithubProfile: {
     };
 };
 export declare const GithubRepos: {
-    readonly title: "GithubRepos";
+    readonly title: "Github Repos";
     readonly description: "Your github repos";
     readonly type: "array";
     readonly items: {
