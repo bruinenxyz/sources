@@ -323,6 +323,9 @@ export const SlackConversations = {
           pending_shared: {
             type: "array",
             description: "The pending shared of the conversation",
+            items: {
+              type: "string",
+            },
           },
           is_pending_ext_shared: {
             type: "boolean",
@@ -497,6 +500,9 @@ export const SlackEnhancedConversations = {
           pending_shared: {
             type: "array",
             description: "The pending shared of the conversation",
+            items: {
+              type: "string",
+            },
           },
           is_pending_ext_shared: {
             type: "boolean",

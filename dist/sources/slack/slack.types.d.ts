@@ -316,6 +316,9 @@ export declare const SlackConversations: {
                     readonly pending_shared: {
                         readonly type: "array";
                         readonly description: "The pending shared of the conversation";
+                        readonly items: {
+                            readonly type: "string";
+                        };
                     };
                     readonly is_pending_ext_shared: {
                         readonly type: "boolean";
@@ -487,6 +490,9 @@ export declare const SlackEnhancedConversations: {
                     readonly pending_shared: {
                         readonly type: "array";
                         readonly description: "The pending shared of the conversation";
+                        readonly items: {
+                            readonly type: "string";
+                        };
                     };
                     readonly is_pending_ext_shared: {
                         readonly type: "boolean";

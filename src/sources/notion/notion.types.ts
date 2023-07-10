@@ -852,6 +852,27 @@ export const NotionQueryDatabaseBody = {
       type: "array",
       description:
         "When supplied, sorts the results based on the sort conditions. Refer to https://developers.notion.com/reference/post-database-query-sort for more on constructing the sorts array.",
+      items: {
+        type: "object",
+        description:
+          "A sort condition. A database query can be sorted by a property and/or timestamp and in a given direction.",
+        properties: {
+          property: {
+            type: "string",
+            description: "The name of the property to sort against.",
+          },
+          timestamp: {
+            type: "string",
+            description:
+              "The name of the timestamp to sort against. Possible values include 'created_time' and 'last_edited_time'.",
+          },
+          direction: {
+            type: "string",
+            description:
+              "The direction to sort. Possible values include 'ascending' and 'descending'.",
+          },
+        },
+      },
     },
     start_cursor: {
       type: "string",
