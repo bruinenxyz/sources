@@ -1,4 +1,5 @@
 export declare const NotionProfile: {
+    readonly title: "Notion Profile";
     readonly type: "object";
     readonly description: "A Notion user profile";
     readonly properties: {
@@ -25,6 +26,7 @@ export declare const NotionProfile: {
     };
 };
 export declare const NotionUsersInput: {
+    readonly title: "Notion Users Input";
     readonly type: "object";
     readonly description: "The input for a list of Notion users";
     readonly properties: {
@@ -39,6 +41,7 @@ export declare const NotionUsersInput: {
     };
 };
 export declare const NotionUsers: {
+    readonly title: "Notion Users";
     readonly type: "object";
     readonly description: "A list of Notion users";
     readonly properties: {
@@ -103,6 +106,7 @@ export declare const NotionUsers: {
     };
 };
 export declare const NotionUserInput: {
+    readonly title: "Notion User Input";
     readonly type: "object";
     readonly description: "The input for a Notion user";
     readonly properties: {
@@ -114,6 +118,7 @@ export declare const NotionUserInput: {
     readonly required: readonly ["userId"];
 };
 export declare const NotionUser: {
+    readonly title: "Notion User";
     readonly type: "object";
     readonly description: "A Notion user";
     readonly properties: {
@@ -160,6 +165,7 @@ export declare const NotionUser: {
     };
 };
 export declare const NotionSearchInput: {
+    readonly title: "Notion Search Input";
     readonly type: "object";
     readonly description: "The input for a Notion search";
     readonly properties: {
@@ -190,6 +196,7 @@ export declare const NotionSearchInput: {
     };
 };
 export declare const NotionSearch: {
+    readonly title: "Notion Search";
     readonly type: "object";
     readonly description: "A Notion search";
     readonly properties: {
@@ -326,6 +333,7 @@ export declare const NotionSearch: {
     };
 };
 export declare const NotionPageInput: {
+    readonly title: "Notion Page Input";
     readonly type: "object";
     readonly description: "The input for a Notion page";
     readonly properties: {
@@ -341,6 +349,7 @@ export declare const NotionPageInput: {
     readonly required: readonly ["pageId"];
 };
 export declare const NotionPage: {
+    readonly title: "Notion Page";
     readonly type: "object";
     readonly description: "A Notion page. Page properties are limited to up to 25 references per page property. To retrieve data related to properties that have more than 25 references, use the Retrieve a page property endpoint. ";
     readonly properties: {
@@ -451,6 +460,7 @@ export declare const NotionPage: {
     };
 };
 export declare const NotionPagePropertyInput: {
+    readonly title: "Notion Page Property Input";
     readonly type: "object";
     readonly description: "The input for a Notion page property";
     readonly properties: {
@@ -474,6 +484,7 @@ export declare const NotionPagePropertyInput: {
     readonly required: readonly ["pageId", "propertyId"];
 };
 export declare const NotionPageProperty: {
+    readonly title: "Notion Page Property";
     readonly type: "object";
     readonly description: "A Notion page property";
     readonly properties: {
@@ -565,6 +576,7 @@ export declare const NotionPageProperty: {
     };
 };
 export declare const NotionDatabaseInput: {
+    readonly title: "Notion Database Input";
     readonly type: "object";
     readonly description: "The input for a Notion database";
     readonly properties: {
@@ -576,6 +588,7 @@ export declare const NotionDatabaseInput: {
     readonly required: readonly ["databaseId"];
 };
 export declare const NotionDatabase: {
+    readonly title: "Notion Database";
     readonly type: "object";
     readonly description: "A Notion database";
     readonly properties: {
@@ -794,6 +807,7 @@ export declare const NotionDatabase: {
     };
 };
 export declare const NotionQueryDatabaseInput: {
+    readonly title: "Notion Query Database Input";
     readonly type: "object";
     readonly description: "The input for a Notion database query";
     readonly properties: {
@@ -809,6 +823,7 @@ export declare const NotionQueryDatabaseInput: {
     readonly required: readonly ["databaseId"];
 };
 export declare const NotionQueryDatabaseBody: {
+    readonly title: "Notion Query Database Body";
     readonly type: "object";
     readonly description: "The body for a Notion database query";
     readonly properties: {
@@ -849,6 +864,7 @@ export declare const NotionQueryDatabaseBody: {
     };
 };
 export declare const NotionQueryDatabase: {
+    readonly title: "Notion Query Database";
     readonly type: "object";
     readonly description: "The response for a Notion database query";
     readonly properties: {
@@ -989,6 +1005,7 @@ export declare const NotionQueryDatabase: {
     };
 };
 export declare const NotionBlockInput: {
+    readonly title: "Notion Block Input";
     readonly type: "object";
     readonly description: "The input for a Notion block request";
     readonly properties: {
@@ -1000,6 +1017,7 @@ export declare const NotionBlockInput: {
     readonly required: readonly ["blockId"];
 };
 export declare const NotionBlock: {
+    readonly title: "Notion Block";
     readonly type: "object";
     readonly description: "The response for a Notion block request";
     readonly properties: {
@@ -1080,6 +1098,7 @@ export declare const NotionBlock: {
     };
 };
 export declare const NotionBlockChildrenInput: {
+    readonly title: "Notion Block Children Input";
     readonly type: "object";
     readonly description: "The input for a Notion block children request";
     readonly properties: {
@@ -1099,6 +1118,7 @@ export declare const NotionBlockChildrenInput: {
     readonly required: readonly ["blockId"];
 };
 export declare const NotionBlockChildren: {
+    readonly title: "Notion Block Children";
     readonly type: "object";
     readonly description: "The response for a Notion block children request";
     readonly properties: {
@@ -1209,6 +1229,7 @@ export declare const NotionBlockChildren: {
     };
 };
 export declare const NotionCreatePageInPageBody: {
+    readonly title: "Notion Create Page In Page Body";
     readonly type: "object";
     readonly description: "The body for a Notion create page in page request";
     readonly properties: {
@@ -1293,6 +1314,7 @@ export declare const NotionCreatePageInPageBody: {
     readonly required: readonly ["parent", "properties"];
 };
 export declare const NotionCreatePageInDatabaseBody: {
+    readonly title: "Notion Create Page In Database Body";
     readonly type: "object";
     readonly description: "The body for a Notion create page in database request";
     readonly properties: {
@@ -1354,6 +1376,7 @@ export declare const NotionCreatePageInDatabaseBody: {
     readonly required: readonly ["parent", "properties"];
 };
 export declare const NotionAppendBlockChildrenInput: {
+    readonly title: "Notion Append Block Children Input";
     readonly type: "object";
     readonly description: "The input for a Notion append block children request";
     readonly properties: {
@@ -1365,6 +1388,7 @@ export declare const NotionAppendBlockChildrenInput: {
     readonly required: readonly ["blockId"];
 };
 export declare const NotionAppendBlockChildrenBody: {
+    readonly title: "Notion Append Block Children Body";
     readonly type: "object";
     readonly description: "The body for a Notion append block children request";
     readonly properties: {
@@ -1390,6 +1414,7 @@ export declare const NotionAppendBlockChildrenBody: {
     readonly required: readonly ["children"];
 };
 export declare const NotionAppendBlockChildren: {
+    readonly title: "Notion Append Block Children";
     readonly type: "object";
     readonly description: "The response for a Notion append block children request";
     readonly properties: {
@@ -1454,6 +1479,7 @@ export declare const NotionAppendBlockChildren: {
     };
 };
 export declare const NotionDeleteBlockInput: {
+    readonly title: "Notion Delete Block Input";
     readonly type: "object";
     readonly description: "The input for a Notion delete block request";
     readonly properties: {

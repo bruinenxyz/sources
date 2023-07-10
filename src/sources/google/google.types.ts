@@ -1,7 +1,7 @@
 import { JSONSchema } from "json-schema-to-ts";
 
 export const GoogleProfile = {
-  title: "GoogleProfile",
+  title: "Google Profile",
   description: "A google profile",
   type: "object",
   properties: {
@@ -19,7 +19,7 @@ export const GoogleProfile = {
 } as const satisfies JSONSchema;
 
 export const GoogleDraftsInput = {
-  title: "GoogleDraftsInput",
+  title: "Google Drafts Input",
   description: "The input for your google drafts",
   type: "object",
   properties: {
@@ -35,7 +35,7 @@ export const GoogleDraftsInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleDrafts = {
-  title: "GoogleDrafts",
+  title: "Google Drafts",
   description: "Your google drafts",
   type: "object",
   properties: {
@@ -75,7 +75,7 @@ export const GoogleDrafts = {
 } as const satisfies JSONSchema;
 
 export const GoogleParsedDrafts = {
-  title: "GoogleParsedDrafts",
+  title: "Google Parsed Drafts",
   description: "Your google parsed drafts",
   type: "object",
   properties: {
@@ -229,7 +229,7 @@ export const GoogleParsedDrafts = {
 } as const satisfies JSONSchema;
 
 export const GoogleDraftInput = {
-  title: "GoogleDraftInput",
+  title: "Google Draft Input",
   description: "The input for your google draft",
   type: "object",
   properties: {
@@ -242,7 +242,7 @@ export const GoogleDraftInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleDraft = {
-  title: "GoogleDraft",
+  title: "Google Draft",
   description: "Your google draft",
   type: "object",
   properties: {
@@ -409,7 +409,7 @@ export const GoogleDraft = {
 } as const satisfies JSONSchema;
 
 export const GoogleParsedDraft = {
-  title: "GoogleParsedDraft",
+  title: "Google Parsed Draft",
   description: "Your google parsed draft",
   type: "object",
   properties: {
@@ -531,7 +531,7 @@ export const GoogleParsedDraft = {
 } as const satisfies JSONSchema;
 
 export const GoogleLabels = {
-  title: "GoogleLabels",
+  title: "Google Labels",
   description: "Your google labels",
   type: "object",
   properties: {
@@ -563,7 +563,7 @@ export const GoogleLabels = {
 } as const satisfies JSONSchema;
 
 export const GoogleLabelInput = {
-  title: "GoogleLabelInput",
+  title: "Google Label Input",
   description: "The input for your google label",
   type: "object",
   properties: {
@@ -576,7 +576,7 @@ export const GoogleLabelInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleLabel = {
-  title: "GoogleLabel",
+  title: "Google Label",
   description: "Your google label",
   type: "object",
   properties: {
@@ -619,7 +619,7 @@ export const GoogleLabel = {
 } as const satisfies JSONSchema;
 
 export const GoogleMessagesInput = {
-  title: "GoogleMessagesInput",
+  title: "Google Messages Input",
   description: "The input for your google messages",
   type: "object",
   properties: {
@@ -636,7 +636,7 @@ export const GoogleMessagesInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleMessages = {
-  title: "GoogleMessages",
+  title: "Google Messages",
   description: "Your google messages",
   type: "object",
   properties: {
@@ -663,7 +663,7 @@ export const GoogleMessages = {
 } as const satisfies JSONSchema;
 
 export const GoogleParsedMessages = {
-  title: "GoogleParsedMessages",
+  title: "Google Parsed Messages",
   description: "Your google parsed messages",
   type: "object",
   properties: {
@@ -813,7 +813,7 @@ export const GoogleParsedMessages = {
 } as const satisfies JSONSchema;
 
 export const GoogleMessageInput = {
-  title: "GoogleMessageInput",
+  title: "Google Message Input",
   description: "The input for your google message",
   type: "object",
   properties: {
@@ -826,7 +826,7 @@ export const GoogleMessageInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleMessage = {
-  title: "GoogleMessage",
+  title: "Google Message",
   description: "Your google message",
   type: "object",
   properties: {
@@ -921,7 +921,7 @@ export const GoogleMessage = {
 } as const satisfies JSONSchema;
 
 export const GoogleParsedMessage = {
-  title: "GoogleParsedMessage",
+  title: "Google Parsed Message",
   description: "Your google parsed message",
   type: "object",
   properties: {
@@ -1045,7 +1045,7 @@ export const GoogleParsedMessage = {
 } as const satisfies JSONSchema;
 
 export const GoogleThreadsInput = {
-  title: "GoogleThreadsInput",
+  title: "Google Threads Input",
   description: "The input for your google threads",
   type: "object",
   properties: {
@@ -1062,7 +1062,7 @@ export const GoogleThreadsInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleThreads = {
-  title: "GoogleThreads",
+  title: "Google Threads",
   description: "Your google threads",
   type: "object",
   properties: {
@@ -1090,7 +1090,7 @@ export const GoogleThreads = {
 } as const satisfies JSONSchema;
 
 export const GoogleParsedThreads = {
-  title: "GoogleParsedThreads",
+  title: "Google Parsed Threads",
   description: "Your google parsed threads",
   type: "object",
   properties: {
@@ -1258,7 +1258,7 @@ export const GoogleParsedThreads = {
 } as const satisfies JSONSchema;
 
 export const GoogleThreadInput = {
-  title: "GoogleThreadInput",
+  title: "Google Thread Input",
   description: "The input for your google thread",
   type: "object",
   properties: {
@@ -1271,7 +1271,7 @@ export const GoogleThreadInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleThread = {
-  title: "GoogleThread",
+  title: "Google Thread",
   description: "Your google thread",
   type: "object",
   properties: {
@@ -1396,7 +1396,7 @@ export const GoogleThread = {
 } as const satisfies JSONSchema;
 
 export const GoogleParsedThread = {
-  title: "GoogleParsedThread",
+  title: "Google Parsed Thread",
   description: "Your google thread",
   type: "object",
   properties: {
@@ -1543,7 +1543,7 @@ export const GoogleParsedThread = {
 } as const satisfies JSONSchema;
 
 export const GoogleCalendarsInput = {
-  title: "GoogleCalendarsInput",
+  title: "Google Calendars Input",
   description: "The input for your google calendars",
   type: "object",
   properties: {
@@ -1567,7 +1567,7 @@ export const GoogleCalendarsInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleCalendars = {
-  title: "GoogleCalendars",
+  title: "Google Calendars",
   description: "Your google calendars",
   type: "object",
   properties: {
@@ -1695,7 +1695,7 @@ export const GoogleCalendars = {
 } as const satisfies JSONSchema;
 
 export const GoogleCalendarInput = {
-  title: "GoogleCalendarInput",
+  title: "Google Calendar Input",
   description: "The input for your google calendar",
   type: "object",
   properties: {
@@ -1705,7 +1705,7 @@ export const GoogleCalendarInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleCalendar = {
-  title: "GoogleCalendar",
+  title: "Google Calendar",
   description: "Your google calendar",
   type: "object",
   properties: {
@@ -1735,7 +1735,7 @@ export const GoogleCalendar = {
 } as const satisfies JSONSchema;
 
 export const GoogleEventsInput = {
-  title: "GoogleEventsInput",
+  title: "Google Events Input",
   description: "The input for your google calendar's events",
   type: "object",
   properties: {
@@ -1759,7 +1759,7 @@ export const GoogleEventsInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleEvents = {
-  title: "GoogleEvents",
+  title: "Google Events",
   description: "Your google calendar's events",
   type: "object",
   properties: {
@@ -2258,7 +2258,7 @@ export const GoogleEvents = {
 } as const satisfies JSONSchema;
 
 export const GoogleEventInput = {
-  title: "GoogleEventInput",
+  title: "Google Event Input",
   description: "The input for your google calendar's event",
   type: "object",
   properties: {
@@ -2273,7 +2273,7 @@ export const GoogleEventInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleEvent = {
-  title: "GoogleEvent",
+  title: "Google Event",
   description: "Your google calendar's event",
   type: "object",
   properties: {
@@ -2722,6 +2722,7 @@ export const GoogleEvent = {
 } as const satisfies JSONSchema;
 
 export const GoogleDriveAbout = {
+  title: "Google Drive About",
   type: "object",
   description:
     "Information about the user, the user's Drive, and system capabilities.",
@@ -2786,6 +2787,7 @@ export const GoogleDriveAbout = {
 } as const satisfies JSONSchema;
 
 export const GoogleSharedDrivesInput = {
+  title: "Google Shared Drives Input",
   type: "object",
   description: "The input for your google shared drives",
   properties: {
@@ -2805,6 +2807,7 @@ export const GoogleSharedDrivesInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleSharedDrives = {
+  title: "Google Shared Drives",
   type: "object",
   description: "The google shared drives response",
   properties: {
@@ -3032,6 +3035,7 @@ export const GoogleSharedDrives = {
 } as const satisfies JSONSchema;
 
 export const GoogleSharedDriveInput = {
+  title: "Google Shared Drive Input",
   type: "object",
   description: "the google shared drive input",
   properties: {
@@ -3049,6 +3053,7 @@ export const GoogleSharedDriveInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleSharedDrive = {
+  title: "Google Shared Drive",
   type: "object",
   description: "the google shared drive response",
   properties: {
@@ -3253,6 +3258,7 @@ export const GoogleSharedDrive = {
 } as const satisfies JSONSchema;
 
 export const GoogleDriveFilesInput = {
+  title: "Google Drive Files Input",
   type: "object",
   description: "The input for files from a google drive",
   properties: {
@@ -3319,6 +3325,7 @@ export const GoogleDriveFilesInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleDriveFiles = {
+  title: "Google Drive Files",
   type: "object",
   description: "The output for files from a google drive",
   properties: {
@@ -4275,6 +4282,7 @@ export const GoogleDriveFiles = {
 } as const satisfies JSONSchema;
 
 export const GoogleDriveFileMetadataInput = {
+  title: "Google Drive File Metadata Input",
   type: "object",
   description: "The input for a file from a google drive",
   properties: {
@@ -4302,6 +4310,7 @@ export const GoogleDriveFileMetadataInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleDriveFileMetadata = {
+  title: "Google Drive File Metadata",
   type: "object",
   description: "A single Drive file",
   properties: {
@@ -5214,6 +5223,7 @@ export const GoogleDriveFileMetadata = {
 } as const satisfies JSONSchema;
 
 export const GoogleDriveFileInput = {
+  title: "Google Drive File Input",
   type: "object",
   description: "The input for a file from a google drive",
   properties: {
@@ -5242,6 +5252,7 @@ export const GoogleDriveFileInput = {
 } as const satisfies JSONSchema;
 
 export const GoogleDriveFile = {
+  title: "Google Drive File",
   type: "object",
   description: "A single Drive file",
   properties: {
@@ -6159,6 +6170,7 @@ export const GoogleDriveFile = {
 } as const satisfies JSONSchema;
 
 export const GoogleDriveCreateFileBody = {
+  title: "Google Drive Create File Body",
   type: "object",
   description: "The request body for GoogleDriveCreateFile",
   properties: {
@@ -6183,6 +6195,7 @@ export const GoogleDriveCreateFileBody = {
 } as const satisfies JSONSchema;
 
 export const GoogleDriveCreateFileInput = {
+  title: "Google Drive Create File Input",
   type: "object",
   description: "The input for GoogleDriveCreateFile",
   properties: {

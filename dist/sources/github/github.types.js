@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GithubRepos = exports.GithubProfile = void 0;
 exports.GithubProfile = {
-    title: "GithubProfile",
+    title: "Github Profile",
     description: "A github profile",
     type: "object",
     properties: {
@@ -161,7 +161,7 @@ exports.GithubProfile = {
     },
 };
 exports.GithubRepos = {
-    title: "GithubRepos",
+    title: "Github Repos",
     description: "Your github repos",
     type: "array",
     items: {

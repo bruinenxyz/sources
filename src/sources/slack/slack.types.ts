@@ -1,7 +1,7 @@
 import { JSONSchema } from "json-schema-to-ts";
 
 export const SlackProfile = {
-  title: "SlackProfile",
+  title: "Slack Profile",
   description: "A slack profile",
   type: "object",
   properties: {

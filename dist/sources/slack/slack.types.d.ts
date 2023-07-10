@@ -1,5 +1,5 @@
 export declare const SlackProfile: {
-    readonly title: "SlackProfile";
+    readonly title: "Slack Profile";
     readonly description: "A slack profile";
     readonly type: "object";
     readonly properties: {

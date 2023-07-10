@@ -1,5 +1,5 @@
 export declare const GoogleProfile: {
-    readonly title: "GoogleProfile";
+    readonly title: "Google Profile";
     readonly description: "A google profile";
     readonly type: "object";
     readonly properties: {
@@ -22,7 +22,7 @@ export declare const GoogleProfile: {
     };
 };
 export declare const GoogleDraftsInput: {
-    readonly title: "GoogleDraftsInput";
+    readonly title: "Google Drafts Input";
     readonly description: "The input for your google drafts";
     readonly type: "object";
     readonly properties: {
@@ -37,7 +37,7 @@ export declare const GoogleDraftsInput: {
     };
 };
 export declare const GoogleDrafts: {
-    readonly title: "GoogleDrafts";
+    readonly title: "Google Drafts";
     readonly description: "Your google drafts";
     readonly type: "object";
     readonly properties: {
@@ -79,7 +79,7 @@ export declare const GoogleDrafts: {
     };
 };
 export declare const GoogleParsedDrafts: {
-    readonly title: "GoogleParsedDrafts";
+    readonly title: "Google Parsed Drafts";
     readonly description: "Your google parsed drafts";
     readonly type: "object";
     readonly properties: {
@@ -246,7 +246,7 @@ export declare const GoogleParsedDrafts: {
     };
 };
 export declare const GoogleDraftInput: {
-    readonly title: "GoogleDraftInput";
+    readonly title: "Google Draft Input";
     readonly description: "The input for your google draft";
     readonly type: "object";
     readonly properties: {
@@ -258,7 +258,7 @@ export declare const GoogleDraftInput: {
     readonly required: readonly ["draftId"];
 };
 export declare const GoogleDraft: {
-    readonly title: "GoogleDraft";
+    readonly title: "Google Draft";
     readonly description: "Your google draft";
     readonly type: "object";
     readonly properties: {
@@ -457,7 +457,7 @@ export declare const GoogleDraft: {
     };
 };
 export declare const GoogleParsedDraft: {
-    readonly title: "GoogleParsedDraft";
+    readonly title: "Google Parsed Draft";
     readonly description: "Your google parsed draft";
     readonly type: "object";
     readonly properties: {
@@ -607,7 +607,7 @@ export declare const GoogleParsedDraft: {
     };
 };
 export declare const GoogleLabels: {
-    readonly title: "GoogleLabels";
+    readonly title: "Google Labels";
     readonly description: "Your google labels";
     readonly type: "object";
     readonly properties: {
@@ -647,7 +647,7 @@ export declare const GoogleLabels: {
     };
 };
 export declare const GoogleLabelInput: {
-    readonly title: "GoogleLabelInput";
+    readonly title: "Google Label Input";
     readonly description: "The input for your google label";
     readonly type: "object";
     readonly properties: {
@@ -659,7 +659,7 @@ export declare const GoogleLabelInput: {
     readonly required: readonly ["labelId"];
 };
 export declare const GoogleLabel: {
-    readonly title: "GoogleLabel";
+    readonly title: "Google Label";
     readonly description: "Your google label";
     readonly type: "object";
     readonly properties: {
@@ -714,7 +714,7 @@ export declare const GoogleLabel: {
     };
 };
 export declare const GoogleMessagesInput: {
-    readonly title: "GoogleMessagesInput";
+    readonly title: "Google Messages Input";
     readonly description: "The input for your google messages";
     readonly type: "object";
     readonly properties: {
@@ -733,7 +733,7 @@ export declare const GoogleMessagesInput: {
     };
 };
 export declare const GoogleMessages: {
-    readonly title: "GoogleMessages";
+    readonly title: "Google Messages";
     readonly description: "Your google messages";
     readonly type: "object";
     readonly properties: {
@@ -765,7 +765,7 @@ export declare const GoogleMessages: {
     };
 };
 export declare const GoogleParsedMessages: {
-    readonly title: "GoogleParsedMessages";
+    readonly title: "Google Parsed Messages";
     readonly description: "Your google parsed messages";
     readonly type: "object";
     readonly properties: {
@@ -928,7 +928,7 @@ export declare const GoogleParsedMessages: {
     };
 };
 export declare const GoogleMessageInput: {
-    readonly title: "GoogleMessageInput";
+    readonly title: "Google Message Input";
     readonly description: "The input for your google message";
     readonly type: "object";
     readonly properties: {
@@ -940,7 +940,7 @@ export declare const GoogleMessageInput: {
     readonly required: readonly ["messageId"];
 };
 export declare const GoogleMessage: {
-    readonly title: "GoogleMessage";
+    readonly title: "Google Message";
     readonly description: "Your google message";
     readonly type: "object";
     readonly properties: {
@@ -1077,7 +1077,7 @@ export declare const GoogleMessage: {
     };
 };
 export declare const GoogleParsedMessage: {
-    readonly title: "GoogleParsedMessage";
+    readonly title: "Google Parsed Message";
     readonly description: "Your google parsed message";
     readonly type: "object";
     readonly properties: {
@@ -1223,7 +1223,7 @@ export declare const GoogleParsedMessage: {
     };
 };
 export declare const GoogleThreadsInput: {
-    readonly title: "GoogleThreadsInput";
+    readonly title: "Google Threads Input";
     readonly description: "The input for your google threads";
     readonly type: "object";
     readonly properties: {
@@ -1242,7 +1242,7 @@ export declare const GoogleThreadsInput: {
     };
 };
 export declare const GoogleThreads: {
-    readonly title: "GoogleThreads";
+    readonly title: "Google Threads";
     readonly description: "Your google threads";
     readonly type: "object";
     readonly properties: {
@@ -1278,7 +1278,7 @@ export declare const GoogleThreads: {
     };
 };
 export declare const GoogleParsedThreads: {
-    readonly title: "GoogleParsedThreads";
+    readonly title: "Google Parsed Threads";
     readonly description: "Your google parsed threads";
     readonly type: "object";
     readonly properties: {
@@ -1455,7 +1455,7 @@ export declare const GoogleParsedThreads: {
     };
 };
 export declare const GoogleThreadInput: {
-    readonly title: "GoogleThreadInput";
+    readonly title: "Google Thread Input";
     readonly description: "The input for your google thread";
     readonly type: "object";
     readonly properties: {
@@ -1467,7 +1467,7 @@ export declare const GoogleThreadInput: {
     readonly required: readonly ["threadId"];
 };
 export declare const GoogleThread: {
-    readonly title: "GoogleThread";
+    readonly title: "Google Thread";
     readonly description: "Your google thread";
     readonly type: "object";
     readonly properties: {
@@ -1625,7 +1625,7 @@ export declare const GoogleThread: {
     };
 };
 export declare const GoogleParsedThread: {
-    readonly title: "GoogleParsedThread";
+    readonly title: "Google Parsed Thread";
     readonly description: "Your google thread";
     readonly type: "object";
     readonly properties: {
@@ -1785,7 +1785,7 @@ export declare const GoogleParsedThread: {
     };
 };
 export declare const GoogleCalendarsInput: {
-    readonly title: "GoogleCalendarsInput";
+    readonly title: "Google Calendars Input";
     readonly description: "The input for your google calendars";
     readonly type: "object";
     readonly properties: {
@@ -1808,7 +1808,7 @@ export declare const GoogleCalendarsInput: {
     };
 };
 export declare const GoogleCalendars: {
-    readonly title: "GoogleCalendars";
+    readonly title: "Google Calendars";
     readonly description: "Your google calendars";
     readonly type: "object";
     readonly properties: {
@@ -1955,7 +1955,7 @@ export declare const GoogleCalendars: {
     };
 };
 export declare const GoogleCalendarInput: {
-    readonly title: "GoogleCalendarInput";
+    readonly title: "Google Calendar Input";
     readonly description: "The input for your google calendar";
     readonly type: "object";
     readonly properties: {
@@ -1967,7 +1967,7 @@ export declare const GoogleCalendarInput: {
     readonly required: readonly ["calendarId"];
 };
 export declare const GoogleCalendar: {
-    readonly title: "GoogleCalendar";
+    readonly title: "Google Calendar";
     readonly description: "Your google calendar";
     readonly type: "object";
     readonly properties: {
@@ -2015,7 +2015,7 @@ export declare const GoogleCalendar: {
     };
 };
 export declare const GoogleEventsInput: {
-    readonly title: "GoogleEventsInput";
+    readonly title: "Google Events Input";
     readonly description: "The input for your google calendar's events";
     readonly type: "object";
     readonly properties: {
@@ -2074,7 +2074,7 @@ export declare const GoogleEventsInput: {
     };
 };
 export declare const GoogleEvents: {
-    readonly title: "GoogleEvents";
+    readonly title: "Google Events";
     readonly description: "Your google calendar's events";
     readonly type: "object";
     readonly properties: {
@@ -2645,7 +2645,7 @@ export declare const GoogleEvents: {
     };
 };
 export declare const GoogleEventInput: {
-    readonly title: "GoogleEventInput";
+    readonly title: "Google Event Input";
     readonly description: "The input for your google calendar's event";
     readonly type: "object";
     readonly properties: {
@@ -2665,7 +2665,7 @@ export declare const GoogleEventInput: {
     readonly required: readonly ["calendarId", "eventId"];
 };
 export declare const GoogleEvent: {
-    readonly title: "GoogleEvent";
+    readonly title: "Google Event";
     readonly description: "Your google calendar's event";
     readonly type: "object";
     readonly properties: {
@@ -3169,6 +3169,7 @@ export declare const GoogleEvent: {
     };
 };
 export declare const GoogleDriveAbout: {
+    readonly title: "Google Drive About";
     readonly type: "object";
     readonly description: "Information about the user, the user's Drive, and system capabilities.";
     readonly properties: {
@@ -3227,6 +3228,7 @@ export declare const GoogleDriveAbout: {
     };
 };
 export declare const GoogleSharedDrivesInput: {
+    readonly title: "Google Shared Drives Input";
     readonly type: "object";
     readonly description: "The input for your google shared drives";
     readonly properties: {
@@ -3245,6 +3247,7 @@ export declare const GoogleSharedDrivesInput: {
     };
 };
 export declare const GoogleSharedDrives: {
+    readonly title: "Google Shared Drives";
     readonly type: "object";
     readonly description: "The google shared drives response";
     readonly properties: {
@@ -3435,6 +3438,7 @@ export declare const GoogleSharedDrives: {
     };
 };
 export declare const GoogleSharedDriveInput: {
+    readonly title: "Google Shared Drive Input";
     readonly type: "object";
     readonly description: "the google shared drive input";
     readonly properties: {
@@ -3450,6 +3454,7 @@ export declare const GoogleSharedDriveInput: {
     readonly required: readonly ["driveId"];
 };
 export declare const GoogleSharedDrive: {
+    readonly title: "Google Shared Drive";
     readonly type: "object";
     readonly description: "the google shared drive response";
     readonly properties: {
@@ -3622,6 +3627,7 @@ export declare const GoogleSharedDrive: {
     };
 };
 export declare const GoogleDriveFilesInput: {
+    readonly title: "Google Drive Files Input";
     readonly type: "object";
     readonly description: "The input for files from a google drive";
     readonly properties: {
@@ -3676,6 +3682,7 @@ export declare const GoogleDriveFilesInput: {
     };
 };
 export declare const GoogleDriveFiles: {
+    readonly title: "Google Drive Files";
     readonly type: "object";
     readonly description: "The output for files from a google drive";
     readonly properties: {
@@ -4502,6 +4509,7 @@ export declare const GoogleDriveFiles: {
     };
 };
 export declare const GoogleDriveFileMetadataInput: {
+    readonly title: "Google Drive File Metadata Input";
     readonly type: "object";
     readonly description: "The input for a file from a google drive";
     readonly properties: {
@@ -4525,6 +4533,7 @@ export declare const GoogleDriveFileMetadataInput: {
     readonly required: readonly ["fileId"];
 };
 export declare const GoogleDriveFileMetadata: {
+    readonly title: "Google Drive File Metadata";
     readonly type: "object";
     readonly description: "A single Drive file";
     readonly properties: {
@@ -5329,6 +5338,7 @@ export declare const GoogleDriveFileMetadata: {
     };
 };
 export declare const GoogleDriveFileInput: {
+    readonly title: "Google Drive File Input";
     readonly type: "object";
     readonly description: "The input for a file from a google drive";
     readonly properties: {
@@ -5352,6 +5362,7 @@ export declare const GoogleDriveFileInput: {
     readonly required: readonly ["fileId"];
 };
 export declare const GoogleDriveFile: {
+    readonly title: "Google Drive File";
     readonly type: "object";
     readonly description: "A single Drive file";
     readonly properties: {
@@ -6160,6 +6171,7 @@ export declare const GoogleDriveFile: {
     };
 };
 export declare const GoogleDriveCreateFileBody: {
+    readonly title: "Google Drive Create File Body";
     readonly type: "object";
     readonly description: "The request body for GoogleDriveCreateFile";
     readonly properties: {
@@ -6182,6 +6194,7 @@ export declare const GoogleDriveCreateFileBody: {
     readonly required: readonly ["metadata", "content"];
 };
 export declare const GoogleDriveCreateFileInput: {
+    readonly title: "Google Drive Create File Input";
     readonly type: "object";
     readonly description: "The input for GoogleDriveCreateFile";
     readonly properties: {
