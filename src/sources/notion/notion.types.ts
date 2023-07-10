@@ -1,6 +1,7 @@
 import { JSONSchema } from "json-schema-to-ts";
 
 export const NotionProfile = {
+  title: "Notion Profile",
   type: "object",
   description: "A Notion user profile",
   properties: {
@@ -28,6 +29,7 @@ export const NotionProfile = {
 } as const satisfies JSONSchema;
 
 export const NotionUsersInput = {
+  title: "Notion Users Input",
   type: "object",
   description: "The input for a list of Notion users",
   properties: {
@@ -45,6 +47,7 @@ export const NotionUsersInput = {
 } as const satisfies JSONSchema;
 
 export const NotionUsers = {
+  title: "Notion Users",
   type: "object",
   description: "A list of Notion users",
   properties: {
@@ -111,6 +114,7 @@ export const NotionUsers = {
 } as const satisfies JSONSchema;
 
 export const NotionUserInput = {
+  title: "Notion User Input",
   type: "object",
   description: "The input for a Notion user",
   properties: {
@@ -123,6 +127,7 @@ export const NotionUserInput = {
 } as const satisfies JSONSchema;
 
 export const NotionUser = {
+  title: "Notion User",
   type: "object",
   description: "A Notion user",
   properties: {
@@ -170,6 +175,7 @@ export const NotionUser = {
 } as const satisfies JSONSchema;
 
 export const NotionSearchInput = {
+  title: "Notion Search Input",
   type: "object",
   description: "The input for a Notion search",
   properties: {
@@ -207,6 +213,7 @@ export const NotionSearchInput = {
 } as const satisfies JSONSchema;
 
 export const NotionSearch = {
+  title: "Notion Search",
   type: "object",
   description: "A Notion search",
   properties: {
@@ -345,6 +352,7 @@ export const NotionSearch = {
 } as const satisfies JSONSchema;
 
 export const NotionPageInput = {
+  title: "Notion Page Input",
   type: "object",
   description: "The input for a Notion page",
   properties: {
@@ -362,6 +370,7 @@ export const NotionPageInput = {
 } as const satisfies JSONSchema;
 
 export const NotionPage = {
+  title: "Notion Page",
   type: "object",
   description:
     "A Notion page. Page properties are limited to up to 25 references per page property. To retrieve data related to properties that have more than 25 references, use the Retrieve a page property endpoint. ",
@@ -474,6 +483,7 @@ export const NotionPage = {
 } as const satisfies JSONSchema;
 
 export const NotionPagePropertyInput = {
+  title: "Notion Page Property Input",
   type: "object",
   description: "The input for a Notion page property",
   properties: {
@@ -500,6 +510,7 @@ export const NotionPagePropertyInput = {
 } as const satisfies JSONSchema;
 
 export const NotionPageProperty = {
+  title: "Notion Page Property",
   type: "object",
   description: "A Notion page property",
   properties: {
@@ -592,6 +603,7 @@ export const NotionPageProperty = {
 } as const satisfies JSONSchema;
 
 export const NotionDatabaseInput = {
+  title: "Notion Database Input",
   type: "object",
   description: "The input for a Notion database",
   properties: {
@@ -604,6 +616,7 @@ export const NotionDatabaseInput = {
 } as const satisfies JSONSchema;
 
 export const NotionDatabase = {
+  title: "Notion Database",
   type: "object",
   description: "A Notion database",
   properties: {
@@ -823,6 +836,7 @@ export const NotionDatabase = {
 } as const satisfies JSONSchema;
 
 export const NotionQueryDatabaseInput = {
+  title: "Notion Query Database Input",
   type: "object",
   description: "The input for a Notion database query",
   properties: {
@@ -840,6 +854,7 @@ export const NotionQueryDatabaseInput = {
 } as const satisfies JSONSchema;
 
 export const NotionQueryDatabaseBody = {
+  title: "Notion Query Database Body",
   type: "object",
   description: "The body for a Notion database query",
   properties: {
@@ -888,6 +903,7 @@ export const NotionQueryDatabaseBody = {
 } as const satisfies JSONSchema;
 
 export const NotionQueryDatabase = {
+  title: "Notion Query Database",
   type: "object",
   description: "The response for a Notion database query",
   properties: {
@@ -1029,6 +1045,7 @@ export const NotionQueryDatabase = {
 } as const satisfies JSONSchema;
 
 export const NotionBlockInput = {
+  title: "Notion Block Input",
   type: "object",
   description: "The input for a Notion block request",
   properties: {
@@ -1041,6 +1058,7 @@ export const NotionBlockInput = {
 } as const satisfies JSONSchema;
 
 export const NotionBlock = {
+  title: "Notion Block",
   type: "object",
   description: "The response for a Notion block request",
   properties: {
@@ -1123,6 +1141,7 @@ export const NotionBlock = {
 } as const satisfies JSONSchema;
 
 export const NotionBlockChildrenInput = {
+  title: "Notion Block Children Input",
   type: "object",
   description: "The input for a Notion block children request",
   properties: {
@@ -1145,6 +1164,7 @@ export const NotionBlockChildrenInput = {
 } as const satisfies JSONSchema;
 
 export const NotionBlockChildren = {
+  title: "Notion Block Children",
   type: "object",
   description: "The response for a Notion block children request",
   properties: {
@@ -1258,6 +1278,7 @@ export const NotionBlockChildren = {
 } as const satisfies JSONSchema;
 
 export const NotionCreatePageInPageBody = {
+  title: "Notion Create Page In Page Body",
   type: "object",
   description: "The body for a Notion create page in page request",
   properties: {
@@ -1347,6 +1368,7 @@ export const NotionCreatePageInPageBody = {
 } as const satisfies JSONSchema;
 
 export const NotionCreatePageInDatabaseBody = {
+  title: "Notion Create Page In Database Body",
   type: "object",
   description: "The body for a Notion create page in database request",
   properties: {
@@ -1414,6 +1436,7 @@ export const NotionCreatePageInDatabaseBody = {
 } as const satisfies JSONSchema;
 
 export const NotionAppendBlockChildrenInput = {
+  title: "Notion Append Block Children Input",
   type: "object",
   description: "The input for a Notion append block children request",
   properties: {
@@ -1426,6 +1449,7 @@ export const NotionAppendBlockChildrenInput = {
 } as const satisfies JSONSchema;
 
 export const NotionAppendBlockChildrenBody = {
+  title: "Notion Append Block Children Body",
   type: "object",
   description: "The body for a Notion append block children request",
   properties: {
@@ -1453,6 +1477,7 @@ export const NotionAppendBlockChildrenBody = {
 } as const satisfies JSONSchema;
 
 export const NotionAppendBlockChildren = {
+  title: "Notion Append Block Children",
   type: "object",
   description: "The response for a Notion append block children request",
   properties: {
@@ -1520,6 +1545,7 @@ export const NotionAppendBlockChildren = {
 } as const satisfies JSONSchema;
 
 export const NotionDeleteBlockInput = {
+  title: "Notion Delete Block Input",
   type: "object",
   description: "The input for a Notion delete block request",
   properties: {
