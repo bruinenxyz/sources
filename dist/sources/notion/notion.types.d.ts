@@ -819,6 +819,24 @@ export declare const NotionQueryDatabaseBody: {
         readonly sorts: {
             readonly type: "array";
             readonly description: "When supplied, sorts the results based on the sort conditions. Refer to https://developers.notion.com/reference/post-database-query-sort for more on constructing the sorts array.";
+            readonly items: {
+                readonly type: "object";
+                readonly description: "A sort condition. A database query can be sorted by a property and/or timestamp and in a given direction.";
+                readonly properties: {
+                    readonly property: {
+                        readonly type: "string";
+                        readonly description: "The name of the property to sort against.";
+                    };
+                    readonly timestamp: {
+                        readonly type: "string";
+                        readonly description: "The name of the timestamp to sort against. Possible values include 'created_time' and 'last_edited_time'.";
+                    };
+                    readonly direction: {
+                        readonly type: "string";
+                        readonly description: "The direction to sort. Possible values include 'ascending' and 'descending'.";
+                    };
+                };
+            };
         };
         readonly start_cursor: {
             readonly type: "string";
