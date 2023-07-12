@@ -19,7 +19,7 @@ export declare class Github extends OAuth2Source implements Source {
     handleAuthCallback(code: string, credentials: any, redirectUrl: string): Promise<"" | {
         accessToken: any;
     }>;
-    deactivate(accessCredentials?: any): string;
+    deactivate(accessCredentials: any, clientCredentials: any): Promise<string>;
     getAuthUrl: (state: string, credentials: any, redirectUrl: string) => string;
     getExternalAccountId(authClient: Axios): Promise<string>;
     getSourceJSONSchema: () => null;

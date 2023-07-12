@@ -137,8 +137,20 @@ class Github extends source_1.OAuth2Source {
             }
         });
     }
-    deactivate(accessCredentials) {
-        return "success";
+    deactivate(accessCredentials, clientCredentials) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { data } = yield axios_1.default.delete(`${github_api_url}/applications/${clientCredentials.id}/token`, {
+                    headers: {
+                        Authorization: `Bearer ${accessCredentials.accessToken}`,
+                    },
+                });
+                return "success";
+            }
+            catch (error) {
+                return `Github deactivation error: ${error}`;
+            }
+        });
     }
     getExternalAccountId(authClient) {
         return __awaiter(this, void 0, void 0, function* () {

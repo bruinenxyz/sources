@@ -136,8 +136,20 @@ export class Github extends OAuth2Source implements Source {
     }
   }
 
-  public deactivate(accessCredentials?: any) {
-    return "success";
+  public async deactivate(accessCredentials: any, clientCredentials: any) {
+    try {
+      const { data } = await axios.delete(
+        `${github_api_url}/applications/${clientCredentials.id}/token`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessCredentials.accessToken}`,
+          },
+        }
+      );
+      return "success";
+    } catch (error) {
+      return `Github deactivation error: ${error}`;
+    }
   }
 
   public getAuthUrl = (
